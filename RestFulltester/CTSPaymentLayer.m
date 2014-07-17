@@ -22,6 +22,8 @@
 #import "CTSTokenizedCardPayment.h"
 #import "CTSUtility.h"
 #import "CTSError.h"
+#import "CTSProfileLayer.h"
+#import "CTSAuthLayer.h"
 
 #import <RestKit/RestKit.h>
 @interface CTSPaymentLayer ()
@@ -31,7 +33,7 @@
 @property(strong) NSString* paymentTokenType;
 @property(assign) BOOL isGuestCheout;
 @property(strong) NSString* transactionId;
-
+@property(strong) CTSPaymentDetailUpdate* paymentDetailUpdate;
 @end
 
 @implementation CTSPaymentLayer
@@ -42,6 +44,7 @@ static BOOL isSignatureSuccess;
 @synthesize delegate;
 - (instancetype)init {
   if (self = [super init]) {
+    backgroundQueue = dispatch_queue_create("com.citruspay.authQueue", NULL);
     restService =
         [[CTSRestLayer alloc] initWithBaseURL:CITRUS_PAYMENT_BASE_URL];
     [restService register:[self formRegistrationArray]];
@@ -408,9 +411,33 @@ static BOOL isSignatureSuccess;
   self.contactdetailinfo = contactInfo;
   self.amount = amount;
 }
+
 - (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
                       withContact:(CTSContactUpdate*)contactInfo
-                           amount:(NSString*)amount {
+                           amount:(NSString*)amount
+                       isDoSignup:(BOOL)isDoSignup {
+  /*
+   get instance of the authentication layer
+   set the delegate to ownself
+   call for signup on new thread,
+
+   once sign up is complete call the new delegate to inform implementer about
+   this sign up/error
+
+   clear instance
+
+   */
+  if (isDoSignup == YES) {
+    CTSAuthLayer* authLayer = [[CTSAuthLayer alloc] init];
+    authLayer.delegate = self;
+    _paymentDetailUpdate = paymentInfo;
+    __block NSString* email = contactInfo.email;
+    __block NSString* mobile = contactInfo.mobile;
+
+    dispatch_async(backgroundQueue, ^(void) {
+        [authLayer requestSignUpWithEmail:email mobile:mobile password:nil];
+    });
+  }
   long long CurrentTime =
       (long long)([[NSDate date] timeIntervalSince1970] * 1000);
   self.transactionId = [NSString stringWithFormat:@"%lld", CurrentTime];
@@ -433,6 +460,17 @@ static BOOL isSignatureSuccess;
            withParameters:@{
              MLC_PAYMENT_GET_PGSETTINGS_QUERY_VANITY : vanityUrl
            } withInfo:nil];
+}
+
+#pragma mark - authentication protocol mehods
+- (void)signUp:(BOOL)isSuccessful error:(NSError*)error {
+  if (isSuccessful) {
+    dispatch_async(backgroundQueue, ^(void) {
+        CTSProfileLayer* profileLayer = [[CTSProfileLayer alloc] init];
+        [profileLayer updatePaymentInformation:_paymentDetailUpdate];
+        _paymentDetailUpdate = nil;
+    });
+  }
 }
 
 @end

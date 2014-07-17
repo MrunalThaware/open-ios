@@ -99,26 +99,18 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 }
 
 - (void)requestInternalSignupMobile:(NSString*)mobile email:(NSString*)email {
-  //  if (![CTSUtility validateEmail:email]) {
-  //    [self failedSignupWithError:[CTSError getErrorForCode:EmailNotValid]];
-  //    return;
-  //  }
-  //  if (![CTSUtility validateMobile:mobile]) {
-  //    [self failedSignupWithError:[CTSError getErrorForCode:MobileNotValid]];
-  //    return;
-  //  }
-
-  //  [restService postObject:nil
-  //                   atPath:MLC_SIGNUP_REQ_PATH
-  //               withHeader:[CTSUtility readSignupTokenAsHeader]
-  //           withParameters:@{
-  //             MLC_SIGNUP_QUERY_EMAIL : email,
-  //             MLC_SIGNUP_QUERY_MOBILE : mobile
-  //           } withInfo:nil];
+  if (![CTSUtility validateEmail:email]) {
+    [self failedSignupWithError:[CTSError getErrorForCode:EmailNotValid]];
+    return;
+  }
+  if (![CTSUtility validateMobile:mobile]) {
+    [self failedSignupWithError:[CTSError getErrorForCode:MobileNotValid]];
+    return;
+  }
 
   [restService postObject:nil
                    atPath:MLC_SIGNUP_REQ_PATH
-               withHeader:nil
+               withHeader:[CTSUtility readSignupTokenAsHeader]
            withParameters:@{
              MLC_SIGNUP_QUERY_EMAIL : email,
              MLC_SIGNUP_QUERY_MOBILE : mobile
@@ -139,7 +131,11 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 
   userNameSignup = email;
   mobileSignUp = mobile;
-  passwordSignUp = password;
+  if (password != nil) {
+    passwordSignUp = password;
+  } else {
+    passwordSignUp = [self generatePseudoRandomPassword];
+  }
 
   [self requestSignUpOauthToken];
 }
@@ -289,6 +285,45 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 }
 
 #pragma mark - pseudo password generator methods
+- (NSString*)generatePseudoRandomPassword {
+  // Build the password using C strings - for speed
+  int length = 7;
+  char* cPassword = calloc(length + 1, sizeof(char));
+  char* ptr = cPassword;
+
+  cPassword[length - 1] = '\0';
+
+  char* lettersAlphabet = "abcdefghijklmnopqrstuvwxyz";
+  ptr = appendRandom(ptr, lettersAlphabet, 2);
+
+  char* capitalsAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  ptr = appendRandom(ptr, capitalsAlphabet, 2);
+
+  char* digitsAlphabet = "0123456789";
+  ptr = appendRandom(ptr, digitsAlphabet, 2);
+
+  char* symbolsAlphabet = "!@#$%*[];?()";
+  ptr = appendRandom(ptr, symbolsAlphabet, 1);
+
+  // Shuffle the string!
+  for (int i = 0; i < length; i++) {
+    int r = arc4random() % length;
+    char temp = cPassword[i];
+    cPassword[i] = cPassword[r];
+    cPassword[r] = temp;
+  }
+  return [NSString stringWithCString:cPassword encoding:NSUTF8StringEncoding];
+}
+
+char* appendRandom(char* str, char* alphabet, int amount) {
+  for (int i = 0; i < amount; i++) {
+    int r = arc4random() % strlen(alphabet);
+    *str = alphabet[r];
+    str++;
+  }
+
+  return str;
+}
 
 - (void)generator:(int)seed {
   seedState = seed;

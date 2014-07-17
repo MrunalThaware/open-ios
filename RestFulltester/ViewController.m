@@ -15,7 +15,9 @@
 #import "CTSProfileLayer.h"
 
 @interface ViewController ()
-
+@property(strong) CTSContactUpdate* contactInfo;
+@property(strong) CTSElectronicCardUpdate* guestflowdebitcard;
+@property(strong) CTSPaymentDetailUpdate* guestFlowDebitCardInfo;
 @end
 
 #ifdef DEBUG
@@ -25,10 +27,10 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 #endif
 
 @implementation ViewController
-
+@synthesize contactInfo, guestflowdebitcard, guestFlowDebitCardInfo;
 - (void)viewDidLoad {
   [super viewDidLoad];
-
+  [self initialize];
   authLayer = [[CTSAuthLayer alloc] init];
   authLayer.delegate = self;
 
@@ -40,9 +42,29 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
   //[authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD];
   //[paymentlayerinfo requestMerchantPgSettings:@"mpi"];
   // sign up
-  [authLayer requestSignUpWithEmail:TEST_EMAIL
-                             mobile:TETS_MOBILE
-                           password:TEST_PASSWORD];
+  //[authLayer requestSignUpWithEmail:TEST_EMAIL
+  //    mobile:TETS_MOBILE
+  //  password:TEST_PASSWORD];
+  [self doGuestPayment];
+}
+
+- (void)initialize {
+  contactInfo = [[CTSContactUpdate alloc] init];
+  contactInfo.firstName = @"dongGing";
+  contactInfo.lastName = @"wankhede";
+  contactInfo.email = TEST_EMAIL;
+  contactInfo.mobile = TETS_MOBILE;
+
+  // guest flow
+  guestFlowDebitCardInfo = [[CTSPaymentDetailUpdate alloc] init];
+  guestflowdebitcard = [[CTSElectronicCardUpdate alloc] initDebitCard];
+  guestflowdebitcard.number = @"4028530052708001";
+  guestflowdebitcard.expiryDate = @"03/2015";
+  guestflowdebitcard.scheme = @"visa";
+  guestflowdebitcard.cvv = @"018";
+  guestflowdebitcard.ownerName = @"Jitendra Gupta";
+
+  [guestFlowDebitCardInfo addCard:guestflowdebitcard];
 }
 
 - (void)contactInformation:(CTSProfileContactRes*)contactInfo
@@ -91,12 +113,6 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 
   CTSProfileLayer* profileinfo = [[CTSProfileLayer alloc] init];
 
-  CTSContactUpdate* contactInfo = [[CTSContactUpdate alloc] init];
-
-  contactInfo.firstName = @"dongGing";
-  contactInfo.lastName = @"wankhede";
-  contactInfo.email = @"dongGingwankhede@gmail.com";
-  contactInfo.mobile = @"9867836290";
   CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
   CTSElectronicCardUpdate* debitCard =
       [[CTSElectronicCardUpdate alloc] initDebitCard];
@@ -140,19 +156,6 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 
   // Guest Flow
   // For card
-  CTSPaymentDetailUpdate* guestFlowDebitCardInfo =
-      [[CTSPaymentDetailUpdate alloc] init];
-  CTSElectronicCardUpdate* guestflowdebitcard =
-      [[CTSElectronicCardUpdate alloc] initDebitCard];
-  guestflowdebitcard.number = @"4028530052708001";
-  guestflowdebitcard.expiryDate = @"03/2015";
-  guestflowdebitcard.scheme = @"visa";
-  guestflowdebitcard.cvv = @"018";
-  guestflowdebitcard.ownerName = @"Jitendra Gupta";
-  [guestFlowDebitCardInfo addCard:guestflowdebitcard];
-  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowDebitCardInfo
-                                  withContact:contactInfo
-                                       amount:@"1"];
 
   // For netbanking
   CTSPaymentDetailUpdate* guestFlowNetBankingUpdate =
@@ -204,6 +207,13 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)doGuestPayment {
+  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowDebitCardInfo
+                                  withContact:contactInfo
+                                       amount:@"1"
+                                   isDoSignup:YES];
 }
 
 @end

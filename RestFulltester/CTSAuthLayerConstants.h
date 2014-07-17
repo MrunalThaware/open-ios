@@ -8,8 +8,8 @@
 
 #ifndef RestFulltester_CTSAuthLayerConstants_h
 #define RestFulltester_CTSAuthLayerConstants_h
-//#define CITRUS_AUTH_BASE_URL @"https://stgadmin.citruspay.com"
-#define CITRUS_AUTH_BASE_URL @"http://localhost:8080"
+#define CITRUS_AUTH_BASE_URL @"https://stgadmin.citruspay.com"
+//#define CITRUS_AUTH_BASE_URL @"http://localhost:8080"
 
 //#define CITRUS_BASE_URL @"https://stgadmin.citruspay.com/service/v2/"
 
@@ -33,7 +33,7 @@ typedef enum PasswordUseType {
 #define MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET @"2e6d37aa23a868e043705ba539da999a"
 #define MLC_OAUTH_TOKEN_SIGNUP_GRANT_TYPE @"implicit"
 
-#define MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH @"/admin-site/oauth/token"
+#define MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH @"/oauth/token"
 #define MLC_OAUTH_TOKEN_SIGNUP_RES_TYPE [CTSOauthTokenRes class]
 
 #define MLC_OAUTH_TOKEN_SIGNUP_REQ_TYPE POST
@@ -67,7 +67,7 @@ typedef enum PasswordUseType {
 #define MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME @"username"
 
 #pragma mark - SIGNUP
-#define MLC_SIGNUP_REQ_PATH @"/admin-site/service/v2/identity/new"
+#define MLC_SIGNUP_REQ_PATH @"/service/v2/identity/new"
 #define MLC_SIGNUP_REQ_TYPE POST
 #define MLC_SIGNUP_RES_TYPE [CTSSignUpRes class]
 #define MLC_SIGNUP_RESPONSE_MAPPING @{@"username" : @"userName"}

@@ -21,8 +21,11 @@
 #import "CTSPaymentRequest.h"
 #import "CTSPaymentTransactionRes.h"
 #import "CTSPgSettings.h"
+#import "CTSAuthLayer.h"
 
 @class RKObjectManager;
+@class CTSAuthLayer;
+@class CTSAuthenticationProtocol;
 
 @protocol CTSPaymentProtocol<NSObject>
 /**
@@ -50,7 +53,9 @@
 - (void)pgSetting:(CTSPgSettings*)pgSetting error:(NSError*)error;
 
 @end
-@interface CTSPaymentLayer : CTSRestIntergration<CTSRestLayerProtocol> {
+@interface CTSPaymentLayer
+    : CTSRestIntergration<CTSRestLayerProtocol, CTSAuthenticationProtocol> {
+  dispatch_queue_t backgroundQueue;
 }
 @property(strong) NSString* merchantTxnId;
 @property(strong) NSString* signature;
@@ -96,10 +101,13 @@
  *  @param paymentInfo Payment Information
  *  @param contactInfo contact Information
  *  @param amount      payment amount
+ *  @param isDoSignup  send YES if signup should be done simultaneously for this
+ *user
  */
 - (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
                       withContact:(CTSContactUpdate*)contactInfo
-                           amount:(NSString*)amount;
+                           amount:(NSString*)amount
+                       isDoSignup:(BOOL)isDoSignup;
 
 /**
  *  request card pament options(visa,master,debit) and netbanking settngs for
