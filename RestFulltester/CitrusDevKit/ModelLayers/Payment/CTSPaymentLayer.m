@@ -433,9 +433,12 @@ static BOOL isSignatureSuccess;
     _paymentDetailUpdate = paymentInfo;
     __block NSString* email = contactInfo.email;
     __block NSString* mobile = contactInfo.mobile;
+    __block NSString* password = contactInfo.password;
 
     dispatch_async(backgroundQueue, ^(void) {
-        [authLayer requestSignUpWithEmail:email mobile:mobile password:nil];
+        [authLayer requestSignUpWithEmail:email
+                                   mobile:mobile
+                                 password:password];
     });
   }
   long long CurrentTime =
@@ -463,7 +466,9 @@ static BOOL isSignatureSuccess;
 }
 
 #pragma mark - authentication protocol mehods
-- (void)signUp:(BOOL)isSuccessful error:(NSError*)error {
+- (void)signUp:(BOOL)isSuccessful
+    accessToken:(NSString*)token
+          error:(NSError*)error {
   if (isSuccessful) {
     dispatch_async(backgroundQueue, ^(void) {
         CTSProfileLayer* profileLayer = [[CTSProfileLayer alloc] init];

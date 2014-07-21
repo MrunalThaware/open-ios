@@ -26,6 +26,7 @@
 #import "CTSNetbankingOption.h"
 #import "CTSCreditCardOption.h"
 #import "CTSDebitCardOption.h"
+#import "CTSError.h"
 
 #ifdef DEBUG
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
@@ -663,24 +664,35 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
       failure:^(RKObjectRequestOperation* operation, NSError* error) {
           DDLogInfo(@" STATUS_CODE %@ ",
                     operation.HTTPRequestOperation.response);
-          if (![RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)
-                  containsIndex:operation.HTTPRequestOperation.response
-                                    .statusCode]) {
-            error =
-                [CTSError getServerErrorWithCode:operation.HTTPRequestOperation
-                                                     .response.statusCode];
-          }
-
-          DDLogInfo(@"STATUS_CODE_CASE %d",
-                    ![RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)
-                        containsIndex:operation.HTTPRequestOperation.response
-                                          .statusCode]);
+          error = [self proccesFailure:operation];
           [self doResponsePostProccesing:nil
                                     path:path
                                    error:error
                                  headers:blockHeaderValuePair
                                     info:info];
       }];
+}
+
+- (NSError*)proccesFailure:(RKObjectRequestOperation*)operation {
+  NSError* error = nil;
+  DDLogInfo(@" STATUS_CODE %@ ", operation.HTTPRequestOperation.response);
+  if (![RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)
+          containsIndex:operation.HTTPRequestOperation.response.statusCode]) {
+    error = [CTSError
+        getServerErrorWithCode:operation.HTTPRequestOperation.response
+                                   .statusCode
+                      withInfo:@{
+                                 CITRUS_ERROR_DESCRIPTION_KEY : operation
+                                     .HTTPRequestOperation.responseString
+                               }];
+  }
+
+  DDLogInfo(
+      @"STATUS_CODE_CASE %d",
+      ![RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)
+          containsIndex:operation.HTTPRequestOperation.response.statusCode]);
+
+  return error;
 }
 
 - (void)postObject:(id)object
@@ -706,25 +718,12 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
       failure:^(RKObjectRequestOperation* operation, NSError* error) {
           DDLogInfo(@" STATUS_CODE %@ ",
                     operation.HTTPRequestOperation.response);
-          if (![RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)
-                  containsIndex:operation.HTTPRequestOperation.response
-                                    .statusCode]) {
-            error =
-                [CTSError getServerErrorWithCode:operation.HTTPRequestOperation
-                                                     .response.statusCode];
-          }
-
-          DDLogInfo(@"STATUS_CODE_CASE %d",
-                    ![RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)
-                        containsIndex:operation.HTTPRequestOperation.response
-                                          .statusCode]);
+          error = [self proccesFailure:operation];
           [self doResponsePostProccesing:nil
                                     path:path
                                    error:error
                                  headers:blockHeaderValuePair
                                     info:info];
-          NSLog(@"errorMessage: %@",
-                [[error userInfo] objectForKey:RKObjectMapperErrorObjectsKey]);
       }];
 }
 
@@ -752,17 +751,8 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
           NSLog(@"What do you mean by 'there is no Result?': %@", error);
           DDLogInfo(@" STATUS_CODE %@ ",
                     operation.HTTPRequestOperation.response);
-          DDLogInfo(@"STATUS_CODE_CASE %d",
-                    ![RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)
-                        containsIndex:operation.HTTPRequestOperation.response
-                                          .statusCode]);
-          if (![RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)
-                  containsIndex:operation.HTTPRequestOperation.response
-                                    .statusCode]) {
-            error =
-                [CTSError getServerErrorWithCode:operation.HTTPRequestOperation
-                                                     .response.statusCode];
-          }
+
+          error = [self proccesFailure:operation];
           [self doResponsePostProccesing:nil
                                     path:path
                                    error:error
@@ -785,7 +775,6 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
                            error:(NSError*)error
                          headers:(NSDictionary*)headers
                             info:(NSString*)info {
-  // DDLogInfo(<#frmt, ...#>)
   DDLogInfo(@" responseArray %@ Count %lu",
             responseArray,
             (unsigned long)[responseArray count]);

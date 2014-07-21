@@ -10,6 +10,7 @@
 #import "CTSProfileLayerConstants.h"
 
 @interface CTSContactUpdate : CTSObject
-@property(nonatomic, strong) NSString* firstName, *lastName, *email, *mobile;
+@property(nonatomic, strong) NSString* firstName, *lastName, *email, *mobile,
+    *password;
 @property(nonatomic, strong, readonly) NSString* type;
 @end

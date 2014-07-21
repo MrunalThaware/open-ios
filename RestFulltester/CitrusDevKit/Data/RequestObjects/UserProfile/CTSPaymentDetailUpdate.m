@@ -9,12 +9,13 @@
 #import "CTSPaymentDetailUpdate.h"
 
 @implementation CTSPaymentDetailUpdate
-@synthesize type, paymentOptions;
+@synthesize type, paymentOptions, password;
 - (instancetype)init {
   self = [super init];
   if (self) {
     type = MLC_PROFILE_GET_PAYMENT_QUERY_TYPE;
     paymentOptions = [[NSMutableArray alloc] init];
+    password = nil;
   }
   return self;
 }

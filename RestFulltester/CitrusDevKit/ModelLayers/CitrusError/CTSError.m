@@ -37,8 +37,8 @@
       break;
     case ServerErrorWithCode:
       errorDescription = @"server sent error code";
-      case InvalidParameter:
-          errorDescription = @"invalid parameter passed to method";
+    case InvalidParameter:
+      errorDescription = @"invalid parameter passed to method";
     default:
       break;
   }
@@ -48,11 +48,15 @@
       [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:code userInfo:userInfo];
 }
 
-+ (NSError*)getServerErrorWithCode:(int)errorCode {
-  NSDictionary* userInfo = @{
++ (NSError*)getServerErrorWithCode:(int)errorCode
+                          withInfo:(NSDictionary*)information {
+  NSMutableDictionary* userInfo =
+      [[NSMutableDictionary alloc] initWithDictionary:information];
+
+  [userInfo addEntriesFromDictionary:@{
     NSLocalizedDescriptionKey :
         [NSString stringWithFormat:@"Server threw an error,code %d", errorCode]
-        };
+        }];
 
   return [NSError errorWithDomain:CITRUS_ERROR_DOMAIN
                              code:ServerErrorWithCode

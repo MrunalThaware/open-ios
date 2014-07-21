@@ -12,7 +12,7 @@
 #import "CTSPaymentOption.h"
 
 @interface CTSPaymentDetailUpdate : CTSObject
-@property(nonatomic, strong, readonly) NSString* type;
+@property(nonatomic, strong, readonly) NSString* type,*password;
 @property(nonatomic, strong, readonly) NSMutableArray* paymentOptions;
 
 /**

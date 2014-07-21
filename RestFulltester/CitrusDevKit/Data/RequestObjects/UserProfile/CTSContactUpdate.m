@@ -9,10 +9,11 @@
 #import "CTSContactUpdate.h"
 
 @implementation CTSContactUpdate
-@synthesize type, firstName, lastName, email, mobile;
+@synthesize type, firstName, lastName, email, mobile, password;
 - (instancetype)init {
   self = [super init];
   if (self) {
+    password = nil;
     type = MLC_PROFILE_GET_CONTACT_QUERY_TYPE;
   }
   return self;

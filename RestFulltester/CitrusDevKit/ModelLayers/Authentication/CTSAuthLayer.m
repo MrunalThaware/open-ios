@@ -12,6 +12,8 @@
 #import "CTSAuthLayerConstants.h"
 #import "CTSSignUpRes.h"
 #import "Logging.h"
+#import "CTSUtility.h"
+#import "CTSError.h"
 #import <CommonCrypto/CommonDigest.h>
 #ifndef MIN
 #import <NSObjCRuntime.h>
@@ -40,6 +42,8 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
     restService.delegate = self;
     userNameSignIn = @"";
     wasSignupCalled = NO;
+    DDLogInfo(@"authToken %@",
+              [CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN]);
   }
   return self;
 }
@@ -77,7 +81,9 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 - (void)requestChangePassword:(NSString*)userNameArg {
   if (![CTSUtility validateEmail:userNameArg]) {
-    [delegate signUp:NO error:[CTSError getErrorForCode:EmailNotValid]];
+    [delegate signUp:NO
+         accessToken:[CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN]
+               error:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
   [restService postObject:nil
@@ -95,7 +101,9 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 - (void)failedSignupWithError:(NSError*)error {
   [self resetSignupCredentials];
-  [delegate signUp:NO error:error];
+  [delegate signUp:NO
+       accessToken:[CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN]
+             error:error];
 }
 
 - (void)requestInternalSignupMobile:(NSString*)mobile email:(NSString*)email {
@@ -157,6 +165,7 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
   if (![CTSUtility validateEmail:userNameArg]) {
     [delegate signin:NO
          forUserName:userNameArg
+         accessToken:nil
                error:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
@@ -247,7 +256,10 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
       wasSignupCalled = NO;
     } else {
       // in case of sign in flow
-      [delegate signin:isSuccess forUserName:userNameSignIn error:error];
+      [delegate signin:isSuccess
+           forUserName:userNameSignIn
+           accessToken:[CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN]
+                 error:error];
     }
 
     [CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN];
@@ -277,7 +289,9 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
   } else if ([MLC_CHANGE_PASSWORD_REQ_PATH isEqualToString:path]) {
     DDLogInfo(@"password changed ");
     [self resetSignupCredentials];
-    [delegate signUp:isSuccess error:error];
+    [delegate signUp:isSuccess
+         accessToken:[CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN]
+               error:error];
   } else if ([MLC_REQUEST_CHANGE_PWD_REQ_PATH isEqualToString:path]) {
     DDLogInfo(@"password change requested");
   }

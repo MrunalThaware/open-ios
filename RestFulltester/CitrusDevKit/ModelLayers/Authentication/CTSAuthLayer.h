@@ -20,19 +20,25 @@
  *
  *  @param isSuccessful  status
  *  @param userName     username that was used for signin
+ *  @param token : oauth token if signin followed by signup is successful is
+ *successful,nil otherwise.
  *  @param error        error,nil in case of success.
  */
 - (void)signin:(BOOL)isSuccessful
     forUserName:(NSString*)userName
+    accessToken:(NSString*)token
           error:(NSError*)error;
 
 /**
  *  reports sign up reply
  *
  *  @param isSuccessful
+ *  @param token : oauth token if signin is successful,nil otherwise
  *  @param error
  */
-- (void)signUp:(BOOL)isSuccessful error:(NSError*)error;
+- (void)signUp:(BOOL)isSuccessful
+    accessToken:(NSString*)token
+          error:(NSError*)error;
 
 @end
 

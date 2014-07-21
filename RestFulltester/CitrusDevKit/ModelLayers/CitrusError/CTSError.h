@@ -20,9 +20,10 @@ typedef enum {
 } CTSErrorCode;
 
 #define CITRUS_ERROR_DOMAIN @"com.citrus.errorDomain"
+#define CITRUS_ERROR_DESCRIPTION_KEY @"CTSServerErrorDescription"
 
 @interface CTSError : NSObject
 + (NSError*)getErrorForCode:(CTSErrorCode)code;
-+ (NSError*)getServerErrorWithCode:(int)errorCode;
-
++ (NSError*)getServerErrorWithCode:(int)errorCode
+                          withInfo:(NSDictionary*)information;
 @end

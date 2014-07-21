@@ -13,6 +13,7 @@
 #import "CTSAuthLayerConstants.h"
 #import "Logging.h"
 #import "CTSProfileLayer.h"
+#import "NSObject+logProperties.h"
 
 @interface ViewController ()
 @property(strong) CTSContactUpdate* contactInfo;
@@ -31,24 +32,22 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
+
+  //[self signIn];
+  [self signUp];
+
+  //[self doGuestPayment];
+}
+
+- (void)initialize {
+  // required initialization
   authLayer = [[CTSAuthLayer alloc] init];
   authLayer.delegate = self;
-
   profileService = [[CTSProfileLayer alloc] init];
   profileService.delegate = self;
   paymentlayerinfo = [[CTSPaymentLayer alloc] init];
   paymentlayerinfo.delegate = self;
-  // sign in
-  //[authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD];
-  //[paymentlayerinfo requestMerchantPgSettings:@"mpi"];
-  // sign up
-  //[authLayer requestSignUpWithEmail:TEST_EMAIL
-  //    mobile:TETS_MOBILE
-  //  password:TEST_PASSWORD];
-  [self doGuestPayment];
-}
 
-- (void)initialize {
   contactInfo = [[CTSContactUpdate alloc] init];
   contactInfo.firstName = @"dongGing";
   contactInfo.lastName = @"wankhede";
@@ -65,6 +64,20 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
   guestflowdebitcard.ownerName = @"Jitendra Gupta";
 
   [guestFlowDebitCardInfo addCard:guestflowdebitcard];
+}
+
+- (void)signIn {
+  [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD];
+}
+
+- (void)signUp {
+  [authLayer requestSignUpWithEmail:TEST_EMAIL
+                             mobile:TETS_MOBILE
+                           password:TEST_PASSWORD];
+}
+
+- (void)getMerchantSetting:(NSString*)merchantVanity {
+  [paymentlayerinfo requestMerchantPgSettings:merchantVanity];
 }
 
 - (void)contactInformation:(CTSProfileContactRes*)contactInfo
@@ -105,11 +118,13 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 }
 - (void)signin:(BOOL)isSuccessful
     forUserName:(NSString*)userName
+    accessToken:(NSString*)token
           error:(NSError*)error {
   ENTRY_LOG
   DDLogInfo(@"isSuccessful %d", isSuccessful);
   DDLogInfo(@"userName %@", userName);
   DDLogInfo(@"error %@", error);
+  DDLogInfo(@"access token %@", token);
 
   CTSProfileLayer* profileinfo = [[CTSProfileLayer alloc] init];
 
@@ -190,11 +205,15 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
   EXIT_LOG
 }
 
-- (void)signUp:(BOOL)isSuccessful error:(NSError*)error {
+- (void)signUp:(BOOL)isSuccessful
+    accessToken:(NSString*)token
+          error:(NSError*)error {
   ENTRY_LOG
 
   DDLogInfo(@"isSuccessful %d", isSuccessful);
   DDLogInfo(@"error %@", error);
+  DDLogInfo(@"access token %@", token);
+
   EXIT_LOG
 }
 
