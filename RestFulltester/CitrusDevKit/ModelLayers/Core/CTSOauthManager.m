@@ -81,16 +81,5 @@
   // request for oauth refresh
 }
 
-- (void)receivedObjectArray:(NSArray*)response
-                    forPath:(NSString*)path
-                  withError:(NSError*)error
-                   withInfo:(NSString*)info {
-  //  ENTRY_LOG
-  // DDLogInfo(@" path %@", path);
-  BOOL isSuccess = NO;
-
-  if (error == nil)
-    isSuccess = YES;
-}
 
 @end

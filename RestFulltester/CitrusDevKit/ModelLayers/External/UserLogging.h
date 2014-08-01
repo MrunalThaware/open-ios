@@ -148,7 +148,7 @@
  * setting.
  */
 #ifndef LOGGING_INCLUDE_CODE_LOCATION
-#define LOGGING_INCLUDE_CODE_LOCATION 1
+#define LOGGING_INCLUDE_CODE_LOCATION 0
 #endif
 
 // *********** END OF USER SETTINGS  - Do not change anything below this line
@@ -206,4 +206,9 @@
 #define LogDebug(fmt, ...) LOG_FORMAT(fmt, @"DEBUG", ##__VA_ARGS__)
 #else
 #define LogDebug(...)
+
 #endif
+
+#define ENTRY_LOG LogTrace(@"%s ENTRY ", __PRETTY_FUNCTION__);
+#define EXIT_LOG LogTrace(@"%s EXIT ", __PRETTY_FUNCTION__);
+#define ERROR_EXIT_LOG LogError(@"%s ERROR EXIT", __PRETTY_FUNCTION__);

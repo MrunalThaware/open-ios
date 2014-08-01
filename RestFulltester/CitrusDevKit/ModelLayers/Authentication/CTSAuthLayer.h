@@ -7,12 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CTSRestLayer.h"
 #import "CTSOauthTokenRes.h"
 #import "CTSRestRegister.h"
 #import "RestLayerConstants.h"
 #import "CTSAuthLayerConstants.h"
-#import "CTSRestIntergration.h"
 #import "CTSRestPluginBase.h"
 @class CTSAuthLayer;
 @protocol CTSAuthenticationProtocol

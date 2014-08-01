@@ -8,11 +8,7 @@
 
 #import "CTSUtility.h"
 #import "CreditCard-Validator.h"
-#ifdef DEBUG
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
-#else
-static const int ddLogLevel = LOG_LEVEL_ERROR;
-#endif
+
 #import "CTSAuthLayerConstants.h"
 @implementation CTSUtility
 + (BOOL)validateCardNumber:(NSString*)number {
@@ -20,7 +16,7 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 }
 
 + (NSString*)readFromDisk:(NSString*)key {
-  DDLogInfo(@"Key %@ value %@",
+  LogTrace(@"Key %@ value %@",
             key,
             [[NSUserDefaults standardUserDefaults] valueForKey:key]);
   return [[NSUserDefaults standardUserDefaults] valueForKey:key];
@@ -32,7 +28,7 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 }
 
 + (void)removeFromDisk:(NSString*)key {
-  DDLogInfo(@"removing key %@", key);
+  LogTrace(@"removing key %@", key);
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
   [[NSUserDefaults standardUserDefaults] synchronize];
 }

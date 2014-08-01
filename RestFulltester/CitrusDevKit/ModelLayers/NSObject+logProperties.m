@@ -10,16 +10,11 @@
 #import "NSObject+logProperties.h"
 #import <objc/runtime.h>
 
-#ifdef DEBUG
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
-#else
-static const int ddLogLevel = LOG_LEVEL_ERROR;
-#endif
 @implementation NSObject (logProperties)
 - (void)logProperties {
-  DDLogInfo(@"----------------------------------------------- Properties for "
-            @"object %@",
-            self);
+  LogTrace(@"----------------------------------------------- Properties for "
+           @"object %@",
+           self);
 
   @autoreleasepool {
     unsigned int numberOfProperties = 0;
@@ -29,10 +24,10 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
       objc_property_t property = propertyArray[i];
       NSString* name =
           [[NSString alloc] initWithUTF8String:property_getName(property)];
-      DDLogInfo(@"Property %@ Value: %@", name, [self valueForKey:name]);
+      LogTrace(@"Property %@ Value: %@", name, [self valueForKey:name]);
     }
     free(propertyArray);
   }
-  DDLogInfo(@"-----------------------------------------------");
+  LogTrace(@"-----------------------------------------------");
 }
 @end

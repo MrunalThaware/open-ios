@@ -8,14 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "CTSOauthTokenRes.h"
-#import "CTSRestIntergration.h"
 
 @protocol OauthHandler<NSObject>
 
-
 @end
 
-@interface CTSOauthManager : CTSRestIntergration<CTSRestLayerProtocol>
+@interface CTSOauthManager : NSObject
 + (NSString*)readOauthToken;
 + (void)resetOauthData;
 + (BOOL)hasOauthExpired;

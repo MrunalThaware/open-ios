@@ -7,11 +7,10 @@
 //
 
 #import "CTSAuthLayer.h"
-#import "CTSRestLayer.h"
 #import "RestLayerConstants.h"
 #import "CTSAuthLayerConstants.h"
 #import "CTSSignUpRes.h"
-#import "Logging.h"
+#import "UserLogging.h"
 #import "CTSUtility.h"
 #import "CTSError.h"
 #import "CTSOauthManager.h"
@@ -20,11 +19,6 @@
 #import <NSObjCRuntime.h>
 #endif
 
-#ifdef DEBUG
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
-#else
-static const int ddLogLevel = LOG_LEVEL_ERROR;
-#endif
 @implementation CTSAuthLayer
 @synthesize delegate;
 
@@ -43,7 +37,7 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 //    restService.delegate = self;
 //    userNameSignIn = @"";
 //    wasSignupCalled = NO;
-//    DDLogInfo(@"authToken %@", [CTSOauthManager readOauthToken]);
+//    LogTrace(@"authToken %@", [CTSOauthManager readOauthToken]);
 //  }
 //  return self;
 //}
@@ -312,7 +306,7 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
                   withError:(NSError*)error
                    withInfo:(NSString*)info {
   ENTRY_LOG
-  DDLogInfo(@" path %@", path);
+  LogTrace(@" path %@", path);
   BOOL isSuccess = NO;
 
   if (error == nil)
@@ -552,7 +546,7 @@ enum {
 }
 
 - (void)handleReqChangePassword:(CTSRestCoreResponse*)response {
-  DDLogInfo(@"password changed ");
+  LogTrace(@"password changed ");
   [self resetSignupCredentials];
   [delegate auth:self
       didSignupUsername:nil
@@ -561,7 +555,7 @@ enum {
 }
 
 - (void)handleReqRequestForPasswordChange:(CTSRestCoreResponse*)response {
-  DDLogInfo(@"password change requested");
+  LogTrace(@"password change requested");
 }
 - (void)handleReqOauthRefresh:(CTSRestCoreResponse*)response {
   NSError* error = response.error;

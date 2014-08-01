@@ -48,7 +48,7 @@
 //
 //#define TEST_TOKENIZED_CARD_CVV @"000"
 
-#define TEST_EMAIL @"pappu.yadav1003@gmail.com"
+#define TEST_EMAIL @"pappu.yadav1005@gmail.com"
 #define TEST_PASSWORD @"tester@123"
 #define TEST_MOBILE @"1234567890"
 

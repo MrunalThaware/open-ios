@@ -7,33 +7,26 @@
 //
 
 #import "AppDelegate.h"
-#import "Logging.h"
 
 
-#ifdef DEBUG
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
-#else
-static const int ddLogLevel = LOG_LEVEL_ERROR;
-#endif
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication*)application
     didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
   // Override point for customization after application launch.
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
-
-    ENTRY_LOG;
-    EXIT_LOG;
-    
-    DDLogVerbose(@"Starting up application...");
-    
-    // Perform some actions
-    for (int i = 1; i < 5; i++) {
-        DDLogInfo(@"Performing startup action %d", i);
-    }
-    
-    DDLogError(@"Startup actions complete");
+  //    [DDLog addLogger:[DDASLLogger sharedInstance]];
+  //    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+  //
+  //    ENTRY_LOG;
+  //    EXIT_LOG;
+  //
+  //    DDLogVerbose(@"Starting up application...");
+  //
+  //    // Perform some actions
+  //    for (int i = 1; i < 5; i++) {
+  //        DDLogInfo(@"Performing startup action %d", i);
+  //    }
+  //
 
   return YES;
 }
@@ -53,8 +46,6 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
   // application to its current state in case it is terminated later.
   // If your application supports background execution, this method is called
   // instead of applicationWillTerminate: when the user quits.
-    
- 
 }
 
 - (void)applicationWillEnterForeground:(UIApplication*)application {

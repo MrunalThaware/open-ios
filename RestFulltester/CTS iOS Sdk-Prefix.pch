@@ -16,9 +16,6 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 
-#import "DDTTYLogger.h"
-#import "DDFileLogger.h"
-#import "DDASLLogger.h"
 #import "RestLayerConstants.h"
 #import "NSObject+logProperties.h"
 #import "TestParams.h"
