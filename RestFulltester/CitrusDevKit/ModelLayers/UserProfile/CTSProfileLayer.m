@@ -14,6 +14,7 @@
 #import "CTSProfileContactRes.h"
 #import "CTSAuthLayerConstants.h"
 #import "CTSError.h"
+#import "CTSOauthManager.h"
 @implementation CTSProfileLayer
 @synthesize delegate;
 // get profile
@@ -62,7 +63,7 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 #pragma mark - class methods
 - (void)updateContactInformation:(CTSContactUpdate*)contactInfo {
-  if ([CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN] == nil) {
+  if ([CTSOauthManager readOauthToken] == nil) {
     [delegate
         contactInfoUpdatedError:[CTSError getErrorForCode:UserNotSignedIn]];
     return;
@@ -75,7 +76,7 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 }
 
 - (void)requestContactInformation {
-  if ([CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN] == nil) {
+  if ([CTSOauthManager readOauthToken] == nil) {
     [delegate contactInformation:nil
                            error:[CTSError getErrorForCode:UserNotSignedIn]];
     return;
@@ -87,7 +88,7 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 }
 
 - (void)updatePaymentInformation:(CTSPaymentDetailUpdate*)paymentInfo {
-  if ([CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN] == nil) {
+  if ([CTSOauthManager readOauthToken] == nil) {
     [delegate contactInformation:nil
                            error:[CTSError getErrorForCode:UserNotSignedIn]];
     return;
@@ -109,7 +110,7 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 }
 
 - (void)requestPaymentInformation {
-  if ([CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN] == nil) {
+  if ([CTSOauthManager readOauthToken] == nil) {
     [delegate paymentInformation:nil
                            error:[CTSError getErrorForCode:UserNotSignedIn]];
     return;

@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "JSONModel.h"
+@interface CTSRestError : JSONModel
+@property(nonatomic, strong) NSString<Optional>* type, *errorDescription,
+    *description;
+@property(nonatomic, strong) NSString<Optional>* error;
+@property(nonatomic, strong) NSString<Ignore>* serverResponse;
 
-@interface CTSRestError : NSObject
-@property(nonatomic, strong) NSString* type, *description;
 @end

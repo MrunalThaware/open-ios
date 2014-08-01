@@ -26,8 +26,14 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
   return [[NSUserDefaults standardUserDefaults] valueForKey:key];
 }
 
-+ (void)saveToDisk:(NSString*)data as:(NSString*)key {
++ (void)saveToDisk:(id)data as:(NSString*)key {
   [[NSUserDefaults standardUserDefaults] setObject:data forKey:key];
+  [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (void)removeFromDisk:(NSString*)key {
+  DDLogInfo(@"removing key %@", key);
+  [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
   [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -37,6 +43,12 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
         stringWithFormat:@" Bearer %@",
                          [CTSUtility
                              readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN]]
+  };
+}
+
++ (NSDictionary*)readOauthTokenAsHeader:(NSString*)oauthToken {
+  return @{
+    @"Authorization" : [NSString stringWithFormat:@" Bearer %@", oauthToken]
   };
 }
 

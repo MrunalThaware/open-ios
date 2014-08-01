@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CTSPaymentDetailUpdate.h"
+#import "CTSCoreProtocol.h"
 @class CTSRestRegister;
 @class RKObjectManager;
 
@@ -17,11 +18,13 @@
                     forPath:(NSString*)path
                   withError:(NSError*)error
                    withInfo:(NSString*)info;
+
 @end
 
 @interface CTSRestLayer : NSObject
 @property(nonatomic, strong) RKObjectManager* objectManager;
 @property(nonatomic, strong) id<CTSRestLayerProtocol> delegate;
+@property(nonatomic, weak) id<CTSCoreProtocol> coreDelegate;
 
 //+ (id)sharedRestLayer;
 - (id)initWithBaseURL:(NSString*)baseURL;

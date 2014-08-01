@@ -22,4 +22,9 @@
   return [NSString stringWithFormat:@"%@ username", userName];
 }
 
++ (JSONKeyMapper*)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{
+    @"username" : @"userName",
+  }];
+}
 @end

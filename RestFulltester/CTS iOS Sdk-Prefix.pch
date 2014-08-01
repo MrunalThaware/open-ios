@@ -25,5 +25,7 @@
 #import "CTSUtility.h"
 #import "CTSError.h"
 #import "CTSObject.h"
+#import "UserLogging.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 
 #endif

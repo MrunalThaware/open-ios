@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "JSONModel.h"
 
-@interface CTSSignUpRes : NSObject
+@interface CTSSignUpRes : JSONModel
 @property(strong, nonatomic) NSString* userName;
 @end

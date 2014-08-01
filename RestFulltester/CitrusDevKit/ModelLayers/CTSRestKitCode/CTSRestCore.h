@@ -1,0 +1,26 @@
+//
+//  CTSRestCore.h
+//  CTSRestKit
+//
+//  Created by Yadnesh Wankhede on 29/07/14.
+//  Copyright (c) 2014 CitrusPay. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "CTSRestCoreRequest.h"
+#import "CTSRestCoreResponse.h"
+#import "CTSRestCoreConstants.h"
+#import "CTSError.h"
+
+@class CTSRestCore;
+@protocol CTSRestCoreDelegate
+- (void)restCore:(CTSRestCore*)restCore
+    didReceiveResponse:(CTSRestCoreResponse*)response;
+@end
+
+@interface CTSRestCore : NSObject
+@property(strong, nonatomic) NSString* baseUrl;
+@property(weak) id<CTSRestCoreDelegate> delegate;
+- (instancetype)initWithBaseUrl:(NSString*)url;
+- (void)requestServer:(CTSRestCoreRequest*)restRequest;
+@end

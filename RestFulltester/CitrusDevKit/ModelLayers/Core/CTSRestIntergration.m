@@ -9,13 +9,18 @@
 #import "CTSRestIntergration.h"
 
 @implementation CTSRestIntergration
-+ (void)initialize {
-  if (self != [CTSRestIntergration class] &&
-      ![self conformsToProtocol:@protocol(CTSRestLayerProtocol)]) {
-    @throw
-        [[NSException alloc] initWithName:@"UnImplimented Protocol"
-                                   reason:@"CTSRestLayerProtocol - not adopted"
-                                 userInfo:nil];
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    if (self != [CTSRestIntergration class] &&
+        ![self conformsToProtocol:@protocol(CTSRestLayerProtocol)]) {
+      @throw [[NSException alloc]
+          initWithName:@"UnImplimented Protocol"
+                reason:@"CTSRestLayerProtocol - not adopted"
+              userInfo:nil];
+    }
   }
+  return self;
 }
+
 @end

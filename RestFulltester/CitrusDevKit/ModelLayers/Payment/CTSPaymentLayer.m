@@ -24,6 +24,7 @@
 #import "CTSError.h"
 #import "CTSProfileLayer.h"
 #import "CTSAuthLayer.h"
+#import "CTSOauthManager.h"
 
 #import <RestKit/RestKit.h>
 @interface CTSPaymentLayer ()
@@ -74,18 +75,17 @@ static BOOL isSignatureSuccess;
   return registrationArray;
 }
 - (void)getsignature:(NSString*)amount {
-  if ([CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN] == nil) {
+  NSString* signInOauthToken = [CTSOauthManager readOauthToken];
+  if (signInOauthToken == nil) {
     [delegate
         transactionInformation:nil
                          error:[CTSError getErrorForCode:UserNotSignedIn]];
     return;
   }
   NSDictionary* header = @{
-    @"Authorization" : [NSString
-        stringWithFormat:@"Bearer %@",
-                         [CTSUtility
-                             readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN]]
-  };
+    @"Authorization" :
+        [NSString stringWithFormat:@"Bearer %@", signInOauthToken]
+        };
 
   [restService postObject:nil
                    atPath:MLC_PAYMENT_GETSIGNATURE_PATH
@@ -227,7 +227,7 @@ static BOOL isSignatureSuccess;
       tokenizedCardPaymentRequest.userDetails = userDetails;
       [restService changeBaseUrl:MLC_PAYMENT_BASE_URL];
       [restService paymentResponseMapping];
-      if ([CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN] == nil) {
+      if ([CTSOauthManager readOauthToken] == nil) {
         [delegate
             transactionInformation:nil
                              error:[CTSError getErrorForCode:UserNotSignedIn]];
@@ -310,7 +310,7 @@ static BOOL isSignatureSuccess;
       paymentrequest.userDetails = userDetails;
       [restService changeBaseUrl:MLC_PAYMENT_BASE_URL];
       [restService paymentResponseMapping];
-      if ([CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN] == nil) {
+      if ([CTSOauthManager readOauthToken] == nil) {
         [delegate
             transactionInformation:nil
                              error:[CTSError getErrorForCode:UserNotSignedIn]];

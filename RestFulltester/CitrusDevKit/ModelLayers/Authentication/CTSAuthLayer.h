@@ -13,7 +13,8 @@
 #import "RestLayerConstants.h"
 #import "CTSAuthLayerConstants.h"
 #import "CTSRestIntergration.h"
-
+#import "CTSRestPluginBase.h"
+@class CTSAuthLayer;
 @protocol CTSAuthenticationProtocol
 /**
  *  reports sign in respose
@@ -24,10 +25,11 @@
  *successful,nil otherwise.
  *  @param error        error,nil in case of success.
  */
-- (void)signin:(BOOL)isSuccessful
-    forUserName:(NSString*)userName
-    accessToken:(NSString*)token
-          error:(NSError*)error;
+
+- (void)auth:(CTSAuthLayer*)layer
+    didSigninUsername:(NSString*)userName
+           oauthToken:(NSString*)token
+                error:(NSError*)error;
 
 /**
  *  reports sign up reply
@@ -36,16 +38,26 @@
  *  @param token : oauth token if signin is successful,nil otherwise
  *  @param error
  */
-- (void)signUp:(BOOL)isSuccessful
-    accessToken:(NSString*)token
-          error:(NSError*)error;
+- (void)auth:(CTSAuthLayer*)layer
+    didSignupUsername:(NSString*)userName
+           oauthToken:(NSString*)token
+                error:(NSError*)error;
+
+/**
+ *  called when refresh token is updated from server
+ *
+ *  @param error if any,nil othewise
+ */
+
+- (void)auth:(CTSAuthLayer*)layer
+    didRefreshOauthStatus:(OauthRefresStatus)status
+                    error:(NSError*)error;
 
 @end
 
-@interface CTSAuthLayer : CTSRestIntergration<CTSRestLayerProtocol> {
+@interface CTSAuthLayer : CTSRestPluginBase {
   int seedState;
   NSString* userNameSignIn, *userNameSignup, *passwordSignUp, *mobileSignUp;
-  ;
   BOOL wasSignupCalled;
 }
 @property(nonatomic, strong) id<CTSAuthenticationProtocol> delegate;
@@ -56,5 +68,10 @@
                         mobile:(NSString*)mobile
                       password:(NSString*)password;
 - (void)requestChangePassword:(NSString*)userNameArg;
+/**
+ *  call at the time of oath error and according to statud returned in delegate
+ * do the needful
+ */
+- (void)requestOauthTokenRefresh;
 
 @end

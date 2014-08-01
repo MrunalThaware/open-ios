@@ -26,7 +26,8 @@
 
 @interface ViewController : UIViewController<CTSAuthenticationProtocol,
                                              CTSProfileProtocol,
-                                             CTSPaymentProtocol> {
+                                             CTSPaymentProtocol,
+                                             CTSCoreProtocol> {
   CTSProfileLayer* profileService;
   CTSPaymentLayer* paymentlayerinfo;
   CTSAuthLayer* authLayer;

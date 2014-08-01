@@ -7,12 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CTSOauthTokenRes.h"
+#import "CTSAuthLayerConstants.h"
 
 @interface CTSUtility : NSObject
 + (NSString*)readFromDisk:(NSString*)key;
-+ (void)saveToDisk:(NSString*)data as:(NSString*)key;
++ (void)saveToDisk:(id)data as:(NSString*)key;
+
 + (NSDictionary*)readSigninTokenAsHeader;
 + (NSDictionary*)readSignupTokenAsHeader;
++ (NSDictionary*)readOauthTokenAsHeader:(NSString*)oauthToken;
++ (void)removeFromDisk:(NSString*)key;
 + (BOOL)validateEmail:(NSString*)email;
 + (BOOL)validateMobile:(NSString*)mobile;
 + (BOOL)validateCardNumber:(NSString*)number;

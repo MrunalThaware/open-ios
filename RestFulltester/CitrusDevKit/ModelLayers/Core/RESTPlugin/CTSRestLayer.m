@@ -13,7 +13,6 @@
 #import "CTSOauthTokenRes.h"
 #import "Logging.h"
 #import "CTSRestError.h"
-#import "CTSRestErrorTypeTwo.h"
 #import "CTSPaymentRequest.h"
 #import "CTSProfilePaymentRes.h"
 #import "CTSPaymentLayerConstants.h"
@@ -36,7 +35,7 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation CTSRestLayer
 
-@synthesize delegate, objectManager;
+@synthesize delegate, coreDelegate, objectManager;
 //+ (id)sharedRestLayer {
 //  static CTSRestLayer* sharedInstance = nil;
 //  static dispatch_once_t onceToken;
@@ -51,7 +50,16 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
 
     // [self addErrorMapping];
     [self errorMapping];
+    __weak typeof(self) weakSelf = self;
+
     objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    [objectManager.HTTPClient
+        setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+            if ([weakSelf.coreDelegate
+                    respondsToSelector:@selector(networkStatusChanged:)]) {
+            }
+        }];
+
     DDLogInfo(@" requestSerializationMIMEType %@",
               objectManager.requestSerializationMIMEType);
   }
@@ -701,7 +709,6 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
     withParameters:(NSDictionary*)queryParams
           withInfo:(NSString*)info {
   __block NSDictionary* blockHeaderValuePair = headerValuePair;
-
   [self addHeaders:headerValuePair];
   [self decideMime:object];
   [objectManager postObject:object

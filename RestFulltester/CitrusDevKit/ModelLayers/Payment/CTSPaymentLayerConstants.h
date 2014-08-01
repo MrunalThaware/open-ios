@@ -10,7 +10,7 @@
 #define RestFulltester_CTSPaymentLayerConstants_h
 #pragma - mark MLC_PROFILE_GET
 #define MLC_PROFILE_UPDATE_Payment_PATH @"profile/me/payment"
-#define MLC_PAYMENT_GETSIGNATURE_PATH @"service/v2/mycard/load/extended"
+#define MLC_PAYMENT_GETSIGNATURE_PATH @"/service/v2/mycard/load/extended"
 #define MLC_PAYMENT_ACCESSKEY @"WEO99TS6PQ1ZHERXP0NZ"
 #define MLC_GET_Payment_METHOD GET
 #define MLC_GET_PAYMENT_QUERY_TYPE @"payment"

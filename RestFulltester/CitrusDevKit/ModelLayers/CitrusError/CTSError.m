@@ -39,6 +39,8 @@
       errorDescription = @"server sent error code";
     case InvalidParameter:
       errorDescription = @"invalid parameter passed to method";
+    case OauthTokenExpired:
+      errorDescription = @"Oauth Token expired, Please refresh it from server";
     default:
       break;
   }

@@ -23,6 +23,14 @@ typedef enum PasswordUseType {
 #pragma mark - class constants
 #define MLC_SIGNUP_ACCESS_OAUTH_TOKEN @"signup_oauth_token"
 #define MLC_SIGNIN_ACCESS_OAUTH_TOKEN @"signin_oauth_token"
+#define MLC_SIGNIN_REFRESH_TOKEN @"refresh_token"
+#define MLC_TOKEN_EXPIRY @"token_expiry"
+#define MLC_OAUTH_SCOPE @"token_scope"
+#define MLC_OAUTH_TYPE @"token_type"
+#define MLC_OAUTH_OBJECT_KEY @"oauth_object_key"
+#define MLC_OAUTH_TOKEN_SAVE_DATE @"oauth_token_save_date"
+#define MLC_CLIENT_ID @"citrus-mobile-app-v1"
+#define MLC_CLIENT_SECRET @"0e49deace77ab85a434324c3c13ae9f2"
 
 #pragma mark - OAUTH_TOKEN
 #define MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE @"grant_type"
@@ -42,7 +50,8 @@ typedef enum PasswordUseType {
     @"access_token" : @"accessToken",           \
     @"token_type" : @"tokenType",               \
     @"expires_in" : @"tokenExpiryTime",         \
-    @"scope" : @"scope"                         \
+    @"scope" : @"scope",                        \
+    @"refresh_token" : @"refreshToken"          \
   }
 
 #define MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING                             \
@@ -59,8 +68,8 @@ typedef enum PasswordUseType {
 #define MLC_CHANGE_PASSWORD_QUERY_NEW_PWD @"new"
 
 #pragma mark - SIGNIN
-#define MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID @"citrus-mobile-app-v1"
-#define MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET @"0e49deace77ab85a434324c3c13ae9f2"
+#define MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID MLC_CLIENT_ID
+#define MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET MLC_CLIENT_SECRET
 #define MLC_SIGNIN_GRANT_TYPE @"password"
 #define MLC_OAUTH_TOKEN_SIGNIN_REQ_TYPE POST
 #define MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD @"password"
@@ -75,9 +84,22 @@ typedef enum PasswordUseType {
 #define MLC_SIGNUP_QUERY_EMAIL @"email"
 #define MLC_SIGNUP_QUERY_MOBILE @"mobile"
 
-#pragma - REQUEST_CHANGE_PASSWORD
+#pragma mark - REQUEST_CHANGE_PASSWORD
 #define MLC_REQUEST_CHANGE_PWD_REQ_PATH @"/service/v2/identity/passwords/reset"
 #define MLC_REQUEST_CHANGE_PWD_REQ_TYPE POST
 #define MLC_REQUEST_CHANGE_PWD_QUERY_USERNAME @"username"
+
+#pragma mark - OAUTH_REFRESH
+#define MLC_OAUTH_REFRESH_GRANT_TYPE @"refresh_token"
+#define MLC_OAUTH_REFRESH_CLIENT_ID MLC_CLIENT_ID
+#define MLC_OAUTH_REFRESH_CLIENT_SECRET MLC_CLIENT_SECRET
+#define MLC_OAUTH_REFRESH_SIGNIN_REQ_TYPE POST
+
+#define MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN @"refresh_token"
+
+typedef enum {
+  OauthRefreshStatusSuccess,
+  OauthRefreshStatusNeedToLogin
+} OauthRefresStatus;
 
 #endif
