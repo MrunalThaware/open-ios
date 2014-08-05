@@ -13,9 +13,9 @@
 #import "JSONModel.h"
 
 @interface CTSPaymentDetailUpdate : JSONModel
-@property(nonatomic, strong, readonly) NSString* type;
-@property(nonatomic, strong, readonly) NSString<Optional>* password;
-@property(nonatomic, strong, readonly) NSMutableArray* paymentOptions;
+@property(nonatomic, strong) NSString* type;
+@property(nonatomic, strong) NSString<Optional>* password;
+@property(nonatomic, strong) NSMutableArray<CTSPaymentOption>* paymentOptions;
 
 /**
  *  to add card to the object, internally stored in an array to send to

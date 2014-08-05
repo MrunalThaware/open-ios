@@ -31,6 +31,16 @@
 
   request = [self requestByAddingParameters:request
                                  parameters:restRequest.parameters];
+
+  if (restRequest.requestJson != nil) {
+    [restRequest.headers setObject:@"application/json" forKey:@"Content-Type"];
+    [restRequest.headers setObject:@"application/json"
+                            forKey:@"Accept-Encoding"];
+
+    [request setHTTPBody:[restRequest.requestJson
+                             dataUsingEncoding:NSUTF8StringEncoding]];
+  }
+
   __block int requestId = restRequest.requestId;
 
   NSOperationQueue* mainQueue = [[NSOperationQueue alloc] init];
@@ -38,6 +48,7 @@
 
   __block id<CTSRestCoreDelegate> blockDelegate = delegate;
   LogTrace(@"URL > %@ ", request);
+  // LogTrace(@"allHeaderFields %@", [request allHeaderFields]);
 
   [NSURLConnection
       sendAsynchronousRequest:request
@@ -49,6 +60,7 @@
                     [[CTSRestCoreResponse alloc] init];
                 NSError* error = nil;
                 NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+                LogTrace(@"allHeaderFields %@", [httpResponse allHeaderFields]);
                 int statusCode = [httpResponse statusCode];
                 if (![self isHttpSucces:statusCode]) {
                   error =

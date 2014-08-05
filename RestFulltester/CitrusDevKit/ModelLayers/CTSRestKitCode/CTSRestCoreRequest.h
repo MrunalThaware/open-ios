@@ -11,7 +11,7 @@
 
 @interface CTSRestCoreRequest : NSObject
 @property(strong) NSString* requestJson, *urlPath;
-@property(strong) NSDictionary* parameters, *headers;
+@property(strong) NSMutableDictionary* parameters, *headers;
 @property(assign) int requestId;
 @property(assign) HTTPMethod httpMethod;
 - (instancetype)initWithPath:(NSString*)path

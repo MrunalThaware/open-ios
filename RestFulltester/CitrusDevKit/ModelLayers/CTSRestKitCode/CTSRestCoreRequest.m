@@ -21,8 +21,8 @@
   if (self) {
     requestJson = json;
     urlPath = path;
-    parameters = params;
-    headers = reqHeaders;
+    parameters = [params mutableCopy];
+    headers = [reqHeaders mutableCopy];
     requestId = reqId;
     httpMethod = method;
   }

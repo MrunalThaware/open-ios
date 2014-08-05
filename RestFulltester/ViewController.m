@@ -12,6 +12,7 @@
 #import "CTSAuthLayerConstants.h"
 #import "NSObject+logProperties.h"
 #import "CTSOauthManager.h"
+#import "CTSPaymentDetailUpdate.h"
 
 @interface ViewController ()
 //@property(strong) CTSContactUpdate* contactInfo;
@@ -44,9 +45,10 @@
   // TestParams.h should be populated according to your needs
   authLayer = [[CTSAuthLayer alloc] init];
   authLayer.delegate = self;
-  //[self signIn];
-  [self signUp];
-  //[self updatePaymentInfo];
+  profileLayer = [[CTSProfileLayer alloc] init];
+
+  [self signIn];
+  //[self signUp];
   //[self doTokenizedPaymentDebitCard];
   //[self doTokenizedPaymentNetbanking];
   //[self doGuestPaymentNetbanking];
@@ -81,32 +83,32 @@
 
 #pragma mark - profile layer delegates
 
-//- (void)contactInformation:(CTSProfileContactRes*)contactInfo
-//                     error:(NSError*)error {
-//  //[contactInfo printNextResponder];
-//  LogTrace(@"contactInfo %@ %@",
-//            contactInfo.type,
-//            [[error userInfo] valueForKeyPath:NSLocalizedDescriptionKey]);
-//}
-//- (void)paymentInformation:(CTSProfilePaymentRes*)paymentInfo
-//                     error:(NSError*)error {
-//  [paymentInfo logProperties];
-//  for (CTSPaymentOption* option in paymentInfo.paymentOptions) {
-//    [option logProperties];
-//  }
-//}
-//
-//- (void)paymentInfoUpdatedError:(NSError*)error {
-//  LogTrace(@"paymentInfoUpdatedError");
-//  [profileService requestPaymentInformation];
-//}
-//
-//- (void)contactInfoUpdatedError:(NSError*)error {
-//  LogTrace(@"contactInfoUpdatedError %@ %@",
-//            error,
-//            [[error userInfo] valueForKeyPath:NSLocalizedDescriptionKey]);
-//  [profileService requestContactInformation];
-//}
+- (void)contactInformation:(CTSProfileContactRes*)contactInfo
+                     error:(NSError*)error {
+  //[contactInfo printNextResponder];
+  LogTrace(@"contactInfo %@ %@",
+           contactInfo.type,
+           [[error userInfo] valueForKeyPath:NSLocalizedDescriptionKey]);
+}
+- (void)paymentInformation:(CTSProfilePaymentRes*)paymentInfo
+                     error:(NSError*)error {
+  [paymentInfo logProperties];
+  for (CTSPaymentOption* option in paymentInfo.paymentOptions) {
+    [option logProperties];
+  }
+}
+
+- (void)paymentInfoUpdatedError:(NSError*)error {
+  LogTrace(@"paymentInfoUpdatedError");
+  [profileLayer requestPaymentInformation];
+}
+
+- (void)contactInfoUpdatedError:(NSError*)error {
+  LogTrace(@"contactInfoUpdatedError %@ %@",
+           error,
+           [[error userInfo] valueForKeyPath:NSLocalizedDescriptionKey]);
+  [profileLayer requestContactInformation];
+}
 //
 //#pragma mark - payment layer delegates
 //- (void)transactionInfo:(CTSPaymentTransactionRes*)paymentinfo {
@@ -154,6 +156,9 @@
   LogTrace(@"userName %@", userName);
   LogTrace(@"error %@", error);
   LogTrace(@"access token %@", token);
+
+  [self updatePaymentInfo];
+
   // [self doUserDebitCardPayment];
 
   EXIT_LOG
@@ -194,35 +199,35 @@
 //  [paymentlayerinfo requestMerchantPgSettings:merchantVanity];
 //}
 //
-//- (void)updatePaymentInfo {
-//  // credit card
-//  CTSPaymentDetailUpdate* creditCardInfo =
-//      [[CTSPaymentDetailUpdate alloc] init];
-//  CTSElectronicCardUpdate* creditCard =
-//      [[CTSElectronicCardUpdate alloc] initCreditCard];
-//  creditCard.number = TEST_CREDIT_CARD_NUMBER;
-//  creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-//  creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
-//  creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-//  creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-//  creditCard.cvv = TEST_CREDIT_CARD_CVV;
-//  [creditCardInfo addCard:creditCard];
-//  [profileService updatePaymentInformation:creditCardInfo];
-//
-//  // debit card
-//  CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
-//  CTSElectronicCardUpdate* debitCard =
-//      [[CTSElectronicCardUpdate alloc] initDebitCard];
-//
-//  debitCard.number = TEST_DEBIT_CARD_NUMBER;
-//  debitCard.expiryDate = TEST_DEBIT_CARD_EXPIRY;
-//  debitCard.scheme = TEST_DEBIT_SCHEME;
-//  debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
-//  debitCard.name = TEST_BANK_NAME;
-//  debitCard.token = TEST_DEBIT_CARD_TOKEN;
-//  debitCard.cvv = TEST_DEBIT_CVV;
-//  [paymentInfo addCard:debitCard];
-//}
+- (void)updatePaymentInfo {
+  // credit card
+  CTSPaymentDetailUpdate* creditCardInfo =
+      [[CTSPaymentDetailUpdate alloc] init];
+  CTSElectronicCardUpdate* creditCard =
+      [[CTSElectronicCardUpdate alloc] initCreditCard];
+  creditCard.number = TEST_CREDIT_CARD_NUMBER;
+  creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
+  creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
+  creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
+  creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+  creditCard.cvv = TEST_CREDIT_CARD_CVV;
+  [creditCardInfo addCard:creditCard];
+  [profileLayer updatePaymentInformation:creditCardInfo];
+
+  // debit card
+  CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
+  CTSElectronicCardUpdate* debitCard =
+      [[CTSElectronicCardUpdate alloc] initDebitCard];
+
+  debitCard.number = TEST_DEBIT_CARD_NUMBER;
+  debitCard.expiryDate = TEST_DEBIT_CARD_EXPIRY;
+  debitCard.scheme = TEST_DEBIT_SCHEME;
+  debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
+  debitCard.name = TEST_BANK_NAME;
+  debitCard.token = TEST_DEBIT_CARD_TOKEN;
+  debitCard.cvv = TEST_DEBIT_CVV;
+  [paymentInfo addCard:debitCard];
+}
 
 //- (void)doUserDebitCardPayment {
 //  CTSPaymentDetailUpdate* creditCardInfo =

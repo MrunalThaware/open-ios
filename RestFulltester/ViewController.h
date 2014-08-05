@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "CTSAuthLayer.h"
 #import "CTSOauthTokenRes.h"
+#import "CTSProfileLayer.h"
 #import "CTSAuthLayerConstants.h"
 
 @class CTSOauthTokenRes;
 
-@interface ViewController : UIViewController<CTSAuthenticationProtocol>{
-
-CTSAuthLayer* authLayer;
+@interface ViewController : UIViewController<CTSAuthenticationProtocol> {
+  CTSAuthLayer* authLayer;
+  CTSProfileLayer* profileLayer;
 }
 
 @end
