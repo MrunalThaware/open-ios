@@ -13,6 +13,7 @@
 #import "CTSPaymentDetailUpdate.h"
 #import "CTSRestCoreResponse.h"
 #import "CTSRestPluginBase.h"
+@class CTSProfileLayer;
 @protocol CTSProfileProtocol
 /**
  *  called when client requests for contact information
@@ -20,29 +21,33 @@
  *  @param contactInfo nil in case of error
  *  @param error       nil when successful
  */
-- (void)contactInformation:(CTSProfileContactRes*)contactInfo
-                     error:(NSError*)error;
+- (void)profile:(CTSProfileLayer*)profile
+    didReceiveContactInfo:(CTSProfileContactRes*)contactInfo
+                    error:(NSError*)error;
 /**
  *  called when client requests for payment information
  *
  *  @param contactInfo nil in case of error
  *  @param error       nil when succesful
  */
-- (void)paymentInformation:(CTSProfilePaymentRes*)contactInfo
-                     error:(NSError*)error;
+- (void)profile:(CTSProfileLayer*)profile
+    didReceivePaymentInformation:(CTSProfilePaymentRes*)contactInfo
+                           error:(NSError*)error;
 /**
  *  when contact information is updated to server
  *
  *  @param error error if happned
  */
-- (void)contactInfoUpdatedError:(NSError*)error;
+- (void)profile:(CTSProfileLayer*)profile
+    didUpdateContactInfoError:(NSError*)error;
 
 /**
  *  when payment information is updated on server
  *
  *  @param error nil when successful
  */
-- (void)paymentInfoUpdatedError:(NSError*)error;
+- (void)profile:(CTSProfileLayer*)profile
+    didUpdatePaymentInfoError:(NSError*)error;
 
 @end
 

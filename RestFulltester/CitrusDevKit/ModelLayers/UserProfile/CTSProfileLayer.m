@@ -47,8 +47,8 @@
 #pragma mark - class methods
 - (void)updateContactInformation:(CTSContactUpdate*)contactInfo {
   if ([CTSOauthManager readOauthToken] == nil) {
-    [delegate
-        contactInfoUpdatedError:[CTSError getErrorForCode:UserNotSignedIn]];
+    [delegate profile:self
+        didUpdateContactInfoError:[CTSError getErrorForCode:UserNotSignedIn]];
     return;
   }
   //  [restService putObject:contactInfo
@@ -70,8 +70,9 @@
 
 - (void)requestContactInformation {
   if ([CTSOauthManager readOauthToken] == nil) {
-    [delegate contactInformation:nil
-                           error:[CTSError getErrorForCode:UserNotSignedIn]];
+    [delegate profile:self
+        didReceiveContactInfo:nil
+                        error:[CTSError getErrorForCode:UserNotSignedIn]];
     return;
   }
   //  [restService getObjectAtPath:MLC_PROFILE_UPDATE_CONTACT_PATH
@@ -93,13 +94,14 @@
 - (void)updatePaymentInformation:(CTSPaymentDetailUpdate*)paymentInfo {
   NSString* oauthToken = [CTSOauthManager readOauthToken];
   if (oauthToken == nil) {
-    [delegate contactInformation:nil
-                           error:[CTSError getErrorForCode:UserNotSignedIn]];
+    [delegate profile:self
+        didUpdatePaymentInfoError:[CTSError getErrorForCode:UserNotSignedIn]];
     return;
   } else {
     CTSErrorCode error = [paymentInfo validate];
     if (error != NoError) {
-      [delegate contactInformation:nil error:[CTSError getErrorForCode:error]];
+      [delegate profile:self
+          didUpdatePaymentInfoError:[CTSError getErrorForCode:error]];
       // return;
     }
   }
@@ -127,8 +129,10 @@
   NSString* oauthToken = [CTSOauthManager readOauthToken];
 
   if (oauthToken == nil) {
-    [delegate paymentInformation:nil
-                           error:[CTSError getErrorForCode:UserNotSignedIn]];
+    [delegate profile:self
+        didReceivePaymentInformation:nil
+                               error:[CTSError
+                                         getErrorForCode:UserNotSignedIn]];
     return;
   }
 
@@ -213,11 +217,11 @@ enum {
                                                error:&jsonError];
     [contact logProperties];
   }
-  [delegate contactInformation:contact error:error];
+    [delegate profile:self didReceiveContactInfo:contact error:error];
 }
 
 - (void)handleProfileUpdateContact:(CTSRestCoreResponse*)response {
-  [delegate contactInfoUpdatedError:response.error];
+    [delegate profile:self didUpdateContactInfoError:response.error];
 }
 
 - (void)handleProfileGetPayment:(CTSRestCoreResponse*)response {
@@ -231,10 +235,10 @@ enum {
                                                error:&jsonError];
   }
 
-  [delegate paymentInformation:paymentDetails error:error];
+    [delegate profile:self didReceivePaymentInformation:paymentDetails error:error];
 }
 
 - (void)handleProfileUpdatePayment:(CTSRestCoreResponse*)response {
-  [delegate paymentInfoUpdatedError:response.error];
+    [delegate profile:self didUpdatePaymentInfoError:response.error];
 }
 @end

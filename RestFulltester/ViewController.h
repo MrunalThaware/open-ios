@@ -14,7 +14,8 @@
 
 @class CTSOauthTokenRes;
 
-@interface ViewController : UIViewController<CTSAuthenticationProtocol> {
+@interface ViewController
+    : UIViewController<CTSAuthenticationProtocol, CTSProfileProtocol> {
   CTSAuthLayer* authLayer;
   CTSProfileLayer* profileLayer;
 }

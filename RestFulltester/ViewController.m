@@ -46,7 +46,7 @@
   authLayer = [[CTSAuthLayer alloc] init];
   authLayer.delegate = self;
   profileLayer = [[CTSProfileLayer alloc] init];
-
+  profileLayer.delegate = self;
   [self signIn];
   //[self signUp];
   //[self doTokenizedPaymentDebitCard];
@@ -210,7 +210,7 @@
   creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
   creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
   creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-  creditCard.cvv = TEST_CREDIT_CARD_CVV;
+  // creditCard.cvv = TEST_CREDIT_CARD_CVV;
   [creditCardInfo addCard:creditCard];
   [profileLayer updatePaymentInformation:creditCardInfo];
 
