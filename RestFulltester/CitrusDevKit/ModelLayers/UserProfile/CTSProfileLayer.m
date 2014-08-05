@@ -100,7 +100,7 @@
     CTSErrorCode error = [paymentInfo validate];
     if (error != NoError) {
       [delegate contactInformation:nil error:[CTSError getErrorForCode:error]];
-      return;
+      // return;
     }
   }
 
@@ -124,7 +124,9 @@
 }
 
 - (void)requestPaymentInformation {
-  if ([CTSOauthManager readOauthToken] == nil) {
+  NSString* oauthToken = [CTSOauthManager readOauthToken];
+
+  if (oauthToken == nil) {
     [delegate paymentInformation:nil
                            error:[CTSError getErrorForCode:UserNotSignedIn]];
     return;
@@ -138,7 +140,7 @@
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_PROFILE_UPDATE_PAYMENT_PATH
          requestId:ProfileGetPaymentReqId
-           headers:[CTSUtility readSigninTokenAsHeader]
+           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
         parameters:nil
               json:nil
         httpMethod:GET];
