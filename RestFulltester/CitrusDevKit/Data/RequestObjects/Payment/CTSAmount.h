@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface CTSAmount : NSObject
+#import "JSONModel.h"
+@interface CTSAmount : JSONModel
 @property(strong) NSString* currency, *value;
 
 @end

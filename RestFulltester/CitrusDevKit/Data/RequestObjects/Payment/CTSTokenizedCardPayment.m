@@ -9,7 +9,7 @@
 #import "CTSTokenizedCardPayment.h"
 
 @implementation CTSTokenizedCardPayment
-@synthesize merchantAccesskey, merchantTxnId, notifyUrl, returnUrl,
+@synthesize merchantAccessKey, merchantTxnId, notifyUrl, returnUrl,
     requestSignature, amount, userDetails, merchant, merchantKey, paymentToken;
 
 @end

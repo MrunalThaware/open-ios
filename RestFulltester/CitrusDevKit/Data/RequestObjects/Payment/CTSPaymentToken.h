@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 @class CTSPaymentMode;
+#import "JSONModel.h"
 
-@interface CTSPaymentToken : NSObject
+@interface CTSPaymentToken : JSONModel
 @property(strong) CTSPaymentMode* paymentMode;
-@property(strong) NSString* type, *tokenid, *cvv;
+@property(strong) NSString<Optional>* type;
+@property(strong) NSString<Optional>* id;
+@property(strong) NSString<Optional>* cvv;
 
 @end

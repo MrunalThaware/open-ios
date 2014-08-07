@@ -9,7 +9,7 @@
 #import "CTSPaymentRequest.h"
 
 @implementation CTSPaymentRequest
-@synthesize merchantAccesskey, merchantTxnId, notifyUrl, returnUrl,
+@synthesize merchantAccessKey, merchantTxnId, notifyUrl, returnUrl,
     requestSignature, amount, userDetails, paymentToken, merchant, merchantKey;
 
 @end

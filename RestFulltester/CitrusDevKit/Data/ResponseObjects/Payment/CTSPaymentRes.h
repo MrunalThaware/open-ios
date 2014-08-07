@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-@interface CTSPaymentRes : NSObject
+#import "JSONModel.h"
+#import "CTSAmount.h"
+@interface CTSPaymentRes : JSONModel
 @property(strong) NSString* merchantTransactionId, *merchant, *customer,
-    *amount, *description, *signature, *redirectUrl;
+    *description, *signature;
+@property(strong) NSString<Optional>* redirectUrl;
+@property(strong) CTSAmount* amount;
 @end

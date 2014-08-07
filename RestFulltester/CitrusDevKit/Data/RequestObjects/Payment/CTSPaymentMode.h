@@ -7,9 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface CTSPaymentMode : NSObject
-@property(strong) NSString* cvv, *expiry, *holder, *number, *scheme, *type,
-    *code, *tokenid;
+#import "JSONModel.h"
+@interface CTSPaymentMode : JSONModel
+@property(strong) NSString<Optional>* cvv;
+@property(strong) NSString<Optional>* expiry;
+@property(strong) NSString<Optional>* holder;
+@property(strong) NSString<Optional>* number;
+@property(strong) NSString<Optional>* scheme;
+@property(strong) NSString<Optional>* type;
+@property(strong) NSString<Optional>* code;
+@property(strong) NSString<Optional>* tokenid;
 
 @end
