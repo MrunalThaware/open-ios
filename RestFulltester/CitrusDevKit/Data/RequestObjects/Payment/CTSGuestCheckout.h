@@ -7,11 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface CTSGuestCheckout : NSObject
-@property(nonatomic, strong) NSString* returnUrl, *expiryYear, *amount,
-    *addressState, *paymentMode, *lastName, *addressCity, *address, *email,
-    *cardHolderName, *firstName, *cvvNumber, *cardType, *issuerCode,
-    *merchantTxnId, *addressZip, *expiryMonth, *mobile, *cardNumber;
+#import "JSONModel.h"
+@interface CTSGuestCheckout : JSONModel
+@property(nonatomic, strong) NSString* returnUrl;
+@property(strong) NSString<Optional>* expiryYear;
+@property(nonatomic, strong) NSString<Optional>* amount;
+@property(strong) NSString<Optional>* addressState;
+@property(strong)NSString <Optional>*paymentMode;
+@property(strong)NSString<Optional> *lastName;
+@property(strong)NSString <Optional>*addressCity;
+@property(strong)NSString <Optional>*address;
+@property(strong)NSString <Optional>*email;
+@property(strong)NSString <Optional>*cardHolderName;
+@property(strong)NSString<Optional>*firstName;
+@property(strong)NSString<Optional> *cvvNumber;
+@property(strong)NSString <Optional>*cardType;
+@property(strong)NSString<Optional>*issuerCode;
+@property(strong)NSString <Optional>*merchantTxnId;
+@property(strong)NSString<Optional>*addressZip;
+@property(strong)NSString<Optional>*expiryMonth;
+@property(strong)NSString<Optional>*mobile, *cardNumber;
 
 @end

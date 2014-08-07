@@ -11,7 +11,7 @@
 @implementation CTSPaymentToken
 @synthesize paymentMode;
 @synthesize type;
-@synthesize tokenid;
+@synthesize id;
 @synthesize cvv;
 
 @end

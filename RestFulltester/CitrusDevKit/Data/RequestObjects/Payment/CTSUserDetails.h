@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 @class CTSUserAddress;
-@interface CTSUserDetails : NSObject
-@property(strong) NSString* email, *firstName, *lastName, *mobileNo;
+#import "JSONModel.h"
+@interface CTSUserDetails : JSONModel
+@property(strong) NSString<Optional>* email;
+@property(strong) NSString<Optional>* firstName;
+@property(strong) NSString<Optional>* lastName;
+@property(strong) NSString<Optional>* mobileNo;
 @property(strong) CTSUserAddress* address;
 @end

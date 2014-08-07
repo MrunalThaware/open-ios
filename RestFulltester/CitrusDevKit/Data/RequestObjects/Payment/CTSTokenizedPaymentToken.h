@@ -1,19 +1,15 @@
 //
-//  CTSPaymentToken.h
-//  RestFulltester
+//  CTSTokenizedPaymentToken.h
+//  CTS iOS Sdk
 //
-//  Created by Raji Nair on 24/06/14.
+//  Created by Raji Nair on 07/08/14.
 //  Copyright (c) 2014 Citrus. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-@class CTSPaymentMode;
 #import "JSONModel.h"
-
-@interface CTSPaymentToken : JSONModel
-@property(strong) CTSPaymentMode* paymentMode;
+@interface CTSTokenizedPaymentToken : JSONModel
 @property(strong) NSString<Optional>* type;
 @property(strong) NSString<Optional>* id;
 @property(strong) NSString<Optional>* cvv;
-
 @end

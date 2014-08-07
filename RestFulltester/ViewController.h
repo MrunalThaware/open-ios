@@ -7,11 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CTSAuthLayer.h"
+#import "CTSOauthTokenRes.h"
+#import "CTSProfileLayer.h"
+#import "CTSAuthLayerConstants.h"
+#import "CTSPaymentLayer.h"
 #import "CitrusDevKit/CitrusSdk.h"
 
+@class CTSOauthTokenRes;
+
 @interface ViewController
-    : UIViewController<CTSAuthenticationProtocol, CTSProfileProtocol> {
+    : UIViewController<CTSAuthenticationProtocol, CTSPaymentProtocol> {
   CTSAuthLayer* authLayer;
+  CTSPaymentLayer* paymentlayerinfo;
+  CTSContactUpdate* contactInfo;
   CTSProfileLayer* profileLayer;
 }
 

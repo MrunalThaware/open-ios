@@ -48,7 +48,7 @@
 //
 //#define TEST_TOKENIZED_CARD_CVV @"000"
 
-#define TEST_EMAIL @"pappu.yadav1005@gmail.com"
+#define TEST_EMAIL @"mitalee.yadav@gmail.com"
 #define TEST_PASSWORD @"tester@123"
 #define TEST_MOBILE @"1234567890"
 
@@ -56,7 +56,7 @@
 #define TEST_LAST_NAME @"wankhede"
 
 #define TEST_DEBIT_CARD_NUMBER @"4028530052708001"
-#define TEST_DEBIT_EXPIRY_DATE @"03/2015"
+#define TEST_DEBIT_EXPIRY_DATE @"12/15"
 #define TEST_DEBIT_SCHEME @"visa"
 #define TEST_DEBIT_CVV @"018"
 #define TEST_OWNER_NAME @"Jitendra Gupta"

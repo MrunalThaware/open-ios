@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface CTSPaymentTransactionRes : NSObject
+#import "JSONModel.h"
+@interface CTSPaymentTransactionRes : JSONModel
 @property(nonatomic, strong) NSString* redirectUrl, *pgRespCode, *txMsg;
 @end
