@@ -7,8 +7,14 @@
 //
 
 #import "ViewController.h"
+#import "CTSOauthTokenRes.h"
+#import "CTSAuthLayer.h"
+#import "CTSAuthLayerConstants.h"
 #import "NSObject+logProperties.h"
 #import "CTSOauthManager.h"
+#import "CTSPaymentDetailUpdate.h"
+#import "CTSProfileLayer.h"
+#import "HMACSignature.h"
 
 @interface ViewController ()
 //@property(strong) CTSContactUpdate* contactInfo;
@@ -20,7 +26,7 @@
 //@synthesize contactInfo, guestflowdebitcard, guestFlowDebitCardInfo;
 - (void)viewDidLoad {
   [super viewDidLoad];
-  //[self initialize];
+  [self initialize];
   //
   //  CTSOauthTokenRes* oauthToekRes = [[CTSOauthTokenRes alloc] init];
   //  oauthToekRes.refreshToken = @"REFRESH_TOKEN_SAMPLE";
@@ -42,105 +48,60 @@
   authLayer = [[CTSAuthLayer alloc] init];
   authLayer.delegate = self;
   profileLayer = [[CTSProfileLayer alloc] init];
-  profileLayer.delegate = self;
+
   [self signIn];
   //[self signUp];
-  //[self doTokenizedPaymentDebitCard];
-  //[self doTokenizedPaymentNetbanking];
-  //[self doGuestPaymentNetbanking];
-  //[self doGuestPaymentCard];
   //[self updatePaymentInfo];
+  paymentlayerinfo = [[CTSPaymentLayer alloc] init];
+  paymentlayerinfo.delegate = self;
 }
 
-//- (void)networkStatusChanged:(CTSNetworkStatus)networkStatus {
-//  NSLog(@"networkStatus %d", networkStatus);
-//}
+- (void)initialize {
+  // required initialization
 
-//- (void)initialize {
-//  // required initialization
-//
-//  authLayer = [[CTSAuthLayer alloc] init];
-//  authLayer.delegate = self;
-//
-//  profileService = [[CTSProfileLayer alloc] init];
-//  profileService.delegate = self;
-//
-//  paymentlayerinfo = [[CTSPaymentLayer alloc] init];
-//  paymentlayerinfo.delegate = self;
-//
-//  contactInfo = [[CTSContactUpdate alloc] init];
-//  contactInfo.firstName = TEST_FIRST_NAME;
-//  contactInfo.lastName = TEST_LAST_NAME;
-//  contactInfo.email = TEST_EMAIL;
-//  contactInfo.mobile = TEST_MOBILE;
-//
-//  // guest flow
-//}
+  // authLayer = [[CTSAuthLayer alloc] init];
+  // authLayer.delegate = self;
+
+  // profileService = [[CTSProfileLayer alloc] init];
+  // profileService.delegate = self;
+
+  contactInfo = [[CTSContactUpdate alloc] init];
+  contactInfo.firstName = TEST_FIRST_NAME;
+  contactInfo.lastName = TEST_LAST_NAME;
+  contactInfo.email = TEST_EMAIL;
+  contactInfo.mobile = TEST_MOBILE;
+
+  // guest flow
+}
 
 #pragma mark - profile layer delegates
 
-- (void)profile:(CTSProfileLayer*)profile
-    didReceiveContactInfo:(CTSProfileContactRes*)contactInfo
-                    error:(NSError*)error {
+- (void)contactInformation:(CTSProfileContactRes*)contactInfo
+                     error:(NSError*)error {
+  //[contactInfo printNextResponder];
   LogTrace(@"contactInfo %@ %@",
            contactInfo.type,
            [[error userInfo] valueForKeyPath:NSLocalizedDescriptionKey]);
 }
-/**
- *  called when client requests for payment information
- *
- *  @param contactInfo nil in case of error
- *  @param error       nil when succesful
- */
-- (void)profile:(CTSProfileLayer*)profile
-    didReceivePaymentInformation:(CTSProfilePaymentRes*)paymentInfo
-                           error:(NSError*)error {
+- (void)paymentInformation:(CTSProfilePaymentRes*)paymentInfo
+                     error:(NSError*)error {
   [paymentInfo logProperties];
   for (CTSPaymentOption* option in paymentInfo.paymentOptions) {
     [option logProperties];
   }
 }
-/**
- *  when contact information is updated to server
- *
- *  @param error error if happned
- */
-- (void)profile:(CTSProfileLayer*)profile
-    didUpdateContactInfoError:(NSError*)error {
+
+- (void)paymentInfoUpdatedError:(NSError*)error {
+  LogTrace(@"paymentInfoUpdatedError");
+  [profileLayer requestPaymentInformation];
+}
+
+- (void)contactInfoUpdatedError:(NSError*)error {
   LogTrace(@"contactInfoUpdatedError %@ %@",
            error,
            [[error userInfo] valueForKeyPath:NSLocalizedDescriptionKey]);
   [profileLayer requestContactInformation];
 }
-
-/**
- *  when payment information is updated on server
- *
- *  @param error nil when successful
- */
-- (void)profile:(CTSProfileLayer*)profile
-    didUpdatePaymentInfoError:(NSError*)error {
-  LogTrace(@"paymentInfoUpdatedError");
-  [profileLayer requestPaymentInformation];
-}
-//
-//#pragma mark - payment layer delegates
-//- (void)transactionInfo:(CTSPaymentTransactionRes*)paymentinfo {
-//  NSLog(@"redirectUrl:%@", paymentinfo.redirectUrl);
-//}
-//
-//- (void)transactionInformation:(CTSPaymentRes*)transactionInfo
-//                         error:(NSError*)error {
-//  LogTrace(@"TransactionError %@ %@",
-//            error,
-//            [[error userInfo] valueForKeyPath:NSLocalizedDescriptionKey]);
-//}
-//
-//- (void)pgSetting:(CTSPgSettings*)pgSetting error:(NSError*)error {
-//  [pgSetting logProperties];
-//  [pgSetting.netBanking logProperties];
-//  NSLog(@"error %@", error);
-//}
 
 #pragma mark - authentication layer delegates
 
@@ -171,11 +132,58 @@
   LogTrace(@"error %@", error);
   LogTrace(@"access token %@", token);
 
-  [self updatePaymentInfo];
+  // make signed in user payments using debit card
+  [self doUserDebitCardPayment];
 
-  // [self doUserDebitCardPayment];
+  // make signed in user payments using credit card
+  [self doUserCreditCardPayment];
+
+  // make signed in user payments using netbanking
+  [self doUserNetbankingPayment];
+
+  // make guest payment using netbanking
+  [self doGuestPaymentNetbanking];
+
+  // make guest payment using card
+  [self doGuestPaymentCard];
+
+  // make tokenized payment using debit card
+  [self doTokenizedPaymentDebitCard];
+
+  // make tokenized payment using credit card
+  [self doTokenizedPaymentCreditCard];
+
+  // make tokenized payment using net banking
+  [self doTokenizedPaymentNetbanking];
+
+  // requesting for merchant pg Settings
+  [paymentlayerinfo requestMerchantPgSettings:@"citrusbank"];
 
   EXIT_LOG
+}
+
+- (void)payment:(CTSPaymentLayer*)layer
+    didRequestMerchantPgSettings:(CTSPgSettings*)pgSettings
+                           error:(NSError*)error {
+  NSLog(@"%@", pgSettings);
+}
+
+- (void)payment:(CTSPaymentLayer*)layer
+    didMakeUserPayment:(CTSPaymentTransactionRes*)paymentInfo
+                 error:(NSError*)error {
+  NSLog(@"%@", paymentInfo);
+}
+
+- (void)payment:(CTSPaymentLayer*)layer
+    didMakeTokenizedPayment:(CTSPaymentTransactionRes*)paymentInfo
+                      error:(NSError*)error {
+  NSLog(@"%@", paymentInfo);
+}
+
+- (void)payment:(CTSPaymentLayer*)layer
+    didMakePaymentUsingGuestFlow:(CTSPaymentTransactionRes*)paymentInfo
+                           error:(NSError*)error {
+  NSLog(@"%@", paymentInfo);
 }
 
 - (void)auth:(CTSAuthLayer*)layer
@@ -209,10 +217,6 @@
                            password:TEST_PASSWORD];
 }
 
-//- (void)getMerchantSetting:(NSString*)merchantVanity {
-//  [paymentlayerinfo requestMerchantPgSettings:merchantVanity];
-//}
-//
 - (void)updatePaymentInfo {
   // credit card
   CTSPaymentDetailUpdate* creditCardInfo =
@@ -224,99 +228,169 @@
   creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
   creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
   creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-  // creditCard.cvv = TEST_CREDIT_CARD_CVV;
+  creditCard.cvv = TEST_CREDIT_CARD_CVV;
   [creditCardInfo addCard:creditCard];
+  [profileLayer updatePaymentInformation:creditCardInfo];
+}
 
-  // debit card
-  CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
+- (void)doUserNetbankingPayment {
+  CTSPaymentDetailUpdate* netBankingPaymentInfo =
+      [[CTSPaymentDetailUpdate alloc] init];
+  CTSNetBankingUpdate* netbank = [[CTSNetBankingUpdate alloc] init];
+  netbank.code = @"CID001";
+  [netBankingPaymentInfo addNetBanking:netbank];
+  [paymentlayerinfo makeUserPayment:netBankingPaymentInfo
+                        withContact:contactInfo
+                             amount:@"1"
+                      withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
+                          withTxnId:@"PPTX000000003946"];
+}
+- (void)doUserDebitCardPayment {
+  CTSPaymentDetailUpdate* debitCardInfo = [[CTSPaymentDetailUpdate alloc] init];
   CTSElectronicCardUpdate* debitCard =
-      [[CTSElectronicCardUpdate alloc] initDebitCard];
-
+      [[CTSElectronicCardUpdate alloc] initCreditCard];
   debitCard.number = TEST_DEBIT_CARD_NUMBER;
-  debitCard.expiryDate = TEST_DEBIT_CARD_EXPIRY;
+  debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
   debitCard.scheme = TEST_DEBIT_SCHEME;
   debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
   debitCard.name = TEST_BANK_NAME;
-  debitCard.token = TEST_DEBIT_CARD_TOKEN;
   debitCard.cvv = TEST_DEBIT_CVV;
-  [paymentInfo addCard:debitCard];
-  [profileLayer updatePaymentInformation:paymentInfo];
+  [debitCardInfo addCard:debitCard];
+
+  [paymentlayerinfo makeUserPayment:debitCardInfo
+                        withContact:contactInfo
+                             amount:@"1"
+                      withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
+                          withTxnId:@"PPTX000000003946"];
+}
+- (void)doUserCreditCardPayment {
+  CTSPaymentDetailUpdate* creditCardInfo =
+      [[CTSPaymentDetailUpdate alloc] init];
+  CTSElectronicCardUpdate* creditCard =
+      [[CTSElectronicCardUpdate alloc] initCreditCard];
+  creditCard.number = TEST_CREDIT_CARD_NUMBER;
+  creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
+  creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
+  creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
+  creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+  creditCard.cvv = TEST_CREDIT_CARD_CVV;
+  [creditCardInfo addCard:creditCard];
+
+  [paymentlayerinfo makeUserPayment:creditCardInfo
+                        withContact:contactInfo
+                             amount:@"1"
+                      withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
+                          withTxnId:@"PPTX000000003946"];
 }
 
-//- (void)doUserDebitCardPayment {
-//  CTSPaymentDetailUpdate* creditCardInfo =
-//      [[CTSPaymentDetailUpdate alloc] init];
-//  CTSElectronicCardUpdate* creditCard =
-//      [[CTSElectronicCardUpdate alloc] initCreditCard];
-//  creditCard.number = TEST_CREDIT_CARD_NUMBER;
-//  creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-//  creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
-//  creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-//  creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-//  creditCard.cvv = TEST_CREDIT_CARD_CVV;
-//  [creditCardInfo addCard:creditCard];
-//
-//  [paymentlayerinfo makePaymentByCard:creditCardInfo
-//                          withContact:contactInfo
-//                               amount:@"1"];
-//}
+- (void)doGuestPaymentCard {
+  NSString* transactionId;
+  long long CurrentTime =
+      (long long)([[NSDate date] timeIntervalSince1970] * 1000);
+  transactionId = [NSString stringWithFormat:@"%lld", CurrentTime];
+  NSLog(@"transactionId:%@", transactionId);
+  NSString* signature = [self getGuestPaymentSignature:transactionId:@"1"];
+  CTSPaymentDetailUpdate* guestFlowDebitCardInfo =
+      [[CTSPaymentDetailUpdate alloc] init];
+  CTSElectronicCardUpdate* guestflowdebitcard =
+      [[CTSElectronicCardUpdate alloc] initDebitCard];
+  guestflowdebitcard.number = TEST_DEBIT_CARD_NUMBER;
+  guestflowdebitcard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
+  guestflowdebitcard.scheme = TEST_DEBIT_SCHEME;
+  guestflowdebitcard.cvv = TEST_DEBIT_CVV;
+  guestflowdebitcard.ownerName = TEST_OWNER_NAME;
 
-//- (void)doGuestPaymentCard {
-//  guestFlowDebitCardInfo = [[CTSPaymentDetailUpdate alloc] init];
-//  guestflowdebitcard = [[CTSElectronicCardUpdate alloc] initDebitCard];
-//  guestflowdebitcard.number = TEST_DEBIT_CARD_NUMBER;
-//  guestflowdebitcard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
-//  guestflowdebitcard.scheme = TEST_DEBIT_SCHEME;
-//  guestflowdebitcard.cvv = TEST_DEBIT_CVV;
-//  guestflowdebitcard.ownerName = TEST_OWNER_NAME;
-//
-//  [guestFlowDebitCardInfo addCard:guestflowdebitcard];
-//
-//  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowDebitCardInfo
-//                                  withContact:contactInfo
-//                                       amount:@"1"
-//                                   isDoSignup:YES];
-//}
+  [guestFlowDebitCardInfo addCard:guestflowdebitcard];
 
-//- (void)doGuestPaymentNetbanking {
-//  CTSPaymentDetailUpdate* guestFlowNetBankingUpdate =
-//      [[CTSPaymentDetailUpdate alloc] init];
-//  CTSNetBankingUpdate* guestflownetbank = [[CTSNetBankingUpdate alloc] init];
-//  guestflownetbank.code = TEST_NETBAK_CODE;
-//  [guestFlowNetBankingUpdate addNetBanking:guestflownetbank];
-//
-//  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowNetBankingUpdate
-//                                  withContact:contactInfo
-//                                       amount:@"1"
-//                                   isDoSignup:NO];
-//}
+  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowDebitCardInfo
+                                  withContact:contactInfo
+                                       amount:@"1"
+                                withSignature:signature
+                                    withTxnId:transactionId
+                                   isDoSignup:NO];
+}
 
-//- (void)doTokenizedPaymentNetbanking {
-//  CTSPaymentDetailUpdate* tokenizedNetbankingInfo =
-//      [[CTSPaymentDetailUpdate alloc] init];
-//  CTSNetBankingUpdate* tokenizednetbank = [[CTSNetBankingUpdate alloc] init];
-//  tokenizednetbank.token = TEST_TOKENIZED_PAYBANK_TOKEN;
-//  [tokenizedNetbankingInfo addNetBanking:tokenizednetbank];
-//
-//  [paymentlayerinfo makePaymentByNetBanking:tokenizedNetbankingInfo
-//                                withContact:contactInfo
-//                                     amount:@"1"];
-//}
+- (NSString*)getGuestPaymentSignature:(NSString*)
+                        transactionId:(NSString*)amount {
+  NSString* signature;
 
-//- (void)doTokenizedPaymentDebitCard {
-//  CTSPaymentDetailUpdate* tokenizedCardInfo =
-//      [[CTSPaymentDetailUpdate alloc] init];
-//  CTSElectronicCardUpdate* tokenizedCard =
-//      [[CTSElectronicCardUpdate alloc] initDebitCard];
-//  tokenizedCard.token = TEST_TOKENIZED_CARD_TOKEN;
-//  tokenizedCard.cvv = TEST_TOKENIZED_CARD_CVV;
-//  [tokenizedCardInfo addCard:tokenizedCard];
-//
-//  [paymentlayerinfo makeTokenizedCardPayment:tokenizedCardInfo
-//                                 withContact:contactInfo
-//                                      amount:@"1"];
-//}
+  NSString* data = [NSString
+      stringWithFormat:@"merchantAccessKey=%@&transactionId=%@&amount=%@",
+                       MLC_GUESTCHECKOUT_ACCESSKEY,
+                       transactionId,
+                       amount];
+  HMACSignature* hmacSignature = [[HMACSignature alloc] init];
+  signature =
+      [hmacSignature generateHMAC:MLC_GUESTCHECKOUT_SECRETKEY withData:data];
+  return signature;
+}
+- (void)doGuestPaymentNetbanking {
+  NSString* transactionId;
+  long long CurrentTime =
+      (long long)([[NSDate date] timeIntervalSince1970] * 1000);
+  transactionId = [NSString stringWithFormat:@"%lld", CurrentTime];
+  NSLog(@"transactionId:%@", transactionId);
+  NSString* signature = [self getGuestPaymentSignature:transactionId:@"1"];
+  CTSPaymentDetailUpdate* guestFlowNetBankingUpdate =
+      [[CTSPaymentDetailUpdate alloc] init];
+  CTSNetBankingUpdate* guestflownetbank = [[CTSNetBankingUpdate alloc] init];
+  guestflownetbank.code = TEST_NETBAK_CODE;
+  [guestFlowNetBankingUpdate addNetBanking:guestflownetbank];
+  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowNetBankingUpdate
+                                  withContact:contactInfo
+                                       amount:@"1"
+                                withSignature:signature
+                                    withTxnId:transactionId
+                                   isDoSignup:NO];
+}
 
+- (void)doTokenizedPaymentNetbanking {
+  CTSPaymentDetailUpdate* tokenizedNetbankingInfo =
+      [[CTSPaymentDetailUpdate alloc] init];
+  CTSNetBankingUpdate* tokenizednetbank = [[CTSNetBankingUpdate alloc] init];
+  tokenizednetbank.token = @"9e64001c72fd51c453ff0f2d778b8693";
+  [tokenizedNetbankingInfo addNetBanking:tokenizednetbank];
+
+  [paymentlayerinfo
+      makeTokenizedPayment:tokenizedNetbankingInfo
+               withContact:contactInfo
+                    amount:@"1"
+             withSignature:@"951906e7c5bb14ed62306d71f7bd85f1b14af6f6"
+                 withTxnId:@"PPTX000000003989"];
+}
+
+- (void)doTokenizedPaymentDebitCard {
+  CTSPaymentDetailUpdate* tokenizedCardInfo =
+      [[CTSPaymentDetailUpdate alloc] init];
+  CTSElectronicCardUpdate* tokenizedCard =
+      [[CTSElectronicCardUpdate alloc] initDebitCard];
+  tokenizedCard.token = TEST_TOKENIZED_CARD_TOKEN;
+  tokenizedCard.cvv = TEST_TOKENIZED_CARD_CVV;
+  [tokenizedCardInfo addCard:tokenizedCard];
+
+  [paymentlayerinfo
+      makeTokenizedPayment:tokenizedCardInfo
+               withContact:contactInfo
+                    amount:@"1"
+             withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
+                 withTxnId:@"PPTX000000003946"];
+}
+
+- (void)doTokenizedPaymentCreditCard {
+  CTSPaymentDetailUpdate* tokenizedCardInfo =
+      [[CTSPaymentDetailUpdate alloc] init];
+  CTSElectronicCardUpdate* tokenizedCard =
+      [[CTSElectronicCardUpdate alloc] initCreditCard];
+  tokenizedCard.token = TEST_TOKENIZED_CARD_TOKEN;
+  tokenizedCard.cvv = TEST_TOKENIZED_CARD_CVV;
+  [tokenizedCardInfo addCard:tokenizedCard];
+  [paymentlayerinfo
+      makeTokenizedPayment:tokenizedCardInfo
+               withContact:contactInfo
+                    amount:@"1"
+             withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
+                 withTxnId:@"PPTX000000003946"];
+}
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
