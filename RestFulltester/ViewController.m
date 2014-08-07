@@ -7,8 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "CTSOauthTokenRes.h"
-#import "CTSAuthLayer.h"
 #import "NSObject+logProperties.h"
 #import "CTSOauthManager.h"
 

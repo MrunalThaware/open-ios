@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CTSError.h"
 
 @interface CTSObject : NSObject
 - (CTSErrorCode)validate;

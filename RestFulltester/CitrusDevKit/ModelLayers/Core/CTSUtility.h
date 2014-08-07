@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "CTSOauthTokenRes.h"
 #import "CTSAuthLayerConstants.h"
+#import "UserLogging.h"
 
 @interface CTSUtility : NSObject
 + (NSString*)readFromDisk:(NSString*)key;

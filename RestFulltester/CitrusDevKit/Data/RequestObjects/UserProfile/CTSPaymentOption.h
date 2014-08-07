@@ -11,6 +11,7 @@
 #import "CTSNetBankingUpdate.h"
 #import "CTSTokenizedPayment.h"
 #import "JSONModel.h"
+#import "CTSUtility.h"
 
 @interface CTSPaymentOption : JSONModel
 //@property(nonatomic, strong) NSString* type, *cardName, *ownerName, *number,

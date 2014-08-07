@@ -76,59 +76,6 @@
             }];
 }
 
-- (void)requestServer2:(CTSRestCoreRequest*)restRequest {
-  NSMutableURLRequest* request =
-      [self fetchDefaultRequestForPath:restRequest.urlPath];
-  [restRequest logProperties];
-
-  [request setHTTPMethod:[self getHTTPMethodFor:restRequest.httpMethod]];
-
-  if (restRequest.requestJson != nil) {
-    [restRequest.headers setObject:@"application/json" forKey:@"Content-Type"];
-    [restRequest.headers setObject:@"application/json" forKey:@"Accept"];
-
-    [request setHTTPBody:[NSJSONSerialization
-                             dataWithJSONObject:restRequest.parameters
-                                        options:NSJSONWritingPrettyPrinted
-                                          error:nil]];
-  }
-
-  request = [self requestByAddingHeaders:request headers:restRequest.headers];
-
-  __block int requestId = restRequest.requestId;
-
-  NSOperationQueue* mainQueue = [[NSOperationQueue alloc] init];
-  [mainQueue setMaxConcurrentOperationCount:5];
-
-  __block id<CTSRestCoreDelegate> blockDelegate = delegate;
-  LogTrace(@"URL > %@ ", request);
-  // LogTrace(@"allHeaderFields %@", [request allHeaderFields]);
-
-  [NSURLConnection
-      sendAsynchronousRequest:request
-                        queue:mainQueue
-            completionHandler:^(NSURLResponse* response,
-                                NSData* data,
-                                NSError* connectionError) {
-                CTSRestCoreResponse* restResponse =
-                    [[CTSRestCoreResponse alloc] init];
-                NSError* error = nil;
-                NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-                LogTrace(@"allHeaderFields %@", [httpResponse allHeaderFields]);
-                int statusCode = [httpResponse statusCode];
-                if (![self isHttpSucces:statusCode]) {
-                  error =
-                      [CTSError getServerErrorWithCode:statusCode withInfo:nil];
-                }
-                restResponse.responseString =
-                    [[NSString alloc] initWithData:data
-                                          encoding:NSUTF8StringEncoding];
-                restResponse.requestId = requestId;
-                restResponse.error = error;
-                [restResponse logProperties];
-                [blockDelegate restCore:self didReceiveResponse:restResponse];
-            }];
-}
 
 - (NSMutableURLRequest*)fetchDefaultRequestForPath:(NSString*)path {
   NSURL* serverUrl =

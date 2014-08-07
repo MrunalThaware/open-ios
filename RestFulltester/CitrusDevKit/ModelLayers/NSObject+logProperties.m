@@ -9,6 +9,8 @@
 #import "NSObject+logProperties.h"
 #import "NSObject+logProperties.h"
 #import <objc/runtime.h>
+#import "UserLogging.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 
 @implementation NSObject (logProperties)
 - (void)logProperties {

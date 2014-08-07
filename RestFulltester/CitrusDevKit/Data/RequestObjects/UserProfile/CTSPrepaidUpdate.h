@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CTSObject.h"
+
 
 @interface CTSPrepaidUpdate : CTSObject
 

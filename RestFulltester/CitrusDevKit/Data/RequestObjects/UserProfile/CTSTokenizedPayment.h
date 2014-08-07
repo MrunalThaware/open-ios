@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CTSObject.h"
 
 @interface CTSTokenizedPayment : CTSObject
 @property(strong, nonatomic, readonly) NSString* type;

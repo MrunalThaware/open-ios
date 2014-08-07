@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-// typedef enum HTTPMethod { GET, POST, PUT, DELETE } HTTPMethod;
-
+#import "RestLayerConstants.h"
 @interface CTSRestCoreRequest : NSObject
 @property(strong) NSString* requestJson, *urlPath;
 @property(strong) NSMutableDictionary* parameters, *headers;

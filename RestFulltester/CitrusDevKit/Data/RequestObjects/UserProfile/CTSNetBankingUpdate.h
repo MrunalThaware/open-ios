@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CTSProfileLayerConstants.h"
+#import "CTSObject.h"
 
 @interface CTSNetBankingUpdate : CTSObject
 @property(strong, nonatomic, readonly) NSString* type;
