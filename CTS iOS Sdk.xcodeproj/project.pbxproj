@@ -177,6 +177,7 @@
 		37A7C6CF1922458F005D29D4 /* RestFulltesterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestFulltesterTests.m; sourceTree = "<group>"; };
 		37A7C6DA19224B0E005D29D4 /* Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		37A7C6DB19224B64005D29D4 /* Networking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Networking.m; sourceTree = "<group>"; };
+		37C00CDB19935DF40057DB32 /* CitrusSdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CitrusSdk.h; sourceTree = "<group>"; };
 		37C96444198F6B350021DC0B /* CTSProfileLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSProfileLayer.h; sourceTree = "<group>"; };
 		37C96445198F6B350021DC0B /* CTSProfileLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSProfileLayer.m; sourceTree = "<group>"; };
 		37C96446198F6B350021DC0B /* CTSProfileLayerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSProfileLayerConstants.h; sourceTree = "<group>"; };
@@ -356,6 +357,7 @@
 			children = (
 				37851B431978F2DD00AE3AD0 /* Data */,
 				37851B8F1978F2DD00AE3AD0 /* ModelLayers */,
+				37C00CDB19935DF40057DB32 /* CitrusSdk.h */,
 			);
 			path = CitrusDevKit;
 			sourceTree = "<group>";

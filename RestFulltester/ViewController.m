@@ -9,10 +9,8 @@
 #import "ViewController.h"
 #import "CTSOauthTokenRes.h"
 #import "CTSAuthLayer.h"
-#import "CTSAuthLayerConstants.h"
 #import "NSObject+logProperties.h"
 #import "CTSOauthManager.h"
-#import "CTSPaymentDetailUpdate.h"
 
 @interface ViewController ()
 //@property(strong) CTSContactUpdate* contactInfo;
@@ -83,31 +81,49 @@
 
 #pragma mark - profile layer delegates
 
-- (void)contactInformation:(CTSProfileContactRes*)contactInfo
-                     error:(NSError*)error {
-  //[contactInfo printNextResponder];
+- (void)profile:(CTSProfileLayer*)profile
+    didReceiveContactInfo:(CTSProfileContactRes*)contactInfo
+                    error:(NSError*)error {
   LogTrace(@"contactInfo %@ %@",
            contactInfo.type,
            [[error userInfo] valueForKeyPath:NSLocalizedDescriptionKey]);
 }
-- (void)paymentInformation:(CTSProfilePaymentRes*)paymentInfo
-                     error:(NSError*)error {
+/**
+ *  called when client requests for payment information
+ *
+ *  @param contactInfo nil in case of error
+ *  @param error       nil when succesful
+ */
+- (void)profile:(CTSProfileLayer*)profile
+    didReceivePaymentInformation:(CTSProfilePaymentRes*)paymentInfo
+                           error:(NSError*)error {
   [paymentInfo logProperties];
   for (CTSPaymentOption* option in paymentInfo.paymentOptions) {
     [option logProperties];
   }
 }
-
-- (void)paymentInfoUpdatedError:(NSError*)error {
-  LogTrace(@"paymentInfoUpdatedError");
-  [profileLayer requestPaymentInformation];
-}
-
-- (void)contactInfoUpdatedError:(NSError*)error {
+/**
+ *  when contact information is updated to server
+ *
+ *  @param error error if happned
+ */
+- (void)profile:(CTSProfileLayer*)profile
+    didUpdateContactInfoError:(NSError*)error {
   LogTrace(@"contactInfoUpdatedError %@ %@",
            error,
            [[error userInfo] valueForKeyPath:NSLocalizedDescriptionKey]);
   [profileLayer requestContactInformation];
+}
+
+/**
+ *  when payment information is updated on server
+ *
+ *  @param error nil when successful
+ */
+- (void)profile:(CTSProfileLayer*)profile
+    didUpdatePaymentInfoError:(NSError*)error {
+  LogTrace(@"paymentInfoUpdatedError");
+  [profileLayer requestPaymentInformation];
 }
 //
 //#pragma mark - payment layer delegates
@@ -212,7 +228,6 @@
   creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
   // creditCard.cvv = TEST_CREDIT_CARD_CVV;
   [creditCardInfo addCard:creditCard];
-  [profileLayer updatePaymentInformation:creditCardInfo];
 
   // debit card
   CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
@@ -227,6 +242,7 @@
   debitCard.token = TEST_DEBIT_CARD_TOKEN;
   debitCard.cvv = TEST_DEBIT_CVV;
   [paymentInfo addCard:debitCard];
+  [profileLayer updatePaymentInformation:paymentInfo];
 }
 
 //- (void)doUserDebitCardPayment {

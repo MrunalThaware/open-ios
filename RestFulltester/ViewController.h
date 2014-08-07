@@ -7,12 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CTSAuthLayer.h"
-#import "CTSOauthTokenRes.h"
-#import "CTSProfileLayer.h"
-#import "CTSAuthLayerConstants.h"
-
-@class CTSOauthTokenRes;
+#import "CitrusDevKit/CitrusSdk.h"
 
 @interface ViewController
     : UIViewController<CTSAuthenticationProtocol, CTSProfileProtocol> {

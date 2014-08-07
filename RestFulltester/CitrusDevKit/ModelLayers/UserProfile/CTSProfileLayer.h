@@ -13,6 +13,7 @@
 #import "CTSPaymentDetailUpdate.h"
 #import "CTSRestCoreResponse.h"
 #import "CTSRestPluginBase.h"
+#import "CTSProfileLayerConstants.h"
 @class CTSProfileLayer;
 @protocol CTSProfileProtocol
 /**
