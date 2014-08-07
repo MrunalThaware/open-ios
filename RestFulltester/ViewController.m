@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import "NSObject+logProperties.h"
-#import "CTSOauthManager.h"
 
 @interface ViewController ()
 //@property(strong) CTSContactUpdate* contactInfo;
@@ -33,9 +32,6 @@
   //  [[CTSOauthManager readOauthData] logProperties];
   // [CTSOauthManager resetOauthData];
   // [[CTSOauthManager readOauthData] logProperties];
-
-  LogTrace(@"[CTSOauthManager hasOauthExpired] %d",
-           [CTSOauthManager hasOauthExpired]);
 
   // pragma marked user methods are sample implementations of sdk
   // TestParams.h should be populated according to your needs
