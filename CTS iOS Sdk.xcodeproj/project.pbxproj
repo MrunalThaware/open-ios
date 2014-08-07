@@ -89,6 +89,7 @@
 		37C964B3198F86960021DC0B /* CTSSignUpRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C964B1198F86960021DC0B /* CTSSignUpRes.m */; };
 		37D6C213197D289300F357FD /* CTSOauthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D6C212197D289300F357FD /* CTSOauthManager.m */; };
 		6BEDF371199382F500F97231 /* CTSPaymentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */; };
+		6BEDF4621993A50600F97231 /* HMACSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF4611993A50600F97231 /* HMACSignature.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -250,6 +251,8 @@
 		6BEDF36E199382F500F97231 /* CTSPaymentLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPaymentLayer.h; sourceTree = "<group>"; };
 		6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSPaymentLayer.m; sourceTree = "<group>"; };
 		6BEDF370199382F500F97231 /* CTSPaymentLayerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPaymentLayerConstants.h; sourceTree = "<group>"; };
+		6BEDF4601993A50600F97231 /* HMACSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMACSignature.h; sourceTree = "<group>"; };
+		6BEDF4611993A50600F97231 /* HMACSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMACSignature.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -475,6 +478,8 @@
 		37A7C6AA1922458F005D29D4 /* CTSiOSSdk */ = {
 			isa = PBXGroup;
 			children = (
+				6BEDF4601993A50600F97231 /* HMACSignature.h */,
+				6BEDF4611993A50600F97231 /* HMACSignature.m */,
 				37851B421978F2DD00AE3AD0 /* CitrusDevKit */,
 				37A7C6D919224ACC005D29D4 /* constants */,
 				37A7C6B31922458F005D29D4 /* AppDelegate.h */,
@@ -863,6 +868,7 @@
 				371B5D4E198A5D110096451C /* JSONKeyMapper.m in Sources */,
 				37C96494198F723E0021DC0B /* CTSPaymentRequest.m in Sources */,
 				371B5D48198A5D110096451C /* JSONModelClassProperty.m in Sources */,
+				6BEDF4621993A50600F97231 /* HMACSignature.m in Sources */,
 				371B5D46198A5D110096451C /* JSONModel.m in Sources */,
 				37A7C6DC19224B64005D29D4 /* Networking.m in Sources */,
 				371B5D52198A5D770096451C /* CTSRestError.m in Sources */,
