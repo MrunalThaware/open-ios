@@ -11,6 +11,7 @@
 #import "CTSAuthLayer.h"
 #import "CTSAuthLayerConstants.h"
 #import "NSObject+logProperties.h"
+#import "HMACSignature.h"
 
 @interface ViewController ()
 //@property(strong) CTSContactUpdate* contactInfo;
