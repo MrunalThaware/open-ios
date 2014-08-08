@@ -17,7 +17,6 @@
 #import "CTSUserAddress.h"
 #import "CTSPaymentTransactionRes.h"
 #import "CTSGuestCheckout.h"
-#import "HMACSignature.h"
 #import "CTSPaymentNetbankingRequest.h"
 #import "CTSTokenizedCardPayment.h"
 #import "CTSUtility.h"
