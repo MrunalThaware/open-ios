@@ -15,6 +15,8 @@
 #import "CTSAuthLayerConstants.h"
 #import "CTSError.h"
 #import "CTSOauthManager.h"
+#import "NSObject+logProperties.h"
+
 @implementation CTSProfileLayer
 @synthesize delegate;
 // get profile

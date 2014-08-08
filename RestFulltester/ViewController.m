@@ -12,6 +12,7 @@
 #import "CTSAuthLayerConstants.h"
 #import "NSObject+logProperties.h"
 #import "HMACSignature.h"
+#import "TestParams.h"
 
 @interface ViewController ()
 //@property(strong) CTSContactUpdate* contactInfo;
@@ -70,52 +71,24 @@
 
 #pragma mark - profile layer delegates
 
-- (void)contactInformation:(CTSProfileContactRes*)contactInfo
-                     error:(NSError*)error {
-  //[contactInfo printNextResponder];
-  LogTrace(@"contactInfo %@ %@",
-           contactInfo.type,
-           [[error userInfo] valueForKeyPath:NSLocalizedDescriptionKey]);
+- (void)profile:(CTSProfileLayer*)profile
+    didReceiveContactInfo:(CTSProfileContactRes*)contactInfo
+                    error:(NSError*)error {
 }
-- (void)paymentInformation:(CTSProfilePaymentRes*)paymentInfo
-                     error:(NSError*)error {
-  [paymentInfo logProperties];
-  for (CTSPaymentOption* option in paymentInfo.paymentOptions) {
-    [option logProperties];
-  }
+- (void)profile:(CTSProfileLayer*)profile
+    didReceivePaymentInformation:(CTSProfilePaymentRes*)contactInfo
+                           error:(NSError*)error {
 }
 
-- (void)paymentInfoUpdatedError:(NSError*)error {
-  LogTrace(@"paymentInfoUpdatedError");
-  [profileLayer requestPaymentInformation];
+- (void)profile:(CTSProfileLayer*)profile
+    didUpdateContactInfoError:(NSError*)error {
 }
 
-- (void)contactInfoUpdatedError:(NSError*)error {
-  LogTrace(@"contactInfoUpdatedError %@ %@",
-           error,
-           [[error userInfo] valueForKeyPath:NSLocalizedDescriptionKey]);
-  [profileLayer requestContactInformation];
+- (void)profile:(CTSProfileLayer*)profile
+    didUpdatePaymentInfoError:(NSError*)error {
 }
 
 #pragma mark - authentication layer delegates
-
-//- (void)signin:(BOOL)isSuccessful
-//    forUserName:(NSString*)userName
-//    accessToken:(NSString*)token
-//          error:(NSError*)error {
-//}
-//
-//- (void)signUp:(BOOL)isSuccessful
-//    accessToken:(NSString*)token
-//          error:(NSError*)error {
-//  ENTRY_LOG
-//
-//  LogTrace(@"isSuccessful %d", isSuccessful);
-//  LogTrace(@"error %@", error);
-//  LogTrace(@"access token %@", token);
-//
-//  EXIT_LOG
-//}
 
 - (void)auth:(CTSAuthLayer*)layer
     didSigninUsername:(NSString*)userName
@@ -156,6 +129,27 @@
   EXIT_LOG
 }
 
+- (void)auth:(CTSAuthLayer*)layer
+    didSignupUsername:(NSString*)userName
+           oauthToken:(NSString*)token
+                error:(NSError*)error {
+  ENTRY_LOG
+
+  LogTrace(@"error %@", error);
+  LogTrace(@"access token %@", token);
+
+  EXIT_LOG
+}
+
+- (void)auth:(CTSAuthLayer*)layer
+    didRefreshOauthStatus:(OauthRefresStatus)status
+                    error:(NSError*)error {
+  NSLog(@"OauthRefresStatus %d", status);
+  LogTrace(@"error %@", error);
+}
+
+#pragma mark - Payment layer delegates
+
 - (void)payment:(CTSPaymentLayer*)layer
     didRequestMerchantPgSettings:(CTSPgSettings*)pgSettings
                            error:(NSError*)error {
@@ -180,26 +174,7 @@
   NSLog(@"%@", paymentInfo);
 }
 
-- (void)auth:(CTSAuthLayer*)layer
-    didSignupUsername:(NSString*)userName
-           oauthToken:(NSString*)token
-                error:(NSError*)error {
-  ENTRY_LOG
-
-  LogTrace(@"error %@", error);
-  LogTrace(@"access token %@", token);
-
-  EXIT_LOG
-}
-
-- (void)auth:(CTSAuthLayer*)layer
-    didRefreshOauthStatus:(OauthRefresStatus)status
-                    error:(NSError*)error {
-  NSLog(@"OauthRefresStatus %d", status);
-  LogTrace(@"error %@", error);
-}
-
-#pragma mark - user methods
+#pragma mark - user methods used for testing
 
 - (void)signIn {
   [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD];

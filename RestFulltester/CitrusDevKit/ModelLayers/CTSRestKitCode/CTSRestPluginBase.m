@@ -8,6 +8,7 @@
 
 #import "CTSRestPluginBase.h"
 #import "CTSRestError.h"
+#import "NSObject+logProperties.h"
 
 @implementation CTSRestPluginBase
 - (instancetype)initWithRequestSelectorMapping:(NSDictionary*)mapping

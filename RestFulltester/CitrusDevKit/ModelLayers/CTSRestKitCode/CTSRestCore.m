@@ -7,6 +7,8 @@
 //
 
 #import "CTSRestCore.h"
+#import "NSObject+logProperties.h"
+
 @implementation CTSRestCore
 @synthesize baseUrl, delegate;
 

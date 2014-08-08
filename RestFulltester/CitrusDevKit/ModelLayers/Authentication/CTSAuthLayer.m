@@ -14,6 +14,7 @@
 #import "CTSUtility.h"
 #import "CTSError.h"
 #import "CTSOauthManager.h"
+#import "NSObject+logProperties.h"
 #import <CommonCrypto/CommonDigest.h>
 #ifndef MIN
 #import <NSObjCRuntime.h>
@@ -444,9 +445,6 @@ static NSData* digest(NSData* data,
   NSLog(@"random password:%@", large_CSV_String);
   return large_CSV_String;
 }
-
-
-
 
 enum {
   SignupOauthTokenReqId,
