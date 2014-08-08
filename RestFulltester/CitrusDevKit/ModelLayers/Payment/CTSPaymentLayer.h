@@ -62,7 +62,6 @@
  *  @param pgSetting pegsetting,nil in case of error
  *  @param error     ctserror
  */
-- (void)pgSetting:(CTSPgSettings*)pgSetting error:(NSError*)error;
 
 - (void)payment:(CTSPaymentLayer*)layer
     didRequestMerchantPgSettings:(CTSPgSettings*)pgSettings
