@@ -221,7 +221,7 @@ static BOOL isSignatureSuccess;
       paymentrequest.merchantTxnId = merchanttxnId;
       paymentrequest.requestSignature = signature;
       paymentrequest.notifyUrl = @"";
-      paymentrequest.returnUrl = MLC_PAYMENT_REDIRECT_URL;
+      paymentrequest.returnUrl = MLC_PAYMENT_REDIRECT_URLCOMPLETE;
       CTSAmount* amount = [[CTSAmount alloc] init];
       amount.value = amt;
       amount.currency = @"INR";
