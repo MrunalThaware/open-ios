@@ -41,7 +41,7 @@
   // pragma marked user methods are sample implementations of sdk
   // TestParams.h should be populated according to your needs
   authLayer = [[CTSAuthLayer alloc] init];
-  // authLayer.delegate = self;
+  authLayer.delegate = self;
   profileLayer = [[CTSProfileLayer alloc] init];
 
   [self signIn];
@@ -103,28 +103,28 @@
   [self doUserDebitCardPayment];
 
   // make signed in user payments using credit card
-  [self doUserCreditCardPayment];
-
-  // make signed in user payments using netbanking
-  [self doUserNetbankingPayment];
-
-  // make guest payment using netbanking
-  [self doGuestPaymentNetbanking];
-
-  // make guest payment using card
-  [self doGuestPaymentCard];
-
-  // make tokenized payment using debit card
-  [self doTokenizedPaymentDebitCard];
-
-  // make tokenized payment using credit card
-  [self doTokenizedPaymentCreditCard];
-
-  // make tokenized payment using net banking
-  [self doTokenizedPaymentNetbanking];
-
-  // requesting for merchant pg Settings
-  [paymentlayerinfo requestMerchantPgSettings:@"citrusbank"];
+  //  [self doUserCreditCardPayment];
+  //
+  //  // make signed in user payments using netbanking
+  //  [self doUserNetbankingPayment];
+  //
+  //  // make guest payment using netbanking
+  //  [self doGuestPaymentNetbanking];
+  //
+  //  // make guest payment using card
+  //  [self doGuestPaymentCard];
+  //
+  //  // make tokenized payment using debit card
+  //  [self doTokenizedPaymentDebitCard];
+  //
+  //  // make tokenized payment using credit card
+  //  [self doTokenizedPaymentCreditCard];
+  //
+  //  // make tokenized payment using net banking
+  //  [self doTokenizedPaymentNetbanking];
+  //
+  //  // requesting for merchant pg Settings
+  //  [paymentlayerinfo requestMerchantPgSettings:@"citrusbank"];
 
   EXIT_LOG
 }
@@ -179,13 +179,7 @@
 - (void)signIn {
   [authLayer requestSigninWithUsername:TEST_EMAIL
                               password:TEST_PASSWORD
-                     completionHandler:^(NSString* userName,
-                                         NSString* token,
-                                         NSError* error) {
-                         LogTrace(@"userName %@", userName);
-                         LogTrace(@"error %@", error);
-                         LogTrace(@"access token %@", token);
-                     }];
+                     completionHandler:nil];
 }
 
 - (void)signUp {
