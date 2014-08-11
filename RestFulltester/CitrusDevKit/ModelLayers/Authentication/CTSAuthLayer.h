@@ -16,6 +16,7 @@
 
 @class CTSAuthLayer;
 @protocol CTSAuthenticationProtocol
+
 /**
  *  reports sign in respose
  *
@@ -60,10 +61,17 @@
   NSString* userNameSignIn, *userNameSignup, *passwordSignUp, *mobileSignUp;
   BOOL wasSignupCalled;
 }
+
+typedef void (^ASSigninCallBack)(NSString* userName,
+                                 NSString* token,
+                                 NSError* error);
+
 @property(nonatomic, strong) id<CTSAuthenticationProtocol> delegate;
 
 - (void)requestSigninWithUsername:(NSString*)userName
-                         password:(NSString*)password;
+                         password:(NSString*)password
+                completionHandler:(ASSigninCallBack)callBack;
+
 - (void)requestSignUpWithEmail:(NSString*)email
                         mobile:(NSString*)mobile
                       password:(NSString*)password;

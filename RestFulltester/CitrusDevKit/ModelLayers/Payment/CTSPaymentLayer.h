@@ -88,6 +88,7 @@
                    amount:(NSString*)amount
             withSignature:(NSString*)signature
                 withTxnId:(NSString*)merchantTxnId;
+ */
 
 /**
  *  called when client request to make payment using net banking

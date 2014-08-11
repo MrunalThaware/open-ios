@@ -226,7 +226,8 @@
 }
 
 - (void)requestSigninWithUsername:(NSString*)userNameArg
-                         password:(NSString*)password {
+                         password:(NSString*)password
+                completionHandler:(ASSigninCallBack)callBack {
   /**
    *  flow sigin in
    check oauth expiry time if oauth token is expired call for refresh token and
@@ -236,12 +237,14 @@
    */
 
   if (![CTSUtility validateEmail:userNameArg]) {
-    [delegate auth:self
-        didSigninUsername:userNameArg
-               oauthToken:nil
-                    error:[CTSError getErrorForCode:EmailNotValid]];
+    [self signinHelperUsername:userNameArg
+                         oauth:nil
+                         error:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
+
+  [self addCallback:callBack forRequestId:SigninOauthTokenReqId];
+
   userNameSignIn = userNameArg;
   NSDictionary* parameters = @{
     MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
@@ -512,10 +515,9 @@ enum {
     } else {
       // in case of sign in flow
 
-      [delegate auth:self
-          didSigninUsername:userNameSignIn
-                 oauthToken:[CTSOauthManager readOauthToken]
-                      error:error];
+      [self signinHelperUsername:userNameSignIn
+                           oauth:[CTSOauthManager readOauthToken]
+                           error:error];
     }
   } else {
     [self failedSignupWithError:error];
@@ -536,10 +538,11 @@ enum {
 
   if (error == nil) {
     // signup flow - now sign in
+
     [self
         requestSigninWithUsername:userNameSignup
-                         password:[self
-                                      generateBigIntegerString:userNameSignup]];
+                         password:[self generateBigIntegerString:userNameSignup]
+                completionHandler:nil];
 
   } else {
     [self failedSignupWithError:error];
@@ -576,4 +579,24 @@ enum {
                         error:error];
   }
 }
+
+#pragma mark - helper methods
+- (void)signinHelperUsername:(NSString*)username
+                       oauth:(NSString*)token
+                       error:(NSError*)error {
+  ASSigninCallBack callBack = [self.requestBlockCallbackMap
+      valueForKey:toNSString(SigninOauthTokenReqId)];
+  [self.requestBlockCallbackMap
+      removeObjectForKey:toNSString(SigninOauthTokenReqId)];
+
+  if (callBack != nil) {
+    callBack(username, token, error);
+  } else {
+    [delegate auth:self
+        didSigninUsername:username
+               oauthToken:token
+                    error:error];
+  }
+}
+
 @end

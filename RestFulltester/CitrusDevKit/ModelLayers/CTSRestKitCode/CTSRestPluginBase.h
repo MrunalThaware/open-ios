@@ -14,9 +14,12 @@
 
 @interface CTSRestPluginBase : NSObject<CTSRestCoreDelegate> {
   NSDictionary* requestSelectorMap;
+
   CTSRestCore* restCore;
-    
 }
+@property(strong) NSMutableDictionary* requestBlockCallbackMap;
+
 - (instancetype)initWithRequestSelectorMapping:(NSDictionary*)mapping
                                        baseUrl:(NSString*)baseUrl;
+- (void)addCallback:(id)callBack forRequestId:(int)reqId;
 @end

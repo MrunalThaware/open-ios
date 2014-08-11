@@ -11,6 +11,7 @@
 #import "NSObject+logProperties.h"
 
 @implementation CTSRestPluginBase
+@synthesize requestBlockCallbackMap;
 - (instancetype)initWithRequestSelectorMapping:(NSDictionary*)mapping
                                        baseUrl:(NSString*)baseUrl {
   self = [super init];
@@ -18,6 +19,8 @@
     restCore = [[CTSRestCore alloc] initWithBaseUrl:baseUrl];
     restCore.delegate = self;
     requestSelectorMap = mapping;
+
+    requestBlockCallbackMap = [[NSMutableDictionary alloc] init];
     if (self != [CTSRestPluginBase class] &&
         ![self conformsToProtocol:@protocol(CTSRestCoreDelegate)]) {
       @throw
@@ -38,7 +41,7 @@
     if (response.error != nil) {
       response = [self addJsonErrorToResponse:response];
     }
-      
+
     [self performSelector:sel withObject:response];
   } else {
     @throw [[NSException alloc]
@@ -78,4 +81,11 @@
                                    userInfo:userInfo];
   return response;
 }
+
+- (void)addCallback:(id)callBack forRequestId:(int)reqId {
+  if (callBack != nil)
+    [self.requestBlockCallbackMap setObject:[callBack copy]
+                                     forKey:toNSString(reqId)];
+}
+
 @end

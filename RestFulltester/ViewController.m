@@ -41,7 +41,7 @@
   // pragma marked user methods are sample implementations of sdk
   // TestParams.h should be populated according to your needs
   authLayer = [[CTSAuthLayer alloc] init];
-  authLayer.delegate = self;
+  // authLayer.delegate = self;
   profileLayer = [[CTSProfileLayer alloc] init];
 
   [self signIn];
@@ -177,7 +177,15 @@
 #pragma mark - user methods used for testing
 
 - (void)signIn {
-  [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD];
+  [authLayer requestSigninWithUsername:TEST_EMAIL
+                              password:TEST_PASSWORD
+                     completionHandler:^(NSString* userName,
+                                         NSString* token,
+                                         NSError* error) {
+                         LogTrace(@"userName %@", userName);
+                         LogTrace(@"error %@", error);
+                         LogTrace(@"access token %@", token);
+                     }];
 }
 
 - (void)signUp {
