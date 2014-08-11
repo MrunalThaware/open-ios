@@ -199,7 +199,7 @@ static BOOL isSignatureSuccess;
       tokenizedCardPaymentRequest.paymentToken = paymentToken;
       tokenizedCardPaymentRequest.userDetails = userDetails;
       tokenizedCardPaymentRequest.userDetails = userDetails;
-      if ([CTSUtility readFromDisk:MLC_SIGNIN_ACCESS_OAUTH_TOKEN] == nil) {
+      if ([CTSOauthManager readOauthToken] == nil) {
         [delegate
             transactionInformation:nil
                              error:[CTSError getErrorForCode:UserNotSignedIn]];
