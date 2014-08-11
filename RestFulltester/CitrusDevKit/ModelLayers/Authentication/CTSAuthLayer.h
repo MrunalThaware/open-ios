@@ -66,6 +66,10 @@ typedef void (^ASSigninCallBack)(NSString* userName,
                                  NSString* token,
                                  NSError* error);
 
+typedef void (^ASSignupCallBack)(NSString* userName,
+                                 NSString* token,
+                                 NSError* error);
+
 @property(nonatomic, strong) id<CTSAuthenticationProtocol> delegate;
 
 - (void)requestSigninWithUsername:(NSString*)userName
@@ -75,6 +79,7 @@ typedef void (^ASSigninCallBack)(NSString* userName,
 - (void)requestSignUpWithEmail:(NSString*)email
                         mobile:(NSString*)mobile
                       password:(NSString*)password;
+
 - (void)requestChangePassword:(NSString*)userNameArg;
 /**
  *  call at the time of oath error and according to statud returned in delegate
