@@ -63,7 +63,7 @@
                 NSError* error = nil;
                 NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
                 LogTrace(@"allHeaderFields %@", [httpResponse allHeaderFields]);
-                int statusCode = [httpResponse statusCode];
+                int statusCode = (int)[httpResponse statusCode];
                 if (![self isHttpSucces:statusCode]) {
                   error =
                       [CTSError getServerErrorWithCode:statusCode withInfo:nil];

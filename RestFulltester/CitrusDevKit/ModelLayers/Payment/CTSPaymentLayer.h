@@ -44,14 +44,35 @@
 - (void)transactionInformation:(CTSPaymentRes*)transactionInfo
                          error:(NSError*)error;
 
+/**
+ *  signed in user payment callback
+ *
+ *  @param layer
+ *  @param paymentInfo
+ *  @param error
+ */
 - (void)payment:(CTSPaymentLayer*)layer
     didMakeUserPayment:(CTSPaymentTransactionRes*)paymentInfo
                  error:(NSError*)error;
 
+/**
+ *  Guest payment callback
+ *
+ *  @param layer
+ *  @param paymentInfo
+ *  @param error
+ */
 - (void)payment:(CTSPaymentLayer*)layer
     didMakePaymentUsingGuestFlow:(CTSPaymentTransactionRes*)paymentInfo
                            error:(NSError*)error;
 
+/**
+ *  response for tokenized payment
+ *
+ *  @param layer
+ *  @param paymentInfo
+ *  @param error
+ */
 - (void)payment:(CTSPaymentLayer*)layer
     didMakeTokenizedPayment:(CTSPaymentTransactionRes*)paymentInfo
                       error:(NSError*)error;
@@ -91,17 +112,13 @@
  */
 
 /**
- *  called when client request to make payment using net banking
+ *  to make signed user's payment for netbanking/credit/debit card depending on
+ *paymentInfo configuration
  *
  *  @param paymentInfo Payment Information
  *  @param contactInfo contact Information
  *  @param amount      payment amount
  */
-/*- (void)makePaymentByNetBanking:(CTSPaymentDetailUpdate*)paymentInfo
-                    withContact:(CTSContactUpdate*)contactInfo
-                         amount:(NSString*)amount
-                  withSignature:(NSString*)signature
-                      withTxnId:(NSString*)merchantTxnId;*/
 
 - (void)makeUserPayment:(CTSPaymentDetailUpdate*)paymentInfo
             withContact:(CTSContactUpdate*)contactInfo
@@ -146,11 +163,5 @@
  *sol.
  */
 - (void)requestMerchantPgSettings:(NSString*)vanityUrl;
-
-- (void)insertMemberValues:(CTSPaymentDetailUpdate*)paymentDetailInfo
-               withContact:(CTSContactUpdate*)contactDetailInfo
-                 withTxnId:(NSString*)merchanttxnId
-             withSignature:(NSString*)signature
-                withAmount:(NSString*)amt;
 
 @end

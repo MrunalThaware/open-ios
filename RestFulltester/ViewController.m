@@ -185,7 +185,8 @@
 - (void)signUp {
   [authLayer requestSignUpWithEmail:TEST_EMAIL
                              mobile:TEST_MOBILE
-                           password:TEST_PASSWORD];
+                           password:TEST_PASSWORD
+                  completionHandler:nil];
 }
 
 - (void)updatePaymentInfo {

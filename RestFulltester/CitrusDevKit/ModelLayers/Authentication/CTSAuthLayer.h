@@ -70,6 +70,9 @@ typedef void (^ASSignupCallBack)(NSString* userName,
                                  NSString* token,
                                  NSError* error);
 
+typedef void (^ASRefreshOauthCallBack)(OauthRefresStatus status,
+                                       NSError* error);
+
 @property(nonatomic, strong) id<CTSAuthenticationProtocol> delegate;
 
 - (void)requestSigninWithUsername:(NSString*)userName
@@ -78,13 +81,15 @@ typedef void (^ASSignupCallBack)(NSString* userName,
 
 - (void)requestSignUpWithEmail:(NSString*)email
                         mobile:(NSString*)mobile
-                      password:(NSString*)password;
+                      password:(NSString*)password
+             completionHandler:(ASSignupCallBack)callBack;
 
 - (void)requestChangePassword:(NSString*)userNameArg;
 /**
  *  call at the time of oath error and according to statud returned in delegate
  * do the needful
  */
-- (void)requestOauthTokenRefresh;
+- (void)requestOauthTokenRefreshWithCompletionHandler:
+        (ASRefreshOauthCallBack)callBack;
 
 @end
