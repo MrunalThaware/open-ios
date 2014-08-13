@@ -122,7 +122,7 @@
   //  [self doTokenizedPaymentNetbanking];
   //
   //  // requesting for merchant pg Settings
-  //  [paymentlayerinfo requestMerchantPgSettings:@"citrusbank"];
+  //  [paymentlayerinfo requestMerchantPgSettings:VanityUrl];
 
   EXIT_LOG
 }
