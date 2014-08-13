@@ -13,6 +13,7 @@
 #import "CTSAuthLayerConstants.h"
 #import "CTSRestPluginBase.h"
 #import "CTSRestCoreResponse.h"
+#import "MerchantConstants.h"
 
 @class CTSAuthLayer;
 @protocol CTSAuthenticationProtocol

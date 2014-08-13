@@ -7,9 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "CTSOauthTokenRes.h"
-#import "CTSAuthLayer.h"
-#import "CTSAuthLayerConstants.h"
+#import "CitrusSdk.h"
 #import "NSObject+logProperties.h"
 #import "HMACSignature.h"
 #import "TestParams.h"

@@ -14,7 +14,7 @@
 #define MLC_PAYMENT_ACCESSKEY @"WEO99TS6PQ1ZHERXP0NZ"
 #define MLC_GET_Payment_METHOD GET
 #define MLC_GET_PAYMENT_QUERY_TYPE @"payment"
-#define CITRUS_PAYMENT_BASE_URL @"https://stgadmin.citruspay.com"
+#define CITRUS_PAYMENT_BASE_URL CITRUS_BASE_URL
 //#define MLC_PAYMENT_BASE_URL @"https://stgadmin.citruspay.com/service"
 
 #define MLC_PAYMENT_BASE_URL @"https://stgadmin.citruspay.com"

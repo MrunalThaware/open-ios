@@ -10,7 +10,7 @@
 
 //
 
-#define CITRUS_PROFILE_BASE_URL @"https://stgadmin.citruspay.com/service/v2"
+#define CITRUS_PROFILE_BASE_URL CITRUS_BASE_URL
 
 #pragma - mark MLC_PROFILE_CARD_VALIDATION
 typedef enum CardValidationError {
@@ -22,7 +22,7 @@ typedef enum CardValidationError {
 
 #pragma - mark MLC_PROFILE_UPDATE_CONTACT
 
-#define MLC_PROFILE_UPDATE_CONTACT_PATH @"/profile/me/contact"
+#define MLC_PROFILE_UPDATE_CONTACT_PATH @"/service/v2/profile/me/contact"
 #define MLC_PROFILE_UPDATE__REQUEST_MAPPING \
   @{@"type" : @"type", @"firstName" : @"firstName", @"lastName" : @"lastName"}
 #define MLC_PROFILE_UPDATE_CONTACT_METHOD PUT
@@ -31,7 +31,7 @@ typedef enum CardValidationError {
 #define MLC_PROFILE_UPDATE__REQUEST_TYPE [CTSContactUpdate class]
 
 #pragma - mark MLC_PROFILE_GET_CONTACT
-#define MLC_PROFILE_UPDATE_CONTACT_PATH @"/profile/me/contact"
+#define MLC_PROFILE_UPDATE_CONTACT_PATH @"/service/v2/profile/me/contact"
 #define MLC_PROFILE_GET_CONTACT_METHOD GET
 #define MLC_PROFILE_GET_CONTACT_RES_MAPPING \
   @{                                        \
@@ -55,7 +55,7 @@ typedef enum CardValidationError {
 #define MLC_PROFILE_UPDATE_PAYMENT_ID @"updatePayment"
 
 #pragma - mark MLC_PROFILE_GET_PAYMENT
-#define MLC_PROFILE_UPDATE_PAYMENT_PATH @"/profile/me/payment"
+#define MLC_PROFILE_UPDATE_PAYMENT_PATH @"/service/v2/profile/me/payment"
 #define MLC_PROFILE_UPDATE_PAYMENT_REQUEST_MAPPING \
   @{                                               \
     @"type" : @"type",                             \

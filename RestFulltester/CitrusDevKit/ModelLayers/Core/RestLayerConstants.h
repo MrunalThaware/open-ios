@@ -10,7 +10,7 @@
 #define RestFulltester_RestLayerConstants_h
 
 #define CITRUS_BASE_URL @"https://stgadmin.citruspay.com"
-//#define CITRUS_BASE_URL @"https://stgadmin.citruspay.com/service/v2/"
+
 
 typedef enum HTTPMethod { GET, POST, PUT, DELETE } HTTPMethod;
 
