@@ -346,7 +346,8 @@ static BOOL isSignatureSuccess;
                          CTSProfileLayer* profileLayer =
                              [[CTSProfileLayer alloc] init];
                          [profileLayer
-                             updatePaymentInformation:_paymentDetailUpdate];
+                             updatePaymentInformation:_paymentDetailUpdate
+                                withCompletionHandler:nil];
                          _paymentDetailUpdate = nil;
                      });
                  }];

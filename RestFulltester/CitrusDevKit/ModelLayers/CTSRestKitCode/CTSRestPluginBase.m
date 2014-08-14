@@ -88,4 +88,10 @@
                                      forKey:toNSString(reqId)];
 }
 
+- (id)retrieveAndRemoveCallbackForReqId:(int)reqId {
+  id callback = [self.requestBlockCallbackMap objectForKey:toNSString(reqId)];
+  [self.requestBlockCallbackMap removeObjectForKey:toNSString(reqId)];
+  return callback;
+}
+
 @end

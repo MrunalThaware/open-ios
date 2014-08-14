@@ -59,27 +59,41 @@
 }
 @property(weak) id<CTSProfileProtocol> delegate;
 
+typedef void (^ASGetContactInfoCallBack)(CTSProfileContactRes* contactInfo,
+                                         NSError* error);
+
+typedef void (^ASGetPaymentInfoCallBack)(CTSProfilePaymentRes* paymentInfo,
+                                         NSError* error);
+
+typedef void (^ASUpdatePaymentInfoCallBack)(NSError* error);
+
+typedef void (^ASUpdateContactInfoCallBack)(NSError* error);
+
 /**
  *  update contact related information
  *
  *  @param contactInfo actual information to be updated
  */
-- (void)updateContactInformation:(CTSContactUpdate*)contactInfo;
+- (void)updateContactInformation:(CTSContactUpdate*)contactInfo
+           withCompletionHandler:(ASUpdateContactInfoCallBack)callback;
 
 /**
  *  update payment related information
  *
  *  @param paymentInfo payment information
  */
-- (void)updatePaymentInformation:(CTSPaymentDetailUpdate*)paymentInfo;
+- (void)updatePaymentInformation:(CTSPaymentDetailUpdate*)paymentInfo
+           withCompletionHandler:(ASUpdatePaymentInfoCallBack)callback;
 
 /**
  *  to request contact related information
  */
-- (void)requestContactInformation;
+- (void)requestContactInformationWithCompletionHandler:
+        (ASGetContactInfoCallBack)callback;
 
 /**
  *  request payment information
  */
-- (void)requestPaymentInformation;
+- (void)requestPaymentInformationWithCompletionHandler:
+        (ASGetPaymentInfoCallBack)callback;
 @end

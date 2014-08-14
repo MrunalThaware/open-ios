@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CTSOauthTokenRes.h"
+#import "OauthStatus.h"
 
 @protocol OauthHandler<NSObject>
 
@@ -31,5 +32,12 @@
  * get new token from server.
  */
 + (NSString*)readRefreshToken;
+
+/**
+ *  fetch oauth token
+ *
+ *  @return OauthStatus with proper error and valid oauth token
+ */
++ (OauthStatus*)fetchOauthStatus;
 
 @end

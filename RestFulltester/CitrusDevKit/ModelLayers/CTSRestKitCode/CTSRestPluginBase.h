@@ -22,4 +22,5 @@
 - (instancetype)initWithRequestSelectorMapping:(NSDictionary*)mapping
                                        baseUrl:(NSString*)baseUrl;
 - (void)addCallback:(id)callBack forRequestId:(int)reqId;
+- (id)retrieveAndRemoveCallbackForReqId:(int)reqId;
 @end

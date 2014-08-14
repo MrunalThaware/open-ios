@@ -8,6 +8,7 @@
 
 #import "CTSOauthManager.h"
 #import "CTSAuthLayerConstants.h"
+#import "CTSError.h"
 
 #import <Foundation/NSObjCRuntime.h>
 #import <objc/runtime.h>
@@ -20,6 +21,12 @@
   }
   return self;
 }
+
+// check if oauth exitsts
+// if null ask user to sign in
+// if exits check for expiry
+// if expired return authExpired
+// if server tells to sign in ask user to sign in else procced
 
 + (void)saveOauthData:(CTSOauthTokenRes*)object {
   object.tokenSaveDate = [NSDate date];
@@ -77,9 +84,34 @@
   }
 }
 
++ (BOOL)hasOauthExpired:(CTSOauthTokenRes*)oauthTokenRes {
+  NSDate* tokenSaveDate = oauthTokenRes.tokenSaveDate;
+  NSDate* todaysDate = [NSDate date];
+  NSTimeInterval secondsBetween =
+      [todaysDate timeIntervalSinceDate:tokenSaveDate];
+
+  if (secondsBetween > oauthTokenRes.tokenExpiryTime) {
+    return YES;
+  } else {
+    return NO;
+  }
+}
+
 - (void)requestOauthTokenRefresh {
   // request for oauth refresh
 }
 
++ (OauthStatus*)fetchOauthStatus {
+  OauthStatus* oauthStatus = [[OauthStatus alloc] init];
+  CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readOauthData];
+  if ([CTSOauthManager readOauthData] == nil) {
+    oauthStatus.error = [CTSError getErrorForCode:UserNotSignedIn];
+  } else if ([CTSOauthManager hasOauthExpired:oauthTokenRes]) {
+    oauthStatus.error = [CTSError getErrorForCode:OauthTokenExpired];
+  } else {
+    oauthStatus.oauthToken = oauthTokenRes.accessToken;
+  }
+  return oauthStatus;
+}
 
 @end

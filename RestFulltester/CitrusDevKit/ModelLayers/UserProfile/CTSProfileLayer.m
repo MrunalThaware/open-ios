@@ -19,170 +19,6 @@
 
 @implementation CTSProfileLayer
 @synthesize delegate;
-// get profile
-// update profile
-
-//- (NSArray*)formRegistrationArray {
-//  NSMutableArray* registrationArray = [[NSMutableArray alloc] init];
-//  CTSRestRegister* profileContactUpdate = [[CTSRestRegister alloc]
-//         initWithPath:MLC_PROFILE_UPDATE_CONTACT_PATH
-//           httpMethod:MLC_PROFILE_UPDATE_CONTACT_METHOD
-//       requestMapping:[[CTSTypeToParameterMapping alloc]
-//                          initWithType:MLC_PROFILE_UPDATE__REQUEST_TYPE
-//                            parameters:MLC_PROFILE_UPDATE__REQUEST_MAPPING]
-//      responseMapping:nil];
-//
-//  CTSRestRegister* profileContactGet = [[CTSRestRegister alloc]
-//         initWithPath:MLC_PROFILE_UPDATE_CONTACT_PATH
-//           httpMethod:MLC_PROFILE_GET_CONTACT_METHOD
-//       requestMapping:nil
-//      responseMapping:[[CTSTypeToParameterMapping alloc]
-//                          initWithType:MLC_PROFILE_GET_RESPONSE_TYPE
-//                            parameters:MLC_PROFILE_GET_CONTACT_RES_MAPPING]];
-//
-//  [registrationArray addObject:profileContactUpdate];
-//  [registrationArray addObject:profileContactGet];
-//
-//  return registrationArray;
-//}
-
-#pragma mark - class methods
-- (void)updateContactInformation:(CTSContactUpdate*)contactInfo {
-  if ([CTSOauthManager readOauthToken] == nil) {
-    [delegate profile:self
-        didUpdateContactInfoError:[CTSError getErrorForCode:UserNotSignedIn]];
-    return;
-  }
-  //  [restService putObject:contactInfo
-  //                  atPath:MLC_PROFILE_UPDATE_CONTACT_PATH
-  //              withHeader:[CTSUtility readSigninTokenAsHeader]
-  //          withParameters:nil
-  //                withInfo:MLC_PROFILE_UPDATE_CONTACT_ID];
-
-  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-      initWithPath:MLC_PROFILE_UPDATE_CONTACT_PATH
-         requestId:ProfileUpdateContactReqId
-           headers:[CTSUtility readSigninTokenAsHeader]
-        parameters:nil
-              json:[contactInfo toJSONString]
-        httpMethod:POST];
-
-  [restCore requestServer:request];
-}
-
-- (void)requestContactInformation {
-  if ([CTSOauthManager readOauthToken] == nil) {
-    [delegate profile:self
-        didReceiveContactInfo:nil
-                        error:[CTSError getErrorForCode:UserNotSignedIn]];
-    return;
-  }
-  //  [restService getObjectAtPath:MLC_PROFILE_UPDATE_CONTACT_PATH
-  //                    withHeader:[CTSUtility readSigninTokenAsHeader]
-  //                withParameters:nil
-  //                      withInfo:MLC_PROFILE_GET_CONTACT_ID];
-
-  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-      initWithPath:MLC_PROFILE_UPDATE_CONTACT_PATH
-         requestId:ProfileGetContactReqId
-           headers:[CTSUtility readSigninTokenAsHeader]
-        parameters:nil
-              json:nil
-        httpMethod:GET];
-
-  [restCore requestServer:request];
-}
-
-- (void)updatePaymentInformation:(CTSPaymentDetailUpdate*)paymentInfo {
-  NSString* oauthToken = [CTSOauthManager readOauthToken];
-  if (oauthToken == nil) {
-    [delegate profile:self
-        didUpdatePaymentInfoError:[CTSError getErrorForCode:UserNotSignedIn]];
-    return;
-  } else {
-    CTSErrorCode error = [paymentInfo validate];
-    if (error != NoError) {
-      [delegate profile:self
-          didUpdatePaymentInfoError:[CTSError getErrorForCode:error]];
-      // return;
-    }
-  }
-
-  //  [paymentInfo logProperties];
-  //  [[paymentInfo.paymentOptions objectAtIndex:0] logProperties];
-  //  [restService putObject:paymentInfo
-  //                  atPath:MLC_PROFILE_UPDATE_PAYMENT_PATH
-  //              withHeader:[CTSUtility readSigninTokenAsHeader]
-  //          withParameters:nil
-  //                withInfo:MLC_PROFILE_UPDATE_PAYMENT_ID];
-
-  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-      initWithPath:MLC_PROFILE_UPDATE_PAYMENT_PATH
-         requestId:ProfileUpdatePaymentReqId
-           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
-        parameters:nil
-              json:[paymentInfo toJSONString]
-        httpMethod:PUT];
-
-  [restCore requestServer:request];
-}
-
-- (void)requestPaymentInformation {
-  NSString* oauthToken = [CTSOauthManager readOauthToken];
-
-  if (oauthToken == nil) {
-    [delegate profile:self
-        didReceivePaymentInformation:nil
-                               error:[CTSError
-                                         getErrorForCode:UserNotSignedIn]];
-    return;
-  }
-
-  //  [restService getObjectAtPath:MLC_PROFILE_UPDATE_PAYMENT_PATH
-  //                    withHeader:[CTSUtility readSigninTokenAsHeader]
-  //                withParameters:nil
-  //                      withInfo:MLC_PROFILE_GET_PAYMENT_ID];
-
-  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-      initWithPath:MLC_PROFILE_UPDATE_PAYMENT_PATH
-         requestId:ProfileGetPaymentReqId
-           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
-        parameters:nil
-              json:nil
-        httpMethod:GET];
-  [restCore requestServer:request];
-}
-
-//#pragma mark - CTSRestLayerProtocol methods
-//- (void)receivedObjectArray:(NSArray*)responseArray
-//                    forPath:(NSString*)path
-//                  withError:(NSError*)error
-//                   withInfo:(NSString*)info {
-//  DDLogInfo(@" path %@", path);
-//  BOOL isSuccess = NO;
-//
-//  if (error == nil)
-//    isSuccess = YES;
-//  DDLogInfo(@"path %@ , info %@", path, info);
-//  if ([info isEqualToString:MLC_PROFILE_GET_CONTACT_ID]) {
-//    for (CTSProfileContactRes* result in responseArray) {
-//      [result logProperties];
-//      [delegate contactInformation:result error:error];
-//    }
-//  } else if ([info isEqualToString:MLC_PROFILE_UPDATE_CONTACT_ID]) {
-//    [delegate contactInfoUpdatedError:nil];
-//  } else if ([info isEqualToString:MLC_PROFILE_GET_PAYMENT_ID]) {
-//    DDLogInfo(@"MLC_PROFILE_GET_PAYMENT_ID");
-//    for (CTSProfilePaymentRes* result in responseArray) {
-//      [delegate paymentInformation:result error:error];
-//    }
-//  } else if ([info isEqualToString:MLC_PROFILE_UPDATE_PAYMENT_ID]) {
-//    DDLogInfo(@"MLC_PROFILE_UPDATE_PAYMENT_ID");
-//    [delegate paymentInfoUpdatedError:error];
-//  }
-//}
-
-#pragma mark - new methods
 enum {
   ProfileGetContactReqId,
   ProfileUpdateContactReqId,
@@ -209,6 +45,115 @@ enum {
 
   return self;
 }
+
+#pragma mark - class methods
+- (void)updateContactInformation:(CTSContactUpdate*)contactInfo
+           withCompletionHandler:(ASUpdateContactInfoCallBack)callback {
+  [self addCallback:callback forRequestId:ProfileUpdateContactReqId];
+
+  OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+  NSString* oauthToken = oauthStatus.oauthToken;
+
+  if (oauthStatus.error != nil) {
+    [self updateContactInfoHelper:oauthStatus.error];
+    return;
+  }
+
+  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+      initWithPath:MLC_PROFILE_UPDATE_CONTACT_PATH
+         requestId:ProfileUpdateContactReqId
+           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+        parameters:nil
+              json:[contactInfo toJSONString]
+        httpMethod:POST];
+
+  [restCore requestServer:request];
+}
+
+- (void)requestContactInformationWithCompletionHandler:
+            (ASGetContactInfoCallBack)callback {
+  [self addCallback:callback forRequestId:ProfileGetContactReqId];
+
+  OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+  NSString* oauthToken = oauthStatus.oauthToken;
+
+  if (oauthStatus.error != nil) {
+    [self getContactInfoHelper:nil error:oauthStatus.error];
+
+    return;
+  }
+
+  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+      initWithPath:MLC_PROFILE_UPDATE_CONTACT_PATH
+         requestId:ProfileGetContactReqId
+           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+        parameters:nil
+              json:nil
+        httpMethod:GET];
+
+  [restCore requestServer:request];
+}
+
+- (void)updatePaymentInformation:(CTSPaymentDetailUpdate*)paymentInfo
+           withCompletionHandler:(ASUpdatePaymentInfoCallBack)callback {
+  [self addCallback:callback forRequestId:ProfileUpdatePaymentReqId];
+
+  OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+  NSString* oauthToken = oauthStatus.oauthToken;
+
+  if (oauthStatus.error != nil) {
+    [self updatePaymentInfoHelper:oauthStatus.error];
+    return;
+  } else {
+    CTSErrorCode error = [paymentInfo validate];
+    if (error != NoError) {
+      [self updatePaymentInfoHelper:[CTSError getErrorForCode:error]];
+      // return;
+    }
+  }
+
+  if (oauthStatus.error != nil) {
+    [self getContactInfoHelper:nil
+                         error:[CTSError getErrorForCode:UserNotSignedIn]];
+
+    return;
+  }
+
+  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+      initWithPath:MLC_PROFILE_UPDATE_PAYMENT_PATH
+         requestId:ProfileUpdatePaymentReqId
+           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+        parameters:nil
+              json:[paymentInfo toJSONString]
+        httpMethod:PUT];
+
+  [restCore requestServer:request];
+}
+
+- (void)requestPaymentInformationWithCompletionHandler:
+            (ASGetPaymentInfoCallBack)callback {
+  [self addCallback:callback forRequestId:ProfileGetPaymentReqId];
+
+  OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+  NSString* oauthToken = oauthStatus.oauthToken;
+
+  if (oauthStatus.error != nil) {
+    [self getPaymentInfoHelper:nil error:oauthStatus.error];
+  }
+
+  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+      initWithPath:MLC_PROFILE_UPDATE_PAYMENT_PATH
+         requestId:ProfileGetPaymentReqId
+           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+        parameters:nil
+              json:nil
+        httpMethod:GET];
+
+  [restCore requestServer:request];
+}
+
+#pragma mark - response handlers methods
+
 - (void)handleReqProfileGetContact:(CTSRestCoreResponse*)response {
   NSError* error = response.error;
   JSONModelError* jsonError;
@@ -219,11 +164,12 @@ enum {
                                                error:&jsonError];
     [contact logProperties];
   }
-    [delegate profile:self didReceiveContactInfo:contact error:error];
+
+  [self getContactInfoHelper:contact error:error];
 }
 
 - (void)handleProfileUpdateContact:(CTSRestCoreResponse*)response {
-    [delegate profile:self didUpdateContactInfoError:response.error];
+  [self updateContactInfoHelper:response.error];
 }
 
 - (void)handleProfileGetPayment:(CTSRestCoreResponse*)response {
@@ -235,12 +181,62 @@ enum {
     paymentDetails =
         [[CTSProfilePaymentRes alloc] initWithString:response.responseString
                                                error:&jsonError];
+    LogTrace(@"jsonError %@", jsonError);
   }
-
-    [delegate profile:self didReceivePaymentInformation:paymentDetails error:error];
+  [self getPaymentInfoHelper:paymentDetails error:error];
 }
 
 - (void)handleProfileUpdatePayment:(CTSRestCoreResponse*)response {
-    [delegate profile:self didUpdatePaymentInfoError:response.error];
+  [self updatePaymentInfoHelper:response.error];
 }
+
+#pragma mark - helper methods
+
+- (void)updateContactInfoHelper:(NSError*)error {
+  ASUpdateContactInfoCallBack callback =
+      [self retrieveAndRemoveCallbackForReqId:ProfileUpdateContactReqId];
+
+  if (callback != nil) {
+    callback(error);
+  } else {
+    [delegate profile:self didUpdateContactInfoError:error];
+  }
+}
+
+- (void)getContactInfoHelper:(CTSProfileContactRes*)contact
+                       error:(NSError*)error {
+  ASGetContactInfoCallBack callback =
+      [self retrieveAndRemoveCallbackForReqId:ProfileGetContactReqId];
+
+  if (callback != nil) {
+    callback(contact, error);
+  } else {
+    [delegate profile:self didReceiveContactInfo:contact error:error];
+  }
+}
+
+- (void)updatePaymentInfoHelper:(NSError*)error {
+  ASUpdatePaymentInfoCallBack callback =
+      [self retrieveAndRemoveCallbackForReqId:ProfileUpdatePaymentReqId];
+
+  if (callback != nil) {
+    callback(error);
+
+  } else {
+    [delegate profile:self didUpdatePaymentInfoError:error];
+  }
+}
+
+- (void)getPaymentInfoHelper:(CTSProfilePaymentRes*)payment
+                       error:(NSError*)error {
+  ASGetPaymentInfoCallBack callback =
+      [self retrieveAndRemoveCallbackForReqId:ProfileGetPaymentReqId];
+  if (callback != nil) {
+    callback(payment, error);
+
+  } else {
+    [delegate profile:self didReceivePaymentInformation:payment error:error];
+  }
+}
+
 @end

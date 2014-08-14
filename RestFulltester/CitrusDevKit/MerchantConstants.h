@@ -8,10 +8,16 @@
 
 #ifndef CTS_iOS_Sdk_MerchantConstants_h
 #define CTS_iOS_Sdk_MerchantConstants_h
+//
+//#define VanityUrl @""
+//#define ClientId @""
+//#define ClientSecretKey @""
+//#define SubscriptionId @""
+//#define SubscriptionKey @""
 
-#define VanityUrl @""
-#define ClientId @""
-#define ClientSecretKey @""
-#define SubscriptionId @""
-#define SubscriptionKey @""
+#define VanityUrl @"citrusbank"
+#define ClientId @"citrus-mobile-app-v1"
+#define ClientSecretKey @"0e49deace77ab85a434324c3c13ae9f2"
+#define SubscriptionId @"citrus-mobile-subscription"
+#define SubscriptionKey @"2e6d37aa23a868e043705ba539da999a"
 #endif

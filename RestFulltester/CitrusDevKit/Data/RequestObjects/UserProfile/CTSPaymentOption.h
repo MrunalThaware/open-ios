@@ -17,8 +17,9 @@
 //@property(nonatomic, strong) NSString* type, *cardName, *ownerName, *number,
 //    *bankName, *expiryDate, *scheme;
 
-@property(nonatomic, strong) NSString* type, *name, *owner;
-
+@property(nonatomic, strong) NSString<Optional>* type;
+@property(nonatomic, strong) NSString<Optional>* name;
+@property(nonatomic, strong) NSString<Optional>* owner;
 @property(nonatomic, strong) NSString<Optional>* bank;
 @property(nonatomic, strong) NSString<Optional>* number;
 @property(nonatomic, strong) NSString<Optional>* expiryDate;

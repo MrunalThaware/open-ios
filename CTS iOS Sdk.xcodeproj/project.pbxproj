@@ -57,6 +57,7 @@
 		37A7C6CE1922458F005D29D4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6CC1922458F005D29D4 /* InfoPlist.strings */; };
 		37A7C6D01922458F005D29D4 /* RestFulltesterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6CF1922458F005D29D4 /* RestFulltesterTests.m */; };
 		37A7C6DC19224B64005D29D4 /* Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6DB19224B64005D29D4 /* Networking.m */; };
+		37B74D80199CAD7D00D7CC2C /* OauthStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B74D7F199CAD7D00D7CC2C /* OauthStatus.m */; };
 		37C96447198F6B350021DC0B /* CTSProfileLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96445198F6B350021DC0B /* CTSProfileLayer.m */; };
 		37C96490198F723E0021DC0B /* CTSAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96450198F723E0021DC0B /* CTSAmount.m */; };
 		37C96491198F723E0021DC0B /* CTSGuestCheckout.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96452198F723E0021DC0B /* CTSGuestCheckout.m */; };
@@ -182,6 +183,8 @@
 		37A7C6CF1922458F005D29D4 /* RestFulltesterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestFulltesterTests.m; sourceTree = "<group>"; };
 		37A7C6DA19224B0E005D29D4 /* Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		37A7C6DB19224B64005D29D4 /* Networking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Networking.m; sourceTree = "<group>"; };
+		37B74D7E199CAD7D00D7CC2C /* OauthStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OauthStatus.h; sourceTree = "<group>"; };
+		37B74D7F199CAD7D00D7CC2C /* OauthStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OauthStatus.m; sourceTree = "<group>"; };
 		37C00CDB19935DF40057DB32 /* CitrusSdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CitrusSdk.h; sourceTree = "<group>"; };
 		37C96444198F6B350021DC0B /* CTSProfileLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSProfileLayer.h; sourceTree = "<group>"; };
 		37C96445198F6B350021DC0B /* CTSProfileLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSProfileLayer.m; sourceTree = "<group>"; };
@@ -432,6 +435,8 @@
 				37D6C210197CF8BD00F357FD /* CTSCoreProtocol.h */,
 				37D6C211197D289300F357FD /* CTSOauthManager.h */,
 				37D6C212197D289300F357FD /* CTSOauthManager.m */,
+				37B74D7E199CAD7D00D7CC2C /* OauthStatus.h */,
+				37B74D7F199CAD7D00D7CC2C /* OauthStatus.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -862,6 +867,7 @@
 				371536E01994998200EDF560 /* CTSTokenizedPaymentToken.m in Sources */,
 				37C964A1198F723E0021DC0B /* CTSTokenizedPayment.m in Sources */,
 				37A7C6B11922458F005D29D4 /* main.m in Sources */,
+				37B74D80199CAD7D00D7CC2C /* OauthStatus.m in Sources */,
 				371B5D4F198A5D110096451C /* JSONValueTransformer.m in Sources */,
 				371B5D47198A5D110096451C /* JSONModelArray.m in Sources */,
 				37C9649B198F723E0021DC0B /* CTSContactUpdate.m in Sources */,

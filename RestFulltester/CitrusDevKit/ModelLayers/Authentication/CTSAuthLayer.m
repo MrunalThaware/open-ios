@@ -23,80 +23,24 @@
 @implementation CTSAuthLayer
 @synthesize delegate;
 
-//+ (id)sharedRestLayer {
-//  static CTSAuthLayer* sharedInstance = nil;
-//  static dispatch_once_t onceToken;
-//  dispatch_once(&onceToken, ^{ sharedInstance = [[self alloc] init]; });
-//  return sharedInstance;
-//}
-
-//- (instancetype)init {
-//  self = [super init];
-//  if (self) {
-//    restService = [[CTSRestLayer alloc] initWithBaseURL:CITRUS_AUTH_BASE_URL];
-//    [restService register:[self formRegistrationArray]];
-//    restService.delegate = self;
-//    userNameSignIn = @"";
-//    wasSignupCalled = NO;
-//    LogTrace(@"authToken %@", [CTSOauthManager readOauthToken]);
-//  }
-//  return self;
-//}
-
-- (NSArray*)formRegistrationArray {
-  NSMutableArray* registrationArray = [[NSMutableArray alloc] init];
-
-  // NSDictionary* mappingDictionary = ;
-
-  [registrationArray
-      addObject:
-          [[CTSRestRegister alloc]
-                 initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
-                   httpMethod:MLC_OAUTH_TOKEN_SIGNUP_REQ_TYPE
-               requestMapping:nil
-              responseMapping:
-                  [[CTSTypeToParameterMapping alloc]
-                      initWithType:MLC_OAUTH_TOKEN_SIGNUP_RES_TYPE
-                        parameters:MLC_OAUTH_TOKEN_SIGNUP_RESPONSE_MAPPING]]];
-
-  [registrationArray
-      addObject:
-          [[CTSRestRegister alloc]
-                 initWithPath:MLC_SIGNUP_REQ_PATH
-                   httpMethod:MLC_SIGNUP_REQ_TYPE
-               requestMapping:nil
-              responseMapping:[[CTSTypeToParameterMapping alloc]
-                                  initWithType:MLC_SIGNUP_RES_TYPE
-                                    parameters:MLC_SIGNUP_RESPONSE_MAPPING]]];
-
-  return registrationArray;
-}
-
 #pragma mark - public methods
 
 - (void)requestChangePassword:(NSString*)userNameArg {
-  NSString* oauthToken = [CTSOauthManager readOauthTokenWithExpiryCheck];
-  if (oauthToken == nil) {
-    [delegate auth:self
-        didSignupUsername:nil
-               oauthToken:oauthToken
-                    error:[CTSError getErrorForCode:OauthTokenExpired]];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+  NSString* oauthToken = oauthStatus.oauthToken;
+
+  if (oauthStatus.error != nil) {
+    [self signupHelperUsername:userNameSignup
+                         oauth:oauthStatus.oauthToken
+                         error:oauthStatus.error];
   }
 
   if (![CTSUtility validateEmail:userNameArg]) {
-    [delegate auth:self
-        didSignupUsername:nil
-               oauthToken:oauthToken
-                    error:[CTSError getErrorForCode:EmailNotValid]];
+    [self signupHelperUsername:userNameSignup
+                         oauth:oauthToken
+                         error:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
-  //  [restService postObject:nil
-  //                   atPath:
-  //               withHeader:[CTSUtility readOauthTokenAsHeader:oauthToken]
-  //           withParameters:@{
-  //              MLC_REQUEST_CHANGE_PWD_QUERY_USERNAME : userNameArg
-  //            } withInfo:nil];
-
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_REQUEST_CHANGE_PWD_REQ_PATH
          requestId:RequestForPasswordChangeReqId
@@ -108,37 +52,20 @@
 
   [restCore requestServer:request];
 }
-- (void)resetSignupCredentials {
-  userNameSignup = @"";
-  mobileSignUp = @"";
-  passwordSignUp = @"";
-}
-
-- (void)failedSignupWithError:(NSError*)error {
-  [self resetSignupCredentials];
-  [delegate auth:self
-      didSignupUsername:nil
-             oauthToken:[CTSOauthManager readOauthToken]
-                  error:error];
-}
 
 - (void)requestInternalSignupMobile:(NSString*)mobile email:(NSString*)email {
   if (![CTSUtility validateEmail:email]) {
-    [self failedSignupWithError:[CTSError getErrorForCode:EmailNotValid]];
+    [self signupHelperUsername:userNameSignup
+                         oauth:[CTSOauthManager readOauthToken]
+                         error:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
   if (![CTSUtility validateMobile:mobile]) {
-    [self failedSignupWithError:[CTSError getErrorForCode:MobileNotValid]];
+    [self signupHelperUsername:userNameSignup
+                         oauth:[CTSOauthManager readOauthToken]
+                         error:[CTSError getErrorForCode:MobileNotValid]];
     return;
   }
-
-  //  [restService postObject:nil
-  //                   atPath:MLC_SIGNUP_REQ_PATH
-  //               withHeader:[CTSUtility readSignupTokenAsHeader]
-  //           withParameters:@{
-  //             MLC_SIGNUP_QUERY_EMAIL : email,
-  //             MLC_SIGNUP_QUERY_MOBILE : mobile
-  //           } withInfo:nil];
 
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_SIGNUP_REQ_PATH
@@ -155,13 +82,20 @@
 
 - (void)requestSignUpWithEmail:(NSString*)email
                         mobile:(NSString*)mobile
-                      password:(NSString*)password {
+                      password:(NSString*)password
+             completionHandler:(ASSignupCallBack)callBack {
+  [self addCallback:callBack forRequestId:SignupOauthTokenReqId];
+
   if (![CTSUtility validateEmail:email]) {
-    [self failedSignupWithError:[CTSError getErrorForCode:EmailNotValid]];
+    [self signupHelperUsername:userNameSignup
+                         oauth:[CTSOauthManager readOauthToken]
+                         error:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
   if (![CTSUtility validateMobile:mobile]) {
-    [self failedSignupWithError:[CTSError getErrorForCode:MobileNotValid]];
+    [self signupHelperUsername:userNameSignup
+                         oauth:[CTSOauthManager readOauthToken]
+                         error:[CTSError getErrorForCode:MobileNotValid]];
     return;
   }
 
@@ -179,11 +113,6 @@
 - (void)requestSignUpOauthToken {
   ENTRY_LOG
   wasSignupCalled = YES;
-  //  [restService postObject:nil
-  //                   atPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
-  //               withHeader:nil
-  //           withParameters:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
-  //                 withInfo:MLC_OAUTH_TOKEN_SIGNUP_GRANT_TYPE];
 
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
@@ -198,8 +127,10 @@
   EXIT_LOG
 }
 
-- (void)requestOauthTokenRefresh {
+- (void)requestOauthTokenRefreshWithCompletionHandler:
+            (ASRefreshOauthCallBack)callBack {
   // call for refresh token
+  [self addCallback:callBack forRequestId:OauthRefreshReqId];
 
   NSDictionary* parameters = @{
     MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_REFRESH_CLIENT_ID,
@@ -207,12 +138,6 @@
     MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_REFRESH_CLIENT_SECRET,
     MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN : [CTSOauthManager readRefreshToken],
   };
-
-  //  [restService postObject:nil
-  //                   atPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
-  //               withHeader:nil
-  //           withParameters:parameters
-  //                 withInfo:MLC_OAUTH_REFRESH_GRANT_TYPE];
 
   CTSRestCoreRequest* request =
       [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
@@ -236,14 +161,14 @@
 
    */
 
+  [self addCallback:callBack forRequestId:SigninOauthTokenReqId];
+
   if (![CTSUtility validateEmail:userNameArg]) {
     [self signinHelperUsername:userNameArg
                          oauth:nil
                          error:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
-
-  [self addCallback:callBack forRequestId:SigninOauthTokenReqId];
 
   userNameSignIn = userNameArg;
   NSDictionary* parameters = @{
@@ -253,12 +178,6 @@
     MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD : password,
     MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : userNameArg
   };
-
-  //  [restService postObject:nil
-  //                   atPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
-  //               withHeader:nil
-  //           withParameters:parameters
-  //                 withInfo:MLC_SIGNIN_GRANT_TYPE];
 
   CTSRestCoreRequest* request =
       [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
@@ -277,18 +196,10 @@
 
   NSString* oauthToken = [CTSOauthManager readOauthTokenWithExpiryCheck];
   if (oauthToken == nil) {
-    [delegate auth:self
-        didSignupUsername:nil
-               oauthToken:oauthToken
-                    error:[CTSError getErrorForCode:OauthTokenExpired]];
+    [self signupHelperUsername:userNameSignup
+                         oauth:[CTSOauthManager readOauthToken]
+                         error:[CTSError getErrorForCode:OauthTokenExpired]];
   }
-  //  [restService putObject:nil
-  //                  atPath:MLC_CHANGE_PASSWORD_REQ_PATH
-  //              withHeader:[CTSUtility readOauthTokenAsHeader:oauthToken]
-  //          withParameters:@{
-  //            MLC_CHANGE_PASSWORD_QUERY_OLD_PWD : hashedUsername,
-  //            MLC_CHANGE_PASSWORD_QUERY_NEW_PWD : password
-  //          } withInfo:nil];
 
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_CHANGE_PASSWORD_REQ_PATH
@@ -301,31 +212,6 @@
         httpMethod:PUT];
 
   [restCore requestServer:request];
-  EXIT_LOG
-}
-
-#pragma mark - CTSRestLayerProtocol methods
-- (void)receivedObjectArray:(NSArray*)responseArray
-                    forPath:(NSString*)path
-                  withError:(NSError*)error
-                   withInfo:(NSString*)info {
-  ENTRY_LOG
-  LogTrace(@" path %@", path);
-  BOOL isSuccess = NO;
-
-  if (error == nil)
-    isSuccess = YES;
-
-  if ([MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH isEqualToString:path] &&
-      [info isEqualToString:MLC_OAUTH_TOKEN_SIGNUP_GRANT_TYPE]) {
-  } else if ([MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH isEqualToString:path] &&
-             [info isEqualToString:MLC_SIGNIN_GRANT_TYPE]) {
-  } else if ([MLC_SIGNUP_REQ_PATH isEqualToString:path]) {
-  } else if ([MLC_CHANGE_PASSWORD_REQ_PATH isEqualToString:path]) {
-  } else if ([MLC_REQUEST_CHANGE_PWD_REQ_PATH isEqualToString:path]) {
-  } else if ([info isEqualToString:MLC_OAUTH_REFRESH_GRANT_TYPE]) {
-  }
-
   EXIT_LOG
 }
 
@@ -492,7 +378,9 @@ enum {
                         as:MLC_SIGNUP_ACCESS_OAUTH_TOKEN];
     [self requestInternalSignupMobile:mobileSignUp email:userNameSignup];
   } else {
-    [self failedSignupWithError:error];
+    [self signupHelperUsername:userNameSignup
+                         oauth:[CTSOauthManager readOauthToken]
+                         error:error];
     return;
   }
 }
@@ -520,7 +408,18 @@ enum {
                            error:error];
     }
   } else {
-    [self failedSignupWithError:error];
+    if (wasSignupCalled == YES) {
+      // in case of sign up flow
+      [self signupHelperUsername:userNameSignup
+                           oauth:[CTSOauthManager readOauthToken]
+                           error:error];
+    } else {
+      // in case of sign in flow
+
+      [self signinHelperUsername:userNameSignIn
+                           oauth:[CTSOauthManager readOauthToken]
+                           error:error];
+    }
   }
 }
 
@@ -545,17 +444,19 @@ enum {
                 completionHandler:nil];
 
   } else {
-    [self failedSignupWithError:error];
+    [self signupHelperUsername:userNameSignup
+                         oauth:[CTSOauthManager readOauthToken]
+                         error:error];
   }
 }
 
 - (void)handleReqChangePassword:(CTSRestCoreResponse*)response {
   LogTrace(@"password changed ");
   [self resetSignupCredentials];
-  [delegate auth:self
-      didSignupUsername:nil
-             oauthToken:[CTSOauthManager readOauthToken]
-                  error:response.error];
+
+  [self signupHelperUsername:userNameSignup
+                       oauth:[CTSOauthManager readOauthToken]
+                       error:response.error];
 }
 
 - (void)handleReqRequestForPasswordChange:(CTSRestCoreResponse*)response {
@@ -584,10 +485,12 @@ enum {
 - (void)signinHelperUsername:(NSString*)username
                        oauth:(NSString*)token
                        error:(NSError*)error {
-  ASSigninCallBack callBack = [self.requestBlockCallbackMap
-      valueForKey:toNSString(SigninOauthTokenReqId)];
-  [self.requestBlockCallbackMap
-      removeObjectForKey:toNSString(SigninOauthTokenReqId)];
+  ASSigninCallBack callBack =
+      [self retrieveAndRemoveCallbackForReqId:SigninOauthTokenReqId];
+
+  if (error != nil) {
+    [CTSOauthManager resetOauthData];
+  }
 
   if (callBack != nil) {
     callBack(username, token, error);
@@ -597,6 +500,47 @@ enum {
                oauthToken:token
                     error:error];
   }
+}
+
+- (void)signupHelperUsername:(NSString*)username
+                       oauth:(NSString*)token
+                       error:(NSError*)error {
+  ASSigninCallBack callBack =
+      [self retrieveAndRemoveCallbackForReqId:SignupOauthTokenReqId];
+
+  [self resetSignupCredentials];
+  wasSignupCalled = NO;
+
+  if (error != nil) {
+    [CTSOauthManager resetOauthData];
+  }
+
+  if (callBack != nil) {
+    callBack(username, token, error);
+  } else {
+    [delegate auth:self
+        didSignupUsername:username
+               oauthToken:token
+                    error:error];
+  }
+}
+
+- (void)oauthRefreshHelperStatus:(OauthRefresStatus)status
+                           error:(NSError*)error {
+  ASRefreshOauthCallBack callback =
+      [self retrieveAndRemoveCallbackForReqId:OauthRefreshReqId];
+
+  if (callback != nil) {
+    callback(status, error);
+  } else {
+    [delegate auth:self didRefreshOauthStatus:status error:error];
+  }
+}
+
+- (void)resetSignupCredentials {
+  userNameSignup = @"";
+  mobileSignUp = @"";
+  passwordSignUp = @"";
 }
 
 @end

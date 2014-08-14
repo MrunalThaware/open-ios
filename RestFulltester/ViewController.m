@@ -41,12 +41,13 @@
   authLayer = [[CTSAuthLayer alloc] init];
   authLayer.delegate = self;
   profileLayer = [[CTSProfileLayer alloc] init];
-
+  profileLayer.delegate = self;
   [self signIn];
   //[self signUp];
   //[self updatePaymentInfo];
   paymentlayerinfo = [[CTSPaymentLayer alloc] init];
   paymentlayerinfo.delegate = self;
+  //[paymentlayerinfo req]
 }
 
 - (void)initialize {
@@ -175,16 +176,32 @@
 #pragma mark - user methods used for testing
 
 - (void)signIn {
-  [authLayer requestSigninWithUsername:TEST_EMAIL
-                              password:TEST_PASSWORD
-                     completionHandler:nil];
+  [authLayer
+      requestSigninWithUsername:TEST_EMAIL
+                       password:TEST_PASSWORD
+              completionHandler:^(NSString* userName,
+                                  NSString* token,
+                                  NSError* error) {
+                  LogTrace(@"userName %@ ", userName);
+                  LogTrace(@"token %@ ", token);
+                  LogTrace(@"error %@ ", error);
+
+                  [profileLayer
+                      requestPaymentInformationWithCompletionHandler:nil];
+              }];
 }
 
 - (void)signUp {
   [authLayer requestSignUpWithEmail:TEST_EMAIL
                              mobile:TEST_MOBILE
                            password:TEST_PASSWORD
-                  completionHandler:nil];
+                  completionHandler:^(NSString* userName,
+                                      NSString* token,
+                                      NSError* error) {
+                      LogTrace(@"userName %@ ", userName);
+                      LogTrace(@"token %@ ", token);
+                      LogTrace(@"error %@ ", error);
+                  }];
 }
 
 - (void)updatePaymentInfo {
@@ -200,7 +217,8 @@
   creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
   creditCard.cvv = TEST_CREDIT_CARD_CVV;
   [creditCardInfo addCard:creditCard];
-  [profileLayer updatePaymentInformation:creditCardInfo];
+  [profileLayer updatePaymentInformation:creditCardInfo
+                   withCompletionHandler:nil];
 }
 
 - (void)doUserNetbankingPayment {
