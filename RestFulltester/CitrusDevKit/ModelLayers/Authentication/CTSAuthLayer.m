@@ -25,7 +25,7 @@
 
 #pragma mark - public methods
 
-- (void)requestChangePassword:(NSString*)userNameArg {
+- (void)requestResetPassword:(NSString*)userNameArg {
   OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
@@ -43,7 +43,7 @@
   }
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_REQUEST_CHANGE_PWD_REQ_PATH
-         requestId:RequestForPasswordChangeReqId
+         requestId:RequestForPasswordResetReqId
            headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
         parameters:@{
           MLC_REQUEST_CHANGE_PWD_QUERY_USERNAME : userNameArg
@@ -192,6 +192,34 @@
   EXIT_LOG
 }
 
+- (void)requestChangePasswordUserName:(NSString*)userName
+                          oldPassword:(NSString*)oldPassword
+                          newPassword:(NSString*)newPassword
+                    completionHandler:(ASChangePassword)callback {
+  ENTRY_LOG
+  [self addCallback:callback forRequestId:ChangePasswordReqId];
+
+  NSString* oauthToken = [CTSOauthManager readOauthTokenWithExpiryCheck];
+  if (oauthToken == nil) {
+    [self signupHelperUsername:userName
+                         oauth:[CTSOauthManager readOauthToken]
+                         error:[CTSError getErrorForCode:OauthTokenExpired]];
+  }
+
+  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+      initWithPath:MLC_CHANGE_PASSWORD_REQ_PATH
+         requestId:ChangePasswordReqId
+           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+        parameters:@{
+          MLC_CHANGE_PASSWORD_QUERY_OLD_PWD : oldPassword,
+          MLC_CHANGE_PASSWORD_QUERY_NEW_PWD : newPassword
+        } json:nil
+        httpMethod:PUT];
+
+  [restCore requestServer:request];
+  EXIT_LOG
+}
+
 #pragma mark - pseudo password generator methods
 - (NSString*)generatePseudoRandomPassword {
   // Build the password using C strings - for speed
@@ -319,7 +347,8 @@ enum {
   SigninOauthTokenReqId,
   SignupStageOneReqId,
   SignupChangePasswordReqId,
-  RequestForPasswordChangeReqId
+  ChangePasswordReqId,
+  RequestForPasswordResetReqId
 };
 - (instancetype)init {
   NSDictionary* dict = @{
@@ -329,11 +358,13 @@ enum {
                                                    :),
     toNSString(SignupStageOneReqId) : toSelector(handleReqSignupStageOneComplete
                                                  :),
-    toNSString(SignupChangePasswordReqId) : toSelector(handleReqChangePassword
+    toNSString(SignupChangePasswordReqId) : toSelector(handleReqUsePassword
                                                        :),
-    toNSString(RequestForPasswordChangeReqId) :
-        toSelector(handleReqRequestForPasswordChange
-                   :)
+    toNSString(RequestForPasswordResetReqId) :
+        toSelector(handleReqRequestForPasswordReset
+                   :),
+    toNSString(ChangePasswordReqId) : toSelector(handleReqChangePassword
+                                                 :)
   };
 
   self =
@@ -359,6 +390,9 @@ enum {
                          error:error];
     return;
   }
+}
+
+- (void)handleReqChangePassword:(CTSRestCoreResponse*)response {
 }
 
 - (void)handleReqSigninOauthToken:(CTSRestCoreResponse*)response {
@@ -426,7 +460,7 @@ enum {
   }
 }
 
-- (void)handleReqChangePassword:(CTSRestCoreResponse*)response {
+- (void)handleReqUsePassword:(CTSRestCoreResponse*)response {
   LogTrace(@"password changed ");
   [self resetSignupCredentials];
 
@@ -435,7 +469,7 @@ enum {
                        error:response.error];
 }
 
-- (void)handleReqRequestForPasswordChange:(CTSRestCoreResponse*)response {
+- (void)handleReqRequestForPasswordReset:(CTSRestCoreResponse*)response {
   LogTrace(@"password change requested");
 }
 
@@ -480,6 +514,17 @@ enum {
         didSignupUsername:username
                oauthToken:token
                     error:error];
+  }
+}
+
+- (void)changePasswordHelper:(NSError*)error {
+  ASChangePassword callback =
+      [self retrieveAndRemoveCallbackForReqId:ChangePasswordReqId];
+
+  if (callback != nil) {
+    callback(error);
+  } else {
+    [delegate auth:self didChangePasswordError:error];
   }
 }
 

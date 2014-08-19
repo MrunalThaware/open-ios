@@ -45,6 +45,8 @@
            oauthToken:(NSString*)token
                 error:(NSError*)error;
 
+- (void)auth:(CTSAuthLayer*)layer didChangePasswordError:(NSError*)error;
+
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -61,6 +63,8 @@ typedef void (^ASSignupCallBack)(NSString* userName,
                                  NSString* token,
                                  NSError* error);
 
+typedef void (^ASChangePassword)(NSError* error);
+
 @property(nonatomic, strong) id<CTSAuthenticationProtocol> delegate;
 
 - (void)requestSigninWithUsername:(NSString*)userName
@@ -72,6 +76,11 @@ typedef void (^ASSignupCallBack)(NSString* userName,
                       password:(NSString*)password
              completionHandler:(ASSignupCallBack)callBack;
 
-- (void)requestChangePassword:(NSString*)userNameArg;
+- (void)requestResetPassword:(NSString*)userNameArg;
+
+- (void)requestChangePasswordUserName:(NSString*)userName
+                          oldPassword:(NSString*)oldPassword
+                          newPassword:(NSString*)newPassword
+                    completionHandler:(ASChangePassword)callback;
 
 @end

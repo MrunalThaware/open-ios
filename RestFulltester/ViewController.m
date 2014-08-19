@@ -185,9 +185,11 @@
                   LogTrace(@"userName %@ ", userName);
                   LogTrace(@"token %@ ", token);
                   LogTrace(@"error %@ ", error);
-
-                  [profileLayer
-                      requestPaymentInformationWithCompletionHandler:nil];
+                  //[self doUserDebitCardPayment];
+                  //[self doGuestPaymentCard];
+                  [self doUserCreditCardPayment];
+                  //                  [profileLayer
+                  //                      requestPaymentInformationWithCompletionHandler:nil];
               }];
 }
 
@@ -227,11 +229,17 @@
   CTSNetBankingUpdate* netbank = [[CTSNetBankingUpdate alloc] init];
   netbank.code = @"CID001";
   [netBankingPaymentInfo addNetBanking:netbank];
+  //  [paymentlayerinfo makeUserPayment:netBankingPaymentInfo
+  //                        withContact:contactInfo
+  //                             amount:@"1"
+  //                      withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
+  //                          withTxnId:@"PPTX000000003946"];
   [paymentlayerinfo makeUserPayment:netBankingPaymentInfo
                         withContact:contactInfo
                              amount:@"1"
                       withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
-                          withTxnId:@"PPTX000000003946"];
+                          withTxnId:@"PPTX000000003946"
+              withCompletionHandler:nil];
 }
 - (void)doUserDebitCardPayment {
   CTSPaymentDetailUpdate* debitCardInfo = [[CTSPaymentDetailUpdate alloc] init];
@@ -245,11 +253,22 @@
   debitCard.cvv = TEST_DEBIT_CVV;
   [debitCardInfo addCard:debitCard];
 
+  /*[paymentlayerinfo makeUserPayment:debitCardInfo
+   withContact:contactInfo
+   amount:@"1"
+   withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
+   withTxnId:@"PPTX000000003946"
+   withCompletionHandler:nil];*/
   [paymentlayerinfo makeUserPayment:debitCardInfo
                         withContact:contactInfo
                              amount:@"1"
                       withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
-                          withTxnId:@"PPTX000000003946"];
+                          withTxnId:@"PPTX000000003946"
+              withCompletionHandler:^(CTSPaymentTransactionRes* payment,
+                                      NSError* error) {
+                  LogTrace(@"userName %@ ", payment);
+                  LogTrace(@"error %@ ", error);
+              }];
 }
 - (void)doUserCreditCardPayment {
   CTSPaymentDetailUpdate* creditCardInfo =
@@ -268,7 +287,8 @@
                         withContact:contactInfo
                              amount:@"1"
                       withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
-                          withTxnId:@"PPTX000000003946"];
+                          withTxnId:@"PPTX000000003946"
+              withCompletionHandler:nil];
 }
 
 - (void)doGuestPaymentCard {
@@ -295,7 +315,8 @@
                                        amount:@"1"
                                 withSignature:signature
                                     withTxnId:transactionId
-                                   isDoSignup:NO];
+                                   isDoSignup:NO
+                        withCompletionHandler:nil];
 }
 
 - (NSString*)getGuestPaymentSignature:(NSString*)
@@ -329,7 +350,8 @@
                                        amount:@"1"
                                 withSignature:signature
                                     withTxnId:transactionId
-                                   isDoSignup:NO];
+                                   isDoSignup:NO
+                        withCompletionHandler:nil];
 }
 
 - (void)doTokenizedPaymentNetbanking {
@@ -338,13 +360,13 @@
   CTSNetBankingUpdate* tokenizednetbank = [[CTSNetBankingUpdate alloc] init];
   tokenizednetbank.token = @"9e64001c72fd51c453ff0f2d778b8693";
   [tokenizedNetbankingInfo addNetBanking:tokenizednetbank];
-
   [paymentlayerinfo
-      makeTokenizedPayment:tokenizedNetbankingInfo
-               withContact:contactInfo
-                    amount:@"1"
-             withSignature:@"951906e7c5bb14ed62306d71f7bd85f1b14af6f6"
-                 withTxnId:@"PPTX000000003989"];
+       makeTokenizedPayment:tokenizedNetbankingInfo
+                withContact:contactInfo
+                     amount:@"1"
+              withSignature:@"951906e7c5bb14ed62306d71f7bd85f1b14af6f6"
+                  withTxnId:@"PPTX000000003989"
+      withCompletionHandler:nil];
 }
 
 - (void)doTokenizedPaymentDebitCard {
@@ -357,11 +379,12 @@
   [tokenizedCardInfo addCard:tokenizedCard];
 
   [paymentlayerinfo
-      makeTokenizedPayment:tokenizedCardInfo
-               withContact:contactInfo
-                    amount:@"1"
-             withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
-                 withTxnId:@"PPTX000000003946"];
+       makeTokenizedPayment:tokenizedCardInfo
+                withContact:contactInfo
+                     amount:@"1"
+              withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
+                  withTxnId:@"PPTX000000003946"
+      withCompletionHandler:nil];
 }
 
 - (void)doTokenizedPaymentCreditCard {
@@ -372,12 +395,14 @@
   tokenizedCard.token = TEST_TOKENIZED_CARD_TOKEN;
   tokenizedCard.cvv = TEST_TOKENIZED_CARD_CVV;
   [tokenizedCardInfo addCard:tokenizedCard];
+
   [paymentlayerinfo
-      makeTokenizedPayment:tokenizedCardInfo
-               withContact:contactInfo
-                    amount:@"1"
-             withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
-                 withTxnId:@"PPTX000000003946"];
+       makeTokenizedPayment:tokenizedCardInfo
+                withContact:contactInfo
+                     amount:@"1"
+              withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
+                  withTxnId:@"PPTX000000003946"
+      withCompletionHandler:nil];
 }
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];

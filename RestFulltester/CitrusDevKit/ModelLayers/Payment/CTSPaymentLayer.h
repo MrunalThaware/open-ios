@@ -96,6 +96,20 @@
 @property(strong) NSString* signature;
 @property(nonatomic, strong) RKObjectManager* objectManager;
 @property(weak) id<CTSPaymentProtocol> delegate;
+
+typedef void (^ASMakeUserPaymentCallBack)(CTSPaymentTransactionRes* paymentInfo,
+                                          NSError* error);
+
+typedef void (^ASMakeTokenizedPaymentCallBack)(
+    CTSPaymentTransactionRes* paymentInfo,
+    NSError* error);
+
+typedef void (^ASMakeGuestPaymentCallBack)(
+    CTSPaymentTransactionRes* paymentInfo,
+    NSError* error);
+
+typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
+                                                NSError* error);
 /**
  * called when client request to make payment through credit card/debit card
 
@@ -105,10 +119,10 @@
  *  @param amount      payment amount
  */
 /*- (void)makePaymentByCard:(CTSPaymentDetailUpdate*)paymentInfo
-              withContact:(CTSContactUpdate*)contactInfo
-                   amount:(NSString*)amount
-            withSignature:(NSString*)signature
-                withTxnId:(NSString*)merchantTxnId;
+ withContact:(CTSContactUpdate*)contactInfo
+ amount:(NSString*)amount
+ withSignature:(NSString*)signature
+ withTxnId:(NSString*)merchantTxnId;
  */
 
 /**
@@ -121,10 +135,11 @@
  */
 
 - (void)makeUserPayment:(CTSPaymentDetailUpdate*)paymentInfo
-            withContact:(CTSContactUpdate*)contactInfo
-                 amount:(NSString*)amount
-          withSignature:(NSString*)signature
-              withTxnId:(NSString*)merchantTxnId;
+              withContact:(CTSContactUpdate*)contactInfo
+                   amount:(NSString*)amount
+            withSignature:(NSString*)signature
+                withTxnId:(NSString*)merchantTxnId
+    withCompletionHandler:(ASMakeUserPaymentCallBack)callback;
 
 /**
  *  called when client request to make a tokenized payment
@@ -137,7 +152,8 @@
                  withContact:(CTSContactUpdate*)contactInfo
                       amount:(NSString*)amount
                withSignature:(NSString*)signature
-                   withTxnId:(NSString*)merchantTxnId;
+                   withTxnId:(NSString*)merchantTxnId
+       withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
 
 /**
  *  called when client request to make payment as a guest user
@@ -153,7 +169,8 @@
                            amount:(NSString*)amount
                     withSignature:(NSString*)signature
                         withTxnId:(NSString*)merchantTxnId
-                       isDoSignup:(BOOL)isDoSignup;
+                       isDoSignup:(BOOL)isDoSignup
+            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
 
 /**
  *  request card pament options(visa,master,debit) and netbanking settngs for
@@ -162,6 +179,7 @@
  *  @param vanityUrl: pass in unique vanity url obtained from Citrus Payment
  *sol.
  */
-- (void)requestMerchantPgSettings:(NSString*)vanityUrl;
+- (void)requestMerchantPgSettings:(NSString*)vanityUrl
+            withCompletionHandler:(ASGetMerchantPgSettingsCallBack)callback;
 
 @end
