@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CTSRestCore.h"
+#import "CTSOauthTokenRes.h"
 
 #define toNSString(cts) [NSString stringWithFormat:@"%d", cts]
 #define toSelector(cts) [NSValue valueWithPointer:@selector(cts)]

@@ -127,29 +127,6 @@
   EXIT_LOG
 }
 
-- (void)requestOauthTokenRefreshWithCompletionHandler:
-            (ASRefreshOauthCallBack)callBack {
-  // call for refresh token
-  [self addCallback:callBack forRequestId:OauthRefreshReqId];
-
-  NSDictionary* parameters = @{
-    MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_REFRESH_CLIENT_ID,
-    MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
-    MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_REFRESH_CLIENT_SECRET,
-    MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN : [CTSOauthManager readRefreshToken],
-  };
-
-  CTSRestCoreRequest* request =
-      [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
-                                     requestId:OauthRefreshReqId
-                                       headers:nil
-                                    parameters:parameters
-                                          json:nil
-                                    httpMethod:POST];
-
-  [restCore requestServer:request];
-}
-
 - (void)requestSigninWithUsername:(NSString*)userNameArg
                          password:(NSString*)password
                 completionHandler:(ASSigninCallBack)callBack {
@@ -274,7 +251,7 @@ static NSData* digest(NSData* data,
                                                   unsigned char*),
                       CC_LONG digestLength) {
   unsigned char md[digestLength];
-  (void)cc_digest([data bytes], [data length], md);
+  (void)cc_digest([data bytes], (unsigned int)[data length], md);
   return [NSData dataWithBytes:md length:digestLength];
 }
 
@@ -283,12 +260,12 @@ static NSData* digest(NSData* data,
   return digest(data, CC_MD5, CC_MD5_DIGEST_LENGTH);
 }
 
-- (NSArray*)copyOfRange:(NSArray*)original:(int)from:(int)to {
+- (NSArray*)copyOfRange:(NSArray*)original from:(int)from to:(int)to {
   int newLength = to - from;
   NSArray* destination;
   if (newLength < 0) {
   } else {
-    int copy[newLength];
+    // int copy[newLength];
     destination = [original subarrayWithRange:NSMakeRange(from, newLength)];
   }
   return destination;
@@ -307,7 +284,9 @@ static NSData* digest(NSData* data,
     [array addObject:[NSNumber numberWithInt:result1[i]]];
   }
 
-  NSArray* val = [self copyOfRange:array:[array count] - 3:[array count]];
+  NSArray* val = [self copyOfRange:array
+                              from:(unsigned int)[array count] - 3
+                                to:(unsigned int)[array count]];
   NSData* arrayData = [NSKeyedArchiver archivedDataWithRootObject:val];
   NSLog(@"%@", arrayData);
   int x = 0;
@@ -340,8 +319,7 @@ enum {
   SigninOauthTokenReqId,
   SignupStageOneReqId,
   SignupChangePasswordReqId,
-  RequestForPasswordChangeReqId,
-  OauthRefreshReqId
+  RequestForPasswordChangeReqId
 };
 - (instancetype)init {
   NSDictionary* dict = @{
@@ -355,9 +333,7 @@ enum {
                                                        :),
     toNSString(RequestForPasswordChangeReqId) :
         toSelector(handleReqRequestForPasswordChange
-                   :),
-    toNSString(OauthRefreshReqId) : toSelector(handleReqOauthRefresh
-                                               :)
+                   :)
   };
 
   self =
@@ -462,24 +438,6 @@ enum {
 - (void)handleReqRequestForPasswordChange:(CTSRestCoreResponse*)response {
   LogTrace(@"password change requested");
 }
-- (void)handleReqOauthRefresh:(CTSRestCoreResponse*)response {
-  NSError* error = response.error;
-  JSONModelError* jsonError;
-  if (error == nil) {
-    CTSOauthTokenRes* resultObject =
-        [[CTSOauthTokenRes alloc] initWithString:response.responseString
-                                           error:&jsonError];
-    [CTSOauthManager saveOauthData:resultObject];
-
-    [delegate auth:self
-        didRefreshOauthStatus:OauthRefreshStatusSuccess
-                        error:error];
-  } else {
-    [delegate auth:self
-        didRefreshOauthStatus:OauthRefreshStatusNeedToLogin
-                        error:error];
-  }
-}
 
 #pragma mark - helper methods
 - (void)signinHelperUsername:(NSString*)username
@@ -522,18 +480,6 @@ enum {
         didSignupUsername:username
                oauthToken:token
                     error:error];
-  }
-}
-
-- (void)oauthRefreshHelperStatus:(OauthRefresStatus)status
-                           error:(NSError*)error {
-  ASRefreshOauthCallBack callback =
-      [self retrieveAndRemoveCallbackForReqId:OauthRefreshReqId];
-
-  if (callback != nil) {
-    callback(status, error);
-  } else {
-    [delegate auth:self didRefreshOauthStatus:status error:error];
   }
 }
 

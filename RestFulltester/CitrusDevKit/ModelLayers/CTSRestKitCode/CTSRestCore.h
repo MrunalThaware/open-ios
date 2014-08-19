@@ -24,4 +24,6 @@
 @property(weak) id<CTSRestCoreDelegate> delegate;
 - (instancetype)initWithBaseUrl:(NSString*)url;
 - (void)requestServer:(CTSRestCoreRequest*)restRequest;
++ (CTSRestCoreResponse*)requestSyncServer:(CTSRestCoreRequest*)restRequest
+                              withBaseUrl:(NSString*)baseUrl;
 @end

@@ -9,6 +9,9 @@
 #import "CTSRestPluginBase.h"
 #import "CTSRestError.h"
 #import "NSObject+logProperties.h"
+#import "CTSOauthManager.h"
+#import "CTSAuthLayerConstants.h"
+
 
 @implementation CTSRestPluginBase
 @synthesize requestBlockCallbackMap;
@@ -93,5 +96,7 @@
   [self.requestBlockCallbackMap removeObjectForKey:toNSString(reqId)];
   return callback;
 }
+
+
 
 @end

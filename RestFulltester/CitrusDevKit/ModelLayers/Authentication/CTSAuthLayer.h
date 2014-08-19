@@ -45,16 +45,6 @@
            oauthToken:(NSString*)token
                 error:(NSError*)error;
 
-/**
- *  called when refresh token is updated from server
- *
- *  @param error if any,nil othewise
- */
-
-- (void)auth:(CTSAuthLayer*)layer
-    didRefreshOauthStatus:(OauthRefresStatus)status
-                    error:(NSError*)error;
-
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -71,9 +61,6 @@ typedef void (^ASSignupCallBack)(NSString* userName,
                                  NSString* token,
                                  NSError* error);
 
-typedef void (^ASRefreshOauthCallBack)(OauthRefresStatus status,
-                                       NSError* error);
-
 @property(nonatomic, strong) id<CTSAuthenticationProtocol> delegate;
 
 - (void)requestSigninWithUsername:(NSString*)userName
@@ -86,11 +73,5 @@ typedef void (^ASRefreshOauthCallBack)(OauthRefresStatus status,
              completionHandler:(ASSignupCallBack)callBack;
 
 - (void)requestChangePassword:(NSString*)userNameArg;
-/**
- *  call at the time of oath error and according to statud returned in delegate
- * do the needful
- */
-- (void)requestOauthTokenRefreshWithCompletionHandler:
-        (ASRefreshOauthCallBack)callBack;
 
 @end

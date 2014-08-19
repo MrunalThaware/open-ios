@@ -12,6 +12,7 @@
 
 #import <Foundation/NSObjCRuntime.h>
 #import <objc/runtime.h>
+#import "CTSRestCore.h"
 
 @implementation CTSOauthManager
 - (instancetype)init {
@@ -107,11 +108,45 @@
   if ([CTSOauthManager readOauthData] == nil) {
     oauthStatus.error = [CTSError getErrorForCode:UserNotSignedIn];
   } else if ([CTSOauthManager hasOauthExpired:oauthTokenRes]) {
-    oauthStatus.error = [CTSError getErrorForCode:OauthTokenExpired];
+    // server call to refresh the token
+    CTSOauthTokenRes* oauthRefresh = [CTSOauthManager refreshOauthToken];
+    if (oauthRefresh == nil)
+      oauthStatus.error = [CTSError getErrorForCode:UserNotSignedIn];
   } else {
     oauthStatus.oauthToken = oauthTokenRes.accessToken;
   }
   return oauthStatus;
+}
+
++ (CTSOauthTokenRes*)refreshOauthToken {
+  NSDictionary* parameters = @{
+    MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_REFRESH_CLIENT_ID,
+    MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
+    MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_REFRESH_CLIENT_SECRET,
+    MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN : [CTSOauthManager readRefreshToken],
+  };
+
+  CTSRestCoreRequest* request =
+      [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+                                     requestId:-1
+                                       headers:nil
+                                    parameters:parameters
+                                          json:nil
+                                    httpMethod:POST];
+
+  CTSRestCoreResponse* response =
+      [CTSRestCore requestSyncServer:request withBaseUrl:CITRUS_BASE_URL];
+
+  NSError* error = response.error;
+  JSONModelError* jsonError;
+  CTSOauthTokenRes* resultObject = nil;
+  if (error == nil) {
+    resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+    [CTSOauthManager saveOauthData:resultObject];
+  }
+  return resultObject;
 }
 
 @end

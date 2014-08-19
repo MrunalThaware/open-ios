@@ -5,6 +5,7 @@
 //  Created by Yadnesh Wankhede on 26/05/14.
 //  Copyright (c) 2014 Citrus. All rights reserved.
 //
+#import "MerchantConstants.h"
 
 #ifndef RestFulltester_CTSAuthLayerConstants_h
 #define RestFulltester_CTSAuthLayerConstants_h

@@ -24,23 +24,7 @@
 //
 - (void)requestServer:(CTSRestCoreRequest*)restRequest {
   NSMutableURLRequest* request =
-      [self fetchDefaultRequestForPath:restRequest.urlPath];
-  [restRequest logProperties];
-
-  [request setHTTPMethod:[self getHTTPMethodFor:restRequest.httpMethod]];
-
-  request = [self requestByAddingParameters:request
-                                 parameters:restRequest.parameters];
-
-  if (restRequest.requestJson != nil) {
-    [restRequest.headers setObject:@"application/json" forKey:@"Content-Type"];
-    [restRequest.headers setObject:@"application/json" forKey:@"Accept"];
-
-    [request setHTTPBody:[restRequest.requestJson
-                             dataUsingEncoding:NSUTF8StringEncoding]];
-  }
-
-  request = [self requestByAddingHeaders:request headers:restRequest.headers];
+      [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
 
   __block int requestId = restRequest.requestId;
 
@@ -59,36 +43,43 @@
                                 NSData* data,
                                 NSError* connectionError) {
                 CTSRestCoreResponse* restResponse =
-                    [[CTSRestCoreResponse alloc] init];
-                NSError* error = nil;
-                NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-                LogTrace(@"allHeaderFields %@", [httpResponse allHeaderFields]);
-                int statusCode = (int)[httpResponse statusCode];
-                if (![self isHttpSucces:statusCode]) {
-                  error =
-                      [CTSError getServerErrorWithCode:statusCode withInfo:nil];
-                }
-                restResponse.responseString =
-                    [[NSString alloc] initWithData:data
-                                          encoding:NSUTF8StringEncoding];
-                restResponse.requestId = requestId;
-                restResponse.error = error;
-                [restResponse logProperties];
+                    [CTSRestCore toCTSRestCoreResponse:response
+                                          responseData:data
+                                                 reqId:requestId];
                 [blockDelegate restCore:self didReceiveResponse:restResponse];
             }];
 }
 
++ (CTSRestCoreResponse*)requestSyncServer:(CTSRestCoreRequest*)restRequest
+                              withBaseUrl:(NSString*)baseUrl {
+  NSMutableURLRequest* request =
+      [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
+  NSError* connectionError = nil;
+  NSURLResponse* response = nil;
 
-- (NSMutableURLRequest*)fetchDefaultRequestForPath:(NSString*)path {
-  NSURL* serverUrl =
-      [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", baseUrl, path]];
+  NSData* data = [NSURLConnection sendSynchronousRequest:request
+                                       returningResponse:&response
+                                                   error:&connectionError];
+
+  CTSRestCoreResponse* restResponse =
+      [CTSRestCore toCTSRestCoreResponse:response
+                            responseData:data
+                                   reqId:restRequest.requestId];
+
+  return restResponse;
+}
+
++ (NSMutableURLRequest*)fetchDefaultRequestForPath:(NSString*)path
+                                          withBase:(NSString*)baseUrlArg {
+  NSURL* serverUrl = [NSURL
+      URLWithString:[NSString stringWithFormat:@"%@%@", baseUrlArg, path]];
 
   return [NSMutableURLRequest requestWithURL:serverUrl
                                  cachePolicy:NSURLRequestUseProtocolCachePolicy
                              timeoutInterval:30.0];
 }
 
-- (NSMutableURLRequest*)requestByAddingHeaders:(NSMutableURLRequest*)request
++ (NSMutableURLRequest*)requestByAddingHeaders:(NSMutableURLRequest*)request
                                        headers:(NSDictionary*)headers {
   for (NSString* key in [headers allKeys]) {
     LogTrace(@" setting header %@, for key %@", [headers valueForKey:key], key);
@@ -97,7 +88,7 @@
   return request;
 }
 
-- (NSMutableURLRequest*)requestByAddingParameters:(NSMutableURLRequest*)request
++ (NSMutableURLRequest*)requestByAddingParameters:(NSMutableURLRequest*)request
                                        parameters:(NSDictionary*)parameters {
   if (parameters != nil)
     [request setHTTPBody:[[self serializeParams:parameters]
@@ -107,7 +98,7 @@
 
 #pragma mark - helper methods
 
-- (NSString*)getHTTPMethodFor:(HTTPMethod)methodType {
++ (NSString*)getHTTPMethodFor:(HTTPMethod)methodType {
   switch (methodType) {
     case GET:
       return @"GET";
@@ -124,7 +115,7 @@
   }
 }
 
-- (NSString*)serializeParams:(NSDictionary*)params {
++ (NSString*)serializeParams:(NSDictionary*)params {
   NSMutableArray* pairs = NSMutableArray.array;
   for (NSString* key in params.keyEnumerator) {
     id value = params[key];
@@ -154,7 +145,7 @@
   return [pairs componentsJoinedByString:@"&"];
 }
 
-- (NSString*)escapeValueForURLParameter:(NSString*)valueToEscape {
++ (NSString*)escapeValueForURLParameter:(NSString*)valueToEscape {
   return (__bridge_transfer NSString*)CFURLCreateStringByAddingPercentEscapes(
       NULL,
       (__bridge CFStringRef)valueToEscape,
@@ -163,7 +154,7 @@
       kCFStringEncodingUTF8);
 }
 
-- (BOOL)isHttpSucces:(int)statusCode {
++ (BOOL)isHttpSucces:(int)statusCode {
   return [statusCodeIndexSetForClass(CTSStatusCodeClassSuccessful)
       containsIndex:statusCode];
 }
@@ -177,4 +168,46 @@ NSRange statusCodeRangeForClass(CTSStatusCodeClass statusCodeClass) {
   return NSMakeRange(statusCodeClass, CTSStatusCodeRangeLength);
 }
 
++ (NSMutableURLRequest*)toNSMutableRequest:(CTSRestCoreRequest*)restRequest
+                               withBaseUrl:(NSString*)baseUrlArg {
+  NSMutableURLRequest* request =
+      [CTSRestCore fetchDefaultRequestForPath:restRequest.urlPath
+                                     withBase:baseUrlArg];
+  [restRequest logProperties];
+
+  [request setHTTPMethod:[self getHTTPMethodFor:restRequest.httpMethod]];
+
+  request = [self requestByAddingParameters:request
+                                 parameters:restRequest.parameters];
+
+  if (restRequest.requestJson != nil) {
+    [restRequest.headers setObject:@"application/json" forKey:@"Content-Type"];
+    [restRequest.headers setObject:@"application/json" forKey:@"Accept"];
+
+    [request setHTTPBody:[restRequest.requestJson
+                             dataUsingEncoding:NSUTF8StringEncoding]];
+  }
+
+  request = [self requestByAddingHeaders:request headers:restRequest.headers];
+  return request;
+}
+
++ (CTSRestCoreResponse*)toCTSRestCoreResponse:(NSURLResponse*)response
+                                 responseData:(NSData*)data
+                                        reqId:(int)requestId {
+  CTSRestCoreResponse* restResponse = [[CTSRestCoreResponse alloc] init];
+  NSError* error = nil;
+  NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+  LogTrace(@"allHeaderFields %@", [httpResponse allHeaderFields]);
+  int statusCode = (int)[httpResponse statusCode];
+  if (![self isHttpSucces:statusCode]) {
+    error = [CTSError getServerErrorWithCode:statusCode withInfo:nil];
+  }
+  restResponse.responseString =
+      [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  restResponse.requestId = requestId;
+  restResponse.error = error;
+  [restResponse logProperties];
+  return restResponse;
+}
 @end
