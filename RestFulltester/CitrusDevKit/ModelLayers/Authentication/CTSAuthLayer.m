@@ -393,6 +393,7 @@ enum {
 }
 
 - (void)handleReqChangePassword:(CTSRestCoreResponse*)response {
+  [self changePasswordHelper:response.error];
 }
 
 - (void)handleReqSigninOauthToken:(CTSRestCoreResponse*)response {

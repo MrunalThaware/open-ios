@@ -42,8 +42,8 @@
   authLayer.delegate = self;
   profileLayer = [[CTSProfileLayer alloc] init];
   profileLayer.delegate = self;
-  [self signIn];
-  //[self signUp];
+  //[self signIn];
+  [self signUp];
   //[self updatePaymentInfo];
   paymentlayerinfo = [[CTSPaymentLayer alloc] init];
   paymentlayerinfo.delegate = self;
