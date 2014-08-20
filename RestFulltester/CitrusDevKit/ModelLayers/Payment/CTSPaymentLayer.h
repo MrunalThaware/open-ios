@@ -28,29 +28,7 @@
 @class CTSAuthenticationProtocol;
 @class CTSPaymentLayer;
 @protocol CTSPaymentProtocol<NSObject>
-/**
- *  when payment is successful
- *
- *  @param paymentinfo Payment Information
- */
-- (void)transactionInfo:(CTSPaymentTransactionRes*)paymentinfo;
 
-/**
- *  when transaction is initiated and transaction fails
- *
- *  @param transactionInfo nil in case of error
- *  @param error           error if happened
- */
-- (void)transactionInformation:(CTSPaymentRes*)transactionInfo
-                         error:(NSError*)error;
-
-/**
- *  signed in user payment callback
- *
- *  @param layer
- *  @param paymentInfo
- *  @param error
- */
 - (void)payment:(CTSPaymentLayer*)layer
     didMakeUserPayment:(CTSPaymentTransactionRes*)paymentInfo
                  error:(NSError*)error;
