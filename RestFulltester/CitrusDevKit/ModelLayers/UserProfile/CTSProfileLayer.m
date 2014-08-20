@@ -65,9 +65,9 @@ enum {
            headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
         parameters:nil
               json:[contactInfo toJSONString]
-        httpMethod:POST];
+        httpMethod:PUT];
 
-  [restCore requestServer:request];
+  [restCore requestAsyncServer:request];
 }
 
 - (void)requestContactInformationWithCompletionHandler:
@@ -91,7 +91,7 @@ enum {
               json:nil
         httpMethod:GET];
 
-  [restCore requestServer:request];
+  [restCore requestAsyncServer:request];
 }
 
 - (void)updatePaymentInformation:(CTSPaymentDetailUpdate*)paymentInfo
@@ -108,7 +108,7 @@ enum {
     CTSErrorCode error = [paymentInfo validate];
     if (error != NoError) {
       [self updatePaymentInfoHelper:[CTSError getErrorForCode:error]];
-      // return;
+      return;
     }
   }
 
@@ -127,7 +127,7 @@ enum {
               json:[paymentInfo toJSONString]
         httpMethod:PUT];
 
-  [restCore requestServer:request];
+  [restCore requestAsyncServer:request];
 }
 
 - (void)requestPaymentInformationWithCompletionHandler:
@@ -149,7 +149,7 @@ enum {
               json:nil
         httpMethod:GET];
 
-  [restCore requestServer:request];
+  [restCore requestAsyncServer:request];
 }
 
 #pragma mark - response handlers methods

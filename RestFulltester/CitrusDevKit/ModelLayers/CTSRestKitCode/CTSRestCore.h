@@ -23,7 +23,7 @@
 @property(strong, nonatomic) NSString* baseUrl;
 @property(weak) id<CTSRestCoreDelegate> delegate;
 - (instancetype)initWithBaseUrl:(NSString*)url;
-- (void)requestServer:(CTSRestCoreRequest*)restRequest;
+- (void)requestAsyncServer:(CTSRestCoreRequest*)restRequest;
 + (CTSRestCoreResponse*)requestSyncServer:(CTSRestCoreRequest*)restRequest
                               withBaseUrl:(NSString*)baseUrl;
 @end

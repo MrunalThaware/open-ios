@@ -12,7 +12,7 @@
 
 @interface CTSContactUpdate : JSONModel
 @property(nonatomic, strong) NSString* firstName, *lastName;
-@property(nonatomic, strong, readonly) NSString* type;
+@property(nonatomic, strong) NSString* type;
 @property(nonatomic, strong) NSString<Optional>* email;
 @property(nonatomic, strong) NSString<Optional>* mobile;
 @property(nonatomic, strong) NSString<Optional>* password;

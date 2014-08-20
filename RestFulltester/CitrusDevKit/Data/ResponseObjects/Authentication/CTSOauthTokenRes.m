@@ -57,6 +57,7 @@
     @"access_token" : @"accessToken",
     @"token_type" : @"tokenType",
     @"expires_in" : @"tokenExpiryTime",
+    @"refresh_token" : @"refreshToken",
     @"scope" : @"scope"
   }];
 }

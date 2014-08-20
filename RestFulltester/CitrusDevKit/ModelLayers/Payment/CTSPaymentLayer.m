@@ -82,7 +82,7 @@ static BOOL isSignatureSuccess;
                                                 MLC_PAYMENT_QUERY_REDIRECT : MLC_PAYMENT_REDIRECT_URL
                                                 } json:nil
                                    httpMethod:POST];
-    [restCore requestServer:request];
+    [restCore requestAsyncServer:request];
 }
 
 - (void)insertGuestValues:(CTSPaymentDetailUpdate*)paymentDetailInfo
@@ -157,7 +157,7 @@ static BOOL isSignatureSuccess;
                                   parameters:nil
                                         json:[guestpayment toJSONString]
                                   httpMethod:POST];
-    [restCore requestServer:request];
+    [restCore requestAsyncServer:request];
 }
 - (void)insertMemberValues:(CTSPaymentDetailUpdate*)paymentDetailInfo
                withContact:(CTSContactUpdate*)contactDetailInfo
@@ -215,7 +215,7 @@ static BOOL isSignatureSuccess;
                                            parameters:nil
                                            json:[tokenizedCardPaymentRequest toJSONString]
                                            httpMethod:POST];
-            [restCore requestServer:request];
+            [restCore requestAsyncServer:request];
         } else {
             CTSPaymentRequest* paymentrequest = [[CTSPaymentRequest alloc] init];
             paymentrequest.merchantAccessKey = MLC_PAYMENT_ACCESSKEY;
@@ -291,7 +291,7 @@ static BOOL isSignatureSuccess;
                                            parameters:nil
                                            json:[paymentrequest toJSONString]
                                            httpMethod:POST];
-            [restCore requestServer:request];
+            [restCore requestAsyncServer:request];
         }
     }
 }
@@ -384,7 +384,7 @@ didRequestMerchantPgSettings:nil
                                                 MLC_PAYMENT_GET_PGSETTINGS_QUERY_VANITY : vanityUrl
                                                 } json:nil
                                    httpMethod:POST];
-    [restCore requestServer:request];
+    [restCore requestAsyncServer:request];
 }
 
 #pragma mark - authentication protocol mehods

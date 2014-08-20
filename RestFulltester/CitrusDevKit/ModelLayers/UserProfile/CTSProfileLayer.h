@@ -92,7 +92,7 @@ typedef void (^ASUpdateContactInfoCallBack)(NSError* error);
         (ASGetContactInfoCallBack)callback;
 
 /**
- *  request payment information
+ *  request user's payment information
  */
 - (void)requestPaymentInformationWithCompletionHandler:
         (ASGetPaymentInfoCallBack)callback;

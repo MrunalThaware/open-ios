@@ -22,7 +22,7 @@
 
 // request to server
 //
-- (void)requestServer:(CTSRestCoreRequest*)restRequest {
+- (void)requestAsyncServer:(CTSRestCoreRequest*)restRequest {
   NSMutableURLRequest* request =
       [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
 
@@ -182,8 +182,6 @@ NSRange statusCodeRangeForClass(CTSStatusCodeClass statusCodeClass) {
 
   if (restRequest.requestJson != nil) {
     [restRequest.headers setObject:@"application/json" forKey:@"Content-Type"];
-    [restRequest.headers setObject:@"application/json" forKey:@"Accept"];
-
     [request setHTTPBody:[restRequest.requestJson
                              dataUsingEncoding:NSUTF8StringEncoding]];
   }

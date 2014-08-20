@@ -31,6 +31,7 @@
 
 + (void)saveOauthData:(CTSOauthTokenRes*)object {
   object.tokenSaveDate = [NSDate date];
+  object.tokenExpiryTime = 180;
   NSData* encodedObject = [NSKeyedArchiver archivedDataWithRootObject:object];
   NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
   [defaults setObject:encodedObject forKey:MLC_OAUTH_OBJECT_KEY];
@@ -42,6 +43,7 @@
   NSData* encodedObject = [defaults objectForKey:MLC_OAUTH_OBJECT_KEY];
   CTSOauthTokenRes* object =
       [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+
   return object;
 }
 
@@ -62,7 +64,9 @@
   }
 }
 + (NSString*)readRefreshToken {
-  return [self readOauthData].refreshToken;
+  CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readOauthData];
+  NSLog(@" readRefreshToken %@ %@", oauthTokenRes, oauthTokenRes.refreshToken);
+  return oauthTokenRes.refreshToken;
 }
 
 + (void)resetOauthData {
@@ -105,16 +109,19 @@
 + (OauthStatus*)fetchOauthStatus {
   OauthStatus* oauthStatus = [[OauthStatus alloc] init];
   CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readOauthData];
-  if ([CTSOauthManager readOauthData] == nil) {
+  if (oauthTokenRes == nil) {
     oauthStatus.error = [CTSError getErrorForCode:UserNotSignedIn];
+    return oauthStatus;
   } else if ([CTSOauthManager hasOauthExpired:oauthTokenRes]) {
     // server call to refresh the token
-    CTSOauthTokenRes* oauthRefresh = [CTSOauthManager refreshOauthToken];
-    if (oauthRefresh == nil)
+    oauthTokenRes = [CTSOauthManager refreshOauthToken];
+    if (oauthTokenRes == nil) {
       oauthStatus.error = [CTSError getErrorForCode:UserNotSignedIn];
-  } else {
-    oauthStatus.oauthToken = oauthTokenRes.accessToken;
+      return oauthStatus;
+    }
   }
+  oauthStatus.oauthToken = oauthTokenRes.accessToken;
+
   return oauthStatus;
 }
 
@@ -122,8 +129,8 @@
   NSDictionary* parameters = @{
     MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_REFRESH_CLIENT_ID,
     MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
-    MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_REFRESH_CLIENT_SECRET,
-    MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN : [CTSOauthManager readRefreshToken],
+    MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN,
+    MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN : [CTSOauthManager readRefreshToken]
   };
 
   CTSRestCoreRequest* request =

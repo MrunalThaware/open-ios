@@ -50,7 +50,7 @@
         } json:nil
         httpMethod:POST];
 
-  [restCore requestServer:request];
+  [restCore requestAsyncServer:request];
 }
 
 - (void)requestInternalSignupMobile:(NSString*)mobile email:(NSString*)email {
@@ -77,7 +77,7 @@
         } json:nil
         httpMethod:POST];
 
-  [restCore requestServer:request];
+  [restCore requestAsyncServer:request];
 }
 
 - (void)requestSignUpWithEmail:(NSString*)email
@@ -122,7 +122,7 @@
               json:nil
         httpMethod:POST];
 
-  [restCore requestServer:request];
+  [restCore requestAsyncServer:request];
 
   EXIT_LOG
 }
@@ -164,7 +164,7 @@
                                           json:nil
                                     httpMethod:POST];
 
-  [restCore requestServer:request];
+  [restCore requestAsyncServer:request];
 }
 
 - (void)usePassword:(NSString*)password
@@ -188,7 +188,7 @@
         } json:nil
         httpMethod:PUT];
 
-  [restCore requestServer:request];
+  [restCore requestAsyncServer:request];
   EXIT_LOG
 }
 
@@ -216,7 +216,7 @@
         } json:nil
         httpMethod:PUT];
 
-  [restCore requestServer:request];
+  [restCore requestAsyncServer:request];
   EXIT_LOG
 }
 

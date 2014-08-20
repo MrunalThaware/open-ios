@@ -13,9 +13,7 @@
 #import "TestParams.h"
 
 @interface ViewController ()
-//@property(strong) CTSContactUpdate* contactInfo;
-//@property(strong) CTSElectronicCardUpdate* guestflowdebitcard;
-//@property(strong) CTSPaymentDetailUpdate* guestFlowDebitCardInfo;
+
 @end
 
 @implementation ViewController
@@ -23,41 +21,20 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  //
-  //  CTSOauthTokenRes* oauthToekRes = [[CTSOauthTokenRes alloc] init];
-  //  oauthToekRes.refreshToken = @"REFRESH_TOKEN_SAMPLE";
-  //  oauthToekRes.accessToken = @"ACCESS_TOKEN_SAMPLE";
-  //  oauthToekRes.tokenType = @"BEARER";
-  //  oauthToekRes.tokenExpiryTime = 15552000;
-  //  oauthToekRes.scope = @"SAMPLE_SCOPE";
-  //
-  //  [CTSOauthManager saveOauthData:oauthToekRes];
-  //  [[CTSOauthManager readOauthData] logProperties];
-  // [CTSOauthManager resetOauthData];
-  // [[CTSOauthManager readOauthData] logProperties];
 
   // pragma marked user methods are sample implementations of sdk
   // TestParams.h should be populated according to your needs
+  ;
+}
+
+- (void)initialize {
   authLayer = [[CTSAuthLayer alloc] init];
   authLayer.delegate = self;
   profileLayer = [[CTSProfileLayer alloc] init];
   profileLayer.delegate = self;
-  //[self signIn];
-  [self signUp];
-  //[self updatePaymentInfo];
+  [self signIn];
   paymentlayerinfo = [[CTSPaymentLayer alloc] init];
   paymentlayerinfo.delegate = self;
-  //[paymentlayerinfo req]
-}
-
-- (void)initialize {
-  // required initialization
-
-  // authLayer = [[CTSAuthLayer alloc] init];
-  // authLayer.delegate = self;
-
-  // profileService = [[CTSProfileLayer alloc] init];
-  // profileService.delegate = self;
 
   contactInfo = [[CTSContactUpdate alloc] init];
   contactInfo.firstName = TEST_FIRST_NAME;
@@ -67,27 +44,36 @@
 
   // guest flow
 }
+/****************************************************|AUTHLAYER|*****************************************************************************/
 
-#pragma mark - profile layer delegates
+#pragma mark - AuthLayer Sample implementation
 
-- (void)profile:(CTSProfileLayer*)profile
-    didReceiveContactInfo:(CTSProfileContactRes*)contactInfo
-                    error:(NSError*)error {
-}
-- (void)profile:(CTSProfileLayer*)profile
-    didReceivePaymentInformation:(CTSProfilePaymentRes*)contactInfo
-                           error:(NSError*)error {
-}
-
-- (void)profile:(CTSProfileLayer*)profile
-    didUpdateContactInfoError:(NSError*)error {
-}
-
-- (void)profile:(CTSProfileLayer*)profile
-    didUpdatePaymentInfoError:(NSError*)error {
+- (void)signIn {
+  [authLayer requestSigninWithUsername:TEST_EMAIL
+                              password:TEST_PASSWORD
+                     completionHandler:^(NSString* userName,
+                                         NSString* token,
+                                         NSError* error) {
+                         LogTrace(@"userName %@ ", userName);
+                         LogTrace(@"token %@ ", token);
+                         LogTrace(@"error %@ ", error);
+                     }];
 }
 
-#pragma mark - authentication layer delegates
+- (void)signUp {
+  [authLayer requestSignUpWithEmail:TEST_EMAIL
+                             mobile:TEST_MOBILE
+                           password:TEST_PASSWORD
+                  completionHandler:^(NSString* userName,
+                                      NSString* token,
+                                      NSError* error) {
+                      LogTrace(@"userName %@ ", userName);
+                      LogTrace(@"token %@ ", token);
+                      LogTrace(@"error %@ ", error);
+                  }];
+}
+
+#pragma mark - AuthLayer delegates
 
 - (void)auth:(CTSAuthLayer*)layer
     didSigninUsername:(NSString*)userName
@@ -97,33 +83,6 @@
   LogTrace(@"userName %@", userName);
   LogTrace(@"error %@", error);
   LogTrace(@"access token %@", token);
-
-  // make signed in user payments using debit card
-  [self doUserDebitCardPayment];
-
-  // make signed in user payments using credit card
-  //  [self doUserCreditCardPayment];
-  //
-  //  // make signed in user payments using netbanking
-  //  [self doUserNetbankingPayment];
-  //
-  //  // make guest payment using netbanking
-  //  [self doGuestPaymentNetbanking];
-  //
-  //  // make guest payment using card
-  //  [self doGuestPaymentCard];
-  //
-  //  // make tokenized payment using debit card
-  //  [self doTokenizedPaymentDebitCard];
-  //
-  //  // make tokenized payment using credit card
-  //  [self doTokenizedPaymentCreditCard];
-  //
-  //  // make tokenized payment using net banking
-  //  [self doTokenizedPaymentNetbanking];
-  //
-  //  // requesting for merchant pg Settings
-  //  [paymentlayerinfo requestMerchantPgSettings:VanityUrl];
 
   EXIT_LOG
 }
@@ -147,64 +106,9 @@
   LogTrace(@"error %@", error);
 }
 
-#pragma mark - Payment layer delegates
+/**********************************************|PROFILELAYER|*****************************************************************************/
 
-- (void)payment:(CTSPaymentLayer*)layer
-    didRequestMerchantPgSettings:(CTSPgSettings*)pgSettings
-                           error:(NSError*)error {
-  NSLog(@"%@", pgSettings);
-}
-
-- (void)payment:(CTSPaymentLayer*)layer
-    didMakeUserPayment:(CTSPaymentTransactionRes*)paymentInfo
-                 error:(NSError*)error {
-  NSLog(@"%@", paymentInfo);
-}
-
-- (void)payment:(CTSPaymentLayer*)layer
-    didMakeTokenizedPayment:(CTSPaymentTransactionRes*)paymentInfo
-                      error:(NSError*)error {
-  NSLog(@"%@", paymentInfo);
-}
-
-- (void)payment:(CTSPaymentLayer*)layer
-    didMakePaymentUsingGuestFlow:(CTSPaymentTransactionRes*)paymentInfo
-                           error:(NSError*)error {
-  NSLog(@"%@", paymentInfo);
-}
-
-#pragma mark - user methods used for testing
-
-- (void)signIn {
-  [authLayer
-      requestSigninWithUsername:TEST_EMAIL
-                       password:TEST_PASSWORD
-              completionHandler:^(NSString* userName,
-                                  NSString* token,
-                                  NSError* error) {
-                  LogTrace(@"userName %@ ", userName);
-                  LogTrace(@"token %@ ", token);
-                  LogTrace(@"error %@ ", error);
-                  //[self doUserDebitCardPayment];
-                  //[self doGuestPaymentCard];
-                  [self doUserCreditCardPayment];
-                  //                  [profileLayer
-                  //                      requestPaymentInformationWithCompletionHandler:nil];
-              }];
-}
-
-- (void)signUp {
-  [authLayer requestSignUpWithEmail:TEST_EMAIL
-                             mobile:TEST_MOBILE
-                           password:TEST_PASSWORD
-                  completionHandler:^(NSString* userName,
-                                      NSString* token,
-                                      NSError* error) {
-                      LogTrace(@"userName %@ ", userName);
-                      LogTrace(@"token %@ ", token);
-                      LogTrace(@"error %@ ", error);
-                  }];
-}
+#pragma mark - Profile Sample implementation
 
 - (void)updatePaymentInfo {
   // credit card
@@ -217,11 +121,53 @@
   creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
   creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
   creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-  creditCard.cvv = TEST_CREDIT_CARD_CVV;
+
   [creditCardInfo addCard:creditCard];
+
   [profileLayer updatePaymentInformation:creditCardInfo
                    withCompletionHandler:nil];
 }
+
+- (void)updateContactInformation {
+  CTSContactUpdate* contactUpdate = [[CTSContactUpdate alloc] init];
+  contactUpdate.firstName = @"Yadnesh";
+  contactUpdate.lastName = @"Wankhede";
+  contactUpdate.mobile = @"9702962222";
+  contactUpdate.email = @"yaddy@gmail.com";
+
+  [profileLayer
+      updateContactInformation:contactUpdate
+         withCompletionHandler:^(NSError* error) {
+             [profileLayer requestContactInformationWithCompletionHandler:nil];
+         }];
+}
+#pragma mark - profile layer delegates
+
+- (void)profile:(CTSProfileLayer*)profile
+    didReceiveContactInfo:(CTSProfileContactRes*)contactInfo
+                    error:(NSError*)error {
+  LogTrace(@"didReceiveContactInfo");
+  LogTrace(@"contactInfo %@", contactInfo);
+  [contactInfo logProperties];
+  LogTrace(@"contactInfo %@", error);
+}
+- (void)profile:(CTSProfileLayer*)profile
+    didReceivePaymentInformation:(CTSProfilePaymentRes*)contactInfo
+                           error:(NSError*)error {
+}
+
+- (void)profile:(CTSProfileLayer*)profile
+    didUpdateContactInfoError:(NSError*)error {
+}
+
+- (void)profile:(CTSProfileLayer*)profile
+    didUpdatePaymentInfoError:(NSError*)error {
+  LogTrace(@"didUpdatePaymentInfoError error %@ ", error);
+}
+
+/**************************************************************|PAYMENTLAYER|**************************************************************************/
+
+#pragma mark - PaymentLayer Sample implementation
 
 - (void)doUserNetbankingPayment {
   CTSPaymentDetailUpdate* netBankingPaymentInfo =
@@ -345,7 +291,10 @@
   CTSNetBankingUpdate* guestflownetbank = [[CTSNetBankingUpdate alloc] init];
   guestflownetbank.code = TEST_NETBAK_CODE;
   [guestFlowNetBankingUpdate addNetBanking:guestflownetbank];
-  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowNetBankingUpdate
+  
+    
+    
+    [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowNetBankingUpdate
                                   withContact:contactInfo
                                        amount:@"1"
                                 withSignature:signature
@@ -404,6 +353,33 @@
                   withTxnId:@"PPTX000000003946"
       withCompletionHandler:nil];
 }
+
+#pragma mark - Payment layer delegates
+
+- (void)payment:(CTSPaymentLayer*)layer
+    didRequestMerchantPgSettings:(CTSPgSettings*)pgSettings
+                           error:(NSError*)error {
+  NSLog(@"%@", pgSettings);
+}
+
+- (void)payment:(CTSPaymentLayer*)layer
+    didMakeUserPayment:(CTSPaymentTransactionRes*)paymentInfo
+                 error:(NSError*)error {
+  NSLog(@"%@", paymentInfo);
+}
+
+- (void)payment:(CTSPaymentLayer*)layer
+    didMakeTokenizedPayment:(CTSPaymentTransactionRes*)paymentInfo
+                      error:(NSError*)error {
+  NSLog(@"%@", paymentInfo);
+}
+
+- (void)payment:(CTSPaymentLayer*)layer
+    didMakePaymentUsingGuestFlow:(CTSPaymentTransactionRes*)paymentInfo
+                           error:(NSError*)error {
+  NSLog(@"%@", paymentInfo);
+}
+
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
