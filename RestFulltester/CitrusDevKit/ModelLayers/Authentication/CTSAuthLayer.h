@@ -45,7 +45,24 @@
            oauthToken:(NSString*)token
                 error:(NSError*)error;
 
+/**
+ *  reports change password reply
+ *
+ *  @param layer
+ *  @param error
+ */
 - (void)auth:(CTSAuthLayer*)layer didChangePasswordError:(NSError*)error;
+
+/**
+ *  reports is user Citrus member
+ *
+ *  @param layer
+ *  @param isMember Bool that reports membership status
+ *  @param error
+ */
+- (void)auth:(CTSAuthLayer*)layer
+    didCheckIsUserCitrusMember:(BOOL)isMember
+                         error:(NSError*)error;
 
 @end
 
@@ -64,6 +81,9 @@ typedef void (^ASSignupCallBack)(NSString* userName,
                                  NSError* error);
 
 typedef void (^ASChangePassword)(NSError* error);
+
+typedef void (^ASIsUserCitrusMemberCallback)(BOOL isUserCitrusMember,
+                                             NSError* error);
 
 @property(nonatomic, strong) id<CTSAuthenticationProtocol> delegate;
 
@@ -111,5 +131,15 @@ typedef void (^ASChangePassword)(NSError* error);
                           oldPassword:(NSString*)oldPassword
                           newPassword:(NSString*)newPassword
                     completionHandler:(ASChangePassword)callback;
+
+/**
+ *  to check if username is registered for any member
+ *
+ *  @param email    this is the username
+ *  @param callback
+ */
+- (void)requestIsUserCitrusMemberUsername:(NSString*)email
+                        completionHandler:
+                            (ASIsUserCitrusMemberCallback)callback;
 
 @end

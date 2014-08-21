@@ -26,7 +26,7 @@
 #pragma mark - public methods
 
 - (void)requestResetPassword:(NSString*)userNameArg {
-  OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
   if (oauthStatus.error != nil) {
@@ -220,6 +220,34 @@
   EXIT_LOG
 }
 
+- (void)requestIsUserCitrusMemberUsername:(NSString*)email
+                        completionHandler:
+                            (ASIsUserCitrusMemberCallback)callback {
+  [self addCallback:callback forRequestId:IsUserCitrusMemberReqId];
+  if (![CTSUtility validateEmail:email]) {
+    [self isUserCitrusMemberHelper:NO
+                             error:[CTSError getErrorForCode:EmailNotValid]];
+    return;
+  }
+
+  OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
+
+  if (oauthStatus.error != nil) {
+    [self isUserCitrusMemberHelper:NO error:oauthStatus.error];
+  }
+
+  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+      initWithPath:MLC_IS_MEMBER_REQ_PATH
+         requestId:IsUserCitrusMemberReqId
+           headers:[CTSUtility readOauthTokenAsHeader:oauthStatus.oauthToken]
+        parameters:@{
+          MLC_IS_MEMBER_QUERY_EMAIL : email
+        } json:nil
+        httpMethod:MLC_IS_MEMBER_REQ_TYPE];
+
+  [restCore requestAsyncServer:request];
+}
+
 #pragma mark - pseudo password generator methods
 - (NSString*)generatePseudoRandomPassword {
   // Build the password using C strings - for speed
@@ -348,7 +376,8 @@ enum {
   SignupStageOneReqId,
   SignupChangePasswordReqId,
   ChangePasswordReqId,
-  RequestForPasswordResetReqId
+  RequestForPasswordResetReqId,
+  IsUserCitrusMemberReqId
 };
 - (instancetype)init {
   NSDictionary* dict = @{
@@ -364,7 +393,9 @@ enum {
         toSelector(handleReqRequestForPasswordReset
                    :),
     toNSString(ChangePasswordReqId) : toSelector(handleReqChangePassword
-                                                 :)
+                                                 :),
+    toNSString(IsUserCitrusMemberReqId) : toSelector(handleIsUserCitrusMember
+                                                     :)
   };
 
   self =
@@ -381,8 +412,7 @@ enum {
     CTSOauthTokenRes* resultObject =
         [[CTSOauthTokenRes alloc] initWithString:response.responseString
                                            error:&jsonError];
-    [CTSUtility saveToDisk:resultObject.accessToken
-                        as:MLC_SIGNUP_ACCESS_OAUTH_TOKEN];
+    [CTSOauthManager saveSignupToken:resultObject.accessToken];
     [self requestInternalSignupMobile:mobileSignUp email:userNameSignup];
   } else {
     [self signupHelperUsername:userNameSignup
@@ -474,6 +504,16 @@ enum {
   LogTrace(@"password change requested");
 }
 
+- (void)handleIsUserCitrusMember:(CTSRestCoreResponse*)response {
+  if (response.error == nil) {
+    [self isUserCitrusMemberHelper:[CTSUtility toBool:response.responseString]
+                             error:nil];
+
+  } else {
+    [self isUserCitrusMemberHelper:NO error:response.error];
+  }
+}
+
 #pragma mark - helper methods
 - (void)signinHelperUsername:(NSString*)username
                        oauth:(NSString*)token
@@ -526,6 +566,16 @@ enum {
     callback(error);
   } else {
     [delegate auth:self didChangePasswordError:error];
+  }
+}
+
+- (void)isUserCitrusMemberHelper:(BOOL)isMember error:(NSError*)error {
+  ASIsUserCitrusMemberCallback callback =
+      [self retrieveAndRemoveCallbackForReqId:IsUserCitrusMemberReqId];
+  if (callback != nil) {
+    callback(isMember, error);
+  } else {
+    [delegate auth:self didCheckIsUserCitrusMember:isMember error:error];
   }
 }
 

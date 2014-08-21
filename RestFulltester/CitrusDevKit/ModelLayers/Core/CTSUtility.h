@@ -24,4 +24,5 @@
 + (BOOL)validateCardNumber:(NSString*)number;
 + (BOOL)validateExpiryDate:(NSString*)date;
 + (BOOL)validateCVV:(NSString*)cvv cardNumber:(NSString*)cardNumber;
++ (BOOL)toBool:(NSString*)boolString;
 @end

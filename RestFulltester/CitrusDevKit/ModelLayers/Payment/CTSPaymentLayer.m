@@ -206,7 +206,7 @@ static BOOL isSignatureSuccess;
       tokenizedCardPaymentRequest.paymentToken = paymentToken;
       tokenizedCardPaymentRequest.userDetails = userDetails;
       tokenizedCardPaymentRequest.userDetails = userDetails;
-      OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+      OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
       NSString* oauthToken = oauthStatus.oauthToken;
       if (oauthStatus.error != nil) {
         [self makeTokenizedPaymentHelper:nil
@@ -277,7 +277,7 @@ static BOOL isSignatureSuccess;
       paymentrequest.amount = amount;
       paymentrequest.paymentToken = paymentToken;
       paymentrequest.userDetails = userDetails;
-      OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+      OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
       NSString* oauthToken = oauthStatus.oauthToken;
       if (oauthStatus.error != nil) {
         [self makeUserPaymentHelper:nil

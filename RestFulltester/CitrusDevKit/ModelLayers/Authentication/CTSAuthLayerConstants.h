@@ -98,6 +98,11 @@ typedef enum PasswordUseType {
 
 #define MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN @"refresh_token"
 
+#pragma mark - IS_MEMBER
+#define MLC_IS_MEMBER_REQ_PATH @"/service/v1/verify/email"
+#define MLC_IS_MEMBER_REQ_TYPE POST
+#define MLC_IS_MEMBER_QUERY_EMAIL @"email"
+
 typedef enum {
   OauthRefreshStatusSuccess,
   OauthRefreshStatusNeedToLogin

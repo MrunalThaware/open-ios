@@ -24,7 +24,8 @@
 
   // pragma marked user methods are sample implementations of sdk
   // TestParams.h should be populated according to your needs
-  ;
+
+  //[self signUp];
 }
 
 - (void)initialize {
@@ -32,7 +33,6 @@
   authLayer.delegate = self;
   profileLayer = [[CTSProfileLayer alloc] init];
   profileLayer.delegate = self;
-  [self signIn];
   paymentlayerinfo = [[CTSPaymentLayer alloc] init];
   paymentlayerinfo.delegate = self;
 
@@ -71,6 +71,16 @@
                       LogTrace(@"token %@ ", token);
                       LogTrace(@"error %@ ", error);
                   }];
+}
+
+- (void)isUserCitrusMember {
+  [authLayer requestIsUserCitrusMemberUsername:TEST_EMAIL
+                             completionHandler:^(BOOL isUserCitrusMember,
+                                                 NSError* error) {
+                                 LogTrace(@" isUserCitrusMember %d",
+                                          isUserCitrusMember);
+                                 LogTrace(@" error %@ ", error);
+                             }];
 }
 
 #pragma mark - AuthLayer delegates

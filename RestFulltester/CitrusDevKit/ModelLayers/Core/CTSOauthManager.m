@@ -9,7 +9,7 @@
 #import "CTSOauthManager.h"
 #import "CTSAuthLayerConstants.h"
 #import "CTSError.h"
-
+#import "CTSUtility.h"
 #import <Foundation/NSObjCRuntime.h>
 #import <objc/runtime.h>
 #import "CTSRestCore.h"
@@ -106,7 +106,7 @@
   // request for oauth refresh
 }
 
-+ (OauthStatus*)fetchOauthStatus {
++ (OauthStatus*)fetchSigninTokenStatus {
   OauthStatus* oauthStatus = [[OauthStatus alloc] init];
   CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readOauthData];
   if (oauthTokenRes == nil) {
@@ -123,6 +123,30 @@
   oauthStatus.oauthToken = oauthTokenRes.accessToken;
 
   return oauthStatus;
+}
+
++ (void)saveSignupToken:(NSString*)token {
+  [CTSUtility saveToDisk:token as:MLC_SIGNUP_ACCESS_OAUTH_TOKEN];
+}
+
++ (NSString*)readSignupToken {
+  return [CTSUtility readFromDisk:MLC_SIGNUP_ACCESS_OAUTH_TOKEN];
+}
+
++ (OauthStatus*)fetchSignupTokenStatus {
+  OauthStatus* oauthTokenStatus = [[OauthStatus alloc] init];
+
+  oauthTokenStatus.oauthToken = [CTSOauthManager readSignupToken];
+  if (oauthTokenStatus.oauthToken == nil) {
+    CTSOauthTokenRes* tokenResponse = [CTSOauthManager requestSignupOauthToken];
+    if (tokenResponse == nil) {
+      oauthTokenStatus.error = [CTSError getErrorForCode:CantFetchSignupToken];
+    } else {
+      oauthTokenStatus.oauthToken = tokenResponse.accessToken;
+    }
+  }
+
+  return oauthTokenStatus;
 }
 
 + (CTSOauthTokenRes*)refreshOauthToken {
@@ -152,6 +176,31 @@
         [[CTSOauthTokenRes alloc] initWithString:response.responseString
                                            error:&jsonError];
     [CTSOauthManager saveOauthData:resultObject];
+  }
+  return resultObject;
+}
+
++ (CTSOauthTokenRes*)requestSignupOauthToken {
+  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+      initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+         requestId:-1
+           headers:nil
+        parameters:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
+              json:nil
+        httpMethod:POST];
+
+  CTSRestCoreResponse* response =
+      [CTSRestCore requestSyncServer:request withBaseUrl:CITRUS_BASE_URL];
+  NSError* error = response.error;
+  CTSOauthTokenRes* resultObject = nil;
+
+  if (error == nil) {
+    JSONModelError* jsonError;
+    resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+    LogTrace(@"jsonError %@ ", jsonError);
+    [CTSOauthManager saveSignupToken:resultObject.accessToken];
   }
   return resultObject;
 }

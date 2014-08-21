@@ -41,6 +41,9 @@
       errorDescription = @"invalid parameter passed to method";
     case OauthTokenExpired:
       errorDescription = @"Oauth Token expired, Please refresh it from server";
+    case CantFetchSignupToken:
+      errorDescription = @"Can not fetch Signup Oauth token from merchant";
+
     default:
       break;
   }

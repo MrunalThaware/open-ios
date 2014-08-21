@@ -51,7 +51,7 @@ enum {
            withCompletionHandler:(ASUpdateContactInfoCallBack)callback {
   [self addCallback:callback forRequestId:ProfileUpdateContactReqId];
 
-  OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
   if (oauthStatus.error != nil) {
@@ -74,7 +74,7 @@ enum {
             (ASGetContactInfoCallBack)callback {
   [self addCallback:callback forRequestId:ProfileGetContactReqId];
 
-  OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
   if (oauthStatus.error != nil) {
@@ -98,7 +98,7 @@ enum {
            withCompletionHandler:(ASUpdatePaymentInfoCallBack)callback {
   [self addCallback:callback forRequestId:ProfileUpdatePaymentReqId];
 
-  OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
   if (oauthStatus.error != nil) {
@@ -134,7 +134,7 @@ enum {
             (ASGetPaymentInfoCallBack)callback {
   [self addCallback:callback forRequestId:ProfileGetPaymentReqId];
 
-  OauthStatus* oauthStatus = [CTSOauthManager fetchOauthStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
   if (oauthStatus.error != nil) {

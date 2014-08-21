@@ -38,6 +38,12 @@
  *
  *  @return OauthStatus with proper error and valid oauth token
  */
-+ (OauthStatus*)fetchOauthStatus;
++ (OauthStatus*)fetchSigninTokenStatus;
+
++ (OauthStatus*)fetchSignupTokenStatus;
+
++ (void)saveSignupToken:(NSString*)token;
+
++ (NSString*)readSignupToken;
 
 @end

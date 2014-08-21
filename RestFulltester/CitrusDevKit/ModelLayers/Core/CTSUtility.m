@@ -17,8 +17,8 @@
 
 + (NSString*)readFromDisk:(NSString*)key {
   LogTrace(@"Key %@ value %@",
-            key,
-            [[NSUserDefaults standardUserDefaults] valueForKey:key]);
+           key,
+           [[NSUserDefaults standardUserDefaults] valueForKey:key]);
   return [[NSUserDefaults standardUserDefaults] valueForKey:key];
 }
 
@@ -184,6 +184,13 @@
     year = [[NSString stringWithFormat:@"%@%02d", prefix, year] intValue];
   }
   return year;
+}
+
++ (BOOL)toBool:(NSString*)boolString {
+  if ([boolString isEqualToString:@"false"])
+    return NO;
+  else
+    return YES;
 }
 
 @end
