@@ -291,10 +291,8 @@
   CTSNetBankingUpdate* guestflownetbank = [[CTSNetBankingUpdate alloc] init];
   guestflownetbank.code = TEST_NETBAK_CODE;
   [guestFlowNetBankingUpdate addNetBanking:guestflownetbank];
-  
-    
-    
-    [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowNetBankingUpdate
+
+  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowNetBankingUpdate
                                   withContact:contactInfo
                                        amount:@"1"
                                 withSignature:signature
