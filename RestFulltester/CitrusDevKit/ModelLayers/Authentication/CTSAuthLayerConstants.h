@@ -30,8 +30,8 @@ typedef enum PasswordUseType {
 #define MLC_OAUTH_TYPE @"token_type"
 #define MLC_OAUTH_OBJECT_KEY @"oauth_object_key"
 #define MLC_OAUTH_TOKEN_SAVE_DATE @"oauth_token_save_date"
-#define MLC_CLIENT_ID ClientId
-#define MLC_CLIENT_SECRET ClientSecretKey
+#define MLC_CLIENT_ID SignInId
+#define MLC_CLIENT_SECRET SignInSecretKey
 
 #pragma mark - OAUTH_TOKEN
 #define MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE @"grant_type"
@@ -39,7 +39,7 @@ typedef enum PasswordUseType {
 #define MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET @"client_secret"
 
 #define MLC_OAUTH_TOKEN_SIGNUP_CLIENT_ID SubscriptionId
-#define MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET SubscriptionKey
+#define MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET SubscriptionSecretKey
 #define MLC_OAUTH_TOKEN_SIGNUP_GRANT_TYPE @"implicit"
 
 #define MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH @"/oauth/token"

@@ -16,6 +16,7 @@
   CTSPaymentLayer* paymentlayerinfo;
   CTSContactUpdate* contactInfo;
   CTSProfileLayer* profileLayer;
+  CTSUserAddress* addressInfo;
 }
 
 @end

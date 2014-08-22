@@ -17,7 +17,9 @@
 #define TEST_FIRST_NAME @"dongGing"
 #define TEST_LAST_NAME @"wankhede"
 
-#define TEST_DEBIT_CARD_NUMBER @"4028530012345678"
+//#define TEST_DEBIT_CARD_NUMBER @"4028530012345678"
+#define TEST_DEBIT_CARD_NUMBER @"4028530052708001"
+
 #define TEST_DEBIT_EXPIRY_DATE @"03/2015"
 #define TEST_DEBIT_SCHEME @"visa"
 #define TEST_DEBIT_CVV @"018"
@@ -46,5 +48,11 @@
 #define TEST_TOKENIZED_CARD_TOKEN @"abcdef4446e0d9d7b34d7a7968123456"
 
 #define TEST_TOKENIZED_CARD_CVV @"000"
+
+#define MLC_GUESTCHECKOUT_REDIRECTURL @"http://103.13.97.20/citrus/index.php"
+#define MLC_PAYMENT_REDIRECT_URL \
+  @"https://stgadmin.citruspay.com/prepaid/resources/mobile/onload.html"
+#define MLC_PAYMENT_REDIRECT_URLCOMPLETE \
+  @"https://stgadmin.citruspay.com/service/v2/mycard/load/complete"
 
 #endif

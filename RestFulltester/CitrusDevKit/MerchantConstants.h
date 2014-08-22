@@ -10,9 +10,12 @@
 #define CTS_iOS_Sdk_MerchantConstants_h
 //
 #define VanityUrl @""
-#define ClientId @""
-#define ClientSecretKey @""
+#define SignInId @""
+#define SignInSecretKey @""
 #define SubscriptionId @""
-#define SubscriptionKey @""
+#define SubscriptionSecretKey @""
+
+#define MerchantAccessKey @""
+#define MerchantSecretKey @""
 
 #endif

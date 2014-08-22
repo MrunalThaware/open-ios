@@ -28,6 +28,8 @@
 #import "CTSOauthManager.h"
 #import "CTSTokenizedPaymentToken.h"
 #import "NSObject+logProperties.h"
+#import "MerchantConstants.h"
+#import "CTSUserAddress.h"
 @interface CTSPaymentLayer ()
 @property(strong) CTSPaymentDetailUpdate* paymentDetailInfo;
 @property(strong) CTSContactUpdate* contactDetailInfo;
@@ -93,17 +95,20 @@ static BOOL isSignatureSuccess;
 
 - (void)insertGuestValues:(CTSPaymentDetailUpdate*)paymentDetailInfo
               withContact:(CTSContactUpdate*)contactDetailInfo
+              withAddress:(CTSUserAddress*)address
+            withReturnUrl:(NSString*)returnUrl
                 withTxnId:(NSString*)merchanttxnId
             withSignature:(NSString*)reqsignature
                withAmount:(NSString*)amt {
   CTSGuestCheckout* guestpayment = [[CTSGuestCheckout alloc] init];
-  guestpayment.returnUrl = MLC_GUESTCHECKOUT_REDIRECTURL;
+  guestpayment.returnUrl = returnUrl;
   guestpayment.amount = amt;
 
   // Address can't be blank
-  guestpayment.addressState = @"Maharashtra";
-  guestpayment.addressCity = @"Mumbai";
-  guestpayment.address = @"North Avenue";
+  guestpayment.addressState = address.state;
+  guestpayment.addressCity = address.city;
+  guestpayment.addressZip = address.zip;
+  guestpayment.address = @"";
   guestpayment.email = contactDetailInfo.email;
   guestpayment.firstName = contactDetailInfo.firstName;
   guestpayment.lastName = contactDetailInfo.lastName;
@@ -167,6 +172,8 @@ static BOOL isSignatureSuccess;
 }
 - (void)insertMemberValues:(CTSPaymentDetailUpdate*)paymentDetailInfo
                withContact:(CTSContactUpdate*)contactDetailInfo
+               withAddress:(CTSUserAddress*)Address
+             withReturnUrl:(NSString*)returnUrl
                  withTxnId:(NSString*)merchanttxnId
              withSignature:(NSString*)signature
                 withAmount:(NSString*)amt {
@@ -178,7 +185,9 @@ static BOOL isSignatureSuccess;
       tokenizedCardPaymentRequest.merchantTxnId = merchanttxnId;
       tokenizedCardPaymentRequest.notifyUrl = @"";
       tokenizedCardPaymentRequest.requestSignature = signature;
-      tokenizedCardPaymentRequest.returnUrl = MLC_PAYMENT_REDIRECT_URLCOMPLETE;
+      // tokenizedCardPaymentRequest.returnUrl =
+      // MLC_PAYMENT_REDIRECT_URLCOMPLETE;
+      tokenizedCardPaymentRequest.returnUrl = returnUrl;
       CTSAmount* amount = [[CTSAmount alloc] init];
       amount.value = amt;
       amount.currency = @"INR";
@@ -195,16 +204,15 @@ static BOOL isSignatureSuccess;
       userDetails.lastName = contactDetailInfo.lastName;
       userDetails.mobileNo = contactDetailInfo.mobile;
       CTSUserAddress* userAddress = [[CTSUserAddress alloc] init];
-      userAddress.city = @"mumbai";
-      userAddress.country = @"wdw";
-      userAddress.state = @"wefqwrf";
-      userAddress.street1 = @"wfwrf";
-      userAddress.street2 = @"drfrf";
-      userAddress.zip = @"wrwrf";
+      userAddress.city = Address.city;
+      userAddress.country = Address.country;
+      userAddress.state = Address.state;
+      userAddress.street1 = Address.street1;
+      userAddress.street2 = Address.street2;
+      userAddress.zip = userAddress.zip;
       userDetails.address = userAddress;
       tokenizedCardPaymentRequest.amount = amount;
       tokenizedCardPaymentRequest.paymentToken = paymentToken;
-      tokenizedCardPaymentRequest.userDetails = userDetails;
       tokenizedCardPaymentRequest.userDetails = userDetails;
       OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
       NSString* oauthToken = oauthStatus.oauthToken;
@@ -231,7 +239,8 @@ static BOOL isSignatureSuccess;
       paymentrequest.merchantTxnId = merchanttxnId;
       paymentrequest.requestSignature = signature;
       paymentrequest.notifyUrl = @"";
-      paymentrequest.returnUrl = MLC_PAYMENT_REDIRECT_URLCOMPLETE;
+      // paymentrequest.returnUrl = MLC_PAYMENT_REDIRECT_URLCOMPLETE;
+      paymentrequest.returnUrl = returnUrl;
       CTSAmount* amount = [[CTSAmount alloc] init];
       amount.value = amt;
       amount.currency = @"INR";
@@ -267,12 +276,12 @@ static BOOL isSignatureSuccess;
       userDetails.lastName = contactDetailInfo.lastName;
       userDetails.mobileNo = contactDetailInfo.mobile;
       CTSUserAddress* userAddress = [[CTSUserAddress alloc] init];
-      userAddress.city = @"mumbai";
-      userAddress.country = @"wdw";
-      userAddress.state = @"wefqwrf";
-      userAddress.street1 = @"wfwrf";
-      userAddress.street2 = @"drfrf";
-      userAddress.zip = @"wrwrf";
+      userAddress.city = Address.city;
+      userAddress.country = Address.country;
+      userAddress.state = Address.state;
+      userAddress.street1 = Address.street1;
+      userAddress.street2 = Address.street2;
+      userAddress.zip = Address.zip;
       userDetails.address = userAddress;
       paymentrequest.amount = amount;
       paymentrequest.paymentToken = paymentToken;
@@ -308,14 +317,24 @@ static BOOL isSignatureSuccess;
 }
 - (void)makeUserPayment:(CTSPaymentDetailUpdate*)paymentInfo
               withContact:(CTSContactUpdate*)contactInfo
+              withAddress:(CTSUserAddress*)userAddress
                    amount:(NSString*)amount
+            withReturnUrl:(NSString*)returnUrl
             withSignature:(NSString*)signature
                 withTxnId:(NSString*)merchantTxnId
     withCompletionHandler:(ASMakeUserPaymentCallBack)callback {
   [self addCallback:callback forRequestId:PaymentUsingSignedInCardBankReqId];
   self.paymentTokenType = @"paymentOptionToken";
+  //  [self insertMemberValues:paymentInfo
+  //               withContact:contactInfo
+  //                 withTxnId:merchantTxnId
+  //             withSignature:signature
+  //                withAmount:amount];
+
   [self insertMemberValues:paymentInfo
                withContact:contactInfo
+               withAddress:userAddress
+             withReturnUrl:returnUrl
                  withTxnId:merchantTxnId
              withSignature:signature
                 withAmount:amount];
@@ -323,14 +342,24 @@ static BOOL isSignatureSuccess;
 
 - (void)makeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
                  withContact:(CTSContactUpdate*)contactInfo
+                 withAddress:(CTSUserAddress*)userAddress
                       amount:(NSString*)amount
+               withReturnUrl:(NSString*)returnUrl
                withSignature:(NSString*)signature
                    withTxnId:(NSString*)merchantTxnId
        withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback {
   [self addCallback:callback forRequestId:PaymentUsingtokenizedCardBankReqId];
   self.paymentTokenType = @"paymentOptionIdToken";
+  //  [self insertMemberValues:paymentInfo
+  //               withContact:contactInfo
+  //                 withTxnId:merchantTxnId
+  //             withSignature:signature
+  //                withAmount:amount];
+
   [self insertMemberValues:paymentInfo
                withContact:contactInfo
+               withAddress:userAddress
+             withReturnUrl:returnUrl
                  withTxnId:merchantTxnId
              withSignature:signature
                 withAmount:amount];
@@ -338,6 +367,8 @@ static BOOL isSignatureSuccess;
 - (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
                       withContact:(CTSContactUpdate*)contactInfo
                            amount:(NSString*)amount
+                      withAddress:(CTSUserAddress*)userAddress
+                    withReturnUrl:(NSString*)returnUrl
                     withSignature:(NSString*)signature
                         withTxnId:(NSString*)merchantTxnId
                        isDoSignup:(BOOL)isDoSignup
@@ -374,6 +405,8 @@ static BOOL isSignatureSuccess;
 
   [self insertGuestValues:paymentInfo
               withContact:contactInfo
+              withAddress:userAddress
+            withReturnUrl:returnUrl
                 withTxnId:merchantTxnId
             withSignature:signature
                withAmount:amount];

@@ -22,6 +22,7 @@
 #import "CTSPgSettings.h"
 #import "CTSAuthLayer.h"
 #import "CTSRestPluginBase.h"
+#import "CTSUserAddress.h"
 
 @class RKObjectManager;
 @class CTSAuthLayer;
@@ -114,7 +115,9 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
 
 - (void)makeUserPayment:(CTSPaymentDetailUpdate*)paymentInfo
               withContact:(CTSContactUpdate*)contactInfo
+              withAddress:(CTSUserAddress*)userAddress
                    amount:(NSString*)amount
+            withReturnUrl:(NSString*)returnUrl
             withSignature:(NSString*)signature
                 withTxnId:(NSString*)merchantTxnId
     withCompletionHandler:(ASMakeUserPaymentCallBack)callback;
@@ -128,7 +131,9 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
  */
 - (void)makeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
                  withContact:(CTSContactUpdate*)contactInfo
+                 withAddress:(CTSUserAddress*)userAddress
                       amount:(NSString*)amount
+               withReturnUrl:(NSString*)returnUrl
                withSignature:(NSString*)signature
                    withTxnId:(NSString*)merchantTxnId
        withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
@@ -145,6 +150,8 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
 - (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
                       withContact:(CTSContactUpdate*)contactInfo
                            amount:(NSString*)amount
+                      withAddress:(CTSUserAddress*)userAddress
+                    withReturnUrl:(NSString*)returnUrl
                     withSignature:(NSString*)signature
                         withTxnId:(NSString*)merchantTxnId
                        isDoSignup:(BOOL)isDoSignup
