@@ -23,7 +23,12 @@
   [super viewDidLoad];
   [self initialize];
   //[self signIn];
-  [authLayer requestResetPassword:TEST_EMAIL];
+  [authLayer requestResetPassword:TEST_EMAIL
+                completionHandler:^(NSError* error) {
+                    LogTrace(@" %@ error ", error);
+                }];
+  //[authLayer requestResetPassword:TEST_EMAIL];
+  //[self signUp];
 
   // pragma marked user methods are sample implementations of sdk
   // TestParams.h should be populated according to your needs
@@ -60,19 +65,28 @@
 #pragma mark - AuthLayer Sample implementation
 
 - (void)signIn {
-  [authLayer requestSigninWithUsername:TEST_EMAIL
-                              password:TEST_PASSWORD
-                     completionHandler:^(NSString* userName,
-                                         NSString* token,
-                                         NSError* error) {
-                         LogTrace(@"userName %@ ", userName);
-                         LogTrace(@"token %@ ", token);
-                         LogTrace(@"error %@ ", error);
-                         //[self doGuestPaymentCard];
-                         //[self doGuestPaymentCard];
-                         //[self doUserCreditCardPayment];
-                         [authLayer requestResetPassword:TEST_EMAIL];
-                     }];
+  [authLayer
+      requestSigninWithUsername:TEST_EMAIL
+                       password:TEST_PASSWORD
+              completionHandler:^(NSString* userName,
+                                  NSString* token,
+                                  NSError* error) {
+                  LogTrace(@"userName %@ ", userName);
+                  LogTrace(@"token %@ ", token);
+                  LogTrace(@"error %@ ", error);
+                  //[self doGuestPaymentCard];
+                  //[self doGuestPaymentCard];
+                  //[self doUserCreditCardPayment];
+                  //[authLayer requestResetPassword:TEST_EMAIL
+                  // completionHandler:nil];
+                  [paymentlayerinfo
+                      requestMerchantPgSettings:VanityUrl
+                          withCompletionHandler:^(CTSPgSettings* pgSettings,
+                                                  NSError* error) {
+                              LogTrace(@"pgSettings %@ ", pgSettings);
+                              LogTrace(@"error %@ ", error);
+                          }];
+              }];
 }
 
 - (void)signUp {
@@ -85,6 +99,7 @@
                       LogTrace(@"userName %@ ", userName);
                       LogTrace(@"token %@ ", token);
                       LogTrace(@"error %@ ", error);
+                      [self signIn];
                   }];
 }
 

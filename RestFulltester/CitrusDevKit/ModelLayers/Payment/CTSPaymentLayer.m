@@ -364,6 +364,7 @@ static BOOL isSignatureSuccess;
              withSignature:signature
                 withAmount:amount];
 }
+
 - (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
                       withContact:(CTSContactUpdate*)contactInfo
                            amount:(NSString*)amount
@@ -412,12 +413,14 @@ static BOOL isSignatureSuccess;
                withAmount:amount];
 }
 
-- (void)requestMerchantPgSettings:(NSString*)vanityUrl {
+- (void)requestMerchantPgSettings:(NSString*)vanityUrl
+            withCompletionHandler:(ASGetMerchantPgSettingsCallBack)callback {
+  [self addCallback:callback forRequestId:PaymentPgSettingsReqId];
+
   if (vanityUrl == nil) {
-    [delegate payment:self
-        didRequestMerchantPgSettings:nil
-                               error:[CTSError
-                                         getErrorForCode:InvalidParameter]];
+    [self getMerchantPgSettingsHelper:nil
+                                error:[CTSError
+                                          getErrorForCode:InvalidParameter]];
   }
 
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]

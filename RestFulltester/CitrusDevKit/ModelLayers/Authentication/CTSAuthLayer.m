@@ -25,29 +25,28 @@
 
 #pragma mark - public methods
 
-- (void)requestResetPassword:(NSString*)userNameArg {
+- (void)requestResetPassword:(NSString*)userNameArg
+           completionHandler:(ASResetPasswordCallback)callBack;
+{
+  [self addCallback:callBack forRequestId:RequestForPasswordResetReqId];
+
   OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
   if (oauthStatus.error != nil) {
-    [self signupHelperUsername:userNameSignup
-                         oauth:oauthStatus.oauthToken
-                         error:oauthStatus.error];
+    [self resetPasswordHelper:oauthStatus.error];
   }
 
   if (![CTSUtility validateEmail:userNameArg]) {
-    [self signupHelperUsername:userNameSignup
-                         oauth:oauthToken
-                         error:[CTSError getErrorForCode:EmailNotValid]];
+    [self resetPasswordHelper:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_REQUEST_CHANGE_PWD_REQ_PATH
          requestId:RequestForPasswordResetReqId
            headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
-        parameters:@{
-          MLC_REQUEST_CHANGE_PWD_QUERY_USERNAME : userNameArg
-        } json:nil
+        parameters:@{MLC_REQUEST_CHANGE_PWD_QUERY_USERNAME : userNameArg}
+              json:nil
         httpMethod:POST];
 
   [restCore requestAsyncServer:request];
@@ -500,6 +499,7 @@ enum {
 
 - (void)handleReqRequestForPasswordReset:(CTSRestCoreResponse*)response {
   LogTrace(@"password change requested");
+  [self resetPasswordHelper:response.error];
 }
 
 - (void)handleIsUserCitrusMember:(CTSRestCoreResponse*)response {
@@ -574,6 +574,16 @@ enum {
     callback(isMember, error);
   } else {
     [delegate auth:self didCheckIsUserCitrusMember:isMember error:error];
+  }
+}
+
+- (void)resetPasswordHelper:(NSError*)error {
+  ASResetPasswordCallback callback =
+      [self retrieveAndRemoveCallbackForReqId:RequestForPasswordResetReqId];
+  if (callback != nil) {
+    callback(error);
+  } else {
+    [delegate auth:self didRequestForResetPassword:error];
   }
 }
 

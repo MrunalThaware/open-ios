@@ -64,6 +64,14 @@
     didCheckIsUserCitrusMember:(BOOL)isMember
                          error:(NSError*)error;
 
+/**
+ *  reports password reset
+ *
+ *  @param layer
+ *  @param error
+ */
+- (void)auth:(CTSAuthLayer*)layer didRequestForResetPassword:(NSError*)error;
+
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -84,6 +92,8 @@ typedef void (^ASChangePassword)(NSError* error);
 
 typedef void (^ASIsUserCitrusMemberCallback)(BOOL isUserCitrusMember,
                                              NSError* error);
+
+typedef void (^ASResetPasswordCallback)(NSError* error);
 
 @property(nonatomic, strong) id<CTSAuthenticationProtocol> delegate;
 
@@ -117,7 +127,8 @@ typedef void (^ASIsUserCitrusMemberCallback)(BOOL isUserCitrusMember,
  *
  *  @param userNameArg
  */
-- (void)requestResetPassword:(NSString*)userNameArg;
+- (void)requestResetPassword:(NSString*)userNameArg
+           completionHandler:(ASResetPasswordCallback)callBack;
 
 /**
  *  to change the user password
