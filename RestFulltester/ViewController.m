@@ -22,7 +22,9 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  [self signIn];
+  //[self signIn];
+  [authLayer requestResetPassword:TEST_EMAIL];
+
   // pragma marked user methods are sample implementations of sdk
   // TestParams.h should be populated according to your needs
 
@@ -67,7 +69,9 @@
                          LogTrace(@"token %@ ", token);
                          LogTrace(@"error %@ ", error);
                          //[self doGuestPaymentCard];
-                         [self doGuestPaymentCard];
+                         //[self doGuestPaymentCard];
+                         //[self doUserCreditCardPayment];
+                         [authLayer requestResetPassword:TEST_EMAIL];
                      }];
 }
 

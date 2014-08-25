@@ -26,7 +26,7 @@
 #pragma mark - public methods
 
 - (void)requestResetPassword:(NSString*)userNameArg {
-  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
   if (oauthStatus.error != nil) {
@@ -199,17 +199,15 @@
   ENTRY_LOG
   [self addCallback:callback forRequestId:ChangePasswordReqId];
 
-  NSString* oauthToken = [CTSOauthManager readOauthTokenWithExpiryCheck];
-  if (oauthToken == nil) {
-    [self signupHelperUsername:userName
-                         oauth:[CTSOauthManager readOauthToken]
-                         error:[CTSError getErrorForCode:OauthTokenExpired]];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
+  if (oauthStatus.error != nil) {
+    [self changePasswordHelper:oauthStatus.error];
   }
 
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_CHANGE_PASSWORD_REQ_PATH
          requestId:ChangePasswordReqId
-           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+           headers:[CTSUtility readOauthTokenAsHeader:oauthStatus.oauthToken]
         parameters:@{
           MLC_CHANGE_PASSWORD_QUERY_OLD_PWD : oldPassword,
           MLC_CHANGE_PASSWORD_QUERY_NEW_PWD : newPassword

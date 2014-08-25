@@ -31,7 +31,6 @@
 
 + (void)saveOauthData:(CTSOauthTokenRes*)object {
   object.tokenSaveDate = [NSDate date];
-  object.tokenExpiryTime = 180;
   NSData* encodedObject = [NSKeyedArchiver archivedDataWithRootObject:object];
   NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
   [defaults setObject:encodedObject forKey:MLC_OAUTH_OBJECT_KEY];
