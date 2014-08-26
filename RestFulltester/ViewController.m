@@ -22,11 +22,11 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  //[self signIn];
-  [authLayer requestResetPassword:TEST_EMAIL
+  [self signIn];
+  /*[authLayer requestResetPassword:TEST_EMAIL
                 completionHandler:^(NSError* error) {
                     LogTrace(@" %@ error ", error);
-                }];
+                }];*/
   //[authLayer requestResetPassword:TEST_EMAIL];
   //[self signUp];
 
@@ -79,13 +79,15 @@
                   //[self doUserCreditCardPayment];
                   //[authLayer requestResetPassword:TEST_EMAIL
                   // completionHandler:nil];
-                  [paymentlayerinfo
-                      requestMerchantPgSettings:VanityUrl
-                          withCompletionHandler:^(CTSPgSettings* pgSettings,
-                                                  NSError* error) {
-                              LogTrace(@"pgSettings %@ ", pgSettings);
-                              LogTrace(@"error %@ ", error);
-                          }];
+                  //[self doGuestPaymentCard];
+                  [self updatePaymentInfo];
+//                  [paymentlayerinfo
+//                      requestMerchantPgSettings:VanityUrl
+//                          withCompletionHandler:^(CTSPgSettings* pgSettings,
+//                                                  NSError* error) {
+//                              LogTrace(@"pgSettings %@ ", pgSettings);
+//                              LogTrace(@"error %@ ", error);
+//                          }];
               }];
 }
 
@@ -161,6 +163,7 @@
   creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
   creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
   creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+    creditCard.cvv = TEST_CREDIT_CARD_CVV;
 
   [creditCardInfo addCard:creditCard];
 
@@ -343,6 +346,7 @@
       [hmacSignature generateHMAC:MLC_GUESTCHECKOUT_SECRETKEY withData:data];
   return signature;
 }
+
 - (void)doGuestPaymentNetbanking {
   NSString* transactionId;
   long long CurrentTime =

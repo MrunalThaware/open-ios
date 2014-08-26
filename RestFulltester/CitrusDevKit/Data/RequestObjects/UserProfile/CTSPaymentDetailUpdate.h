@@ -39,4 +39,7 @@
 - (BOOL)addNetBanking:(CTSNetBankingUpdate*)netBankDetail;
 
 - (CTSErrorCode)validate;
+
+
+-(void)clearCVV;
 @end

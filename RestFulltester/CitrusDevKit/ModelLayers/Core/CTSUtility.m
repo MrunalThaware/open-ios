@@ -89,6 +89,8 @@
 }
 
 + (BOOL)validateCVV:(NSString*)cvv cardNumber:(NSString*)cardNumber {
+  if (cvv == nil)
+    return YES;
   BOOL error = NO;
   if ([CreditCard_Validator checkCardBrandWithNumber:cardNumber] ==
       CreditCardBrandAmex) {

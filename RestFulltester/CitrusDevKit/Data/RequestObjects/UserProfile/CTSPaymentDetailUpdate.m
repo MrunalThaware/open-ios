@@ -39,4 +39,11 @@
   }
   return error;
 }
+
+- (void)clearCVV {
+  for (CTSPaymentOption* payment in paymentOptions) {
+    payment.cvv = nil;
+  }
+}
+
 @end

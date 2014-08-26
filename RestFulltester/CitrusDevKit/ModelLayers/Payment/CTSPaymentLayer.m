@@ -93,7 +93,7 @@ static BOOL isSignatureSuccess;
 //  [restCore requestAsyncServer:request];
 //}
 
-- (void)insertGuestValues:(CTSPaymentDetailUpdate*)paymentDetailInfo
+/*- (void)insertGuestValues:(CTSPaymentDetailUpdate*)paymentDetailInfo
               withContact:(CTSContactUpdate*)contactDetailInfo
               withAddress:(CTSUserAddress*)address
             withReturnUrl:(NSString*)returnUrl
@@ -167,6 +167,92 @@ static BOOL isSignatureSuccess;
                                        headers:header
                                     parameters:nil
                                           json:[guestpayment toJSONString]
+                                    httpMethod:POST];
+  [restCore requestAsyncServer:request];
+}*/
+
+- (void)insertGuestValues:(CTSPaymentDetailUpdate*)paymentDetailInfo
+              withContact:(CTSContactUpdate*)contactDetailInfo
+              withAddress:(CTSUserAddress*)address
+            withReturnUrl:(NSString*)returnUrl
+                withTxnId:(NSString*)merchanttxnId
+            withSignature:(NSString*)reqsignature
+               withAmount:(NSString*)amt {
+  CTSPaymentRequest* paymentrequest = [[CTSPaymentRequest alloc] init];
+  paymentrequest.merchantAccessKey = MLC_PAYMENT_ACCESSKEY;
+  paymentrequest.merchantTxnId = merchanttxnId;
+  paymentrequest.requestSignature = reqsignature;
+  paymentrequest.notifyUrl = @"";
+  // paymentrequest.returnUrl = MLC_PAYMENT_REDIRECT_URLCOMPLETE;
+  paymentrequest.returnUrl = returnUrl;
+  CTSAmount* amount = [[CTSAmount alloc] init];
+  amount.value = amt;
+  amount.currency = @"INR";
+  CTSPaymentToken* paymentToken = [[CTSPaymentToken alloc] init];
+  paymentToken.type = self.paymentTokenType;
+  CTSPaymentMode* paymentMode = [[CTSPaymentMode alloc] init];
+  for (CTSPaymentOption* paymentOption in paymentDetailInfo.paymentOptions) {
+    paymentMode.type = paymentOption.type;
+    if (paymentOption.code != nil) {
+      paymentMode.code = paymentOption.code;
+    }
+    if (paymentOption.name != nil) {
+      paymentMode.holder = paymentOption.name;
+    }
+    if (paymentOption.expiryDate != nil) {
+      paymentMode.expiry = paymentOption.expiryDate;
+    }
+    if (paymentOption.cvv != nil) {
+      paymentMode.cvv = paymentOption.cvv;
+    }
+    if (paymentOption.number != nil) {
+      paymentMode.number = paymentOption.number;
+    }
+    if (paymentOption.scheme != nil) {
+      paymentMode.scheme = paymentOption.scheme;
+    }
+  }
+  paymentToken.paymentMode = paymentMode;
+  CTSUserDetails* userDetails = [[CTSUserDetails alloc] init];
+  userDetails.email = contactDetailInfo.email;
+  userDetails.firstName = contactDetailInfo.firstName;
+  userDetails.lastName = contactDetailInfo.lastName;
+  userDetails.mobileNo = contactDetailInfo.mobile;
+  CTSUserAddress* userAddress = [[CTSUserAddress alloc] init];
+  userAddress.city = address.city;
+  userAddress.country = address.country;
+  userAddress.state = address.state;
+  userAddress.street1 = address.street1;
+  userAddress.street2 = address.street2;
+  userAddress.zip = address.zip;
+  userDetails.address = userAddress;
+  paymentrequest.amount = amount;
+  paymentrequest.paymentToken = paymentToken;
+  paymentrequest.userDetails = userDetails;
+  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+  NSString* oauthToken = oauthStatus.oauthToken;
+  if (oauthStatus.error != nil) {
+    [self makeUserPaymentHelper:nil
+                          error:[CTSError getErrorForCode:UserNotSignedIn]];
+
+    return;
+  } else {
+    CTSErrorCode error = [paymentDetailInfo validate];
+    if (error != NoError) {
+      /*[delegate transactionInformation:nil
+       error:[CTSError getErrorForCode:error]];*/
+      // return;
+    }
+  }
+  NSDictionary* header = @{ @"Content-Type" : @"application/json" };
+  NSLog(@"json request:%@", paymentrequest);
+  NSLog(@"JSON STRING:%@", [paymentrequest toJSONString]);
+  CTSRestCoreRequest* request =
+      [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL
+                                     requestId:PaymentAsGuestReqId
+                                       headers:header
+                                    parameters:nil
+                                          json:[paymentrequest toJSONString]
                                     httpMethod:POST];
   [restCore requestAsyncServer:request];
 }
@@ -315,6 +401,17 @@ static BOOL isSignatureSuccess;
     }
   }
 }
+
+- (CTSPaymentRequest*)configureReqPayment:(CTSPaymentDetailUpdate*)paymentInfo
+                                  contact:(CTSContactUpdate*)contact
+                                  address:(CTSUserAddress*)address
+                                   amount:(NSString*)amount
+                                returnUrl:(NSString*)returnUrl
+                                signature:(NSString*)signature
+                                    txnId:(NSString*)txnId {
+  return nil;
+}
+
 - (void)makeUserPayment:(CTSPaymentDetailUpdate*)paymentInfo
               withContact:(CTSContactUpdate*)contactInfo
               withAddress:(CTSUserAddress*)userAddress
@@ -375,6 +472,7 @@ static BOOL isSignatureSuccess;
                        isDoSignup:(BOOL)isDoSignup
             withCompletionHandler:(ASMakeGuestPaymentCallBack)callback {
   [self addCallback:callback forRequestId:PaymentAsGuestReqId];
+  self.paymentTokenType = @"paymentOptionToken";
   if (isDoSignup == YES) {
     CTSAuthLayer* authLayer = [[CTSAuthLayer alloc] init];
     authLayer.delegate = self;
@@ -404,6 +502,13 @@ static BOOL isSignatureSuccess;
     });
   }
 
+  //  [self insertGuestValues:paymentInfo
+  //              withContact:contactInfo
+  //              withAddress:userAddress
+  //            withReturnUrl:returnUrl
+  //                withTxnId:merchantTxnId
+  //            withSignature:signature
+  //               withAmount:amount];
   [self insertGuestValues:paymentInfo
               withContact:contactInfo
               withAddress:userAddress
