@@ -39,7 +39,7 @@
 #define TEST_CREDIT_CARD_BANK_NAME @"ICICI"
 #define TEST_CREDIT_CARD_CVV @"018"
 
-#define TEST_NETBAK_CODE @"CIM005"
+#define TEST_NETBAK_CODE @"CID002"
 
 // sample value
 #define TEST_TOKENIZED_PAYBANK_TOKEN @"frfr6arrabcrrrrfee5ec787ad61f8bm"

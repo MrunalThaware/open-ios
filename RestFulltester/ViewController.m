@@ -21,7 +21,6 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-    [self doGuestPaymentCard];
 }
 
 - (void)initialize {
@@ -61,6 +60,8 @@
                          LogTrace(@"userName %@ ", userName);
                          LogTrace(@"token %@ ", token);
                          LogTrace(@"error %@ ", error);
+                         [paymentlayerinfo requestMerchantPgSettings:VanityUrl
+                                               withCompletionHandler:nil];
                      }];
 }
 
@@ -323,10 +324,7 @@
 }
 
 - (void)doGuestPaymentNetbanking {
-  NSString* transactionId;
-  long long CurrentTime =
-      (long long)([[NSDate date] timeIntervalSince1970] * 1000);
-  transactionId = [NSString stringWithFormat:@"%lld", CurrentTime];
+  NSString* transactionId = [self createTXNId];
   NSLog(@"transactionId:%@", transactionId);
   NSString* signature =
       [self getSignatureFromServerTxnId:[self createTXNId] amount:@"1"];
@@ -405,6 +403,22 @@
     didRequestMerchantPgSettings:(CTSPgSettings*)pgSettings
                            error:(NSError*)error {
   NSLog(@"%@", pgSettings);
+
+  LogTrace(@" pgSettings %@ ", pgSettings);
+  for (NSString* val in pgSettings.creditCard) {
+    LogTrace(@"CC %@ ", val);
+  }
+
+  for (NSString* val in pgSettings.creditCard) {
+    LogTrace(@"DC %@ ", val);
+  }
+
+  for (NSDictionary* arr in pgSettings.netBanking) {
+    LogTrace(@"bankName %@ ", [arr valueForKey:@"bankName"]);
+    LogTrace(@"issuerCode %@ ", [arr valueForKey:@"issuerCode"]);
+  }
+
+  LogTrace(@" error %@ ", error);
 }
 
 - (void)payment:(CTSPaymentLayer*)layer
