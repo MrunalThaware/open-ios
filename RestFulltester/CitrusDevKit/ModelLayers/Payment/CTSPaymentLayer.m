@@ -229,21 +229,7 @@ static BOOL isSignatureSuccess;
   paymentrequest.amount = amount;
   paymentrequest.paymentToken = paymentToken;
   paymentrequest.userDetails = userDetails;
-  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
-  NSString* oauthToken = oauthStatus.oauthToken;
-  if (oauthStatus.error != nil) {
-    [self makeUserPaymentHelper:nil
-                          error:[CTSError getErrorForCode:UserNotSignedIn]];
 
-    return;
-  } else {
-    CTSErrorCode error = [paymentDetailInfo validate];
-    if (error != NoError) {
-      /*[delegate transactionInformation:nil
-       error:[CTSError getErrorForCode:error]];*/
-      // return;
-    }
-  }
   NSDictionary* header = @{ @"Content-Type" : @"application/json" };
   NSLog(@"json request:%@", paymentrequest);
   NSLog(@"JSON STRING:%@", [paymentrequest toJSONString]);
