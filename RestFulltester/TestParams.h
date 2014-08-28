@@ -28,7 +28,7 @@
 #define TEST_DEBIT_CARD_EXPIRY @"12/15"
 #define TEST_DEBIT_SCHEME @"visa"
 #define TEST_DEBIT_OWNER_NAME @"Yaddy"
-#define TEST_BANK_NAME @"KOTAK"
+#define TEST_DEBIT_CARD_BANK_NAME @"KOTAK"
 #define TEST_DEBIT_CARD_TOKEN @""
 #define TEST_DEBIT_CVV @"018"
 

@@ -9,7 +9,6 @@
 #import "ViewController.h"
 #import "CitrusSdk.h"
 #import "NSObject+logProperties.h"
-#import "HMACSignature.h"
 #import "TestParams.h"
 #import "MerchantConstants.h"
 
@@ -22,18 +21,6 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  [self signIn];
-  /*[authLayer requestResetPassword:TEST_EMAIL
-                completionHandler:^(NSError* error) {
-                    LogTrace(@" %@ error ", error);
-                }];*/
-  //[authLayer requestResetPassword:TEST_EMAIL];
-  //[self signUp];
-
-  // pragma marked user methods are sample implementations of sdk
-  // TestParams.h should be populated according to your needs
-
-  //[self signUp];
 }
 
 - (void)initialize {
@@ -60,35 +47,20 @@
 
   // guest flow
 }
-/****************************************************|AUTHLAYER|*****************************************************************************/
+/****************************************************|AUTHLAYER|***************************************************/
 
 #pragma mark - AuthLayer Sample implementation
 
 - (void)signIn {
-  [authLayer
-      requestSigninWithUsername:TEST_EMAIL
-                       password:TEST_PASSWORD
-              completionHandler:^(NSString* userName,
-                                  NSString* token,
-                                  NSError* error) {
-                  LogTrace(@"userName %@ ", userName);
-                  LogTrace(@"token %@ ", token);
-                  LogTrace(@"error %@ ", error);
-                  //[self doGuestPaymentCard];
-                  //[self doGuestPaymentCard];
-                  //[self doUserCreditCardPayment];
-                  //[authLayer requestResetPassword:TEST_EMAIL
-                  // completionHandler:nil];
-                  //[self doGuestPaymentCard];
-                  [self updatePaymentInfo];
-//                  [paymentlayerinfo
-//                      requestMerchantPgSettings:VanityUrl
-//                          withCompletionHandler:^(CTSPgSettings* pgSettings,
-//                                                  NSError* error) {
-//                              LogTrace(@"pgSettings %@ ", pgSettings);
-//                              LogTrace(@"error %@ ", error);
-//                          }];
-              }];
+  [authLayer requestSigninWithUsername:TEST_EMAIL
+                              password:TEST_PASSWORD
+                     completionHandler:^(NSString* userName,
+                                         NSString* token,
+                                         NSError* error) {
+                         LogTrace(@"userName %@ ", userName);
+                         LogTrace(@"token %@ ", token);
+                         LogTrace(@"error %@ ", error);
+                     }];
 }
 
 - (void)signUp {
@@ -148,14 +120,25 @@
   LogTrace(@"error %@", error);
 }
 
-/**********************************************|PROFILELAYER|*****************************************************************************/
+- (void)auth:(CTSAuthLayer*)layer didChangePasswordError:(NSError*)error {
+}
+
+- (void)auth:(CTSAuthLayer*)layer didRequestForResetPassword:(NSError*)error {
+}
+
+- (void)auth:(CTSAuthLayer*)layer
+    didCheckIsUserCitrusMember:(BOOL)isMember
+                         error:(NSError*)error {
+}
+
+/**********************************************|PROFILELAYER|*****************************************************/
 
 #pragma mark - Profile Sample implementation
 
 - (void)updatePaymentInfo {
+  CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
+
   // credit card
-  CTSPaymentDetailUpdate* creditCardInfo =
-      [[CTSPaymentDetailUpdate alloc] init];
   CTSElectronicCardUpdate* creditCard =
       [[CTSElectronicCardUpdate alloc] initCreditCard];
   creditCard.number = TEST_CREDIT_CARD_NUMBER;
@@ -163,12 +146,25 @@
   creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
   creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
   creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-    creditCard.cvv = TEST_CREDIT_CARD_CVV;
+  [paymentInfo addCard:creditCard];
 
-  [creditCardInfo addCard:creditCard];
+  // debit card
+  CTSElectronicCardUpdate* debitCard =
+      [[CTSElectronicCardUpdate alloc] initDebitCard];
+  debitCard.number = TEST_DEBIT_CARD_NUMBER;
+  debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
+  debitCard.scheme = TEST_DEBIT_SCHEME;
+  debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
+  debitCard.name = TEST_DEBIT_CARD_BANK_NAME;
+  [paymentInfo addCard:debitCard];
 
-  [profileLayer updatePaymentInformation:creditCardInfo
-                   withCompletionHandler:nil];
+  // netbaking
+  CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
+  netBank.code = TEST_NETBAK_CODE;
+  [paymentInfo addNetBanking:netBank];
+
+  // send it to server
+  [profileLayer updatePaymentInformation:paymentInfo withCompletionHandler:nil];
 }
 
 - (void)updateContactInformation {
@@ -208,7 +204,7 @@
   LogTrace(@"didUpdatePaymentInfoError error %@ ", error);
 }
 
-/**************************************************************|PAYMENTLAYER|**************************************************************************/
+/****************************************|PAYMENTLAYER|**************************************************/
 
 #pragma mark - PaymentLayer Sample implementation
 
@@ -218,19 +214,21 @@
   CTSNetBankingUpdate* netbank = [[CTSNetBankingUpdate alloc] init];
   netbank.code = @"CID001";
   [netBankingPaymentInfo addNetBanking:netbank];
+  NSString* txnId = [self createTXNId];
   //  [paymentlayerinfo makeUserPayment:netBankingPaymentInfo
   //                        withContact:contactInfo
   //                             amount:@"1"
   //                      withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
   //                          withTxnId:@"PPTX000000003946"];
-  [paymentlayerinfo makeUserPayment:netBankingPaymentInfo
-                        withContact:contactInfo
-                        withAddress:addressInfo
-                             amount:@"1"
-                      withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
-                      withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
-                          withTxnId:@"PPTX000000003946"
-              withCompletionHandler:nil];
+  [paymentlayerinfo
+            makeUserPayment:netBankingPaymentInfo
+                withContact:contactInfo
+                withAddress:addressInfo
+                     amount:@"1"
+              withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
+              withSignature:[self getSignatureFromServerTxnId:txnId amount:@"1"]
+                  withTxnId:txnId
+      withCompletionHandler:nil];
 }
 - (void)doUserDebitCardPayment {
   CTSPaymentDetailUpdate* debitCardInfo = [[CTSPaymentDetailUpdate alloc] init];
@@ -240,24 +238,20 @@
   debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
   debitCard.scheme = TEST_DEBIT_SCHEME;
   debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
-  debitCard.name = TEST_BANK_NAME;
+  debitCard.name = TEST_DEBIT_CARD_BANK_NAME;
   debitCard.cvv = TEST_DEBIT_CVV;
   [debitCardInfo addCard:debitCard];
+  NSString* txnId = [self createTXNId];
 
-  /*[paymentlayerinfo makeUserPayment:debitCardInfo
-   withContact:contactInfo
-   amount:@"1"
-   withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
-   withTxnId:@"PPTX000000003946"
-   withCompletionHandler:nil];*/
-  [paymentlayerinfo makeUserPayment:debitCardInfo
-                        withContact:contactInfo
-                        withAddress:addressInfo
-                             amount:@"1"
-                      withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
-                      withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
-                          withTxnId:@"PPTX000000003946"
-              withCompletionHandler:nil];
+  [paymentlayerinfo
+            makeUserPayment:debitCardInfo
+                withContact:contactInfo
+                withAddress:addressInfo
+                     amount:@"1"
+              withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
+              withSignature:[self getSignatureFromServerTxnId:txnId amount:@"1"]
+                  withTxnId:txnId
+      withCompletionHandler:nil];
 }
 - (void)doUserCreditCardPayment {
   CTSPaymentDetailUpdate* creditCardInfo =
@@ -277,14 +271,9 @@
       (long long)([[NSDate date] timeIntervalSince1970] * 1000);
   transactionId = [NSString stringWithFormat:@"%lld", CurrentTime];
   NSLog(@"transactionId:%@", transactionId);
-  NSString* signature = [self getGuestPaymentSignature:transactionId:@"1"];
+  NSString* signature =
+      [self getSignatureFromServerTxnId:[self createTXNId] amount:@"1"];
 
-  /*[paymentlayerinfo makeUserPayment:creditCardInfo
-                        withContact:contactInfo
-                             amount:@"1"
-                      withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
-                          withTxnId:@"PPTX000000003946"
-              withCompletionHandler:nil];*/
   [paymentlayerinfo makeUserPayment:creditCardInfo
                         withContact:contactInfo
                         withAddress:addressInfo
@@ -295,13 +284,20 @@
               withCompletionHandler:nil];
 }
 
-- (void)doGuestPaymentCard {
+- (NSString*)createTXNId {
   NSString* transactionId;
   long long CurrentTime =
       (long long)([[NSDate date] timeIntervalSince1970] * 1000);
   transactionId = [NSString stringWithFormat:@"%lld", CurrentTime];
-  NSLog(@"transactionId:%@", transactionId);
-  NSString* signature = [self getGuestPaymentSignature:transactionId:@"1"];
+  return transactionId;
+}
+
+- (void)doGuestPaymentCard {
+  NSString* transactionId = [self createTXNId];
+
+  NSString* signature =
+      [self getSignatureFromServerTxnId:transactionId amount:@"1"];
+
   CTSPaymentDetailUpdate* guestFlowDebitCardInfo =
       [[CTSPaymentDetailUpdate alloc] init];
   CTSElectronicCardUpdate* guestflowdebitcard =
@@ -313,14 +309,7 @@
   guestflowdebitcard.ownerName = TEST_OWNER_NAME;
 
   [guestFlowDebitCardInfo addCard:guestflowdebitcard];
-  //
-  //  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowDebitCardInfo
-  //                                  withContact:contactInfo
-  //                                       amount:@"1"
-  //                                withSignature:signature
-  //                                    withTxnId:transactionId
-  //                                   isDoSignup:NO
-  //                        withCompletionHandler:nil];
+
   [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowDebitCardInfo
                                   withContact:contactInfo
                                        amount:@"1"
@@ -332,41 +321,21 @@
                         withCompletionHandler:nil];
 }
 
-- (NSString*)getGuestPaymentSignature:(NSString*)
-                        transactionId:(NSString*)amount {
-  NSString* signature;
-
-  NSString* data = [NSString
-      stringWithFormat:@"merchantAccessKey=%@&transactionId=%@&amount=%@",
-                       MerchantAccessKey,
-                       transactionId,
-                       amount];
-  HMACSignature* hmacSignature = [[HMACSignature alloc] init];
-  signature =
-      [hmacSignature generateHMAC:MLC_GUESTCHECKOUT_SECRETKEY withData:data];
-  return signature;
-}
-
 - (void)doGuestPaymentNetbanking {
   NSString* transactionId;
   long long CurrentTime =
       (long long)([[NSDate date] timeIntervalSince1970] * 1000);
   transactionId = [NSString stringWithFormat:@"%lld", CurrentTime];
   NSLog(@"transactionId:%@", transactionId);
-  NSString* signature = [self getGuestPaymentSignature:transactionId:@"1"];
+  NSString* signature =
+      [self getSignatureFromServerTxnId:[self createTXNId] amount:@"1"];
+
   CTSPaymentDetailUpdate* guestFlowNetBankingUpdate =
       [[CTSPaymentDetailUpdate alloc] init];
   CTSNetBankingUpdate* guestflownetbank = [[CTSNetBankingUpdate alloc] init];
   guestflownetbank.code = TEST_NETBAK_CODE;
   [guestFlowNetBankingUpdate addNetBanking:guestflownetbank];
 
-  //  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowNetBankingUpdate
-  //                                  withContact:contactInfo
-  //                                       amount:@"1"
-  //                                withSignature:signature
-  //                                    withTxnId:transactionId
-  //                                   isDoSignup:NO
-  //                        withCompletionHandler:nil];
   [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowNetBankingUpdate
                                   withContact:contactInfo
                                        amount:@"1"
@@ -459,6 +428,30 @@
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - signature generation
+- (NSString*)getSignatureFromServerTxnId:(NSString*)txnId
+                                  amount:(NSString*)amt {
+  NSString* data =
+      [NSString stringWithFormat:@"transactionId=%@&amount=%@", txnId, amt];
+  NSURL* url = [[NSURL alloc]
+      initWithString:
+          [NSString
+              stringWithFormat:@"http://sandbox.citruspay.com/namo/sign.php"]];
+  NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:url];
+  [urlReq setHTTPBody:[data dataUsingEncoding:NSUTF8StringEncoding]];
+  [urlReq setHTTPMethod:@"POST"];
+
+  NSError* error = nil;
+
+  NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
+                                                returningResponse:nil
+                                                            error:&error];
+  NSString* signature = [[NSString alloc] initWithData:signatureData
+                                              encoding:NSUTF8StringEncoding];
+  LogTrace(@"signature %@ ", signature);
+  return signature;
 }
 
 @end

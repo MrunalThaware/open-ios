@@ -482,23 +482,23 @@ static BOOL isSignatureSuccess;
     __block NSString* password = contactInfo.password;
 
     dispatch_async(backgroundQueue, ^(void) {
-
-        [authLayer
-            requestSignUpWithEmail:email
-                            mobile:mobile
-                          password:password
-                 completionHandler:^(NSString* userName,
-                                     NSString* token,
-                                     NSError* error) {
-                     dispatch_async(backgroundQueue, ^(void) {
-                         CTSProfileLayer* profileLayer =
-                             [[CTSProfileLayer alloc] init];
-                         [profileLayer
-                             updatePaymentInformation:_paymentDetailUpdate
-                                withCompletionHandler:nil];
-                         _paymentDetailUpdate = nil;
-                     });
-                 }];
+        if (password != nil)
+          [authLayer
+              requestSignUpWithEmail:email
+                              mobile:mobile
+                            password:password
+                   completionHandler:^(NSString* userName,
+                                       NSString* token,
+                                       NSError* error) {
+                       dispatch_async(backgroundQueue, ^(void) {
+                           CTSProfileLayer* profileLayer =
+                               [[CTSProfileLayer alloc] init];
+                           [profileLayer
+                               updatePaymentInformation:_paymentDetailUpdate
+                                  withCompletionHandler:nil];
+                           _paymentDetailUpdate = nil;
+                       });
+                   }];
     });
   }
 
