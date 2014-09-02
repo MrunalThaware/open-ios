@@ -26,6 +26,7 @@
 		371B5D4F198A5D110096451C /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D44198A5D110096451C /* JSONValueTransformer.m */; };
 		371B5D52198A5D770096451C /* CTSRestError.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D51198A5D770096451C /* CTSRestError.m */; };
 		375F30F3195BF24500F86149 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 375F30F2195BF24500F86149 /* .gitignore */; };
+		376E4EC919B5A13F00739B00 /* ServerSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 376E4EC819B5A13F00739B00 /* ServerSignature.m */; };
 		37851BB41978F2DD00AE3AD0 /* CTSRestRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B491978F2DD00AE3AD0 /* CTSRestRegister.m */; };
 		37851BB51978F2DD00AE3AD0 /* CTSRestRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B491978F2DD00AE3AD0 /* CTSRestRegister.m */; };
 		37851BB61978F2DD00AE3AD0 /* CTSTypeToParameterMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B4B1978F2DD00AE3AD0 /* CTSTypeToParameterMapping.m */; };
@@ -145,6 +146,8 @@
 		371C5FD0199B43D600522AD7 /* MerchantConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MerchantConstants.h; sourceTree = "<group>"; };
 		3723D1571948371B00C50FA5 /* TestParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestParams.h; sourceTree = "<group>"; };
 		375F30F2195BF24500F86149 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		376E4EC719B5A13F00739B00 /* ServerSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerSignature.h; sourceTree = "<group>"; };
+		376E4EC819B5A13F00739B00 /* ServerSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerSignature.m; sourceTree = "<group>"; };
 		37851B481978F2DD00AE3AD0 /* CTSRestRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSRestRegister.h; sourceTree = "<group>"; };
 		37851B491978F2DD00AE3AD0 /* CTSRestRegister.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSRestRegister.m; sourceTree = "<group>"; };
 		37851B4A1978F2DD00AE3AD0 /* CTSTypeToParameterMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSTypeToParameterMapping.h; sourceTree = "<group>"; };
@@ -497,6 +500,8 @@
 				37A7C6BC1922458F005D29D4 /* Images.xcassets */,
 				37A7C6AB1922458F005D29D4 /* Supporting Files */,
 				3723D1571948371B00C50FA5 /* TestParams.h */,
+				376E4EC719B5A13F00739B00 /* ServerSignature.h */,
+				376E4EC819B5A13F00739B00 /* ServerSignature.m */,
 			);
 			name = CTSiOSSdk;
 			path = RestFulltester;
@@ -865,6 +870,7 @@
 				37C9649D198F723E0021DC0B /* CTSNetBankingUpdate.m in Sources */,
 				37C964A8198F723E0021DC0B /* CTSPaymentTransactionRes.m in Sources */,
 				371536E01994998200EDF560 /* CTSTokenizedPaymentToken.m in Sources */,
+				376E4EC919B5A13F00739B00 /* ServerSignature.m in Sources */,
 				37C964A1198F723E0021DC0B /* CTSTokenizedPayment.m in Sources */,
 				37A7C6B11922458F005D29D4 /* main.m in Sources */,
 				37B74D80199CAD7D00D7CC2C /* OauthStatus.m in Sources */,

@@ -363,7 +363,6 @@ static BOOL isSignatureSuccess;
       if (oauthStatus.error != nil) {
         [self makeUserPaymentHelper:nil
                               error:[CTSError getErrorForCode:UserNotSignedIn]];
-
         return;
       } else {
         CTSErrorCode error = [paymentDetailInfo validate];
@@ -393,9 +392,32 @@ static BOOL isSignatureSuccess;
                                   address:(CTSUserAddress*)address
                                    amount:(NSString*)amount
                                 returnUrl:(NSString*)returnUrl
-                                signature:(NSString*)signature
+                                signature:(NSString*)signatureArg
                                     txnId:(NSString*)txnId {
-  return nil;
+  CTSPaymentRequest* paymentRequest = [[CTSPaymentRequest alloc] init];
+
+  // paymentRequest.amount = amount;
+
+  paymentRequest.amount = [self ctsAmountForAmount:amount];
+  paymentRequest.merchantAccessKey = MerchantAccessKey;
+  paymentRequest.merchantTxnId = txnId;
+  paymentRequest.notifyUrl = @"";
+  paymentRequest.requestSignature = signatureArg;
+  paymentRequest.returnUrl = returnUrl;
+  paymentRequest.paymentToken =
+      [[paymentInfo.paymentOptions objectAtIndex:0] fetchPaymentToken];
+
+  paymentRequest.userDetails =
+      [[CTSUserDetails alloc] initWith:contact address:address];
+
+  return paymentRequest;
+}
+
+- (CTSAmount*)ctsAmountForAmount:(NSString*)amount {
+  CTSAmount* ctsAmount = [[CTSAmount alloc] init];
+  ctsAmount.value = amount;
+  ctsAmount.currency = CURRENCY_INR;
+  return ctsAmount;
 }
 
 - (void)makeUserPayment:(CTSPaymentDetailUpdate*)paymentInfo
@@ -421,6 +443,37 @@ static BOOL isSignatureSuccess;
                  withTxnId:merchantTxnId
              withSignature:signature
                 withAmount:amount];
+
+  //    CTSPaymentRequest *paymentrequest =
+  //
+  //
+  //    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+  //    NSString* oauthToken = oauthStatus.oauthToken;
+  //    if (oauthStatus.error != nil) {
+  //        [self makeUserPaymentHelper:nil
+  //                              error:[CTSError
+  //                              getErrorForCode:UserNotSignedIn]];
+  //
+  //        return;
+  //    } else {
+  //        CTSErrorCode error = [paymentDetailInfo validate];
+  //        if (error != NoError) {
+  //            /*[delegate transactionInformation:nil
+  //             error:[CTSError getErrorForCode:error]];*/
+  //            // return;
+  //        }
+  //    }
+  //    NSDictionary* header = @{ @"Content-Type" : @"application/json" };
+  //    NSLog(@"json request:%@", paymentrequest);
+  //    NSLog(@"JSON STRING:%@", [paymentrequest toJSONString]);
+  //    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+  //                                   initWithPath:MLC_CITRUS_SERVER_URL
+  //                                   requestId:PaymentUsingSignedInCardBankReqId
+  //                                   headers:header
+  //                                   parameters:nil
+  //                                   json:[paymentrequest toJSONString]
+  //                                   httpMethod:POST];
+  //    [restCore requestAsyncServer:request];
 }
 
 - (void)makeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo

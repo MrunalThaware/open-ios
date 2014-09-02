@@ -12,6 +12,18 @@
 #import "CTSTokenizedPayment.h"
 #import "JSONModel.h"
 #import "CTSUtility.h"
+#import "CTSPaymentMode.h"
+#import "CTSPaymentToken.h"
+#import "CTSPaymentLayerConstants.h"
+
+
+typedef enum {
+    MemberCard,
+    MemberNetbank,
+    TokenizedCard,
+    TokenizedNetbank,
+    UndefinedPayment
+} CTSPaymentType;
 
 @interface CTSPaymentOption : JSONModel
 //@property(nonatomic, strong) NSString* type, *cardName, *ownerName, *number,
@@ -34,5 +46,7 @@
 - (instancetype)initWithCard:(CTSElectronicCardUpdate*)eCard;
 - (instancetype)initWithTokenized:(CTSTokenizedPayment*)tokenizedPayment;
 - (CTSErrorCode)validate;
+-(CTSPaymentType)fetchPaymentType;
+-(CTSPaymentToken*)fetchPaymentToken;
 @end
 @protocol CTSPaymentOption;

@@ -8,6 +8,11 @@
 
 #ifndef RestFulltester_CTSPaymentLayerConstants_h
 #define RestFulltester_CTSPaymentLayerConstants_h
+
+#define CURRENCY_INR @"INR"
+#define TYPE_TOKENIZED @"paymentOptionIdToken"
+#define TYPE_MEMBER @"paymentOptionToken"
+
 #pragma - mark MLC_PROFILE_GET
 #define MLC_PROFILE_UPDATE_Payment_PATH @"profile/me/payment"
 #define MLC_PAYMENT_GETSIGNATURE_PATH @"/service/v2/mycard/load/extended"

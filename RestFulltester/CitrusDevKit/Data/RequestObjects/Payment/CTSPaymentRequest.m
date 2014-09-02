@@ -10,6 +10,6 @@
 
 @implementation CTSPaymentRequest
 @synthesize merchantAccessKey, merchantTxnId, notifyUrl, returnUrl,
-    requestSignature, amount, userDetails, paymentToken, merchant, merchantKey;
+    requestSignature, amount, userDetails, paymentToken;
 
 @end

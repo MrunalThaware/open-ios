@@ -115,8 +115,7 @@ enum {
   [paymentInfo clearCVV];
 
   if (oauthStatus.error != nil) {
-    [self getContactInfoHelper:nil
-                         error:[CTSError getErrorForCode:UserNotSignedIn]];
+    [self updatePaymentInfoHelper:[CTSError getErrorForCode:UserNotSignedIn]];
 
     return;
   }

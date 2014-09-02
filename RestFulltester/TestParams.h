@@ -40,6 +40,9 @@
 #define TEST_CREDIT_CARD_CVV @"018"
 
 #define TEST_NETBAK_CODE @"CID002"
+#define TEST_NETBAK_OWNER_NAME @"Yadnesh Wankhede"
+#define TEST_NETBAK_NAME @"Axis Bank"
+
 
 // sample value
 #define TEST_TOKENIZED_PAYBANK_TOKEN @"frfr6arrabcrrrrfee5ec787ad61f8bm"

@@ -40,6 +40,5 @@
 
 - (CTSErrorCode)validate;
 
-
 -(void)clearCVV;
 @end

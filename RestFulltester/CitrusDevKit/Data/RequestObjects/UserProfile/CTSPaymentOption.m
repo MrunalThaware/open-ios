@@ -60,7 +60,8 @@
   self = [super init];
   if (self) {
     type = bankDetails.type;
-    code = bankDetails.code;
+    bank = bankDetails.bank;
+    owner = bankDetails.name;
     token = bankDetails.token;
   }
   return self;
@@ -97,6 +98,60 @@
     error = CvvNotValid;
   }
   return error;
+}
+
+- (CTSPaymentType)fetchPaymentType {
+  if (self.token != nil && self.cvv != nil) {
+    return TokenizedCard;
+  } else if (self.token != nil && self.cvv == nil) {
+    return TokenizedNetbank;
+  } else if (self.token == nil && self.cvv != nil) {
+    return MemberCard;
+  } else if (self.token == nil && self.cvv == nil) {
+    return MemberNetbank;
+  } else {
+    return UndefinedPayment;
+  }
+}
+
+- (CTSPaymentToken*)fetchPaymentToken {
+  CTSPaymentToken* paymentToken = [[CTSPaymentToken alloc] init];
+  CTSPaymentMode* paymentMode = [[CTSPaymentMode alloc] init];
+  switch ([self fetchPaymentType]) {
+    case TokenizedCard:
+      paymentToken.id = token;
+      paymentToken.cvv = cvv;
+      paymentToken.type = TYPE_TOKENIZED;
+
+      break;
+    case TokenizedNetbank:
+      paymentToken.id = token;
+      paymentToken.type = TYPE_TOKENIZED;
+
+      break;
+    case MemberCard:
+      paymentToken.type = TYPE_MEMBER;
+      paymentMode = [[CTSPaymentMode alloc] init];
+      paymentMode.cvv = cvv;
+      paymentMode.holder = owner;
+      paymentMode.number = number;
+      paymentMode.scheme = scheme;
+      paymentMode.expiry = expiryDate;
+      paymentMode.type = type;
+
+      break;
+    case MemberNetbank:
+      paymentToken.type = TYPE_MEMBER;
+      paymentMode = [[CTSPaymentMode alloc] init];
+      paymentMode.type = type;
+      paymentMode.code = code;
+
+      break;
+    default:
+      break;
+  }
+  paymentToken.paymentMode = paymentMode;
+  return paymentToken;
 }
 
 @end

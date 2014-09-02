@@ -11,6 +11,7 @@
 #import "NSObject+logProperties.h"
 #import "TestParams.h"
 #import "MerchantConstants.h"
+#import "ServerSignature.h"
 
 @interface ViewController ()
 
@@ -21,6 +22,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
+  [self signIn];
 }
 
 - (void)initialize {
@@ -60,8 +62,16 @@
                          LogTrace(@"userName %@ ", userName);
                          LogTrace(@"token %@ ", token);
                          LogTrace(@"error %@ ", error);
-                         [paymentlayerinfo requestMerchantPgSettings:VanityUrl
-                                               withCompletionHandler:nil];
+                         //                         [paymentlayerinfo
+                         //                         requestMerchantPgSettings:VanityUrl
+                         //                                               withCompletionHandler:nil];
+
+                         //[self doUserDebitCardPayment];
+                         //[self doGuestPaymentCard];
+                         //[self doUserNetbankingPayment];
+                         [self doTokenizedPaymentNetbanking];
+
+                         //[self updatePaymentInfo];
                      }];
 }
 
@@ -150,7 +160,7 @@
   creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
   [paymentInfo addCard:creditCard];
 
-  // debit card
+  //  // debit card
   CTSElectronicCardUpdate* debitCard =
       [[CTSElectronicCardUpdate alloc] initDebitCard];
   debitCard.number = TEST_DEBIT_CARD_NUMBER;
@@ -159,10 +169,12 @@
   debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
   debitCard.name = TEST_DEBIT_CARD_BANK_NAME;
   [paymentInfo addCard:debitCard];
-
-  // netbaking
+  //
+  //  // netbaking
   CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
-  netBank.code = TEST_NETBAK_CODE;
+  netBank.name = TEST_NETBAK_OWNER_NAME;
+  netBank.bank = TEST_NETBAK_NAME;
+
   [paymentInfo addNetBanking:netBank];
 
   // send it to server
@@ -188,13 +200,25 @@
     didReceiveContactInfo:(CTSProfileContactRes*)contactInfo
                     error:(NSError*)error {
   LogTrace(@"didReceiveContactInfo");
-  LogTrace(@"contactInfo %@", contactInfo);
-  [contactInfo logProperties];
+  // LogTrace(@"contactInfo %@", contactInfo);
+  //[contactInfo logProperties];
   LogTrace(@"contactInfo %@", error);
 }
 - (void)profile:(CTSProfileLayer*)profile
-    didReceivePaymentInformation:(CTSProfilePaymentRes*)contactInfo
+    didReceivePaymentInformation:(CTSProfilePaymentRes*)paymentInfo
                            error:(NSError*)error {
+  if (error == nil) {
+    LogTrace(@" paymentInfo.type %@", paymentInfo.type);
+    LogTrace(@" paymentInfo.defaultOption %@", paymentInfo.defaultOption);
+
+    for (CTSPaymentOption* option in paymentInfo.paymentOptions) {
+      [option logProperties];
+    }
+
+    paymentSavedResponse = paymentInfo;
+  } else {
+    LogTrace(@"error received %@", error);
+  }
 }
 
 - (void)profile:(CTSProfileLayer*)profile
@@ -204,6 +228,7 @@
 - (void)profile:(CTSProfileLayer*)profile
     didUpdatePaymentInfoError:(NSError*)error {
   LogTrace(@"didUpdatePaymentInfoError error %@ ", error);
+  [profileLayer requestPaymentInformationWithCompletionHandler:nil];
 }
 
 /****************************************|PAYMENTLAYER|**************************************************/
@@ -228,7 +253,8 @@
                 withAddress:addressInfo
                      amount:@"1"
               withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
-              withSignature:[self getSignatureFromServerTxnId:txnId amount:@"1"]
+              withSignature:[ServerSignature getSignatureFromServerTxnId:txnId
+                                                                  amount:@"1"]
                   withTxnId:txnId
       withCompletionHandler:nil];
 }
@@ -251,7 +277,8 @@
                 withAddress:addressInfo
                      amount:@"1"
               withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
-              withSignature:[self getSignatureFromServerTxnId:txnId amount:@"1"]
+              withSignature:[ServerSignature getSignatureFromServerTxnId:txnId
+                                                                  amount:@"1"]
                   withTxnId:txnId
       withCompletionHandler:nil];
 }
@@ -269,12 +296,11 @@
   [creditCardInfo addCard:creditCard];
 
   NSString* transactionId;
-  long long CurrentTime =
-      (long long)([[NSDate date] timeIntervalSince1970] * 1000);
-  transactionId = [NSString stringWithFormat:@"%lld", CurrentTime];
+
+  transactionId = [self createTXNId];
   NSLog(@"transactionId:%@", transactionId);
   NSString* signature =
-      [self getSignatureFromServerTxnId:[self createTXNId] amount:@"1"];
+      [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
 
   [paymentlayerinfo makeUserPayment:creditCardInfo
                         withContact:contactInfo
@@ -291,6 +317,8 @@
   long long CurrentTime =
       (long long)([[NSDate date] timeIntervalSince1970] * 1000);
   transactionId = [NSString stringWithFormat:@"%lld", CurrentTime];
+  // transactionId = [NSString stringWithFormat:@"%lld", 820];
+
   return transactionId;
 }
 
@@ -298,7 +326,7 @@
   NSString* transactionId = [self createTXNId];
 
   NSString* signature =
-      [self getSignatureFromServerTxnId:transactionId amount:@"1"];
+      [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
 
   CTSPaymentDetailUpdate* guestFlowDebitCardInfo =
       [[CTSPaymentDetailUpdate alloc] init];
@@ -327,7 +355,7 @@
   NSString* transactionId = [self createTXNId];
   NSLog(@"transactionId:%@", transactionId);
   NSString* signature =
-      [self getSignatureFromServerTxnId:[self createTXNId] amount:@"1"];
+      [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
 
   CTSPaymentDetailUpdate* guestFlowNetBankingUpdate =
       [[CTSPaymentDetailUpdate alloc] init];
@@ -347,18 +375,24 @@
 }
 
 - (void)doTokenizedPaymentNetbanking {
+  NSString* transactionId = [self createTXNId];
+  NSLog(@"transactionId:%@", transactionId);
+  NSString* signature =
+      [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
   CTSPaymentDetailUpdate* tokenizedNetbankingInfo =
       [[CTSPaymentDetailUpdate alloc] init];
   CTSNetBankingUpdate* tokenizednetbank = [[CTSNetBankingUpdate alloc] init];
-  tokenizednetbank.token = @"9e64001c72fd51c453ff0f2d778b8693";
+  tokenizednetbank.token = @"29b296cb33e3087865f16de923144bed";
   [tokenizedNetbankingInfo addNetBanking:tokenizednetbank];
-  /*[paymentlayerinfo
-       makeTokenizedPayment:tokenizedNetbankingInfo
-                withContact:contactInfo
-                     amount:@"1"
-              withSignature:@"951906e7c5bb14ed62306d71f7bd85f1b14af6f6"
-                  withTxnId:@"PPTX000000003989"
-      withCompletionHandler:nil];*/
+
+  [paymentlayerinfo makeTokenizedPayment:tokenizedNetbankingInfo
+                             withContact:contactInfo
+                             withAddress:addressInfo
+                                  amount:@"1"
+                           withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
+                           withSignature:signature
+                               withTxnId:transactionId
+                   withCompletionHandler:nil];
 }
 
 - (void)doTokenizedPaymentDebitCard {
@@ -443,30 +477,6 @@
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - signature generation
-- (NSString*)getSignatureFromServerTxnId:(NSString*)txnId
-                                  amount:(NSString*)amt {
-  NSString* data =
-      [NSString stringWithFormat:@"transactionId=%@&amount=%@", txnId, amt];
-  NSURL* url = [[NSURL alloc]
-      initWithString:
-          [NSString
-              stringWithFormat:@"http://sandbox.citruspay.com/namo/sign.php"]];
-  NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:url];
-  [urlReq setHTTPBody:[data dataUsingEncoding:NSUTF8StringEncoding]];
-  [urlReq setHTTPMethod:@"POST"];
-
-  NSError* error = nil;
-
-  NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
-                                                returningResponse:nil
-                                                            error:&error];
-  NSString* signature = [[NSString alloc] initWithData:signatureData
-                                              encoding:NSUTF8StringEncoding];
-  LogTrace(@"signature %@ ", signature);
-  return signature;
 }
 
 @end

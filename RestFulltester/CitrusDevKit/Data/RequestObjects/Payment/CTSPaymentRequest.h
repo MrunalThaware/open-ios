@@ -18,8 +18,6 @@
 @property(strong) NSString<Optional>* notifyUrl;
 @property(strong) NSString<Optional>* requestSignature;
 @property(strong) NSString<Optional>* returnUrl;
-@property(strong) NSString<Optional>* merchant;
-@property(strong) NSString<Optional>* merchantKey;
 @property(nonatomic, strong) CTSPaymentToken* paymentToken;
 @property(nonatomic, strong) CTSUserDetails* userDetails;
 
