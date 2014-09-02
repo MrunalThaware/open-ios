@@ -25,4 +25,5 @@
 + (BOOL)validateExpiryDate:(NSString*)date;
 + (BOOL)validateCVV:(NSString*)cvv cardNumber:(NSString*)cardNumber;
 + (BOOL)toBool:(NSString*)boolString;
++ (NSString*)fetchCardSchemeForCardNumber:(NSString *)cardNumber;
 @end

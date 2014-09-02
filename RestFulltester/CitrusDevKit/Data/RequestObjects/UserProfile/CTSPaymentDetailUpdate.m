@@ -14,7 +14,8 @@
   self = [super init];
   if (self) {
     type = MLC_PROFILE_GET_PAYMENT_QUERY_TYPE;
-    paymentOptions = [[NSMutableArray alloc] init];
+    paymentOptions =
+        (NSMutableArray<CTSPaymentOption>*)[[NSMutableArray alloc] init];
     password = nil;
   }
   return self;

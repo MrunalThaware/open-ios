@@ -18,4 +18,5 @@
 #import "UserLogging.h"
 #import "CTSError.h"
 #import "MerchantConstants.h"
+#import "CTSUtility.h"
 #endif

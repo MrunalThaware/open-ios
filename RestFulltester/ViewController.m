@@ -16,13 +16,23 @@
 @interface ViewController ()
 
 @end
-
+#define TextCreditCards  \
+  @[                     \
+    @"371449635398431",  \
+    @"30569309025904",   \
+    @"6011111111111117", \
+    @"3530111333300000", \
+    @"5555555555554444", \
+    @"4111111111111111", \
+    @"6759649826438453"  \
+  ]
 @implementation ViewController
 //@synthesize contactInfo, guestflowdebitcard, guestFlowDebitCardInfo;
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  [self signIn];
+  //[self signIn];
+  [self testCardSchemes];
 }
 
 - (void)initialize {
@@ -477,6 +487,14 @@
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+- (void)testCardSchemes {
+  for (NSString* cardNumber in TextCreditCards) {
+    LogTrace(@" card scheme %@ for card number %@",
+             [CTSUtility fetchCardSchemeForCardNumber:cardNumber],
+             cardNumber);
+  }
 }
 
 @end

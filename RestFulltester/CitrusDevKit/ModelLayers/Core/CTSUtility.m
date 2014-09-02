@@ -10,6 +10,44 @@
 #import "CreditCard-Validator.h"
 
 #import "CTSAuthLayerConstants.h"
+#define amex @[ @"34", @"37" ]
+#define discover @[ @"60", @"62", @"64", @"65" ]
+#define JCB @[ @"35" ]
+#define DinerClub @[ @"30", @"36", @"38", @"39" ]
+#define VISA @[ @"4" ]
+#define MAESTRO \
+  @[            \
+    @"67",      \
+    @"56",      \
+    @"502260",  \
+    @"504433",  \
+    @"504434",  \
+    @"504435",  \
+    @"504437",  \
+    @"504645",  \
+    @"504681",  \
+    @"504753",  \
+    @"504775",  \
+    @"504809",  \
+    @"504817",  \
+    @"504834",  \
+    @"504848",  \
+    @"504884",  \
+    @"504973",  \
+    @"504993",  \
+    @"508125",  \
+    @"508126",  \
+    @"508159",  \
+    @"508192",  \
+    @"508227",  \
+    @"600206",  \
+    @"603123",  \
+    @"603741",  \
+    @"603845",  \
+    @"622018"   \
+  ]
+#define MASTER @[ @"5" ]
+
 @implementation CTSUtility
 + (BOOL)validateCardNumber:(NSString*)number {
   return [CreditCard_Validator checkCreditCardNumber:number];
@@ -162,8 +200,8 @@
       [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
   NSDateComponents* monthcomponent =
       [gregorian components:NSMonthCalendarUnit fromDate:[NSDate date]];
-  int currentYear = [components year];
-  int currentmonth = [monthcomponent month];
+  int currentYear = (int)[components year];
+  int currentmonth = (int)[monthcomponent month];
   int normalizeyear = [self normalizeYear:year];
   // Expires at end of specified month, Calendar month starts at 0
   return [self hasYearPassed:year] ||
@@ -193,6 +231,39 @@
     return NO;
   else
     return YES;
+}
+
++ (NSString*)fetchCardSchemeForCardNumber:(NSString*)cardNumber {
+  if (![CTSUtility validateCardNumber:cardNumber]) {
+    return @"UNKNOWN";
+
+  } else {
+    if ([CTSUtility hasPrefixArray:amex cardNumber:cardNumber]) {
+      return @"AMEX";
+    } else if ([CTSUtility hasPrefixArray:discover cardNumber:cardNumber]) {
+      return @"DISCOVER";
+    } else if ([CTSUtility hasPrefixArray:JCB cardNumber:cardNumber]) {
+      return @"JCB";
+    } else if ([CTSUtility hasPrefixArray:DinerClub cardNumber:cardNumber]) {
+      return @"DINERCLUB";
+    } else if ([CTSUtility hasPrefixArray:VISA cardNumber:cardNumber]) {
+      return @"VISA";
+    } else if ([CTSUtility hasPrefixArray:MAESTRO cardNumber:cardNumber]) {
+      return @"MAESTRO";
+    } else if ([CTSUtility hasPrefixArray:MASTER cardNumber:cardNumber]) {
+      return @"MASTER";
+    }
+    return @"UNKNOWN";
+  }
+}
+
++ (BOOL)hasPrefixArray:(NSArray*)array cardNumber:(NSString*)cardNumber {
+  for (int i = 0; i < [array count]; i++) {
+    if ([cardNumber hasPrefix:[array objectAtIndex:i]]) {
+      return YES;
+    }
+  }
+  return NO;
 }
 
 @end

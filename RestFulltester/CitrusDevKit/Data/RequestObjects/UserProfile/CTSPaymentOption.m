@@ -48,7 +48,7 @@
     owner = eCard.ownerName;
     number = eCard.number;
     expiryDate = eCard.expiryDate;
-    scheme = eCard.scheme;
+    scheme = [CTSUtility fetchCardSchemeForCardNumber:eCard.number];
     cvv = eCard.cvv;
     token = eCard.token;
     code = eCard.bankcode;
