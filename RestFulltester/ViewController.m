@@ -31,8 +31,10 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  [self signIn];
+  //[self signIn];
   //[self testCardSchemes];
+    //[self doGuestPaymentCreditCard];
+    [self doGuestPaymentDebitCard];
 }
 
 - (void)initialize {
@@ -78,7 +80,7 @@
 
                          //[self doUserDebitCardPayment];
                          //[self doGuestPaymentCard];
-                         [self doUserNetbankingPayment];
+                         //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
 
                          //[self updatePaymentInfo];
@@ -326,31 +328,61 @@
   NSString* transactionId;
   long long CurrentTime =
       (long long)([[NSDate date] timeIntervalSince1970] * 1000);
-  transactionId = [NSString stringWithFormat:@"%lld", CurrentTime];
+  transactionId = [NSString stringWithFormat:@"CTS%lld", CurrentTime];
   // transactionId = [NSString stringWithFormat:@"%lld", 820];
 
   return transactionId;
 }
 
-- (void)doGuestPaymentCard {
+- (void)doGuestPaymentCreditCard {
   NSString* transactionId = [self createTXNId];
 
   NSString* signature =
       [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
 
-  CTSPaymentDetailUpdate* guestFlowDebitCardInfo =
-      [[CTSPaymentDetailUpdate alloc] init];
-  CTSElectronicCardUpdate* guestflowdebitcard =
+  CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
+
+  CTSElectronicCardUpdate* creditCard =
+      [[CTSElectronicCardUpdate alloc] initCreditCard];
+  creditCard.number = TEST_CREDIT_CARD_NUMBER;
+  creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
+  creditCard.scheme =
+      [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
+  creditCard.cvv = TEST_CREDIT_CARD_CVV;
+  creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
+
+  [paymentInfo addCard:creditCard];
+
+  [paymentlayerinfo makePaymentUsingGuestFlow:paymentInfo
+                                  withContact:contactInfo
+                                       amount:@"1"
+                                  withAddress:addressInfo
+                                withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
+                                withSignature:signature
+                                    withTxnId:transactionId
+                                   isDoSignup:NO
+                        withCompletionHandler:nil];
+}
+
+- (void)doGuestPaymentDebitCard {
+  NSString* transactionId = [self createTXNId];
+
+  NSString* signature =
+      [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
+
+  CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
+
+  CTSElectronicCardUpdate* debitCard =
       [[CTSElectronicCardUpdate alloc] initDebitCard];
-  guestflowdebitcard.number = TEST_DEBIT_CARD_NUMBER;
-  guestflowdebitcard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
-  guestflowdebitcard.scheme = TEST_DEBIT_SCHEME;
-  guestflowdebitcard.cvv = TEST_DEBIT_CVV;
-  guestflowdebitcard.ownerName = TEST_OWNER_NAME;
+  debitCard.number = TEST_DEBIT_CARD_NUMBER;
+  debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
+  debitCard.scheme = TEST_DEBIT_SCHEME;
+  debitCard.cvv = TEST_DEBIT_CVV;
+  debitCard.ownerName = TEST_OWNER_NAME;
 
-  [guestFlowDebitCardInfo addCard:guestflowdebitcard];
+  [paymentInfo addCard:debitCard];
 
-  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowDebitCardInfo
+  [paymentlayerinfo makePaymentUsingGuestFlow:paymentInfo
                                   withContact:contactInfo
                                        amount:@"1"
                                   withAddress:addressInfo
@@ -367,13 +399,14 @@
   NSString* signature =
       [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
 
-  CTSPaymentDetailUpdate* guestFlowNetBankingUpdate =
+  CTSPaymentDetailUpdate* paymentInfo =
       [[CTSPaymentDetailUpdate alloc] init];
-  CTSNetBankingUpdate* guestflownetbank = [[CTSNetBankingUpdate alloc] init];
-  guestflownetbank.code = TEST_NETBAK_CODE;
-  [guestFlowNetBankingUpdate addNetBanking:guestflownetbank];
+  CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
+    
+  netBank.code = TEST_NETBAK_CODE;
+  [paymentInfo addNetBanking:netBank];
 
-  [paymentlayerinfo makePaymentUsingGuestFlow:guestFlowNetBankingUpdate
+  [paymentlayerinfo makePaymentUsingGuestFlow:paymentInfo
                                   withContact:contactInfo
                                        amount:@"1"
                                   withAddress:addressInfo
