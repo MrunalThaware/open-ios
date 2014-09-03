@@ -11,7 +11,8 @@
 
 @interface ViewController : UIViewController<CTSAuthenticationProtocol,
                                              CTSPaymentProtocol,
-                                             CTSProfileProtocol> {
+                                             CTSProfileProtocol,
+                                             UIWebViewDelegate> {
   CTSAuthLayer* authLayer;
   CTSPaymentLayer* paymentlayerinfo;
   CTSContactUpdate* contactInfo;

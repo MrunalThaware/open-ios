@@ -33,8 +33,9 @@
   [self initialize];
   //[self signIn];
   //[self testCardSchemes];
-    //[self doGuestPaymentCreditCard];
-    [self doGuestPaymentDebitCard];
+  [self doGuestPaymentCreditCard];
+  //[self doGuestPaymentDebitCard];
+  //[self doGuestPaymentNetbanking];
 }
 
 - (void)initialize {
@@ -66,25 +67,26 @@
 #pragma mark - AuthLayer Sample implementation
 
 - (void)signIn {
-  [authLayer requestSigninWithUsername:TEST_EMAIL
-                              password:TEST_PASSWORD
-                     completionHandler:^(NSString* userName,
-                                         NSString* token,
-                                         NSError* error) {
-                         LogTrace(@"userName %@ ", userName);
-                         LogTrace(@"token %@ ", token);
-                         LogTrace(@"error %@ ", error);
-                         //                         [paymentlayerinfo
-                         //                         requestMerchantPgSettings:VanityUrl
-                         //                                               withCompletionHandler:nil];
+  [authLayer
+      requestSigninWithUsername:TEST_EMAIL
+                       password:TEST_PASSWORD
+              completionHandler:^(NSString* userName,
+                                  NSString* token,
+                                  NSError* error) {
+                  LogTrace(@"userName %@ ", userName);
+                  LogTrace(@"token %@ ", token);
+                  LogTrace(@"error %@ ", error);
+                  //                         [paymentlayerinfo
+                  //                         requestMerchantPgSettings:VanityUrl
+                  //                                               withCompletionHandler:nil];
 
-                         //[self doUserDebitCardPayment];
-                         //[self doGuestPaymentCard];
-                         //[self doUserNetbankingPayment];
-                         //[self doTokenizedPaymentNetbanking];
+                  //[self doUserDebitCardPayment];
+                  //[self doGuestPaymentCard];
+                  //[self doUserNetbankingPayment];
+                  //[self doTokenizedPaymentNetbanking];
 
-                         //[self updatePaymentInfo];
-                     }];
+                  //[self updatePaymentInfo];
+              }];
 }
 
 - (void)signUp {
@@ -399,10 +401,9 @@
   NSString* signature =
       [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
 
-  CTSPaymentDetailUpdate* paymentInfo =
-      [[CTSPaymentDetailUpdate alloc] init];
+  CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
   CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
-    
+
   netBank.code = TEST_NETBAK_CODE;
   [paymentInfo addNetBanking:netBank];
 
@@ -515,6 +516,14 @@
                            error:(NSError*)error {
   NSLog(@"%@", paymentInfo);
   LogTrace(@" %@ ", error);
+  BOOL hasSuccess =
+      ((paymentInfo != nil) && ([paymentInfo.pgRespCode integerValue] == 0) &&
+       (error == nil))
+          ? YES
+          : NO;
+
+  if (hasSuccess) {
+  }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -528,6 +537,74 @@
              [CTSUtility fetchCardSchemeForCardNumber:cardNumber],
              cardNumber);
   }
+}
+
+#pragma mark - helper methods
+
+- (void)loadRedirectUrl:(NSString*)redirectURL {
+  UIWebView* webview = [[UIWebView alloc] init];
+  webview.delegate = self;
+  [self.view addSubview:webview];
+  [webview loadRequest:[[NSURLRequest alloc]
+                           initWithURL:[NSURL URLWithString:redirectURL]]];
+}
+
+- (BOOL)webView:(UIWebView*)webView
+    shouldStartLoadWithRequest:(NSURLRequest*)request
+                navigationType:(UIWebViewNavigationType)navigationType {
+  // these need to match the values defined in your JavaScript
+  NSString* myAppScheme = @"myFakeAppName";
+  NSString* myActionType = @"myJavascriptActionType";
+
+  // ignore legit webview requests so they load normally
+  if (![request.URL.scheme isEqualToString:myAppScheme]) {
+    return YES;
+  }
+
+  // get the action from the path
+  NSString* actionType = request.URL.host;
+  // deserialize the request JSON
+  NSString* jsonDictString = [request.URL.fragment
+      stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+
+  // look at the actionType and do whatever you want here
+  if ([actionType isEqualToString:myActionType]) {
+    NSError* jsonParseError = nil;
+    NSDictionary* transactionResult = [NSJSONSerialization
+        JSONObjectWithData:[jsonDictString
+                               dataUsingEncoding:NSUTF8StringEncoding]
+                   options:NSJSONReadingMutableContainers
+                     error:&jsonParseError];
+
+    if (jsonParseError == nil) {
+      [self transactionComplete:transactionResult];
+    } else {
+      LogTrace(@"json parse error %@  for string %@",
+               jsonParseError,
+               jsonDictString);
+    }
+  }
+
+  // make sure to return NO so that your webview doesn't try to load your
+  // made-up URL
+  return NO;
+}
+
+- (void)transactionComplete:(NSDictionary*)transactionResult {
+  for (NSString* key in [transactionResult allKeys]) {
+    LogTrace(@" key %@ - value %@", key, [transactionResult objectForKey:key]);
+  }
+}
+
+- (void)callTestJavaScript:(UIWebView*)webView {
+  [webView stringByEvaluatingJavaScriptFromString:
+               @"var myAppName = 'myFakeAppName';var myActionType = "
+           @"'myJavascriptActionType';var myActionParameters = "
+           @"{transaction:SUCCESS};var jsonString = "
+           @"(JSON.stringify(myActionParameters));var "
+           @"escapedJsonParameters = escape(jsonString);var url = "
+           @"myAppName + '://' + myActionType + \"#\" + "
+           @"escapedJsonParameters;document.location.href = url;"];
 }
 
 @end
