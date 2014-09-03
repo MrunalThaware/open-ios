@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#define SIGNATURE_URL @"http://sandbox.citruspay.com/namo/sign.php"
+//#define SIGNATURE_URL @"http://sandbox.citruspay.com/namo/sign.php"
+#define SIGNATURE_URL                                   \
+  @"http://kangaroocabs.renewinfosys.in/renew/mycodes/" \
+  @"citruspay_sign_ios_api.php"
+
 //#define SIGNATURE_URL @"http://localhost:8888/sign.php"
 
-
 @interface ServerSignature : NSObject
-+ (NSString*)getSignatureFromServerTxnId:(NSString*)txnId
-                                  amount:(NSString*)amt;
++ (NSString*)getSignatureFromServerTxnId:(NSString*)txnId amount:(NSString*)amt;
 @end

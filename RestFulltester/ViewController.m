@@ -31,8 +31,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  //[self signIn];
-  [self testCardSchemes];
+  [self signIn];
+  //[self testCardSchemes];
 }
 
 - (void)initialize {
@@ -78,8 +78,8 @@
 
                          //[self doUserDebitCardPayment];
                          //[self doGuestPaymentCard];
-                         //[self doUserNetbankingPayment];
-                         [self doTokenizedPaymentNetbanking];
+                         [self doUserNetbankingPayment];
+                         //[self doTokenizedPaymentNetbanking];
 
                          //[self updatePaymentInfo];
                      }];
