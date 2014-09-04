@@ -33,16 +33,29 @@
   [self initialize];
   //[self signIn];
   //[self testCardSchemes];
-  [self doGuestPaymentCreditCard];
-  //[self doGuestPaymentDebitCard];
+  //[self doGuestPaymentCreditCard];
+  [self doGuestPaymentDebitCard];
   //[self doGuestPaymentNetbanking];
 }
 
 - (void)initialize {
+  webview = [[UIWebView alloc] init];
+  webview.delegate = self;
+  webview.frame =
+      CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+  webview.backgroundColor = [UIColor redColor];
+  indicator = [[UIActivityIndicatorView alloc]
+      initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+  indicator.frame = CGRectMake(160, 300, 30, 30);
+
+  [webview addSubview:indicator];
+  [self.view addSubview:webview];
+
   authLayer = [[CTSAuthLayer alloc] init];
   authLayer.delegate = self;
   profileLayer = [[CTSProfileLayer alloc] init];
   profileLayer.delegate = self;
+
   paymentlayerinfo = [[CTSPaymentLayer alloc] init];
   paymentlayerinfo.delegate = self;
 
@@ -503,12 +516,32 @@
     didMakeUserPayment:(CTSPaymentTransactionRes*)paymentInfo
                  error:(NSError*)error {
   NSLog(@"%@", paymentInfo);
+  LogTrace(@" %@ ", error);
+  BOOL hasSuccess =
+      ((paymentInfo != nil) && ([paymentInfo.pgRespCode integerValue] == 0) &&
+       (error == nil))
+          ? YES
+          : NO;
+
+  if (hasSuccess) {
+    [self loadRedirectUrl:paymentInfo.redirectUrl];
+  }
 }
 
 - (void)payment:(CTSPaymentLayer*)layer
     didMakeTokenizedPayment:(CTSPaymentTransactionRes*)paymentInfo
                       error:(NSError*)error {
   NSLog(@"%@", paymentInfo);
+  LogTrace(@" %@ ", error);
+  BOOL hasSuccess =
+      ((paymentInfo != nil) && ([paymentInfo.pgRespCode integerValue] == 0) &&
+       (error == nil))
+          ? YES
+          : NO;
+
+  if (hasSuccess) {
+    [self loadRedirectUrl:paymentInfo.redirectUrl];
+  }
 }
 
 - (void)payment:(CTSPaymentLayer*)layer
@@ -523,12 +556,12 @@
           : NO;
 
   if (hasSuccess) {
+    [self loadRedirectUrl:paymentInfo.redirectUrl];
   }
 }
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
 }
 
 - (void)testCardSchemes {
@@ -542,69 +575,37 @@
 #pragma mark - helper methods
 
 - (void)loadRedirectUrl:(NSString*)redirectURL {
-  UIWebView* webview = [[UIWebView alloc] init];
-  webview.delegate = self;
   [self.view addSubview:webview];
   [webview loadRequest:[[NSURLRequest alloc]
                            initWithURL:[NSURL URLWithString:redirectURL]]];
 }
 
+- (void)transactionComplete:(NSDictionary*)transactionResult {
+  LogTrace(@" transactionResult %@ ",
+           [transactionResult objectForKey:@"TxStatus"]);
+  [webview removeFromSuperview];
+}
+
+#pragma mark - webview delegates
+
+- (void)webViewDidStartLoad:(UIWebView*)webView {
+  [indicator startAnimating];
+}
+
 - (BOOL)webView:(UIWebView*)webView
     shouldStartLoadWithRequest:(NSURLRequest*)request
                 navigationType:(UIWebViewNavigationType)navigationType {
-  // these need to match the values defined in your JavaScript
-  NSString* myAppScheme = @"myFakeAppName";
-  NSString* myActionType = @"myJavascriptActionType";
-
-  // ignore legit webview requests so they load normally
-  if (![request.URL.scheme isEqualToString:myAppScheme]) {
-    return YES;
+  NSDictionary* responseDict =
+      [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
+  if (responseDict != nil) {
+    [self transactionComplete:responseDict];
   }
 
-  // get the action from the path
-  NSString* actionType = request.URL.host;
-  // deserialize the request JSON
-  NSString* jsonDictString = [request.URL.fragment
-      stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-
-  // look at the actionType and do whatever you want here
-  if ([actionType isEqualToString:myActionType]) {
-    NSError* jsonParseError = nil;
-    NSDictionary* transactionResult = [NSJSONSerialization
-        JSONObjectWithData:[jsonDictString
-                               dataUsingEncoding:NSUTF8StringEncoding]
-                   options:NSJSONReadingMutableContainers
-                     error:&jsonParseError];
-
-    if (jsonParseError == nil) {
-      [self transactionComplete:transactionResult];
-    } else {
-      LogTrace(@"json parse error %@  for string %@",
-               jsonParseError,
-               jsonDictString);
-    }
-  }
-
-  // make sure to return NO so that your webview doesn't try to load your
-  // made-up URL
-  return NO;
+  return YES;
 }
 
-- (void)transactionComplete:(NSDictionary*)transactionResult {
-  for (NSString* key in [transactionResult allKeys]) {
-    LogTrace(@" key %@ - value %@", key, [transactionResult objectForKey:key]);
-  }
-}
-
-- (void)callTestJavaScript:(UIWebView*)webView {
-  [webView stringByEvaluatingJavaScriptFromString:
-               @"var myAppName = 'myFakeAppName';var myActionType = "
-           @"'myJavascriptActionType';var myActionParameters = "
-           @"{transaction:SUCCESS};var jsonString = "
-           @"(JSON.stringify(myActionParameters));var "
-           @"escapedJsonParameters = escape(jsonString);var url = "
-           @"myAppName + '://' + myActionType + \"#\" + "
-           @"escapedJsonParameters;document.location.href = url;"];
+- (void)webViewDidFinishLoad:(UIWebView*)webView {
+  [indicator stopAnimating];
 }
 
 @end
