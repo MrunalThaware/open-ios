@@ -95,7 +95,7 @@ typedef void (^ASIsUserCitrusMemberCallback)(BOOL isUserCitrusMember,
 
 typedef void (^ASResetPasswordCallback)(NSError* error);
 
-@property(nonatomic, strong) id<CTSAuthenticationProtocol> delegate;
+@property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
 
 /**
  *  sign in the user
