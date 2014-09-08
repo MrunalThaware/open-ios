@@ -32,9 +32,10 @@
   [super viewDidLoad];
   [self initialize];
   //[self signIn];
+  [self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
-  [self doGuestPaymentDebitCard];
+  //[self doGuestPaymentDebitCard];
   //[self doGuestPaymentNetbanking];
 }
 
@@ -80,26 +81,25 @@
 #pragma mark - AuthLayer Sample implementation
 
 - (void)signIn {
-  [authLayer
-      requestSigninWithUsername:TEST_EMAIL
-                       password:TEST_PASSWORD
-              completionHandler:^(NSString* userName,
-                                  NSString* token,
-                                  NSError* error) {
-                  LogTrace(@"userName %@ ", userName);
-                  LogTrace(@"token %@ ", token);
-                  LogTrace(@"error %@ ", error);
-                  //                         [paymentlayerinfo
-                  //                         requestMerchantPgSettings:VanityUrl
-                  //                                               withCompletionHandler:nil];
+  [authLayer requestSigninWithUsername:TEST_EMAIL
+                              password:TEST_PASSWORD
+                     completionHandler:^(NSString* userName,
+                                         NSString* token,
+                                         NSError* error) {
+                         LogTrace(@"userName %@ ", userName);
+                         LogTrace(@"token %@ ", token);
+                         LogTrace(@"error %@ ", error);
+                         //                         [paymentlayerinfo
+                         //                         requestMerchantPgSettings:VanityUrl
+                         //                                               withCompletionHandler:nil];
 
-                  //[self doUserDebitCardPayment];
-                  //[self doGuestPaymentCard];
-                  //[self doUserNetbankingPayment];
-                  //[self doTokenizedPaymentNetbanking];
-
-                  //[self updatePaymentInfo];
-              }];
+                         //[self doUserDebitCardPayment];
+                         //[self doGuestPaymentCard];
+                         //[self doUserNetbankingPayment];
+                         //[self doTokenizedPaymentNetbanking];
+                         [self doUserDebitCardPayment];
+                         //[self updatePaymentInfo];
+                     }];
 }
 
 - (void)signUp {
@@ -112,7 +112,7 @@
                       LogTrace(@"userName %@ ", userName);
                       LogTrace(@"token %@ ", token);
                       LogTrace(@"error %@ ", error);
-                      [self signIn];
+                      // [self signIn];
                   }];
 }
 

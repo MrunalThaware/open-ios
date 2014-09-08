@@ -152,5 +152,10 @@ typedef void (^ASResetPasswordCallback)(NSError* error);
 - (void)requestIsUserCitrusMemberUsername:(NSString*)email
                         completionHandler:
                             (ASIsUserCitrusMemberCallback)callback;
-
+/**
+ *  signout
+ *
+ *  @return YES
+ */
+- (BOOL)signOut;
 @end
