@@ -440,8 +440,8 @@ static BOOL isSignatureSuccess;
                withContact:contactInfo
                withAddress:userAddress
              withReturnUrl:returnUrl
-                 withTxnId:merchantTxnId
-             withSignature:signature
+                 withTxnId:merchantTxnIdArg
+             withSignature:signatureArg
                 withAmount:amount];
   //
   //  CTSPaymentRequest* paymentrequest =
@@ -533,8 +533,8 @@ static BOOL isSignatureSuccess;
                  withAddress:(CTSUserAddress*)userAddress
                       amount:(NSString*)amount
                withReturnUrl:(NSString*)returnUrl
-               withSignature:(NSString*)signature
-                   withTxnId:(NSString*)merchantTxnId
+               withSignature:(NSString*)signatureArg
+                   withTxnId:(NSString*)merchantTxnIdArg
        withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback {
   [self addCallback:callback forRequestId:PaymentUsingtokenizedCardBankReqId];
   self.paymentTokenType = @"paymentOptionIdToken";
@@ -548,8 +548,8 @@ static BOOL isSignatureSuccess;
                withContact:contactInfo
                withAddress:userAddress
              withReturnUrl:returnUrl
-                 withTxnId:merchantTxnId
-             withSignature:signature
+                 withTxnId:merchantTxnIdArg
+             withSignature:signatureArg
                 withAmount:amount];
 }
 

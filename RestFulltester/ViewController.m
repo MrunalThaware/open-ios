@@ -31,8 +31,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  //[self signIn];
-  [self signUp];
+  [self signIn];
+  //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
@@ -95,9 +95,9 @@
 
                          //[self doUserDebitCardPayment];
                          //[self doGuestPaymentCard];
-                         //[self doUserNetbankingPayment];
+                         [self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
-                         [self doUserDebitCardPayment];
+                         //[self doUserDebitCardPayment];
                          //[self updatePaymentInfo];
                      }];
 }
@@ -113,6 +113,7 @@
                       LogTrace(@"token %@ ", token);
                       LogTrace(@"error %@ ", error);
                       // [self signIn];
+                      [self doUserNetbankingPayment];
                   }];
 }
 
