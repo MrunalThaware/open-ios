@@ -247,16 +247,17 @@ static BOOL isSignatureSuccess;
                withAddress:(CTSUserAddress*)Address
              withReturnUrl:(NSString*)returnUrl
                  withTxnId:(NSString*)merchanttxnId
-             withSignature:(NSString*)signature
+             withSignature:(NSString*)signatureArg
                 withAmount:(NSString*)amt {
   for (CTSPaymentOption* paymentOption in paymentDetailInfo.paymentOptions) {
     if ([self.paymentTokenType isEqualToString:@"paymentOptionIdToken"]) {
+      // tokenized
       CTSTokenizedCardPayment* tokenizedCardPaymentRequest =
           [[CTSTokenizedCardPayment alloc] init];
       tokenizedCardPaymentRequest.merchantAccessKey = MLC_PAYMENT_ACCESSKEY;
       tokenizedCardPaymentRequest.merchantTxnId = merchanttxnId;
       tokenizedCardPaymentRequest.notifyUrl = @"";
-      tokenizedCardPaymentRequest.requestSignature = signature;
+      tokenizedCardPaymentRequest.requestSignature = signatureArg;
       // tokenizedCardPaymentRequest.returnUrl =
       // MLC_PAYMENT_REDIRECT_URLCOMPLETE;
       tokenizedCardPaymentRequest.returnUrl = returnUrl;
@@ -306,10 +307,11 @@ static BOOL isSignatureSuccess;
             httpMethod:POST];
       [restCore requestAsyncServer:request];
     } else {
+      // user payment
       CTSPaymentRequest* paymentrequest = [[CTSPaymentRequest alloc] init];
       paymentrequest.merchantAccessKey = MLC_PAYMENT_ACCESSKEY;
       paymentrequest.merchantTxnId = merchanttxnId;
-      paymentrequest.requestSignature = signature;
+      paymentrequest.requestSignature = signatureArg;
       paymentrequest.notifyUrl = @"";
       // paymentrequest.returnUrl = MLC_PAYMENT_REDIRECT_URLCOMPLETE;
       paymentrequest.returnUrl = returnUrl;
@@ -375,13 +377,24 @@ static BOOL isSignatureSuccess;
       NSDictionary* header = @{ @"Content-Type" : @"application/json" };
       NSLog(@"json request:%@", paymentrequest);
       NSLog(@"JSON STRING:%@", [paymentrequest toJSONString]);
+
+      //      CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+      //          initWithPath:MLC_CITRUS_SERVER_URL
+      //             requestId:PaymentUsingSignedInCardBankReqId
+      //               headers:header
+      //            parameters:nil
+      //                  json:[paymentrequest toJSONString]
+      //            httpMethod:POST];
+      long index = [self addDataToCacheAtAutoIndex:paymentDetailInfo];
       CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
           initWithPath:MLC_CITRUS_SERVER_URL
              requestId:PaymentUsingSignedInCardBankReqId
                headers:header
             parameters:nil
                   json:[paymentrequest toJSONString]
-            httpMethod:POST];
+            httpMethod:POST
+             dataIndex:index];
+
       [restCore requestAsyncServer:request];
     }
   }
@@ -443,6 +456,7 @@ static BOOL isSignatureSuccess;
                  withTxnId:merchantTxnIdArg
              withSignature:signatureArg
                 withAmount:amount];
+
   //
   //  CTSPaymentRequest* paymentrequest =
   //      [self configureReqPayment:paymentInfo
@@ -703,10 +717,23 @@ enum {
   JSONModelError* jsonError;
   CTSPaymentTransactionRes* payment = nil;
   if (error == nil) {
+    if (response.indexData > -1) {
+      CTSPaymentDetailUpdate* paymentDetail =
+          [self fetchAndRemoveDataFromCache:response.indexData];
+      [paymentDetail logProperties];
+      __block CTSProfileLayer* profile = [[CTSProfileLayer alloc] init];
+      [profile updatePaymentInformation:paymentDetail
+                  withCompletionHandler:^(NSError* error) {
+                      LogTrace(@" error %@ ", error);
+                  }];
+    }
+
     payment =
         [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
                                                    error:&jsonError];
     [payment logProperties];
+
+    // CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
   }
   [self makeUserPaymentHelper:payment error:error];
 }
@@ -728,6 +755,7 @@ enum {
                         error:(NSError*)error {
   ASMakeUserPaymentCallBack callback = [self
       retrieveAndRemoveCallbackForReqId:PaymentUsingSignedInCardBankReqId];
+
   if (callback != nil) {
     callback(payment, error);
   } else {

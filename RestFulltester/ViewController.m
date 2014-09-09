@@ -95,10 +95,12 @@
 
                          //[self doUserDebitCardPayment];
                          //[self doGuestPaymentCard];
-                         [self doUserNetbankingPayment];
+                         //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
-                         //[self updatePaymentInfo];
+                         // [self updatePaymentInfo];
+                         //[self doUserCreditCardPayment];
+                         [self doUserNetbankingPayment];
                      }];
 }
 
@@ -113,7 +115,7 @@
                       LogTrace(@"token %@ ", token);
                       LogTrace(@"error %@ ", error);
                       // [self signIn];
-                      [self doUserNetbankingPayment];
+                      //[self doUserCreditCardPayment];
                   }];
 }
 
@@ -268,13 +270,11 @@
       [[CTSPaymentDetailUpdate alloc] init];
   CTSNetBankingUpdate* netbank = [[CTSNetBankingUpdate alloc] init];
   netbank.code = @"CID001";
+  netbank.name = TEST_NETBAK_OWNER_NAME;
+  netbank.bank = TEST_NETBAK_NAME;
   [netBankingPaymentInfo addNetBanking:netbank];
   NSString* txnId = [self createTXNId];
-  //  [paymentlayerinfo makeUserPayment:netBankingPaymentInfo
-  //                        withContact:contactInfo
-  //                             amount:@"1"
-  //                      withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
-  //                          withTxnId:@"PPTX000000003946"];
+
   [paymentlayerinfo
             makeUserPayment:netBankingPaymentInfo
                 withContact:contactInfo
