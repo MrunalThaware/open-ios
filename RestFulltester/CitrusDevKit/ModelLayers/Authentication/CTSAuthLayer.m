@@ -15,6 +15,8 @@
 #import "CTSError.h"
 #import "CTSOauthManager.h"
 #import "NSObject+logProperties.h"
+#import "CTSSignupState.h"
+
 #import <CommonCrypto/CommonDigest.h>
 #ifndef MIN
 #import <NSObjCRuntime.h>
@@ -100,11 +102,17 @@
 
   userNameSignup = email;
   mobileSignUp = mobile;
-  if (password != nil) {
-    passwordSignUp = password;
-  } else {
+  if (password == nil) {
     passwordSignUp = [self generatePseudoRandomPassword];
+  } else {
+    passwordSignUp = password;
   }
+
+  //  CTSSignupState* signupState = [[CTSSignupState alloc] initWithEmail:email
+  //                                                               mobile:mobile
+  //                                                             password:password];
+  //
+  //  long index = [self addDataToCacheAtAutoIndex:signupState];
 
   [self requestSignUpOauthToken];
 }

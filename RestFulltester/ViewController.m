@@ -98,9 +98,9 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
-                         // [self updatePaymentInfo];
-                         //[self doUserCreditCardPayment];
-                         [self doUserNetbankingPayment];
+                         //[self updatePaymentInfo];
+                         [self doUserCreditCardPayment];
+                         //[self doUserNetbankingPayment];
                      }];
 }
 
@@ -376,7 +376,6 @@
                                 withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
                                 withSignature:signature
                                     withTxnId:transactionId
-                                   isDoSignup:NO
                         withCompletionHandler:nil];
 }
 
@@ -405,7 +404,6 @@
                                 withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
                                 withSignature:signature
                                     withTxnId:transactionId
-                                   isDoSignup:NO
                         withCompletionHandler:nil];
 }
 
@@ -428,7 +426,6 @@
                                 withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
                                 withSignature:signature
                                     withTxnId:transactionId
-                                   isDoSignup:NO
                         withCompletionHandler:nil];
 }
 

@@ -87,6 +87,8 @@
 		37C964B2198F86960021DC0B /* CTSOauthTokenRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C964AF198F86960021DC0B /* CTSOauthTokenRes.m */; };
 		37C964B3198F86960021DC0B /* CTSSignUpRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C964B1198F86960021DC0B /* CTSSignUpRes.m */; };
 		37D6C213197D289300F357FD /* CTSOauthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D6C212197D289300F357FD /* CTSOauthManager.m */; };
+		37E1F89A19C036EC00DC29AF /* CTSSignupState.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E1F89919C036EC00DC29AF /* CTSSignupState.m */; };
+		37E1F89B19C036EC00DC29AF /* CTSSignupState.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E1F89919C036EC00DC29AF /* CTSSignupState.m */; };
 		6BEDF371199382F500F97231 /* CTSPaymentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */; };
 		6BEDF4621993A50600F97231 /* HMACSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF4611993A50600F97231 /* HMACSignature.m */; };
 /* End PBXBuildFile section */
@@ -244,6 +246,8 @@
 		37D6C210197CF8BD00F357FD /* CTSCoreProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCoreProtocol.h; sourceTree = "<group>"; };
 		37D6C211197D289300F357FD /* CTSOauthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSOauthManager.h; sourceTree = "<group>"; };
 		37D6C212197D289300F357FD /* CTSOauthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSOauthManager.m; sourceTree = "<group>"; };
+		37E1F89819C036EC00DC29AF /* CTSSignupState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSSignupState.h; sourceTree = "<group>"; };
+		37E1F89919C036EC00DC29AF /* CTSSignupState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSSignupState.m; sourceTree = "<group>"; };
 		37F83B15198B73E20023998D /* UserLogging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserLogging.h; sourceTree = "<group>"; };
 		37F83B16198BA13D0023998D /* RestLayerConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestLayerConstants.h; sourceTree = "<group>"; };
 		6BEDF36E199382F500F97231 /* CTSPaymentLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPaymentLayer.h; sourceTree = "<group>"; };
@@ -357,6 +361,7 @@
 		37851B431978F2DD00AE3AD0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				37E1F89719C036EC00DC29AF /* dto */,
 				37C9644D198F723E0021DC0B /* RequestObjects */,
 				37C96474198F723E0021DC0B /* ResponseObjects */,
 				371B5D50198A5D770096451C /* CTSRestError.h */,
@@ -647,6 +652,15 @@
 			path = UserProfile;
 			sourceTree = "<group>";
 		};
+		37E1F89719C036EC00DC29AF /* dto */ = {
+			isa = PBXGroup;
+			children = (
+				37E1F89819C036EC00DC29AF /* CTSSignupState.h */,
+				37E1F89919C036EC00DC29AF /* CTSSignupState.m */,
+			);
+			path = dto;
+			sourceTree = "<group>";
+		};
 		6BEDF36D199382F500F97231 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
@@ -862,6 +876,7 @@
 				371B5D52198A5D770096451C /* CTSRestError.m in Sources */,
 				37C964AD198F723E0021DC0B /* GetProfileRes.m in Sources */,
 				37C96499198F723E0021DC0B /* CTSUserDetails.m in Sources */,
+				37E1F89A19C036EC00DC29AF /* CTSSignupState.m in Sources */,
 				37C964A0198F723E0021DC0B /* CTSPrepaidUpdate.m in Sources */,
 				37C964A9198F723E0021DC0B /* CTSPgSettings.m in Sources */,
 				37C964A7198F723E0021DC0B /* CTSPaymentRes.m in Sources */,
@@ -873,6 +888,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37E1F89B19C036EC00DC29AF /* CTSSignupState.m in Sources */,
 				37851BF71978F2DD00AE3AD0 /* CTSError.m in Sources */,
 				37A7C6D01922458F005D29D4 /* RestFulltesterTests.m in Sources */,
 				37851BF51978F2DD00AE3AD0 /* CTSAuthLayer.m in Sources */,
