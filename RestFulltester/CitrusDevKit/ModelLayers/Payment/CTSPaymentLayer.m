@@ -581,25 +581,30 @@
   __block NSString* email = contactInfo.email;
   __block NSString* mobile = contactInfo.mobile;
   __block NSString* password = contactInfo.password;
+  dispatch_queue_t backgroundQueue =
+      dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
   dispatch_async(backgroundQueue, ^(void) {
-      if (password != nil)
-        [authLayer
-            requestSignUpWithEmail:email
-                            mobile:mobile
-                          password:password
-                 completionHandler:^(NSString* userName,
-                                     NSString* token,
-                                     NSError* error) {
-                     dispatch_async(backgroundQueue, ^(void) {
-                         CTSProfileLayer* profileLayer =
-                             [[CTSProfileLayer alloc] init];
-                         [profileLayer
-                             updatePaymentInformation:_paymentDetailUpdate
-                                withCompletionHandler:nil];
-                         _paymentDetailUpdate = nil;
-                     });
-                 }];
+      [authLayer requestSignUpWithEmail:email
+                                 mobile:mobile
+                               password:password
+                      completionHandler:^(NSString* userName,
+                                          NSString* token,
+                                          NSError* error) {
+
+                          dispatch_queue_t backgroundQueueBlock =
+                              dispatch_get_global_queue(
+                                  DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+                          dispatch_async(backgroundQueueBlock, ^(void) {
+                              CTSProfileLayer* profileLayer =
+                                  [[CTSProfileLayer alloc] init];
+                              [profileLayer
+                                  updatePaymentInformation:_paymentDetailUpdate
+                                     withCompletionHandler:nil];
+                              _paymentDetailUpdate = nil;
+                          });
+                      }];
   });
 
   [self insertGuestValues:paymentInfo

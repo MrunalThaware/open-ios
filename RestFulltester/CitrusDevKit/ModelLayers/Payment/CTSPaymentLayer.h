@@ -71,7 +71,6 @@
 
 @end
 @interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol> {
-  dispatch_queue_t backgroundQueue;
 }
 @property(strong) NSString* merchantTxnId;
 @property(strong) NSString* signature;
