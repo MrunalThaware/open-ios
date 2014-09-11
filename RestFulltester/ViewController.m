@@ -34,7 +34,7 @@
   //[self signIn];
   //[self signUp];
   //[self testCardSchemes];
-  //[self doGuestPaymentCreditCard];
+  [self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
   //[self doGuestPaymentNetbanking];
 }

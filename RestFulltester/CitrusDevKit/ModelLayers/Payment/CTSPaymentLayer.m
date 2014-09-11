@@ -94,9 +94,8 @@
   LogTrace(@"validation error %d ", error);
 
   if (error != NoError) {
-    /*[delegate transactionInformation:nil
-     error:[CTSError getErrorForCode:error]];*/
-    // return;
+    [self makeUserPaymentHelper:nil error:[CTSError getErrorForCode:error]];
+    return;
   }
 
   long index = [self addDataToCacheAtAutoIndex:paymentInfo];
@@ -133,11 +132,12 @@
                           txnId:merchantTxnIdArg];
 
   CTSErrorCode error = [paymentInfo validate];
-  LogTrace(@" error %d ", error);
+  LogTrace(@" validation error %d ", error);
+
   if (error != NoError) {
-    /*[delegate transactionInformation:nil
-     error:[CTSError getErrorForCode:error]];*/
-    // return;
+    [self makeTokenizedPaymentHelper:nil
+                               error:[CTSError getErrorForCode:error]];
+    return;
   }
 
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
@@ -161,11 +161,12 @@
   [self addCallback:callback forRequestId:PaymentAsGuestReqId];
 
   CTSErrorCode error = [paymentInfo validate];
-  LogTrace(@" error %d ", error);
+  LogTrace(@"validation error %d ", error);
+
   if (error != NoError) {
-    /*[delegate transactionInformation:nil
-     error:[CTSError getErrorForCode:error]];*/
-    // return;
+    [self makeTokenizedPaymentHelper:nil
+                               error:[CTSError getErrorForCode:error]];
+    return;
   }
   CTSAuthLayer* authLayer = [[CTSAuthLayer alloc] init];
   __block CTSPaymentDetailUpdate* _paymentDetailUpdate = paymentInfo;
@@ -321,7 +322,6 @@ enum {
     payment =
         [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
                                                    error:&jsonError];
-
   }
   [self makeUserPaymentHelper:payment error:error];
 }
