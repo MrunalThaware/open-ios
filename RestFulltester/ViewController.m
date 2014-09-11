@@ -31,11 +31,11 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  [self signIn];
+  //[self signIn];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
-  [self doGuestPaymentDebitCard];
+  //[self doGuestPaymentDebitCard];
   //[self doGuestPaymentNetbanking];
 }
 
@@ -93,13 +93,13 @@
                          //                         requestMerchantPgSettings:VanityUrl
                          //                                               withCompletionHandler:nil];
 
-                         //[self doUserDebitCardPayment];
+                         [self doUserDebitCardPayment];
                          //[self doGuestPaymentCard];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
                          //[self updatePaymentInfo];
-                         [self doUserCreditCardPayment];
+                         // [self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
                      }];
 }
