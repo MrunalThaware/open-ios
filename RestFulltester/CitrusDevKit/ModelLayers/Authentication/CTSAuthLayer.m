@@ -258,6 +258,14 @@
   return YES;
 }
 
+- (BOOL)isAnyoneSignedIn {
+  NSString* signInOauthToken = [CTSOauthManager readOauthTokenWithExpiryCheck];
+  if (signInOauthToken == nil)
+    return NO;
+  else
+    return YES;
+}
+
 #pragma mark - pseudo password generator methods
 - (NSString*)generatePseudoRandomPassword {
   // Build the password using C strings - for speed
@@ -380,6 +388,8 @@ static NSData* digest(NSData* data,
   return large_CSV_String;
 }
 
+
+#pragma mark - main class methods
 enum {
   SignupOauthTokenReqId,
   SigninOauthTokenReqId,

@@ -162,4 +162,11 @@ typedef void (^ASResetPasswordCallback)(NSError* error);
  *  @return YES
  */
 - (BOOL)signOut;
+
+/**
+ *  to confirm if anyone is signed in
+ *
+ *  @return yes if anyone is signed in, NO otherwise
+ */
+-(BOOL)isAnyoneSignedIn;
 @end
