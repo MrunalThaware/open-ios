@@ -31,10 +31,10 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  //[self signIn];
+  [self signIn];
   //[self signUp];
   //[self testCardSchemes];
-  [self doGuestPaymentCreditCard];
+  //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
   //[self doGuestPaymentNetbanking];
 }
@@ -294,7 +294,7 @@
   debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
   debitCard.scheme = TEST_DEBIT_SCHEME;
   debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
-  debitCard.name = TEST_DEBIT_CARD_BANK_NAME;
+  //debitCard.name = TEST_DEBIT_CARD_BANK_NAME;
   debitCard.cvv = TEST_DEBIT_CVV;
   [debitCardInfo addCard:debitCard];
   NSString* txnId = [self createTXNId];
