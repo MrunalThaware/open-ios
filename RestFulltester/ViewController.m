@@ -93,14 +93,14 @@
                          //                         requestMerchantPgSettings:VanityUrl
                          //                                               withCompletionHandler:nil];
 
-                         [self doUserDebitCardPayment];
+                         //[self doUserDebitCardPayment];
                          //[self doGuestPaymentCard];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
                          //[self updatePaymentInfo];
-                         // [self doUserCreditCardPayment];
-                         //[self doUserNetbankingPayment];
+                         //[self doUserCreditCardPayment];
+                         [self doUserNetbankingPayment];
                      }];
 }
 
@@ -270,7 +270,7 @@
       [[CTSPaymentDetailUpdate alloc] init];
   CTSNetBankingUpdate* netbank = [[CTSNetBankingUpdate alloc] init];
   netbank.code = @"CID001";
-  netbank.name = TEST_NETBAK_OWNER_NAME;
+  //netbank.name = TEST_NETBAK_OWNER_NAME;
   netbank.bank = TEST_NETBAK_NAME;
   [netBankingPaymentInfo addNetBanking:netbank];
   NSString* txnId = [self createTXNId];
