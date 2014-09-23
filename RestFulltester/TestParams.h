@@ -47,7 +47,7 @@
 #define TEST_TOKENIZED_PAYBANK_TOKEN @"frfr6arrabcrrrrfee5ec787ad61f8bm"
 
 // sample value
-#define TEST_TOKENIZED_CARD_TOKEN @"abcdef4446e0d9d7b34d7a7968123456"
+#define TEST_TOKENIZED_CARD_TOKEN @"4bff128c6e288dedaa87148f62446415"
 
 #define TEST_TOKENIZED_CARD_CVV @"000"
 

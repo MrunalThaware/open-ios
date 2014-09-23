@@ -100,7 +100,8 @@
                          //[self doUserDebitCardPayment];
                          //[self updatePaymentInfo];
                          //[self doUserCreditCardPayment];
-                         [self doUserNetbankingPayment];
+                         //[self doUserNetbankingPayment];
+                         //[self doTokenizedPaymentCreditCard];
                      }];
 }
 
@@ -466,9 +467,20 @@
               withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
                   withTxnId:@"PPTX000000003946"
       withCompletionHandler:nil];*/
+    
+    
+    
 }
 
 - (void)doTokenizedPaymentCreditCard {
+    
+    
+    NSString* transactionId = [self createTXNId];
+    NSLog(@"transactionId:%@", transactionId);
+    
+    NSString* signature =
+    [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
+    
   CTSPaymentDetailUpdate* tokenizedCardInfo =
       [[CTSPaymentDetailUpdate alloc] init];
   CTSElectronicCardUpdate* tokenizedCard =
@@ -477,13 +489,14 @@
   tokenizedCard.cvv = TEST_TOKENIZED_CARD_CVV;
   [tokenizedCardInfo addCard:tokenizedCard];
 
-  /* [paymentlayerinfo
-        makeTokenizedPayment:tokenizedCardInfo
-                 withContact:contactInfo
-                      amount:@"1"
-               withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
-                   withTxnId:@"PPTX000000003946"
-       withCompletionHandler:nil];*/
+    [paymentlayerinfo makeTokenizedPayment:tokenizedCardInfo
+                               withContact:contactInfo
+                               withAddress:addressInfo
+                                    amount:@"1"
+                             withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
+                             withSignature:signature
+                                 withTxnId:transactionId
+                     withCompletionHandler:nil];
 }
 
 #pragma mark - Payment layer delegates
