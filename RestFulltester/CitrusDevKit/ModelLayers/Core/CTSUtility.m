@@ -351,7 +351,6 @@
 
 + (BOOL)appendHyphenForMobilenumber:(UITextField*)textField replacementString:(NSString*)string shouldChangeCharactersInRange:(NSRange)range{
     // Reject appending non-digit characters
-    // Reject appending non-digit characters
     if (range.length == 0 &&
         ![[NSCharacterSet decimalDigitCharacterSet]
           characterIsMember:[string characterAtIndex:0]]) {
@@ -438,6 +437,15 @@
         }
     }
     return YES;
+}
+
+
++ (NSString*)createTXNId {
+    NSString* transactionId;
+    long long CurrentTime =
+    (long long)([[NSDate date] timeIntervalSince1970] * 1000);
+    transactionId = [NSString stringWithFormat:@"CTS%lld", CurrentTime];
+    return transactionId;
 }
 
 @end

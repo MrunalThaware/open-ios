@@ -13,6 +13,7 @@
 #import "MerchantConstants.h"
 #import "ServerSignature.h"
 
+
 @interface ViewController ()
 
 @end
@@ -97,7 +98,7 @@
                          //[self doGuestPaymentCard];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
-                         //[self doUserDebitCardPayment];
+                         [self doUserDebitCardPayment];
                          //[self updatePaymentInfo];
                          //[self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
@@ -553,6 +554,15 @@
   if (hasSuccess) {
     [self loadRedirectUrl:paymentInfo.redirectUrl];
   }
+    
+    
+    if(error != nil && error.code == ServerErrorWithCode){
+        NSDictionary *userInfo = [error userInfo];
+       CTSRestError *citrusError = (CTSRestError *)[userInfo objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+        NSLog(@" citrusError type %@",citrusError.type);
+        NSLog(@" citrusError description %@",citrusError.description);
+        NSLog(@" citrusError serverResponse %@",citrusError.serverResponse);
+    }
 }
 
 - (void)payment:(CTSPaymentLayer*)layer
