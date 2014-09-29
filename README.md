@@ -39,3 +39,7 @@ $ git clone https://github.com/citruspay/open-ios.git
 ### Xcode
 
 To integrate the SDK you just have to drag drop folder CitrusDevKit/ to your project as groups, import CitrusSdk.h and populate macros in MerchantConstants.h, you have to obtain these from Citrus.
+
+# Wiki
+
+Please refer to [git wiki](https://github.com/citruspay/open-ios/wiki) to get started.
