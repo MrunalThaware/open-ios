@@ -10,5 +10,5 @@
 #import <CommonCrypto/CommonHMAC.h>
 @interface HMACSignature : NSObject
 - (NSString*)generateHMAC:(NSString*)key withData:(NSString*)data;
-
+//
 @end
