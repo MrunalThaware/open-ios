@@ -75,11 +75,14 @@
 @optional
 - (void)auth:(CTSAuthLayer*)layer didRequestForResetPassword:(NSError*)error;
 
+@optional
+-(void)auth:(CTSAuthLayer *)layer didVerifyOTP:(BOOL)isVerified error:(NSError *)error;
+
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
   int seedState;
-  NSString* userNameSignIn, *userNameSignup, *passwordSignUp, *mobileSignUp;
+  NSString* userNameSignIn, *userNameSignup, *passwordSignUp, *mobileSignUp,*firstNameSignup,*lastNameSignup;
   BOOL wasSignupCalled;
 }
 
@@ -97,6 +100,10 @@ typedef void (^ASIsUserCitrusMemberCallback)(BOOL isUserCitrusMember,
                                              NSError* error);
 
 typedef void (^ASResetPasswordCallback)(NSError* error);
+
+
+typedef void (^ASOtpVerificationCallback)(BOOL isVerified,NSError* error);
+
 
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
 
@@ -122,7 +129,12 @@ typedef void (^ASResetPasswordCallback)(NSError* error);
 - (void)requestSignUpWithEmail:(NSString*)email
                         mobile:(NSString*)mobile
                       password:(NSString*)password
+                      firstName:(NSString*)firstName
+                      lastName:(NSString*)lastName
              completionHandler:(ASSignupCallBack)callBack;
+
+
+-(void)requestOTPVerificationUserName:(NSString *)username otp:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback;
 
 /**
  *  in case of forget password,after recieving this server will send email to

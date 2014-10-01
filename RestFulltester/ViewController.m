@@ -32,8 +32,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  [self signIn];
-  //[self signUp];
+  //[self signIn];
+  [self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
@@ -110,6 +110,8 @@
   [authLayer requestSignUpWithEmail:TEST_EMAIL
                              mobile:TEST_MOBILE
                            password:TEST_PASSWORD
+                          firstName:TEST_FIRST_NAME
+                           lastName:TEST_LAST_NAME
                   completionHandler:^(NSString* userName,
                                       NSString* token,
                                       NSError* error) {

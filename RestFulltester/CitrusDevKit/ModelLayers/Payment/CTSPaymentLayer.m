@@ -173,6 +173,10 @@
   __block NSString* email = contactInfo.email;
   __block NSString* mobile = contactInfo.mobile;
   __block NSString* password = contactInfo.password;
+  __block NSString* firstName = contactInfo.firstName;
+  __block NSString* lastName = contactInfo.lastName;
+
+    
   dispatch_queue_t backgroundQueue =
       dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
@@ -181,6 +185,8 @@
           requestSignUpWithEmail:email
                           mobile:mobile
                         password:password
+                      firstName:firstName
+                        lastName:lastName
                completionHandler:^(NSString* userName,
                                    NSString* token,
                                    NSError* error) {

@@ -34,4 +34,6 @@
 + (BOOL)enterCharecterOnly:(NSString*)string;
 + (BOOL)validateCVVNumber:(UITextField*)textField replacementString:(NSString*)string shouldChangeCharactersInRange:(NSRange)range;
 + (NSString*)createTXNId;
++(BOOL)convertToBool:(NSString *)boolStr;
+
 @end

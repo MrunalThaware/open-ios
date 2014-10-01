@@ -12,6 +12,8 @@ typedef enum {
   UserNotSignedIn,
   EmailNotValid,
   MobileNotValid,
+  FirstNameNotValid,
+  LastNameNotValid,
   CvvNotValid,
   CardNumberNotValid,
   ExpiryDateNotValid,

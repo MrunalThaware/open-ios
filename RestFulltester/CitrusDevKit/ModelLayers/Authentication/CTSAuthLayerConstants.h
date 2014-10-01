@@ -82,13 +82,17 @@ typedef enum SignOutResponseState {
 #define MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME @"username"
 
 #pragma mark - SIGNUP
-#define MLC_SIGNUP_REQ_PATH @"/service/v2/identity/new"
+#define MLC_SIGNUP_REQ_PATH @"/service/v2/identity/create"
 #define MLC_SIGNUP_REQ_TYPE POST
 #define MLC_SIGNUP_RES_TYPE [CTSSignUpRes class]
 #define MLC_SIGNUP_RESPONSE_MAPPING @{@"username" : @"userName"}
 
 #define MLC_SIGNUP_QUERY_EMAIL @"email"
 #define MLC_SIGNUP_QUERY_MOBILE @"mobile"
+#define MLC_SIGNUP_QUERY_FIRSTNAME @"firstName"
+#define MLC_SIGNUP_QUERY_LASTNAME @"lastName"
+#define MLC_SIGNUP_QUERY_PASSWORD @"password"
+
 
 #pragma mark - REQUEST_CHANGE_PASSWORD
 #define MLC_REQUEST_CHANGE_PWD_REQ_PATH @"/service/v2/identity/passwords/reset"
@@ -107,6 +111,19 @@ typedef enum SignOutResponseState {
 #define MLC_IS_MEMBER_REQ_PATH @"/service/v1/verify/email"
 #define MLC_IS_MEMBER_REQ_TYPE POST
 #define MLC_IS_MEMBER_QUERY_EMAIL @"email"
+
+
+
+#pragma mark - OTP_VERIFICATION
+#define MLC_OTP_VER_PATH @"/v2/verification/validate-mobile-user"
+#define MLC_OTP_VER_TYPE POST
+#define MLC_OTP_VER_QUERY_OTP @"mobileOtp"
+#define MLC_OTP_VER_QUERY_MOBILE @"mobile"
+
+
+
+
+
 
 typedef enum {
   OauthRefreshStatusSuccess,

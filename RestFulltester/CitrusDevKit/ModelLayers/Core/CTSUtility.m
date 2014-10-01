@@ -448,4 +448,13 @@
     return transactionId;
 }
 
++(BOOL)convertToBool:(NSString *)boolStr{
+    if([boolStr caseInsensitiveCompare:@"true"] ){
+    return YES;
+}
+else{
+    return NO;
+}
+}
+
 @end
