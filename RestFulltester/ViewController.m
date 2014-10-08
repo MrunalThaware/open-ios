@@ -12,6 +12,7 @@
 #import "TestParams.h"
 #import "MerchantConstants.h"
 #import "ServerSignature.h"
+#import "CTSUtility.h"
 
 
 @interface ViewController ()
@@ -31,13 +32,15 @@
 //@synthesize contactInfo, guestflowdebitcard, guestFlowDebitCardInfo;
 - (void)viewDidLoad {
   [super viewDidLoad];
-  [self initialize];
-  //[self signIn];
-  [self signUp];
+ // [self initialize];
+  [self signIn];
+  //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
   //[self doGuestPaymentNetbanking];
+    
+    NSLog(@" card valid %d ",[CTSUtility validateCardNumber:@"345678000000007"]);
 }
 
 - (void)initialize {

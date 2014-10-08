@@ -27,7 +27,6 @@
                                        baseUrl:(NSString*)baseUrl;
 - (void)addCallback:(id)callBack forRequestId:(int)reqId;
 - (id)retrieveAndRemoveCallbackForReqId:(int)reqId;
-
 - (void)addData:(id)object atCacheIndex:(long)index;
 - (id)fetchDataFromCache:(long)index;
 - (id)fetchAndRemoveDataFromCache:(long)index;
