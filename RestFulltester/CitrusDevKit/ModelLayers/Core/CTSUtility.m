@@ -449,12 +449,12 @@
 }
 
 +(BOOL)convertToBool:(NSString *)boolStr{
-    if([boolStr caseInsensitiveCompare:@"true"] ){
-    return YES;
-}
-else{
-    return NO;
-}
+    if([boolStr caseInsensitiveCompare:@"true"]== NSOrderedSame){
+        return YES;
+    }
+    else{
+        return NO;
+    }
 }
 
 @end

@@ -115,14 +115,22 @@ typedef enum SignOutResponseState {
 
 
 #pragma mark - OTP_VERIFICATION
-#define MLC_OTP_VER_PATH @"/v2/verification/validate-mobile-user"
+#define MLC_OTP_VER_PATH @"/service/v2/user/verification/mobile"
 #define MLC_OTP_VER_TYPE POST
-#define MLC_OTP_VER_QUERY_OTP @"mobileOtp"
+#define MLC_OTP_VER_QUERY_OTP @"mobileOTP"
 #define MLC_OTP_VER_QUERY_MOBILE @"mobile"
 
 
+#pragma mark - OTP_REGENERATE
+#define MLC_OTP_REGENERATE_PATH @"/service/v2/user/verification/generate-otp"
+#define MLC_OTP_REGENERATE_TYPE POST
+#define MLC_OTP_REGENERATE_QUERY_MOBILE @"mobile"
 
+#pragma mark - IS_MOBILE_VERIFIED
 
+#define MLC_IS_MOBILE_VERIFIED_PATH @"/service/v2/user/verification/mobile-verified"
+#define MLC_IS_MOBILE_VERIFIED_TYPE POST
+#define MLC_IS_MOBILE_VERIFIED_QUERY_MOBILE @"mobile"
 
 
 typedef enum {

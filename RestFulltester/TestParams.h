@@ -10,9 +10,11 @@
 #define RestFulltester_TestParams_h
 // TestParams.h should be populated according to your needs
 
-#define TEST_EMAIL @"YaddyWankhede123@gmail.com"
+#define TEST_EMAIL @"gazal.bansal@gmail.com"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9702964502l"
+#define TEST_MOBILE @"8879030874"
+
+#define TEST_OTP @"ad0x"
 
 #define TEST_FIRST_NAME @"FaceBook"
 #define TEST_LAST_NAME @"Orkut1@"

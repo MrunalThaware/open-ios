@@ -28,9 +28,9 @@
  */
 @optional
 - (void)auth:(CTSAuthLayer*)layer
-    didSigninUsername:(NSString*)userName
-           oauthToken:(NSString*)token
-                error:(NSError*)error;
+didSigninUsername:(NSString*)userName
+  oauthToken:(NSString*)token
+       error:(NSError*)error;
 
 /**
  *  reports sign up reply
@@ -41,9 +41,9 @@
  */
 @optional
 - (void)auth:(CTSAuthLayer*)layer
-    didSignupUsername:(NSString*)userName
-           oauthToken:(NSString*)token
-                error:(NSError*)error;
+didSignupUsername:(NSString*)userName
+  oauthToken:(NSString*)token
+       error:(NSError*)error;
 
 /**
  *  reports change password reply
@@ -63,8 +63,8 @@
  */
 @optional
 - (void)auth:(CTSAuthLayer*)layer
-    didCheckIsUserCitrusMember:(BOOL)isMember
-                         error:(NSError*)error;
+didCheckIsUserCitrusMember:(BOOL)isMember
+       error:(NSError*)error;
 
 /**
  *  reports password reset
@@ -78,12 +78,18 @@
 @optional
 -(void)auth:(CTSAuthLayer *)layer didVerifyOTP:(BOOL)isVerified error:(NSError *)error;
 
+@optional
+-(void)auth:(CTSAuthLayer *)layer didRegenerateOTPWitherror:(NSError *)error;
+
+@optional
+-(void)auth:(CTSAuthLayer *)layer didCheckIsMobileVerified:(BOOL )isVerified error:(NSError *)error;
+
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
-  int seedState;
-  NSString* userNameSignIn, *userNameSignup, *passwordSignUp, *mobileSignUp,*firstNameSignup,*lastNameSignup;
-  BOOL wasSignupCalled;
+    int seedState;
+    NSString* userNameSignIn, *userNameSignup, *passwordSignUp, *mobileSignUp,*firstNameSignup,*lastNameSignup;
+    BOOL wasSignupCalled;
 }
 
 typedef void (^ASSigninCallBack)(NSString* userName,
@@ -103,6 +109,12 @@ typedef void (^ASResetPasswordCallback)(NSError* error);
 
 
 typedef void (^ASOtpVerificationCallback)(BOOL isVerified,NSError* error);
+
+typedef void (^ASOtpRegenerationCallback)(NSError* error);
+
+typedef void (^ASIsMobileVerifiedCallback)(BOOL isVerified,NSError* error);
+
+
 
 
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
@@ -129,12 +141,20 @@ typedef void (^ASOtpVerificationCallback)(BOOL isVerified,NSError* error);
 - (void)requestSignUpWithEmail:(NSString*)email
                         mobile:(NSString*)mobile
                       password:(NSString*)password
-                      firstName:(NSString*)firstName
+                     firstName:(NSString*)firstName
                       lastName:(NSString*)lastName
              completionHandler:(ASSignupCallBack)callBack;
 
 
 -(void)requestOTPVerificationUserName:(NSString *)username otp:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback;
+
+
+-(void)requestOTPRegenerateMobile:(NSString *)mobile completionHandler:(ASOtpRegenerationCallback)callback;
+
+
+- (void)requestIsMobileVerified:(NSString*)mobile
+                        completionHandler:
+(ASIsMobileVerifiedCallback)callback;
 
 /**
  *  in case of forget password,after recieving this server will send email to
@@ -166,7 +186,7 @@ typedef void (^ASOtpVerificationCallback)(BOOL isVerified,NSError* error);
  */
 - (void)requestIsUserCitrusMemberUsername:(NSString*)email
                         completionHandler:
-                            (ASIsUserCitrusMemberCallback)callback;
+(ASIsUserCitrusMemberCallback)callback;
 /**
  *  signout
  *
