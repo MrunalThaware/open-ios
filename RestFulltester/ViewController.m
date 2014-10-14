@@ -40,7 +40,7 @@
     //[self testCardSchemes];
     //[self doGuestPaymentCreditCard];
     //[self doGuestPaymentDebitCard];
-    [self doGuestPaymentNetbanking];
+    //[self doGuestPaymentNetbanking];
     //[self regenerateOTP];
     NSLog(@" card valid %d ",[CTSUtility validateCardNumber:@"345678000000007"]);
 }
