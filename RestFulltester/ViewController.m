@@ -98,11 +98,12 @@
                          //[self doGuestPaymentCard];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
-                         [self doUserDebitCardPayment];
-                         //[self updatePaymentInfo];
+                         //[self doUserDebitCardPayment];
+                         [self updatePaymentInfo];
                          //[self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
+                         //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
                      }];
 }
 
@@ -207,6 +208,9 @@
   netBank.name = TEST_NETBAK_OWNER_NAME;
   netBank.bank = TEST_NETBAK_NAME;
 
+    
+    paymentInfo.defaultOption = TEST_NETBAK_NAME;
+    
   [paymentInfo addNetBanking:netBank];
 
   // send it to server

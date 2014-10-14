@@ -33,5 +33,6 @@
 + (BOOL)enterNumericOnly:(NSString*)string;
 + (BOOL)enterCharecterOnly:(NSString*)string;
 + (BOOL)validateCVVNumber:(UITextField*)textField replacementString:(NSString*)string shouldChangeCharactersInRange:(NSRange)range;
++ (BOOL)validateCVVNumber:(UITextField*)textField cardNumber:(NSString*)cardNumber replacementString:(NSString*)string shouldChangeCharactersInRange:(NSRange)range;
 + (NSString*)createTXNId;
 @end
