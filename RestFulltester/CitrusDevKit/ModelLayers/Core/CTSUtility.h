@@ -35,5 +35,6 @@
 + (BOOL)validateCVVNumber:(UITextField*)textField replacementString:(NSString*)string shouldChangeCharactersInRange:(NSRange)range;
 + (NSString*)createTXNId;
 +(BOOL)convertToBool:(NSString *)boolStr;
++(NSString*)correctExpiryDate:(NSString *)date;
 
 @end

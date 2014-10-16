@@ -151,11 +151,12 @@
     if ([subStrings count] < 2) {
         return NO;
     }
-    if([[subStrings objectAtIndex:1] length] != 4 ){
+   
+   if([[subStrings objectAtIndex:1] length] != 4){
         return NO;
-    
     }
-        int month = [[subStrings objectAtIndex:0] intValue];
+    
+    int month = [[subStrings objectAtIndex:0] intValue];
     int year = [[subStrings objectAtIndex:1] intValue];
     
     return [self validateExpiryDateMonth:month year:year];
@@ -181,6 +182,21 @@
     }
     return (expiryYear >= 1 && expiryMonth <= 12);
 }
+
++(NSString*)correctExpiryDate:(NSString *)date{
+    NSArray* subStrings = [date componentsSeparatedByString:@"/"];
+    if ([subStrings count] < 2) {
+        return date;
+    }
+    NSString *newDate = nil;
+    if([[subStrings objectAtIndex:1] length] == 2 ){
+        newDate = [NSString stringWithFormat:@"%@/20%@",[subStrings objectAtIndex:0],[subStrings objectAtIndex:1]];
+    }else if([[subStrings objectAtIndex:1] length] == 4){
+        return date;
+    }
+    return newDate;
+}
+
 
 + (BOOL)validateExpiryYear:(int)year {
     int expiryYear = year;
