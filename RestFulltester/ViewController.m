@@ -31,18 +31,15 @@
 @implementation ViewController
 //@synthesize contactInfo, guestflowdebitcard, guestFlowDebitCardInfo;
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    [self initialize];
-    //[self isMobileVerified];
-    //[self signIn];
-    //[self signUp];
-    //[self validateOTP:TEST_OTP];
-    //[self testCardSchemes];
-    //[self doGuestPaymentCreditCard];
-    //[self doGuestPaymentDebitCard];
-    //[self doGuestPaymentNetbanking];
-    //[self regenerateOTP];
-    NSLog(@" card valid %d ",[CTSUtility validateCardNumber:@"345678000000007"]);
+
+  [super viewDidLoad];
+  [self initialize];
+  //[self signIn];
+  //[self signUp];
+  //[self testCardSchemes];
+  //[self doGuestPaymentCreditCard];
+  [self doGuestPaymentDebitCard];
+  //[self doGuestPaymentNetbanking];
 }
 
 - (void)initialize {
