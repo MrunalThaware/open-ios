@@ -148,10 +148,14 @@
 
 + (BOOL)validateExpiryDate:(NSString*)date {
     NSArray* subStrings = [date componentsSeparatedByString:@"/"];
-    if ([subStrings count] < 4) {
+    if ([subStrings count] < 2) {
         return NO;
     }
-    int month = [[subStrings objectAtIndex:0] intValue];
+    if([[subStrings objectAtIndex:1] length] != 4 ){
+        return NO;
+    
+    }
+        int month = [[subStrings objectAtIndex:0] intValue];
     int year = [[subStrings objectAtIndex:1] intValue];
     
     return [self validateExpiryDateMonth:month year:year];
