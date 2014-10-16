@@ -27,7 +27,7 @@
 #define TEST_DEBIT_CVV @"018"
 #define TEST_OWNER_NAME @"Pappu Yadav"
 
-#define TEST_DEBIT_CARD_EXPIRY @"12/15"
+#define TEST_DEBIT_CARD_EXPIRY @"12/2015"
 #define TEST_DEBIT_SCHEME @"visa"
 #define TEST_DEBIT_OWNER_NAME @"Yaddy"
 #define TEST_DEBIT_CARD_BANK_NAME @"KOTAK"
