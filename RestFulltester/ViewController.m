@@ -32,11 +32,11 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  //[self signIn];
+  [self signIn];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
-  [self doGuestPaymentDebitCard];
+  //[self doGuestPaymentDebitCard];
   //[self doGuestPaymentNetbanking];
 }
 
