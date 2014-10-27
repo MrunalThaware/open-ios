@@ -35,10 +35,10 @@
   [super viewDidLoad];
   [self initialize];
   //[self signIn];
-  //[self signUp];
+  [self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
-  [self doGuestPaymentDebitCard];
+ // [self doGuestPaymentDebitCard];
   //[self doGuestPaymentNetbanking];
 }
 
