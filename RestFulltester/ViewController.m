@@ -34,12 +34,18 @@
 
   [super viewDidLoad];
   [self initialize];
-  //[self signIn];
-  [self signUp];
+
+  //  [self testCardSchemes];
+  [self signIn];
+  //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
- // [self doGuestPaymentDebitCard];
-  //[self doGuestPaymentNetbanking];
+  //[self doGuestPaymentDebitCard];
+    //[authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
+      //  [self logError:error];
+        
+    //}];
+ // [self doGuestPaymentNetbanking];
 }
 
 - (void)initialize {
@@ -84,28 +90,30 @@
 #pragma mark - AuthLayer Sample implementation
 
 - (void)signIn {
-    [authLayer requestSigninWithUsername:TEST_EMAIL
-                                password:TEST_PASSWORD
-                       completionHandler:^(NSString* userName,
-                                           NSString* token,
-                                           NSError* error) {
-                           LogTrace(@"userName %@ ", userName);
-                           LogTrace(@"token %@ ", token);
-                           LogTrace(@"error %@ ", error);
-                           //                         [paymentlayerinfo
-                           //                         requestMerchantPgSettings:VanityUrl
-                           //                                               withCompletionHandler:nil];
-                           
-                           //[self doUserDebitCardPayment];
-                           //[self doGuestPaymentCard];
-                          // [self doUserNetbankingPayment];
-                           //[self doTokenizedPaymentNetbanking];
-                           //[self doUserDebitCardPayment];
-                           //[self updatePaymentInfo];
-                           //[self doUserCreditCardPayment];
-                           //[self doUserNetbankingPayment];
-                           //[self doTokenizedPaymentCreditCard];
-                       }];
+  [authLayer requestSigninWithUsername:TEST_EMAIL
+                              password:TEST_PASSWORD
+                     completionHandler:^(NSString* userName,
+                                         NSString* token,
+                                         NSError* error) {
+                         LogTrace(@"userName %@ ", userName);
+                         LogTrace(@"token %@ ", token);
+                         [self logError:error];
+
+                         //                         [paymentlayerinfo
+                         //                         requestMerchantPgSettings:VanityUrl
+                         //                                               withCompletionHandler:nil];
+
+                         //[self doUserDebitCardPayment];
+                         //[self doGuestPaymentCard];
+                         //[self doUserNetbankingPayment];
+                         //[self doTokenizedPaymentNetbanking];
+                         //[self doUserDebitCardPayment];
+                         [self updatePaymentInfo];
+                         //[self doUserCreditCardPayment];
+                         //[self doUserNetbankingPayment];
+                         //[self doTokenizedPaymentCreditCard];
+                         //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
+                     }];
 }
 
 - (void)signUp {
@@ -634,6 +642,17 @@ didMakePaymentUsingGuestFlow:(CTSPaymentTransactionRes*)paymentInfo
     LogTrace(@" transactionResult %@ ",
              [transactionResult objectForKey:@"TxStatus"]);
     [webview removeFromSuperview];
+}
+
+
+-(void)logError:(NSError *)error{
+
+    LogTrace(@" error %@  ",error);
+    CTSRestError *errorCTS = [[error userInfo] objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+    LogTrace(@" errorCTS type %@",errorCTS.type);
+    LogTrace(@" errorCTS description %@",errorCTS.description);
+    LogTrace(@" errorCTS responseString %@",errorCTS.serverResponse);
+
 }
 
 #pragma mark - webview delegates
