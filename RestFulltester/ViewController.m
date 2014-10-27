@@ -40,6 +40,12 @@
   //[self doGuestPaymentDebitCard];
     [authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
         LogTrace(@" error %@  ",error);
+        CTSRestError *errorCTS = [[error userInfo] objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+        LogTrace(@" errorCTS type %@",errorCTS.type);
+        LogTrace(@" errorCTS description %@",errorCTS.description);
+        LogTrace(@" errorCTS responseString %@",errorCTS.serverResponse);
+
+        
     }];
  // [self doGuestPaymentNetbanking];
 }
