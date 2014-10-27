@@ -33,20 +33,15 @@
   [super viewDidLoad];
   [self initialize];
   //  [self testCardSchemes];
-  //[self signIn];
+  [self signIn];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
-    [authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
-        LogTrace(@" error %@  ",error);
-        CTSRestError *errorCTS = [[error userInfo] objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
-        LogTrace(@" errorCTS type %@",errorCTS.type);
-        LogTrace(@" errorCTS description %@",errorCTS.description);
-        LogTrace(@" errorCTS responseString %@",errorCTS.serverResponse);
-
+    //[authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
+      //  [self logError:error];
         
-    }];
+    //}];
  // [self doGuestPaymentNetbanking];
 }
 
@@ -99,7 +94,8 @@
                                          NSError* error) {
                          LogTrace(@"userName %@ ", userName);
                          LogTrace(@"token %@ ", token);
-                         LogTrace(@"error %@ ", error);
+                         [self logError:error];
+
                          //                         [paymentlayerinfo
                          //                         requestMerchantPgSettings:VanityUrl
                          //                                               withCompletionHandler:nil];
@@ -619,6 +615,17 @@
   LogTrace(@" transactionResult %@ ",
            [transactionResult objectForKey:@"TxStatus"]);
   [webview removeFromSuperview];
+}
+
+
+-(void)logError:(NSError *)error{
+
+    LogTrace(@" error %@  ",error);
+    CTSRestError *errorCTS = [[error userInfo] objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+    LogTrace(@" errorCTS type %@",errorCTS.type);
+    LogTrace(@" errorCTS description %@",errorCTS.description);
+    LogTrace(@" errorCTS responseString %@",errorCTS.serverResponse);
+
 }
 
 #pragma mark - webview delegates

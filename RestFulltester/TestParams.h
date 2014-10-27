@@ -11,7 +11,7 @@
 // TestParams.h should be populated according to your needs
 
 #define TEST_EMAIL @"pappu.a.Yadav15@gmail.com"
-#define TEST_PASSWORD @"tester@123"
+#define TEST_PASSWORD @"tester@12"
 #define TEST_MOBILE @"1234567890"
 
 #define TEST_FIRST_NAME @"dongGing"
