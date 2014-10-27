@@ -32,12 +32,16 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
-  [self signIn];
+  //  [self testCardSchemes];
+  //[self signIn];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
-  //[self doGuestPaymentNetbanking];
+    [authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
+        LogTrace(@" error %@  ",error);
+    }];
+ // [self doGuestPaymentNetbanking];
 }
 
 - (void)initialize {
