@@ -203,7 +203,7 @@
   CTSElectronicCardUpdate* debitCard =
       [[CTSElectronicCardUpdate alloc] initDebitCard];
   debitCard.number = TEST_DEBIT_CARD_NUMBER;
-  debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
+  debitCard.expiryDate = TEST_DEBIT_CARD_EXPIRY;
   debitCard.scheme = TEST_DEBIT_SCHEME;
   debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
   debitCard.name = TEST_DEBIT_CARD_BANK_NAME;
@@ -303,7 +303,7 @@
   CTSElectronicCardUpdate* debitCard =
       [[CTSElectronicCardUpdate alloc] initCreditCard];
   debitCard.number = TEST_DEBIT_CARD_NUMBER;
-  debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
+  debitCard.expiryDate = TEST_DEBIT_CARD_EXPIRY;
   debitCard.scheme = TEST_DEBIT_SCHEME;
   debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
   //debitCard.name = TEST_DEBIT_CARD_BANK_NAME;
@@ -402,7 +402,7 @@
   CTSElectronicCardUpdate* debitCard =
       [[CTSElectronicCardUpdate alloc] initDebitCard];
   debitCard.number = TEST_DEBIT_CARD_NUMBER;
-  debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
+  debitCard.expiryDate = TEST_DEBIT_CARD_EXPIRY;
   debitCard.scheme = TEST_DEBIT_SCHEME;
   debitCard.cvv = TEST_DEBIT_CVV;
   debitCard.ownerName = TEST_OWNER_NAME;
