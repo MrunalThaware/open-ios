@@ -91,6 +91,7 @@ didCheckIsUserCitrusMember:(BOOL)isMember
     NSString* userNameSignIn, *userNameSignup, *passwordSignUp, *mobileSignUp,*firstNameSignup,*lastNameSignup;
     BOOL wasSignupCalled;
 }
+- (instancetype)initWithUrl:(NSString *)url;
 
 typedef void (^ASSigninCallBack)(NSString* userName,
                                  NSString* token,

@@ -485,36 +485,50 @@ enum {
 
 
 - (instancetype)init {
-    NSDictionary* dict = @{
-                           toNSString(SignupOauthTokenReqId) : toSelector(handleReqSignupOauthToken
-                                                                          :),
-                           toNSString(SigninOauthTokenReqId) : toSelector(handleReqSigninOauthToken
-                                                                          :),
-                           toNSString(SignupStageOneReqId) : toSelector(handleReqSignupStageOneComplete
-                                                                        :),
-                           toNSString(SignupChangePasswordReqId) : toSelector(handleReqUsePassword
-                                                                              :),
-                           toNSString(RequestForPasswordResetReqId) :
-                               toSelector(handleReqRequestForPasswordReset
-                                          :),
-                           toNSString(ChangePasswordReqId) : toSelector(handleReqChangePassword
-                                                                        :),
-                           toNSString(IsUserCitrusMemberReqId) : toSelector(handleIsUserCitrusMember
-                                                                            :),
-                           toNSString(OTPVerificationRequestId) : toSelector(handleOTPVerfication
-                                                                             :),
-                           toNSString(OTPRegenerationRequestId):toSelector(handleOTPRegeneration:),
-                           
-                           toNSString(ISMobileVerifiedRequestId): toSelector(handleIsMobileVerified:)
-                           };
-    
+    NSDictionary* dict = [self getRegistrationDict];
     self =
     [super initWithRequestSelectorMapping:dict baseUrl:CITRUS_AUTH_BASE_URL];
     
     return self;
 }
 
+-(NSDictionary *)getRegistrationDict{
+    return @{
+             toNSString(SignupOauthTokenReqId) : toSelector(handleReqSignupOauthToken
+                                                            :),
+             toNSString(SigninOauthTokenReqId) : toSelector(handleReqSigninOauthToken
+                                                            :),
+             toNSString(SignupStageOneReqId) : toSelector(handleReqSignupStageOneComplete
+                                                          :),
+             toNSString(SignupChangePasswordReqId) : toSelector(handleReqUsePassword
+                                                                :),
+             toNSString(RequestForPasswordResetReqId) :
+                 toSelector(handleReqRequestForPasswordReset
+                            :),
+             toNSString(ChangePasswordReqId) : toSelector(handleReqChangePassword
+                                                          :),
+             toNSString(IsUserCitrusMemberReqId) : toSelector(handleIsUserCitrusMember
+                                                              :),
+             toNSString(OTPVerificationRequestId) : toSelector(handleOTPVerfication
+                                                               :),
+             toNSString(OTPRegenerationRequestId):toSelector(handleOTPRegeneration:),
+             
+             toNSString(ISMobileVerifiedRequestId): toSelector(handleIsMobileVerified:)
+             };
 
+
+}
+
+- (instancetype)initWithUrl:(NSString *)url
+{
+    
+    if(url == nil){
+        url = CITRUS_AUTH_BASE_URL;
+    }
+    self = [super initWithRequestSelectorMapping:[self getRegistrationDict]
+                                         baseUrl:url];
+    return self;
+}
 
 
 - (void)handleReqSignupOauthToken:(CTSRestCoreResponse*)response {

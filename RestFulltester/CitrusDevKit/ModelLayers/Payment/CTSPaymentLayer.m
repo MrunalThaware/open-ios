@@ -279,6 +279,35 @@ enum {
   return self;
 }
 
+-(NSDictionary *)getRegistrationDict{
+   return @{
+                           toNSString(PaymentAsGuestReqId) : toSelector(handleReqPaymentAsGuest
+                                                                        :),
+                           toNSString(PaymentUsingtokenizedCardBankReqId) :
+                               toSelector(handleReqPaymentUsingtokenizedCardBank
+                                          :),
+                           toNSString(PaymentUsingSignedInCardBankReqId) :
+                               toSelector(handlePaymentUsingSignedInCardBank
+                                          :),
+                           toNSString(PaymentPgSettingsReqId) : toSelector(handleReqPaymentPgSettings
+                                                                           :)
+                           };
+
+
+}
+
+
+- (instancetype)initWithUrl:(NSString *)url
+{
+    
+    if(url == nil){
+        url = CITRUS_PAYMENT_BASE_URL;
+    }
+    self = [super initWithRequestSelectorMapping:[self getRegistrationDict]
+                                         baseUrl:url];
+    return self;
+}
+
 #pragma mark - response handlers methods
 - (void)handleReqPaymentAsGuest:(CTSRestCoreResponse*)response {
   NSError* error = response.error;

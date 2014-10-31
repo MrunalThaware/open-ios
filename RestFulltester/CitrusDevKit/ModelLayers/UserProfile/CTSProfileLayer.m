@@ -25,23 +25,37 @@ enum {
 };
 
 - (instancetype)init {
-  NSDictionary* dic = @{
-    toNSString(ProfileGetContactReqId) : toSelector(handleReqProfileGetContact
-                                                    :),
-    toNSString(ProfileUpdateContactReqId) :
-        toSelector(handleProfileUpdateContact
-                   :),
-    toNSString(ProfileGetPaymentReqId) : toSelector(handleProfileGetPayment
-                                                    :),
-    toNSString(ProfileUpdatePaymentReqId) :
-        toSelector(handleProfileUpdatePayment
-                   :)
-  };
-
+    NSDictionary* dic = [self getRegistrationDict];
   self = [super initWithRequestSelectorMapping:dic
                                        baseUrl:CITRUS_PROFILE_BASE_URL];
 
   return self;
+}
+-(NSDictionary *)getRegistrationDict{
+    return @{
+             toNSString(ProfileGetContactReqId) : toSelector(handleReqProfileGetContact
+                                                             :),
+             toNSString(ProfileUpdateContactReqId) :
+                 toSelector(handleProfileUpdateContact
+                            :),
+             toNSString(ProfileGetPaymentReqId) : toSelector(handleProfileGetPayment
+                                                             :),
+             toNSString(ProfileUpdatePaymentReqId) :
+                 toSelector(handleProfileUpdatePayment
+                            :)
+             };
+
+}
+
+- (instancetype)initWithUrl:(NSString *)url
+{
+    
+    if(url == nil){
+        url = CITRUS_PROFILE_BASE_URL;
+    }
+    self = [super initWithRequestSelectorMapping:[self getRegistrationDict]
+                                         baseUrl:url];
+    return self;
 }
 
 #pragma mark - class methods

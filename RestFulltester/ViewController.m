@@ -37,15 +37,15 @@
 
   //  [self testCardSchemes];
   //[self signIn];
-  [self signUp];
+  //[self signUp];
   //[self testCardSchemes];
-  //[self doGuestPaymentCreditCard];
-  //[self doGuestPaymentDebitCard];
+  [self doGuestPaymentCreditCard];
+ // [self doGuestPaymentDebitCard];
     //[authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
       //  [self logError:error];
         
     //}];
- // [self doGuestPaymentNetbanking];
+  //[self doGuestPaymentNetbanking];
 }
 
 - (void)initialize {
@@ -61,7 +61,7 @@
     [webview addSubview:indicator];
     [self.view addSubview:webview];
     
-    authLayer = [[CTSAuthLayer alloc] init];
+    authLayer = [[CTSAuthLayer alloc] initWithUrl:BaseUrl];
     authLayer.delegate = self;
     profileLayer = [[CTSProfileLayer alloc] init];
     profileLayer.delegate = self;

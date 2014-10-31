@@ -88,6 +88,7 @@ typedef void (^ASMakeGuestPaymentCallBack)(
 
 typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                                                 NSError* error);
+- (instancetype)initWithUrl:(NSString *)url;
 /**
  * called when client request to make payment through credit card/debit card
 

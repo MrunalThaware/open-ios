@@ -61,6 +61,9 @@
  */
 @interface CTSProfileLayer : CTSRestPluginBase {
 }
+
+- (instancetype)initWithUrl:(NSString *)url;
+
 @property(weak) id<CTSProfileProtocol> delegate;
 
 typedef void (^ASGetContactInfoCallBack)(CTSProfileContactRes* contactInfo,
