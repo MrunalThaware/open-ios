@@ -37,15 +37,15 @@
 
   //  [self testCardSchemes];
   //[self signIn];
-  //[self signUp];
+  [self signUp];
   //[self testCardSchemes];
-  [self doGuestPaymentCreditCard];
+  //[self doGuestPaymentCreditCard];
  // [self doGuestPaymentDebitCard];
     //[authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
       //  [self logError:error];
         
     //}];
-  //[self doGuestPaymentNetbanking];
+ // [self doGuestPaymentNetbanking];
 }
 
 - (void)initialize {
@@ -99,16 +99,16 @@
                          LogTrace(@"token %@ ", token);
                          [self logError:error];
 
-                         //                         [paymentlayerinfo
-                         //                         requestMerchantPgSettings:VanityUrl
-                         //                                               withCompletionHandler:nil];
+                                                [paymentlayerinfo
+                                                  requestMerchantPgSettings:VanityUrl
+                                                                       withCompletionHandler:nil];
 
                          //[self doUserDebitCardPayment];
                          //[self doGuestPaymentCard];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
-                         [self updatePaymentInfo];
+                         //[self updatePaymentInfo];
                          //[self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
