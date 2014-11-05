@@ -1001,6 +1001,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"SANDBOX_MODE=1",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "RestFulltester/CTS iOS Sdk-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",

@@ -9,7 +9,6 @@
 #ifndef CTS_iOS_Sdk_MerchantConstants_h
 #define CTS_iOS_Sdk_MerchantConstants_h
 //
-//#define SANDBOX_MODE 0
 
 // Sandbox
 #ifdef SANDBOX_MODE
