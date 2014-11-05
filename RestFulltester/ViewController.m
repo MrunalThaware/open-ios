@@ -14,7 +14,6 @@
 #import "ServerSignature.h"
 #import "CTSUtility.h"
 
-#define SANDBOX_MODE 0
 
 @interface ViewController ()
 
