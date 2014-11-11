@@ -25,23 +25,23 @@ UIAlertView* alertView;
  *  @param alertView message
  *  @param show activity if YES
  */
-+ (void)didPresentLoadingAlertView:(NSString *)message withActivity:(BOOL)activity
-{
-    if (activity) {
-        alertView = [[UIAlertView alloc] initWithTitle:LOADING_TITLE
-                                               message:message
-                                              delegate:self
-                                     cancelButtonTitle:nil
-                                     otherButtonTitles:nil];
-        
-        activityView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-        activityView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-        [alertView setValue:activityView forKey:@"accessoryView"];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [activityView startAnimating];
-        });
-        [alertView show];
-    }
++ (void)didPresentLoadingAlertView:(NSString*)message
+                      withActivity:(BOOL)activity {
+  if (activity) {
+    alertView = [[UIAlertView alloc] initWithTitle:LOADING_TITLE
+                                           message:message
+                                          delegate:self
+                                 cancelButtonTitle:nil
+                                 otherButtonTitles:nil];
+
+    activityView = [[UIActivityIndicatorView alloc]
+        initWithFrame:CGRectMake(0, 0, 30, 30)];
+    activityView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    [alertView setValue:activityView forKey:@"accessoryView"];
+    dispatch_async(dispatch_get_main_queue(),
+                   ^{ [activityView startAnimating]; });
+    [alertView show];
+  }
 }
 
 /**
@@ -49,12 +49,11 @@ UIAlertView* alertView;
  *
  *  @param shdismissow activity if YES
  */
-+ (void)dismissLoadingAlertView:(BOOL)activity
-{
-    if (activity) {
-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
-        [activityView stopAnimating];
-    }
++ (void)dismissLoadingAlertView:(BOOL)activity {
+  if (activity) {
+    [alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [activityView stopAnimating];
+  }
 }
 
 /** TODO
@@ -62,33 +61,43 @@ UIAlertView* alertView;
  *
  *  @param alertView error
  */
-+ (void)didPresentErrorAlertView:(NSError*)error
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        CTSRestError *errorCTS = [[error userInfo] objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
-        LogTrace(@" errorCTS type %@",errorCTS.type);
-        LogTrace(@" errorCTS description %@",errorCTS.description);
-        LogTrace(@" errorCTS responseString %@",errorCTS.serverResponse);
-        
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:ERROR_TITLE message:errorCTS.description delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [alertView show];
-    });
-}
++ (void)didPresentErrorAlertView:(NSError*)error {
+  dispatch_async(dispatch_get_main_queue(), ^{
 
+      NSString* description = [error localizedDescription];
+      if ([error code] == ServerErrorWithCode) {
+        CTSRestError* errorCTS =
+            [[error userInfo] objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+        description = errorCTS.description;
+        LogTrace(@" errorCTS type %@", errorCTS.type);
+        LogTrace(@" errorCTS description %@", errorCTS.description);
+        LogTrace(@" errorCTS responseString %@", errorCTS.serverResponse);
+      }
+
+      UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:ERROR_TITLE
+                                                          message:description
+                                                         delegate:self
+                                                cancelButtonTitle:@"Ok"
+                                                otherButtonTitles:nil];
+      [alertView show];
+  });
+}
 
 /**
  *  dismiss alertView with message
  *
  *  @param alertView message
  */
-+ (void)didPresentInfoAlertView:(NSString*)message
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:INFO_TITLE message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [alertView show];
-    });
++ (void)didPresentInfoAlertView:(NSString*)message {
+  dispatch_async(dispatch_get_main_queue(), ^{
+      UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:INFO_TITLE
+                                                          message:message
+                                                         delegate:self
+                                                cancelButtonTitle:@"Ok"
+                                                otherButtonTitles:nil];
+      [alertView show];
+  });
 }
-
 
 /**
  *  move and animate textField while tapping
@@ -97,17 +106,18 @@ UIAlertView* alertView;
  *  @param animate if YES
  *  @param move to UIView
  */
-+ (void)animateTextField:(UITextField*)textField up:(BOOL)up toView:(UIView*)toView
-{
-    const float movementDuration = 0.5f;
-    const int movementDistance = 80;
-    int movement = (up ? - movementDistance : movementDistance);
-    [UIView animateWithDuration:movementDuration
-                     animations:^{
-                         CGRect frame = toView.frame;
-                         frame.origin.y = toView.frame.origin.y + movement;
-                         toView.frame = frame;
-                     }];
++ (void)animateTextField:(UITextField*)textField
+                      up:(BOOL)up
+                  toView:(UIView*)toView {
+  const float movementDuration = 0.5f;
+  const int movementDistance = 80;
+  int movement = (up ? -movementDistance : movementDistance);
+  [UIView animateWithDuration:movementDuration
+                   animations:^{
+                       CGRect frame = toView.frame;
+                       frame.origin.y = toView.frame.origin.y + movement;
+                       toView.frame = frame;
+                   }];
 }
 
 @end

@@ -53,10 +53,8 @@
 #define TEST_TOKENIZED_CARD_CVV @"000"
 
 #define MLC_GUESTCHECKOUT_REDIRECTURL @"http://www.google.com"
-#define MLC_PAYMENT_REDIRECT_URL \
-@"http://www.google.com"
-#define MLC_PAYMENT_REDIRECT_URLCOMPLETE \
-@"http://www.google.com"
+#define MLC_PAYMENT_REDIRECT_URL @"http://www.google.com"
+#define MLC_PAYMENT_REDIRECT_URLCOMPLETE @"http://www.google.com"
 
 #define GUEST_PAY_TYPE @"GUEST_PAY_TYPE"
 #define MEMBER_PAY_TYPE @"MEMBER_PAY_TYPE"

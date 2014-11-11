@@ -44,7 +44,6 @@
     if (response.error != nil) {
       response = [self addJsonErrorToResponse:response];
     }
-
     [self performSelector:sel withObject:response];
   } else {
     @throw [[NSException alloc]
@@ -68,15 +67,13 @@
     } else {
       error.type = error.error;
     }
-      
-      if(error.errorDescription == nil){
-          error.errorDescription = error.description;
-      }
-      else{
-    error.description = error.errorDescription;
+
+    if (error.errorDescription == nil) {
+      error.errorDescription = error.description;
+    } else {
+      error.description = error.errorDescription;
     }
-      
-      
+
   } else {
     error = [[CTSRestError alloc] init];
   }

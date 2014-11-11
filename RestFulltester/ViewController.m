@@ -13,7 +13,6 @@
 #import "MerchantConstants.h"
 #import "ServerSignature.h"
 
-
 @interface ViewController ()
 
 @end
@@ -38,11 +37,12 @@
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
-    //[authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
-      //  [self logError:error];
-        
-    //}];
- // [self doGuestPaymentNetbanking];
+  //[authLayer requestResetPassword:@"yaddy@gmgmg.com"
+  // completionHandler:^(NSError *error) {
+  //  [self logError:error];
+
+  //}];
+  // [self doGuestPaymentNetbanking];
 }
 
 - (void)initialize {
@@ -109,7 +109,8 @@
                          //[self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
-                         //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
+                         //[profileLayer
+                         // requestPaymentInformationWithCompletionHandler:nil];
                      }];
 }
 
@@ -214,9 +215,8 @@
   netBank.name = TEST_NETBAK_OWNER_NAME;
   netBank.bank = TEST_NETBAK_NAME;
 
-    
-    paymentInfo.defaultOption = TEST_NETBAK_NAME;
-    
+  paymentInfo.defaultOption = TEST_NETBAK_NAME;
+
   [paymentInfo addNetBanking:netBank];
 
   // send it to server
@@ -282,7 +282,7 @@
       [[CTSPaymentDetailUpdate alloc] init];
   CTSNetBankingUpdate* netbank = [[CTSNetBankingUpdate alloc] init];
   netbank.code = @"CID001";
-  //netbank.name = TEST_NETBAK_OWNER_NAME;
+  // netbank.name = TEST_NETBAK_OWNER_NAME;
   netbank.bank = TEST_NETBAK_NAME;
   [netBankingPaymentInfo addNetBanking:netbank];
   NSString* txnId = [self createTXNId];
@@ -306,7 +306,7 @@
   debitCard.expiryDate = TEST_DEBIT_CARD_EXPIRY;
   debitCard.scheme = TEST_DEBIT_SCHEME;
   debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
-  //debitCard.name = TEST_DEBIT_CARD_BANK_NAME;
+  // debitCard.name = TEST_DEBIT_CARD_BANK_NAME;
   debitCard.cvv = TEST_DEBIT_CVV;
   [debitCardInfo addCard:debitCard];
   NSString* txnId = [self createTXNId];
@@ -478,20 +478,15 @@
               withSignature:@"d894b17023fd49867bc84022188130482e9c9e1b"
                   withTxnId:@"PPTX000000003946"
       withCompletionHandler:nil];*/
-    
-    
-    
 }
 
 - (void)doTokenizedPaymentCreditCard {
-    
-    
-    NSString* transactionId = [self createTXNId];
-    NSLog(@"transactionId:%@", transactionId);
-    
-    NSString* signature =
-    [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
-    
+  NSString* transactionId = [self createTXNId];
+  NSLog(@"transactionId:%@", transactionId);
+
+  NSString* signature =
+      [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
+
   CTSPaymentDetailUpdate* tokenizedCardInfo =
       [[CTSPaymentDetailUpdate alloc] init];
   CTSElectronicCardUpdate* tokenizedCard =
@@ -500,14 +495,14 @@
   tokenizedCard.cvv = TEST_TOKENIZED_CARD_CVV;
   [tokenizedCardInfo addCard:tokenizedCard];
 
-    [paymentlayerinfo makeTokenizedPayment:tokenizedCardInfo
-                               withContact:contactInfo
-                               withAddress:addressInfo
-                                    amount:@"1"
-                             withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
-                             withSignature:signature
-                                 withTxnId:transactionId
-                     withCompletionHandler:nil];
+  [paymentlayerinfo makeTokenizedPayment:tokenizedCardInfo
+                             withContact:contactInfo
+                             withAddress:addressInfo
+                                  amount:@"1"
+                           withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
+                           withSignature:signature
+                               withTxnId:transactionId
+                   withCompletionHandler:nil];
 }
 
 #pragma mark - Payment layer delegates
@@ -564,15 +559,15 @@
   if (hasSuccess) {
     [self loadRedirectUrl:paymentInfo.redirectUrl];
   }
-    
-    
-    if(error != nil && error.code == ServerErrorWithCode){
-        NSDictionary *userInfo = [error userInfo];
-       CTSRestError *citrusError = (CTSRestError *)[userInfo objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
-        NSLog(@" citrusError type %@",citrusError.type);
-        NSLog(@" citrusError description %@",citrusError.description);
-        NSLog(@" citrusError serverResponse %@",citrusError.serverResponse);
-    }
+
+  if (error != nil && error.code == ServerErrorWithCode) {
+    NSDictionary* userInfo = [error userInfo];
+    CTSRestError* citrusError =
+        (CTSRestError*)[userInfo objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+    NSLog(@" citrusError type %@", citrusError.type);
+    NSLog(@" citrusError description %@", citrusError.description);
+    NSLog(@" citrusError serverResponse %@", citrusError.serverResponse);
+  }
 }
 
 - (void)payment:(CTSPaymentLayer*)layer
@@ -617,15 +612,27 @@
   [webview removeFromSuperview];
 }
 
+- (void)logError:(NSError*)error {
+  LogTrace(@" error %@  ", error);
+  if ([error code] == ServerErrorWithCode) {
+    CTSRestError* errorCTS =
+        [[error userInfo] objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+    LogTrace(@" errorCTS type %@", errorCTS.type);
+    LogTrace(@" errorCTS description %@", errorCTS.description);
+    LogTrace(@" errorCTS responseString %@", errorCTS.serverResponse);
+  }
 
--(void)logError:(NSError *)error{
+  NSString* description = [error localizedDescription];
+  if ([error code] == ServerErrorWithCode) {
+    CTSRestError* errorCTS =
+        [[error userInfo] objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+    description = errorCTS.description;
+    LogTrace(@" errorCTS type %@", errorCTS.type);
+    LogTrace(@" errorCTS description %@", errorCTS.description);
+    LogTrace(@" errorCTS responseString %@", errorCTS.serverResponse);
+  }
 
-    LogTrace(@" error %@  ",error);
-    CTSRestError *errorCTS = [[error userInfo] objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
-    LogTrace(@" errorCTS type %@",errorCTS.type);
-    LogTrace(@" errorCTS description %@",errorCTS.description);
-    LogTrace(@" errorCTS responseString %@",errorCTS.serverResponse);
-
+  LogTrace(@" DESCRIPTION %@ ", description);
 }
 
 #pragma mark - webview delegates
