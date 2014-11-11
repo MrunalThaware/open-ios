@@ -226,12 +226,12 @@
     
     [self addCallback:callBack forRequestId:SigninOauthTokenReqId];
     
-    if (![CTSUtility validateEmail:userNameArg]) {
-        [self signinHelperUsername:userNameArg
-                             oauth:nil
-                             error:[CTSError getErrorForCode:EmailNotValid]];
-        return;
-    }
+//    if (![CTSUtility validateEmail:userNameArg]) {
+//        [self signinHelperUsername:userNameArg
+//                             oauth:nil
+//                             error:[CTSError getErrorForCode:EmailNotValid]];
+//        return;
+//    }
     
     userNameSignIn = userNameArg;
     NSDictionary* parameters = @{

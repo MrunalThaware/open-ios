@@ -1003,8 +1003,8 @@
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					"SANDBOX_MODE=1",
 					"$(inherited)",
+					"SANDBOX_MODE=1",
 				);
 				INFOPLIST_FILE = "RestFulltester/CTS iOS Sdk-Info.plist";
 				OTHER_LDFLAGS = (

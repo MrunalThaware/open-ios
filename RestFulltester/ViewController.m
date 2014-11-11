@@ -36,16 +36,19 @@
   [self initialize];
 
   //  [self testCardSchemes];
-  //[self signIn];
+    
+//[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
+  [self signIn];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
-  [self doGuestPaymentDebitCard];
+  //[self doGuestPaymentDebitCard];
     //[authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
       //  [self logError:error];
         
     //}];
   //[self doGuestPaymentNetbanking];
+    [self isMobileVerified];
 }
 
 - (void)initialize {
@@ -90,7 +93,7 @@
 #pragma mark - AuthLayer Sample implementation
 
 - (void)signIn {
-  [authLayer requestSigninWithUsername:TEST_EMAIL
+  [authLayer requestSigninWithUsername:TEST_MOBILE
                               password:TEST_PASSWORD
                      completionHandler:^(NSString* userName,
                                          NSString* token,
@@ -99,9 +102,7 @@
                          LogTrace(@"token %@ ", token);
                          [self logError:error];
 
-//                                                [paymentlayerinfo
-//                                                  requestMerchantPgSettings:VanityUrl
-//                                                                       withCompletionHandler:nil];
+
 
                          //[self doUserDebitCardPayment];
                          //[self doGuestPaymentCard];
@@ -254,9 +255,12 @@ didCheckIsUserCitrusMember:(BOOL)isMember
 - (void)updateContactInformation {
     CTSContactUpdate* contactUpdate = [[CTSContactUpdate alloc] init];
     contactUpdate.firstName = @"Yadnesh";
-    contactUpdate.lastName = @"Wankhede";
-    contactUpdate.mobile = @"9702962222";
+    contactUpdate.lastName = @"Wankhedeqq";
+    contactUpdate.mobile = @"9167291274";
     contactUpdate.email = @"yaddy@gmail.com";
+//#define TEST_EMAIL @"Ganrang.Wala@gmail.com"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"9167291271"
     
     [profileLayer
      updateContactInformation:contactUpdate
