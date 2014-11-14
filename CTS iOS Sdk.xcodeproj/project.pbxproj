@@ -22,6 +22,7 @@
 		371B5D52198A5D770096451C /* CTSRestError.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D51198A5D770096451C /* CTSRestError.m */; };
 		3733269519B860190084D52D /* JSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733269219B860190084D52D /* JSONKeyMapper.m */; };
 		3733269619B860190084D52D /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733269419B860190084D52D /* JSONValueTransformer.m */; };
+		3751E6071A15BCFA004458F3 /* CTSUserVerificationRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 3751E6061A15BCFA004458F3 /* CTSUserVerificationRes.m */; };
 		375F30F3195BF24500F86149 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 375F30F2195BF24500F86149 /* .gitignore */; };
 		376E4EC919B5A13F00739B00 /* ServerSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 376E4EC819B5A13F00739B00 /* ServerSignature.m */; };
 		37851BF41978F2DD00AE3AD0 /* CTSAuthLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B921978F2DD00AE3AD0 /* CTSAuthLayer.m */; };
@@ -134,6 +135,8 @@
 		3733269219B860190084D52D /* JSONKeyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKeyMapper.m; sourceTree = "<group>"; };
 		3733269319B860190084D52D /* JSONValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONValueTransformer.h; sourceTree = "<group>"; };
 		3733269419B860190084D52D /* JSONValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONValueTransformer.m; sourceTree = "<group>"; };
+		3751E6051A15BCFA004458F3 /* CTSUserVerificationRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSUserVerificationRes.h; sourceTree = "<group>"; };
+		3751E6061A15BCFA004458F3 /* CTSUserVerificationRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSUserVerificationRes.m; sourceTree = "<group>"; };
 		375F30F2195BF24500F86149 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		376E4EC719B5A13F00739B00 /* ServerSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerSignature.h; sourceTree = "<group>"; };
 		376E4EC819B5A13F00739B00 /* ServerSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerSignature.m; sourceTree = "<group>"; };
@@ -602,6 +605,8 @@
 				37C964AF198F86960021DC0B /* CTSOauthTokenRes.m */,
 				37C964B0198F86960021DC0B /* CTSSignUpRes.h */,
 				37C964B1198F86960021DC0B /* CTSSignUpRes.m */,
+				3751E6051A15BCFA004458F3 /* CTSUserVerificationRes.h */,
+				3751E6061A15BCFA004458F3 /* CTSUserVerificationRes.m */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -811,6 +816,7 @@
 				37C96498198F723E0021DC0B /* CTSUserAddress.m in Sources */,
 				37851BF61978F2DD00AE3AD0 /* CTSError.m in Sources */,
 				37D6C213197D289300F357FD /* CTSOauthManager.m in Sources */,
+				3751E6071A15BCFA004458F3 /* CTSUserVerificationRes.m in Sources */,
 				37A7C6BB1922458F005D29D4 /* ViewController.m in Sources */,
 				37A7C6B51922458F005D29D4 /* AppDelegate.m in Sources */,
 				37C96490198F723E0021DC0B /* CTSAmount.m in Sources */,

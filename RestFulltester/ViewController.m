@@ -38,8 +38,8 @@
   //  [self testCardSchemes];
     
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
-  [self signIn];
-  //[self signUp];
+  //[self signIn];
+  [self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
@@ -48,7 +48,7 @@
         
     //}];
   //[self doGuestPaymentNetbanking];
-    [self isMobileVerified];
+    //[self isMobileVerified];
 }
 
 - (void)initialize {
@@ -129,7 +129,7 @@
                                         NSError* error) {
                         LogTrace(@"userName %@ ", userName);
                         LogTrace(@"token %@ ", token);
-                        LogTrace(@"error %@ ", error);
+                        [self logError:error];
                         // [self signIn];
                         //[self doUserCreditCardPayment];
                     }];

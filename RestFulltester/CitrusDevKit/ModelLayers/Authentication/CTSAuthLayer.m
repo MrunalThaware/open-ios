@@ -120,6 +120,22 @@
         return;
     }
     
+    CTSUserVerificationRes *verificationResponse = [self requestSyncIsUserAlreadyRegisteredMobileOrEmail:email];
+    if(verificationResponse.error  || verificationResponse.respCode != 201){
+        [self signupHelperUsername:userNameSignup
+                             oauth:[CTSOauthManager readOauthToken]
+                             error:[verificationResponse convertToError]];
+        return;
+    }
+    
+    
+    verificationResponse = [self requestSyncIsUserAlreadyRegisteredMobileOrEmail:mobile];
+    if(verificationResponse.error  || verificationResponse.respCode != 201){
+        [self signupHelperUsername:userNameSignup
+                             oauth:[CTSOauthManager readOauthToken]
+                             error:[verificationResponse convertToError]];
+        return;
+    }
     userNameSignup = email;
     mobileSignUp = mobile;
     firstNameSignup =firstName;
@@ -332,6 +348,30 @@
     [restCore requestAsyncServer:request];
 }
 
+
+
+
+- (CTSUserVerificationRes *)requestSyncIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail{
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_IS_USER_EXIST_PATH
+                                   requestId:IsUserAlreadyRegisteredReqId
+                                   headers:nil
+                                   parameters:@{
+                                                MLC_IS_USER_EXIST_QUERY_USER : mobOrEmail
+                                                } json:nil
+                                   httpMethod:MLC_IS_USER_EXIST_TYPE];
+    
+    
+    CTSRestCoreResponse *response = [CTSRestCore requestSyncServer:request withBaseUrl:CITRUS_BASE_URL];
+    
+    
+   return  [self convertToUserVerification:response ];
+}
+
+
+
+
 - (BOOL)signOut {
     [CTSOauthManager resetOauthData];
     return YES;
@@ -477,6 +517,7 @@ enum {
     ChangePasswordReqId,
     RequestForPasswordResetReqId,
     IsUserCitrusMemberReqId,
+    IsUserAlreadyRegisteredReqId,
     OTPVerificationRequestId,
     OTPRegenerationRequestId,
     ISMobileVerifiedRequestId
@@ -678,6 +719,21 @@ enum {
     }
     
 }
+-(CTSUserVerificationRes * )convertToUserVerification:(CTSRestCoreResponse *)response {
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSUserVerificationRes* resultObject = nil;
+
+    if(error == nil){
+     resultObject =
+    [[CTSUserVerificationRes alloc] initWithString:response.responseString
+                                       error:&jsonError];
+    }
+    resultObject.error = response.error;
+    return resultObject;
+}
+
+
 
 #pragma mark - helper methods
 - (void)signinHelperUsername:(NSString*)username

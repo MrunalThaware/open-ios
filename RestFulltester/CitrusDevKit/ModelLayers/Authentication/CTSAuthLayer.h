@@ -13,6 +13,7 @@
 #import "CTSRestPluginBase.h"
 #import "CTSRestCoreResponse.h"
 #import "MerchantConstants.h"
+#import "CTSUserVerificationRes.h"
 
 @class CTSAuthLayer;
 @protocol CTSAuthenticationProtocol
@@ -106,6 +107,9 @@ typedef void (^ASChangePassword)(NSError* error);
 typedef void (^ASIsUserCitrusMemberCallback)(BOOL isUserCitrusMember,
                                              NSError* error);
 
+typedef void (^ASIsUserAlreadyRegistered)(CTSUserVerificationRes *userVerification,
+                                             NSError* error);
+
 typedef void (^ASResetPasswordCallback)(NSError* error);
 
 
@@ -188,6 +192,11 @@ typedef void (^ASIsMobileVerifiedCallback)(BOOL isVerified,NSError* error);
 - (void)requestIsUserCitrusMemberUsername:(NSString*)email
                         completionHandler:
 (ASIsUserCitrusMemberCallback)callback;
+
+
+- (void)requestIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail
+                        completionHandler:
+(ASIsUserAlreadyRegistered)callback;
 /**
  *  signout
  *

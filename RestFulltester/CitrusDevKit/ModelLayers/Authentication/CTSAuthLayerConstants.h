@@ -132,6 +132,10 @@ typedef enum SignOutResponseState {
 #define MLC_IS_MOBILE_VERIFIED_TYPE POST
 #define MLC_IS_MOBILE_VERIFIED_QUERY_MOBILE @"mobile"
 
+#pragma mark - USER_EXIST
+#define MLC_IS_USER_EXIST_PATH @"/service/v2/user/verification/user-verified"
+#define MLC_IS_USER_EXIST_TYPE POST
+#define MLC_IS_USER_EXIST_QUERY_USER @"user"
 
 typedef enum {
   OauthRefreshStatusSuccess,

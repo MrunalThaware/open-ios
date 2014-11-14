@@ -21,6 +21,7 @@ typedef enum {
   InvalidParameter,
   OauthTokenExpired,
   CantFetchSignupToken,
+    UserExits,
     TokenMissing
 
 } CTSErrorCode;
