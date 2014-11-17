@@ -194,9 +194,9 @@ typedef void (^ASIsMobileVerifiedCallback)(BOOL isVerified,NSError* error);
 (ASIsUserCitrusMemberCallback)callback;
 
 
-- (void)requestIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail
-                        completionHandler:
-(ASIsUserAlreadyRegistered)callback;
+//- (void)requestIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail
+//                        completionHandler:
+//(ASIsUserAlreadyRegistered)callback;
 /**
  *  signout
  *
