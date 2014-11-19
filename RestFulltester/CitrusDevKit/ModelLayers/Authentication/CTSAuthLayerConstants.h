@@ -108,6 +108,17 @@ typedef enum SignOutResponseState {
 #define MLC_IS_MEMBER_REQ_TYPE POST
 #define MLC_IS_MEMBER_QUERY_EMAIL @"email"
 
+
+#pragma mark - BIND_USER
+#define MLC_BIND_USER_REQ_PATH @"/service/v2/identity/bind"
+#define MLC_BIND_USER_REQ_TYPE POST
+#define MLC_BIND_USER_QUERY_EMAIL @"email"
+#define MLC_BIND_USER_QUERY_MOBILE @"mobile"
+
+#pragma mark - BIND_SIGNIN
+#define MLC_BIND_SIGNIN_GRANT_TYPE @"username"
+
+
 typedef enum {
   OauthRefreshStatusSuccess,
   OauthRefreshStatusNeedToLogin

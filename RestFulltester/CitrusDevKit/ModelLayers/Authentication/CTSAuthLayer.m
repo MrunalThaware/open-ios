@@ -81,6 +81,27 @@
   [restCore requestAsyncServer:request];
 }
 
+
+
+- (void)requestInternalBindUserName:(NSString *)email mobile:(NSString *)mobile {
+
+        CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_BIND_USER_REQ_PATH
+                                   requestId:BindUserRequestId
+                                   headers:[CTSUtility readSignupTokenAsHeader]
+                                   parameters:@{
+                                                MLC_BIND_USER_QUERY_EMAIL : email,
+                                                MLC_BIND_USER_QUERY_MOBILE : mobile
+                                                } json:nil
+                                   httpMethod:MLC_BIND_USER_REQ_TYPE];
+    
+    [restCore requestAsyncServer:request];
+}
+
+
+
+
+
 - (void)requestSignUpWithEmail:(NSString*)email
                         mobile:(NSString*)mobile
                       password:(NSString*)password
@@ -134,6 +155,7 @@
   EXIT_LOG
 }
 
+
 - (void)requestSigninWithUsername:(NSString*)userNameArg
                          password:(NSString*)password
                 completionHandler:(ASSigninCallBack)callBack {
@@ -173,6 +195,32 @@
 
   [restCore requestAsyncServer:request];
 }
+
+
+-(void)requestBindSigninUsername:(NSString *)email{
+    NSDictionary* parameters = @{
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
+                                 MLC_BIND_SIGNIN_GRANT_TYPE : MLC_SIGNIN_GRANT_TYPE,
+                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : email
+                                 };
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+                                   requestId:BindSigninRequestId
+                                     headers:nil
+                                  parameters:parameters
+                                        json:nil
+                                  httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+
+
+}
+
+
+
+
 
 - (void)usePassword:(NSString*)password
      hashedUsername:(NSString*)hashedUsername {
@@ -252,6 +300,59 @@
 
   [restCore requestAsyncServer:request];
 }
+
+
+
+- (void)requestBindUsername:(NSString*)email
+                     mobile:(NSString *)mobile
+          completionHandler:
+(ASBindUserCallback)callback{
+    [self addCallback:callback forRequestId:BindUserRequestId];
+    
+    if (![CTSUtility validateEmail:email]) {
+        [self bindUserHelperUsername:email
+                                 error:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+
+    if (![CTSUtility validateMobile:mobile]) {
+        [self bindUserHelperUsername:email
+                               error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    userNameBind = email;
+    mobileBind = mobile;
+
+    
+    //get signup oauth token
+    [self requestBindOauthToken];
+
+    
+    //call for bind
+    //call for signin
+
+}
+
+
+- (void)requestBindOauthToken {
+    ENTRY_LOG
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+                                   requestId:BindUserRequestId
+                                   headers:nil
+                                   parameters:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
+                                   json:nil
+                                   httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+    
+    EXIT_LOG
+}
+
+
+
+
 
 - (BOOL)signOut {
   [CTSOauthManager resetOauthData];
@@ -397,7 +498,10 @@ enum {
   SignupChangePasswordReqId,
   ChangePasswordReqId,
   RequestForPasswordResetReqId,
-  IsUserCitrusMemberReqId
+  IsUserCitrusMemberReqId,
+    BindOauthTokenRequestId,
+    BindUserRequestId,
+    BindSigninRequestId
 };
 - (instancetype)init {
   NSDictionary* dict = @{
@@ -415,7 +519,15 @@ enum {
     toNSString(ChangePasswordReqId) : toSelector(handleReqChangePassword
                                                  :),
     toNSString(IsUserCitrusMemberReqId) : toSelector(handleIsUserCitrusMember
+                                                     :),
+    toNSString(BindOauthTokenRequestId) : toSelector(handleBindOauthToken
+                                                     :),
+    toNSString(BindUserRequestId) : toSelector(handleBindUser
+                                                     :),
+ 
+    toNSString(BindSigninRequestId) : toSelector(handleBindSignIn
                                                      :)
+    
   };
 
   self =
@@ -423,6 +535,79 @@ enum {
 
   return self;
 }
+
+
+-(void)handleBindOauthToken:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    // signup flow
+    if (error == nil) {
+        CTSOauthTokenRes* resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+        [CTSOauthManager saveSignupToken:resultObject.accessToken];
+        [self requestInternalBindUserName:userNameBind mobile:mobileBind];
+    } else {
+        [self bindUserHelperUsername:userNameBind error:error];
+        return;
+    }
+
+    //if success
+    //save singup oauth token
+    //call for bind
+    //else
+    //call bind helper with error
+    
+    
+    
+    
+}
+
+
+-(void)handleBindUser:(CTSRestCoreResponse*)response{
+    
+    NSError* error = response.error;
+    // signup flow
+    if (error == nil) {
+        [self requestBindSigninUsername:userNameBind ];
+    } else {
+        [self bindUserHelperUsername:userNameBind error:error];
+        return;
+    }
+
+    //if success call
+    //call for sing in
+    //else
+    //call bind helper
+    
+    
+    
+}
+
+-(void)handleBindSignIn:(CTSRestCoreResponse *)response{
+
+    //if no error
+    //save singin token
+    
+    //call helper for binduser
+    
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    // signup flow
+    if (error == nil) {
+        CTSOauthTokenRes* resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+        [resultObject logProperties];
+        [CTSOauthManager saveOauthData:resultObject];
+         }
+    [self bindUserHelperUsername:userNameBind error:error];
+    
+}
+
+
+
+
 
 - (void)handleReqSignupOauthToken:(CTSRestCoreResponse*)response {
   NSError* error = response.error;
@@ -442,6 +627,11 @@ enum {
     return;
   }
 }
+
+
+
+
+
 
 - (void)handleReqChangePassword:(CTSRestCoreResponse*)response {
   [self changePasswordHelper:response.error];
@@ -614,6 +804,24 @@ enum {
   } else {
     [delegate auth:self didRequestForResetPassword:error];
   }
+}
+
+
+- (void)bindUserHelperUsername:(NSString *)userName error:(NSError*)error {
+    ASBindUserCallback callback =
+    [self retrieveAndRemoveCallbackForReqId:BindUserRequestId];
+    if (callback != nil) {
+        callback(userName,error);
+    } else {
+        [delegate auth:self didBindUser:userName error:error];
+    }
+    [self resetBindData];
+}
+
+
+- (void)resetBindData {
+    userNameBind = @"";
+    mobileBind = @"";
 }
 
 - (void)resetSignupCredentials {

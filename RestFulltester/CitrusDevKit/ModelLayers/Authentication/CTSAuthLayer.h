@@ -75,11 +75,18 @@
 @optional
 - (void)auth:(CTSAuthLayer*)layer didRequestForResetPassword:(NSError*)error;
 
+
+
+@optional
+- (void)auth:(CTSAuthLayer*)layer didBindUser:(NSString*)userName error:(NSError *)error;
+
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
   int seedState;
   NSString* userNameSignIn, *userNameSignup, *passwordSignUp, *mobileSignUp;
+    NSString  *userNameBind,*mobileBind;
+
   BOOL wasSignupCalled;
 }
 
@@ -97,6 +104,9 @@ typedef void (^ASIsUserCitrusMemberCallback)(BOOL isUserCitrusMember,
                                              NSError* error);
 
 typedef void (^ASResetPasswordCallback)(NSError* error);
+
+typedef void (^ASBindUserCallback)(NSString *userName,
+                                   NSError* error);
 
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
 
@@ -155,6 +165,13 @@ typedef void (^ASResetPasswordCallback)(NSError* error);
 - (void)requestIsUserCitrusMemberUsername:(NSString*)email
                         completionHandler:
                             (ASIsUserCitrusMemberCallback)callback;
+
+- (void)requestBindUsername:(NSString*)email
+                     mobile:(NSString *)mobile
+                        completionHandler:
+(ASBindUserCallback)callback;
+
+
 /**
  *  signout
  *
