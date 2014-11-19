@@ -40,7 +40,8 @@ typedef enum SignOutResponseState {
 
 #pragma mark - OAUTH_TOKEN
 #define MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE @"grant_type"
-#define MLC_OAUTH_TOKEN_QUERY_CLIENT_ID @"client_id"
+#define MLC_OAUTH_TOKEN_QUERY_CLIENT_ID @"client_id" 
+
 #define MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET @"client_secret"
 
 #define MLC_OAUTH_TOKEN_SIGNUP_CLIENT_ID SubscriptionId

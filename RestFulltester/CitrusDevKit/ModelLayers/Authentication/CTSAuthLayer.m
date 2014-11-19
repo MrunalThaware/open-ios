@@ -201,7 +201,7 @@
     NSDictionary* parameters = @{
                                  MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
                                  MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
-                                 MLC_BIND_SIGNIN_GRANT_TYPE : MLC_SIGNIN_GRANT_TYPE,
+                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_BIND_SIGNIN_GRANT_TYPE,
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : email
                                  };
     
@@ -339,7 +339,7 @@
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
-                                   requestId:BindUserRequestId
+                                   requestId:BindOauthTokenRequestId
                                    headers:nil
                                    parameters:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
                                    json:nil

@@ -33,7 +33,7 @@
   [super viewDidLoad];
   [self initialize];
   //  [self testCardSchemes];
-  [self signIn];
+  //[self signIn];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
@@ -43,6 +43,14 @@
         
     //}];
  // [self doGuestPaymentNetbanking];
+    
+    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
+        LogTrace(@"userName %@",userName);
+        [self logError:error];
+
+    }];
+    
+    
 }
 
 - (void)initialize {
