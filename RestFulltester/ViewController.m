@@ -38,15 +38,15 @@
   //  [self testCardSchemes];
     
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
-  //[self signIn];
+  [self signIn];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
-    //[authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
-      //  [self logError:error];
-        
-    //}];
+//    [authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
+//        [self logError:error];
+//        
+//    }];
   //[self doGuestPaymentNetbanking];
     //[self isMobileVerified];
     
@@ -131,7 +131,7 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
                          //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
-                         [profileLayer requestUpdateMobile:@"1234567890" WithCompletionHandler:^(NSError *error) {
+                         [profileLayer requestUpdateMobile:@"9898989898" WithCompletionHandler:^(NSError *error) {
                              [self logError:error];
                          }];
                      }];

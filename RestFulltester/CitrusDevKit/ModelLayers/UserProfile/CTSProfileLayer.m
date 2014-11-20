@@ -187,7 +187,7 @@ enum {
     
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-                                   initWithPath:MLC_PROFILE_UPDATE_PAYMENT_PATH
+                                   initWithPath:MLC_PROFILE_UPDATE_MOBILE_PATH
                                    requestId:ProfileUpdateMobileRequestId
                                    headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
                                    parameters:@{MLC_PROFILE_UPDATE_MOBILE_QUERY_MOBILE:mobileNumber}

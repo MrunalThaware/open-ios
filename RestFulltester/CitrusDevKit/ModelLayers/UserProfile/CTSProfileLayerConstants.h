@@ -86,7 +86,7 @@ typedef enum CardValidationError {
   @{@"type" : @"type", @"defaultOption" : @"defaultOption"}
 
 
-#define MLC_PROFILE_UPDATE_MOBILE_PATH @"/service/v2/profile/me/mobile"
+#define MLC_PROFILE_UPDATE_MOBILE_PATH @"/service/v2/identity/me/mobile"
 #define MLC_PROFILE_UPDATE_MOBILE_QUERY_MOBILE @"mobile"
 
 #endif
