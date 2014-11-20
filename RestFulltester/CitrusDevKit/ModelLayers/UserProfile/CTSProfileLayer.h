@@ -54,6 +54,10 @@
 - (void)profile:(CTSProfileLayer*)profile
     didUpdatePaymentInfoError:(NSError*)error;
 
+@optional
+- (void)profile:(CTSProfileLayer*)profile
+didUpdateMobileError:(NSError*)error;
+
 @end
 
 /**
@@ -75,6 +79,9 @@ typedef void (^ASGetPaymentInfoCallBack)(CTSProfilePaymentRes* paymentInfo,
 typedef void (^ASUpdatePaymentInfoCallBack)(NSError* error);
 
 typedef void (^ASUpdateContactInfoCallBack)(NSError* error);
+
+typedef void (^ASUpdateMobileNumberCallback)(NSError* error);
+
 
 /**
  *  update contact related information
@@ -103,4 +110,9 @@ typedef void (^ASUpdateContactInfoCallBack)(NSError* error);
  */
 - (void)requestPaymentInformationWithCompletionHandler:
         (ASGetPaymentInfoCallBack)callback;
+
+- (void)requestUpdateMobile:(NSString *)mobileNumber WithCompletionHandler:
+(ASUpdateMobileNumberCallback)callback;
+
+
 @end

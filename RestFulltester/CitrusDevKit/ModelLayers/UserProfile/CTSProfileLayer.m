@@ -21,7 +21,8 @@ enum {
   ProfileGetContactReqId,
   ProfileUpdateContactReqId,
   ProfileGetPaymentReqId,
-  ProfileUpdatePaymentReqId
+  ProfileUpdatePaymentReqId,
+    ProfileUpdateMobileRequestId
 };
 
 - (instancetype)init {
@@ -42,7 +43,11 @@ enum {
                                                              :),
              toNSString(ProfileUpdatePaymentReqId) :
                  toSelector(handleProfileUpdatePayment
+                            :),
+             toNSString(ProfileUpdateMobileRequestId) :
+                 toSelector(handleProfileMobileUpdate
                             :)
+             
              };
 
 }
@@ -166,6 +171,37 @@ enum {
   [restCore requestAsyncServer:request];
 }
 
+
+
+- (void)requestUpdateMobile:(NSString *)mobileNumber WithCompletionHandler:
+(ASUpdateMobileNumberCallback)callback;{
+    [self addCallback:callback forRequestId:ProfileUpdateMobileRequestId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self updateMobileHelper:oauthStatus.error];
+    }
+    
+    
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_UPDATE_PAYMENT_PATH
+                                   requestId:ProfileUpdateMobileRequestId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:@{MLC_PROFILE_UPDATE_MOBILE_QUERY_MOBILE:mobileNumber}
+                                   json:nil
+                                   httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+
+
+
+}
+
+
+
 #pragma mark - response handlers methods
 
 - (void)handleReqProfileGetContact:(CTSRestCoreResponse*)response {
@@ -203,6 +239,12 @@ enum {
 - (void)handleProfileUpdatePayment:(CTSRestCoreResponse*)response {
   [self updatePaymentInfoHelper:response.error];
 }
+
+- (void)handleProfileMobileUpdate:(CTSRestCoreResponse*)response {
+    [self updateMobileHelper:response.error];
+}
+
+
 
 #pragma mark - helper methods
 
@@ -253,4 +295,14 @@ enum {
   }
 }
 
+
+-(void)updateMobileHelper:(NSError *)error{
+    ASUpdateContactInfoCallBack callback = [self retrieveAndRemoveCallbackForReqId:ProfileUpdateMobileRequestId];
+    if (callback != nil) {
+        callback(error);
+    } else {
+        [delegate profile:self didUpdateMobileError:error];
+    }
+
+}
 @end

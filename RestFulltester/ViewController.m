@@ -39,7 +39,7 @@
     
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
   //[self signIn];
-  [self signUp];
+  //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
@@ -49,6 +49,22 @@
     //}];
   //[self doGuestPaymentNetbanking];
     //[self isMobileVerified];
+    
+//    NSString *message = @"Some message...that is very long\n\n\n\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\nthat is very long\n";
+//    
+//    UIAlertView *toast = [[UIAlertView alloc] initWithTitle:nil
+//                                                    message:message
+//                                                   delegate:nil
+//                                          cancelButtonTitle:nil
+//                                          otherButtonTitles:nil, nil];
+//    [toast show];
+//    
+//    int duration = 5; // duration in seconds
+//    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+//        [toast dismissWithClickedButtonIndex:0 animated:YES];
+//    });
+    
 }
 
 - (void)initialize {
@@ -110,11 +126,14 @@
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
                          //[self updatePaymentInfo];
-                         [self updateContactInformation];
+                         //[self updateContactInformation];
                          //[self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
                          //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
+                         [profileLayer requestUpdateMobile:@"1234567890" WithCompletionHandler:^(NSError *error) {
+                             [self logError:error];
+                         }];
                      }];
 }
 
