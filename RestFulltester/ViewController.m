@@ -38,8 +38,8 @@
   //  [self testCardSchemes];
     
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
-  [self signIn];
-  //[self signUp];
+  //[self signIn];
+ // [self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
@@ -64,6 +64,11 @@
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
 //        [toast dismissWithClickedButtonIndex:0 animated:YES];
 //    });
+    
+    [authLayer requestIsUserAlreadyRegisteredMobileOrEmail:TEST_EMAIL completionHandler:^(CTSUserVerificationRes *userVerification, NSError *error) {
+        [self logError:error];
+    }];
+    
     
 }
 

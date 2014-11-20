@@ -85,6 +85,10 @@ didCheckIsUserCitrusMember:(BOOL)isMember
 @optional
 -(void)auth:(CTSAuthLayer *)layer didCheckIsMobileVerified:(BOOL )isVerified error:(NSError *)error;
 
+@optional
+-(void)auth:(CTSAuthLayer *)layer didCheckIsUserAlreadyRegistered:(CTSUserVerificationRes *)verificationRes error:(NSError *)error;
+
+
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -194,9 +198,8 @@ typedef void (^ASIsMobileVerifiedCallback)(BOOL isVerified,NSError* error);
 (ASIsUserCitrusMemberCallback)callback;
 
 
-//- (void)requestIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail
-//                        completionHandler:
-//(ASIsUserAlreadyRegistered)callback;
+- (void)requestIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail
+                        completionHandler:(ASIsUserAlreadyRegistered)callback;
 /**
  *  signout
  *

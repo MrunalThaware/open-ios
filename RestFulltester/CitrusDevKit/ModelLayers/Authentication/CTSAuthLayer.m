@@ -348,7 +348,45 @@
     [restCore requestAsyncServer:request];
 }
 
+#define IsMobile 1
+#define IsEmail 2
+- (void)requestIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail
+                                  completionHandler:(ASIsUserAlreadyRegistered)callback{
+    [self addCallback:callback forRequestId:IsUserAlreadyRegisteredReqId];
+    
+    int typeOfUsername=0;
+   
+    if([mobOrEmail rangeOfString:@"@"].location != NSNotFound){
+        typeOfUsername = IsEmail;
+    }
+    else{
+        typeOfUsername = IsMobile;
+    }
+    
+    if (typeOfUsername == IsEmail && ![CTSUtility validateEmail:mobOrEmail]) {
+        [self isAlreadyRegisteredHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+   else if (typeOfUsername == IsMobile &&  ![CTSUtility validateMobile:mobOrEmail]) {
+       [self isAlreadyRegisteredHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
 
+        return;
+    }
+    
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_IS_USER_EXIST_PATH
+                                   requestId:IsUserAlreadyRegisteredReqId
+                                   headers:nil
+                                   parameters:@{
+                                                MLC_IS_USER_EXIST_QUERY_USER : mobOrEmail
+                                                } json:nil
+                                   httpMethod:MLC_IS_USER_EXIST_TYPE];
+    
+    
+[restCore requestAsyncServer:request];
+
+}
 
 
 - (CTSUserVerificationRes *)requestSyncIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail{
@@ -554,7 +592,8 @@ enum {
                                                                :),
              toNSString(OTPRegenerationRequestId):toSelector(handleOTPRegeneration:),
              
-             toNSString(ISMobileVerifiedRequestId): toSelector(handleIsMobileVerified:)
+             toNSString(ISMobileVerifiedRequestId): toSelector(handleIsMobileVerified:),
+             toNSString(IsUserAlreadyRegisteredReqId):toSelector(handleIsAlreadyRegistered:)
              };
 
 
@@ -734,6 +773,15 @@ enum {
 }
 
 
+-(void)handleIsAlreadyRegistered:(CTSRestCoreResponse *)response{
+    CTSUserVerificationRes *veriRes = [self convertToUserVerification:response];
+    NSError* error = response.error;
+    [self isAlreadyRegisteredHelper:veriRes error:error];
+
+}
+
+
+
 
 #pragma mark - helper methods
 - (void)signinHelperUsername:(NSString*)username
@@ -844,6 +892,20 @@ enum {
     }
     
 }
+
+-(void)isAlreadyRegisteredHelper:(CTSUserVerificationRes *)userVerification error:(NSError *)error{
+
+    ASIsUserAlreadyRegistered callback = [self retrieveAndRemoveCallbackForReqId:IsUserAlreadyRegisteredReqId];
+    if(callback != nil){
+        callback(userVerification,error);
+    }
+    else{
+        [delegate auth:self didCheckIsUserAlreadyRegistered:userVerification error:error];
+    }
+    
+    
+}
+
 
 - (void)resetSignupCredentials {
     userNameSignup = @"";
