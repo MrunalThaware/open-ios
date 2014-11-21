@@ -40,6 +40,8 @@
 		37A7C6BB1922458F005D29D4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6BA1922458F005D29D4 /* ViewController.m */; };
 		37A7C6BD1922458F005D29D4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6BC1922458F005D29D4 /* Images.xcassets */; };
 		37A7C6DC19224B64005D29D4 /* Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6DB19224B64005D29D4 /* Networking.m */; };
+		37AD31E61A1EFB01005AAC3D /* SimpleStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AD31E41A1EFB01005AAC3D /* SimpleStartViewController.m */; };
+		37AD31E71A1EFB01005AAC3D /* SimpleStartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37AD31E51A1EFB01005AAC3D /* SimpleStartViewController.xib */; };
 		37B74D80199CAD7D00D7CC2C /* OauthStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B74D7F199CAD7D00D7CC2C /* OauthStatus.m */; };
 		37C96447198F6B350021DC0B /* CTSProfileLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96445198F6B350021DC0B /* CTSProfileLayer.m */; };
 		37C96490198F723E0021DC0B /* CTSAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96450198F723E0021DC0B /* CTSAmount.m */; };
@@ -306,6 +308,9 @@
 		37A7C6CF1922458F005D29D4 /* RestFulltesterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestFulltesterTests.m; sourceTree = "<group>"; };
 		37A7C6DA19224B0E005D29D4 /* Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		37A7C6DB19224B64005D29D4 /* Networking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Networking.m; sourceTree = "<group>"; };
+		37AD31E31A1EFB01005AAC3D /* SimpleStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleStartViewController.h; sourceTree = "<group>"; };
+		37AD31E41A1EFB01005AAC3D /* SimpleStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleStartViewController.m; sourceTree = "<group>"; };
+		37AD31E51A1EFB01005AAC3D /* SimpleStartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleStartViewController.xib; sourceTree = "<group>"; };
 		37B74D7E199CAD7D00D7CC2C /* OauthStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OauthStatus.h; sourceTree = "<group>"; };
 		37B74D7F199CAD7D00D7CC2C /* OauthStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OauthStatus.m; sourceTree = "<group>"; };
 		37C00CDB19935DF40057DB32 /* CitrusSdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CitrusSdk.h; sourceTree = "<group>"; };
@@ -898,6 +903,9 @@
 				7692AA7419FF9B04004D56EC /* WebViewViewController.h */,
 				7692AA7519FF9B04004D56EC /* WebViewViewController.m */,
 				7692AA7619FF9B04004D56EC /* WebViewViewController.xib */,
+				37AD31E31A1EFB01005AAC3D /* SimpleStartViewController.h */,
+				37AD31E41A1EFB01005AAC3D /* SimpleStartViewController.m */,
+				37AD31E51A1EFB01005AAC3D /* SimpleStartViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1115,6 +1123,7 @@
 				7692AB3B19FFA247004D56EC /* rupay@2x.png in Resources */,
 				7692AB3C19FFA247004D56EC /* visa.png in Resources */,
 				7692AB3D19FFA247004D56EC /* NetBankingViewController.xib in Resources */,
+				37AD31E71A1EFB01005AAC3D /* SimpleStartViewController.xib in Resources */,
 				7692AB3E19FFA247004D56EC /* rupay.png in Resources */,
 				7692AB3F19FFA247004D56EC /* CardPayViewController.xib in Resources */,
 				7692AB4019FFA247004D56EC /* buttonbackground.png in Resources */,
@@ -1291,6 +1300,7 @@
 				7692AAFE19FFA247004D56EC /* NSArray+JSONModel.m in Sources */,
 				7692AAFF19FFA247004D56EC /* CTSNetbankingOption.m in Sources */,
 				7692AB0019FFA247004D56EC /* CTSPaymentMode.m in Sources */,
+				37AD31E61A1EFB01005AAC3D /* SimpleStartViewController.m in Sources */,
 				7692AB0119FFA247004D56EC /* CTSCreditCardOption.m in Sources */,
 				7692AB0219FFA247004D56EC /* CardPayViewController.m in Sources */,
 				7692AB0319FFA247004D56EC /* JSONModel+CoreData.m in Sources */,
@@ -1656,6 +1666,7 @@
 				7692AB7319FFACA6004D56EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

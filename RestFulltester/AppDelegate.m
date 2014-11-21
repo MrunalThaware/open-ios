@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "HomeViewController.h"
 #import "ViewController.h"
+#import "SimpleStartViewController.h"
 
 @implementation AppDelegate
 @synthesize managedObjectContext = _managedObjectContext;
@@ -24,7 +25,7 @@
     
 #if defined (CTS_iOS_GUISdk)
     // add into nav contoller
-    HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+    SimpleStartViewController *homeViewController = [[SimpleStartViewController alloc] initWithNibName:@"SimpleStartViewController" bundle:nil];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
 #else
     //

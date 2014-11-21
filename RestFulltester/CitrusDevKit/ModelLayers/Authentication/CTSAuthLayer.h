@@ -117,9 +117,9 @@ typedef void (^ASBindUserCallback)(NSString *userName,
  *  @param password
  *  @param callBack
  */
-//- (void)requestSigninWithUsername:(NSString*)userName
-//                         password:(NSString*)password
-//                completionHandler:(ASSigninCallBack)callBack;
+- (void)requestSigninWithUsername:(NSString*)userName
+                         password:(NSString*)password
+                completionHandler:(ASSigninCallBack)callBack;
 
 /**
  *  to sign up the user
@@ -129,10 +129,10 @@ typedef void (^ASBindUserCallback)(NSString *userName,
  *  @param password
  *  @param callBack
  */
-//- (void)requestSignUpWithEmail:(NSString*)email
-//                        mobile:(NSString*)mobile
-//                      password:(NSString*)password
-//             completionHandler:(ASSignupCallBack)callBack;
+- (void)requestSignUpWithEmail:(NSString*)email
+                        mobile:(NSString*)mobile
+                      password:(NSString*)password
+             completionHandler:(ASSignupCallBack)callBack;
 
 /**
  *  in case of forget password,after recieving this server will send email to
