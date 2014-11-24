@@ -13,6 +13,8 @@
     CTSAuthLayer *authLayer;
     CTSProfileLayer *proifleLayer;
     CTSPaymentLayer *paymentLayer;
+    CTSContactUpdate* contactInfo;
+    CTSUserAddress* addressInfo;
 }
 
 @end

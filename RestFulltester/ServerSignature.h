@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #define SIGNATURE_URL @"http://sandbox.citruspay.com/namo/sign.php"
+@class CTSBill;
 //#define SIGNATURE_URL                                   \
 //  @"http://kangaroocabs.renewinfosys.in/renew/mycodes/" \
 //  @"citruspay_sign_ios_api.php"
@@ -16,4 +17,7 @@
 
 @interface ServerSignature : NSObject
 + (NSString*)getSignatureFromServerTxnId:(NSString*)txnId amount:(NSString*)amt;
+
++ (CTSBill*)getSampleBill;
+
 @end

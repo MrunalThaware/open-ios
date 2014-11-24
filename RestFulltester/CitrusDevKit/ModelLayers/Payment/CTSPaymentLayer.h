@@ -21,6 +21,7 @@
 #import "CTSAuthLayer.h"
 #import "CTSRestPluginBase.h"
 #import "CTSUserAddress.h"
+#import "CTSBill.h"
 
 @class RKObjectManager;
 @class CTSAuthLayer;
@@ -121,6 +122,7 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                 withTxnId:(NSString*)merchantTxnId
     withCompletionHandler:(ASMakeUserPaymentCallBack)callback;
 
+
 /**
  *  called when client request to make a tokenized payment
  *
@@ -135,6 +137,12 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                withReturnUrl:(NSString*)returnUrl
                withSignature:(NSString*)signature
                    withTxnId:(NSString*)merchantTxnId
+       withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
+
+- (void)makeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
+                 withContact:(CTSContactUpdate*)contactInfo
+                 withAddress:(CTSUserAddress*)userAddress
+                        bill:(CTSBill *)bill
        withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
 
 /**
@@ -153,6 +161,12 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                     withReturnUrl:(NSString*)returnUrl
                     withSignature:(NSString*)signature
                         withTxnId:(NSString*)merchantTxnId
+            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
+
+- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
+                      withContact:(CTSContactUpdate*)contactInfo
+                      withAddress:(CTSUserAddress*)userAddress
+                             bill:(CTSBill *)bill
             withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
 
 /**

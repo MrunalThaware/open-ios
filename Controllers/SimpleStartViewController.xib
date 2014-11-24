@@ -17,20 +17,14 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Urw-00-5h8">
                     <rect key="frame" x="148" y="8" width="304" height="63"/>
-                    <state key="normal" title="bind User">
+                    <state key="normal" title="bind user">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <variation key="heightClass=regular" fixedFrame="YES">
+                        <rect key="frame" x="8" y="81" width="304" height="68"/>
+                    </variation>
                     <connections>
                         <action selector="bindUser:" destination="-1" eventType="touchUpInside" id="DKB-Y2-Y8k"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HgV-9x-b0P">
-                    <rect key="frame" x="208" y="164" width="185" height="52"/>
-                    <state key="normal" title="get saved cards">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="getSavedCards:" destination="-1" eventType="touchUpInside" id="0Hm-KD-BhZ"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2H-we-y8L">
@@ -38,8 +32,11 @@
                     <state key="normal" title="pay with saved cards">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <variation key="heightClass=regular" fixedFrame="YES">
+                        <rect key="frame" x="68" y="243" width="185" height="52"/>
+                    </variation>
                     <connections>
-                        <action selector="payWithSavedCard:" destination="-1" eventType="touchUpInside" id="IcY-YH-BgK"/>
+                        <action selector="payWithSavedCard:" destination="-1" eventType="touchUpInside" id="3k4-y2-yaJ"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2B7-ek-1p2">
@@ -47,8 +44,11 @@
                     <state key="normal" title="pay as guest">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <variation key="heightClass=regular" fixedFrame="YES">
+                        <rect key="frame" x="116" y="406" width="88" height="30"/>
+                    </variation>
                     <connections>
-                        <action selector="payAsGuest:" destination="-1" eventType="touchUpInside" id="XsF-tz-HeC"/>
+                        <action selector="payAsGuestCard:" destination="-1" eventType="touchUpInside" id="h97-eq-ClB"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ClF-m5-Vge">
@@ -56,8 +56,23 @@
                     <state key="normal" title="save cards">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <variation key="heightClass=regular" fixedFrame="YES">
+                        <rect key="frame" x="94" y="145" width="133" height="30"/>
+                    </variation>
                     <connections>
                         <action selector="saveCards:" destination="-1" eventType="touchUpInside" id="Z5y-2I-UsK"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HgV-9x-b0P">
+                    <rect key="frame" x="208" y="164" width="185" height="52"/>
+                    <state key="normal" title="get saved cards">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="heightClass=regular" fixedFrame="YES">
+                        <rect key="frame" x="68" y="190" width="185" height="52"/>
+                    </variation>
+                    <connections>
+                        <action selector="getSavedCards:" destination="-1" eventType="touchUpInside" id="0Hm-KD-BhZ"/>
                     </connections>
                 </button>
             </subviews>
