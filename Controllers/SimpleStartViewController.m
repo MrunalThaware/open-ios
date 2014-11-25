@@ -10,6 +10,8 @@
 #import "TestParams.h"
 #import "NSObject+logProperties.h"
 #import "ServerSignature.h"
+#import "UIUtility.h"
+#import "WebViewViewController.h"
 @interface SimpleStartViewController ()
 
 @end
@@ -176,6 +178,20 @@
 
 -(IBAction)payWithSavedCard:(id)sender{
 
+    CTSPaymentDetailUpdate* tokenizedCardInfo =
+    [[CTSPaymentDetailUpdate alloc] init];
+    CTSElectronicCardUpdate* tokenizedCard =
+    [[CTSElectronicCardUpdate alloc] initCreditCard];
+    tokenizedCard.token = TEST_TOKENIZED_CARD_TOKEN;
+    tokenizedCard.cvv = TEST_TOKENIZED_CARD_CVV;
+    [tokenizedCardInfo addCard:tokenizedCard];
+ 
+    CTSBill *bill = [ServerSignature getSampleBill];
+    [paymentLayer makeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+        
+        [self handlePaymentResponse:paymentInfo error:error];
+    }];
+
 }
 
 
@@ -202,23 +218,78 @@
     CTSBill *bill = [ServerSignature getSampleBill];
     
     [paymentLayer makePaymentUsingGuestFlow:creditCardInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        if(error == nil){
-            
-        }
-        else{
-            
-            
-        }
+       
+        [self handlePaymentResponse:paymentInfo error:error];
     }];
 
 
 
 }
 
+
+
 -(IBAction)payAsGuestBank:(id)sender{
     
     
+
     
+    CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
+    CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
+    
+    netBank.code = TEST_NETBAK_CODE;
+    [paymentInfo addNetBanking:netBank];
+    
+
+    
+    CTSBill *bill = [ServerSignature getSampleBill];
+    
+    [paymentLayer makePaymentUsingGuestFlow:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+        [self handlePaymentResponse:paymentInfo error:error];
+    }];
+    
+}
+
+- (void)loadRedirectUrl:(NSString*)redirectURL {
+    WebViewViewController* webViewViewController = [[WebViewViewController alloc] init];
+    webViewViewController.redirectURL = redirectURL;
+    [UIUtility dismissLoadingAlertView:YES];
+    [self.navigationController pushViewController:webViewViewController animated:YES];
+}
+
+
+-(void)handlePaymentResponse:(CTSPaymentTransactionRes *)paymentInfo error:(NSError *)error{
+
+    BOOL hasSuccess =
+    ((paymentInfo != nil) && ([paymentInfo.pgRespCode integerValue] == 0) &&
+     (error == nil))
+    ? YES
+    : NO;
+    if(hasSuccess){
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Update the UI
+            [UIUtility dismissLoadingAlertView:YES];
+            if (hasSuccess && error.code != ServerErrorWithCode) {
+                [UIUtility didPresentLoadingAlertView:@"Connecting to the PG" withActivity:YES];
+                [self loadRedirectUrl:paymentInfo.redirectUrl];
+            }else{
+                [UIUtility didPresentErrorAlertView:error];
+            }
+        });
+        
+    }
+    else{
+        NSString *errorToast;
+        if(error== nil){
+            errorToast = [NSString stringWithFormat:@" payment failed : %@",paymentInfo.txMsg] ;
+        }else{
+            errorToast = [NSString stringWithFormat:@" payment failed : %@",toErrorDescription(error)] ;
+        }
+        [self toastMessageOnScreen:errorToast];
+    }
+
+
 }
 
 
