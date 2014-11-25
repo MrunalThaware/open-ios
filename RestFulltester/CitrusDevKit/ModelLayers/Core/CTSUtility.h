@@ -10,6 +10,7 @@
 #import "CTSOauthTokenRes.h"
 #import "CTSAuthLayerConstants.h"
 #import "UserLogging.h"
+#import "CTSBill.h"
 
 @interface CTSUtility : NSObject
 + (NSString*)readFromDisk:(NSString*)key;
@@ -36,5 +37,5 @@
 + (BOOL)validateCVVNumber:(UITextField*)textField cardNumber:(NSString*)cardNumber replacementString:(NSString*)string shouldChangeCharactersInRange:(NSRange)range;
 + (NSString*)createTXNId;
 +(NSString*)correctExpiryDate:(NSString *)date;
-
++(BOOL)validateBill:(CTSBill *)bill;
 @end

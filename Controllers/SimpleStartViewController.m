@@ -12,18 +12,20 @@
 #import "ServerSignature.h"
 #import "UIUtility.h"
 #import "WebViewViewController.h"
+
 @interface SimpleStartViewController ()
 
 @end
 
 @implementation SimpleStartViewController
+#define SANDBOX_SERVER @"https://sandboxadmin.citruspay.com"
+#define toErrorDescription(error) [error.userInfo objectForKey:NSLocalizedDescriptionKey]
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -32,27 +34,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initializeLayers];
-    [ServerSignature getSampleBill];
-    //[self bindTest];
-    //[self getSavedCards];
-    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)initializeLayers{
     authLayer = [[CTSAuthLayer alloc] init];
     proifleLayer = [[CTSProfileLayer alloc] init];
-    paymentLayer = [[CTSPaymentLayer alloc] init];
+    paymentLayer = [[CTSPaymentLayer alloc] initWithUrl:SANDBOX_SERVER];
     contactInfo = [[CTSContactUpdate alloc] init];
     contactInfo.firstName = TEST_FIRST_NAME;
     contactInfo.lastName = TEST_LAST_NAME;
     contactInfo.email = TEST_EMAIL;
     contactInfo.mobile = TEST_MOBILE;
-    
     addressInfo = [[CTSUserAddress alloc] init];
     addressInfo.city = @"Mumbai";
     addressInfo.country = @"India";
@@ -61,57 +57,18 @@
     addressInfo.street2 = @"Pink City";
     addressInfo.zip = @"401209";
     
-    
-    
 }
 
--(void)bindTest{
-    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
-        if(error == nil){
-            [self toastMessageOnScreen:[NSString stringWithFormat:@" %@ is bound",userName] ];
-        }
-        else {
-            [self toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error description]]];
-        }
-    }];
-}
-
--(void)getSavedCards{
-    
-    [proifleLayer requestPaymentInformationWithCompletionHandler:^(CTSProfilePaymentRes *paymentInfo, NSError *error) {
-
-            if (error == nil) {
-                NSMutableString *toastString = nil;
-                if([paymentInfo.paymentOptions count]){
-                    
-                    
-                    NSMutableString *toastString = [NSMutableString stringWithFormat:@"paymentInfo.type %@", paymentInfo.type];
-                    [toastString appendFormat:@"\npaymentInfo.defaultOption %@", paymentInfo.defaultOption];
-                    
-                    
-                    for (CTSPaymentOption* option in paymentInfo.paymentOptions) {
-                        [toastString appendString:@"\n\noption:"];
-                        [toastString appendString:[self convertToString:option]];
-                    }
-                }
-                else{
-                    toastString =(NSMutableString *) @" no saved cards ";
-                }
-                [self toastMessageOnScreen:toastString];
-                // paymentSavedResponse = paymentInfo;
-            } else {
-                [self toastMessageOnScreen:[NSString stringWithFormat:@" couldn't find saved cards \nerror: %@",[error description]]];
-            }
-    }];
-}
 
 -(IBAction)bindUser:(id)sender{
     [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
         if(error == nil){
-            [self toastMessageOnScreen:[NSString stringWithFormat:@" %@ is bound",userName] ];
+            //your code to handle success
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is bound",userName] ];
         }
         else {
-            [self toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error description]]];
+            //your code to handle error
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error description]]];
         }
     }];
     
@@ -119,16 +76,10 @@
 
 -(IBAction)getSavedCards:(id)sender{
     [proifleLayer requestPaymentInformationWithCompletionHandler:^(CTSProfilePaymentRes *paymentInfo, NSError *error) {
-        
         if (error == nil) {
             NSMutableString *toastString = nil;
             if([paymentInfo.paymentOptions count]){
-                
-                
-                toastString = [NSMutableString stringWithFormat:@"paymentInfo.type %@", paymentInfo.type];
-                [toastString appendFormat:@"\npaymentInfo.defaultOption %@", paymentInfo.defaultOption];
-                
-                
+
                 for (CTSPaymentOption* option in paymentInfo.paymentOptions) {
                     [toastString appendString:@"\n\noption:"];
                     [toastString appendString:[self convertToString:option]];
@@ -137,21 +88,15 @@
             else{
                 toastString =(NSMutableString *) @" no saved cards ";
             }
-            [self toastMessageOnScreen:toastString];
-            // paymentSavedResponse = paymentInfo;
+            [UIUtility toastMessageOnScreen:toastString];
         } else {
-            [self toastMessageOnScreen:[NSString stringWithFormat:@" couldn't find saved cards \nerror: %@",[error description]]];
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't find saved cards \nerror: %@",[error description]]];
         }
     }];
-
-    
 }
-#define toErrorDescription(error) [error.userInfo objectForKey:NSLocalizedDescriptionKey]
 
 -(IBAction)saveCards:(id)sender{
     CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
-
-    
     CTSElectronicCardUpdate* creditCard =
     [[CTSElectronicCardUpdate alloc] initCreditCard];
     creditCard.number = TEST_CREDIT_CARD_NUMBER;
@@ -166,10 +111,12 @@
     
     [proifleLayer updatePaymentInformation:paymentInfo withCompletionHandler:^(NSError *error) {
         if(error == nil){
-            [self toastMessageOnScreen:@" succesfully card saved "];
+            //your code to handle success
+            [UIUtility toastMessageOnScreen:@" succesfully card saved "];
         }
         else {
-            [self toastMessageOnScreen:[NSString stringWithFormat:@" couldn't save card\n error: %@",toErrorDescription(error)]];
+            //your code to handle error
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't save card\n error: %@",toErrorDescription(error)]];
         }
     }];
 
@@ -186,9 +133,8 @@
     tokenizedCard.cvv = TEST_TOKENIZED_CARD_CVV;
     [tokenizedCardInfo addCard:tokenizedCard];
  
-    CTSBill *bill = [ServerSignature getSampleBill];
-    [paymentLayer makeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        
+    CTSBill *bill = [SimpleStartViewController getBillFromServer];
+    [paymentLayer requestChargeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
 
@@ -208,16 +154,8 @@
     creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     [creditCardInfo addCard:creditCard];
-    
-    NSString* transactionId;
-    
-    // transactionId = [self createTXNId];
-    NSLog(@"transactionId:%@", transactionId);
-
-    
-    CTSBill *bill = [ServerSignature getSampleBill];
-    
-    [paymentLayer makePaymentUsingGuestFlow:creditCardInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    CTSBill *bill = [SimpleStartViewController getBillFromServer];
+    [paymentLayer requestChargePayment:creditCardInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
        
         [self handlePaymentResponse:paymentInfo error:error];
     }];
@@ -230,20 +168,13 @@
 
 -(IBAction)payAsGuestBank:(id)sender{
     
-    
-
-    
     CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
     
     netBank.code = TEST_NETBAK_CODE;
     [paymentInfo addNetBanking:netBank];
-    
-
-    
-    CTSBill *bill = [ServerSignature getSampleBill];
-    
-    [paymentLayer makePaymentUsingGuestFlow:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    CTSBill *bill = [SimpleStartViewController getBillFromServer];
+    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
     
@@ -265,10 +196,9 @@
     ? YES
     : NO;
     if(hasSuccess){
-        
-        
+        //your code to handle success
+
         dispatch_async(dispatch_get_main_queue(), ^{
-            // Update the UI
             [UIUtility dismissLoadingAlertView:YES];
             if (hasSuccess && error.code != ServerErrorWithCode) {
                 [UIUtility didPresentLoadingAlertView:@"Connecting to the PG" withActivity:YES];
@@ -280,42 +210,17 @@
         
     }
     else{
+        //your code to handle error
         NSString *errorToast;
         if(error== nil){
             errorToast = [NSString stringWithFormat:@" payment failed : %@",paymentInfo.txMsg] ;
         }else{
             errorToast = [NSString stringWithFormat:@" payment failed : %@",toErrorDescription(error)] ;
         }
-        [self toastMessageOnScreen:errorToast];
+        [UIUtility toastMessageOnScreen:errorToast];
     }
-
-
 }
 
-
--(void)toastMessageOnScreen:(NSString *)string{
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView *toast = [[UIAlertView alloc] initWithTitle:nil
-                                                        message:string
-                                                       delegate:nil
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:nil, nil];
-        [toast show];
-        
-        int duration = 5; // duration in seconds
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            [toast dismissWithClickedButtonIndex:0 animated:YES];
-        });
-        
-        
-    });
-    
-    
-    
-    
-}
 
 
 -(NSString *)convertToString:(CTSPaymentOption *)option{
@@ -323,40 +228,62 @@
     NSMutableString *msgString = [[NSMutableString alloc] init];
     
     if(option.name){
-        [msgString appendFormat:@"\n  name %@",option.name];
+        [msgString appendFormat:@"\n  name: %@",option.name];
     }
     if(option.owner){
-        [msgString appendFormat:@"\n  owner %@",option.owner];
+        [msgString appendFormat:@"\n  owner: %@",option.owner];
     }
     if(option.bank){
-        [msgString appendFormat:@"\n  bank %@",option.bank];
+        [msgString appendFormat:@"\n  bank: %@",option.bank];
     }
     if(option.number){
-        [msgString appendFormat:@"\n  number %@",option.number];
+        [msgString appendFormat:@"\n  number: %@",option.number];
     }
     if(option.expiryDate){
-        [msgString appendFormat:@"\n  expiryDate %@",option.expiryDate];
+        [msgString appendFormat:@"\n  expiryDate: %@",option.expiryDate];
     }
     if(option.scheme){
-        [msgString appendFormat:@"\n  scheme %@",option.scheme];
+        [msgString appendFormat:@"\n  scheme: %@",option.scheme];
     }
     if(option.token){
-        [msgString appendFormat:@"\n  token %@",option.token];
+        [msgString appendFormat:@"\n  token: %@",option.token];
     }
     if(option.mmid){
-        [msgString appendFormat:@"\n  mmid %@",option.mmid];
+        [msgString appendFormat:@"\n  mmid: %@",option.mmid];
     }
     if(option.impsRegisteredMobile){
-        [msgString appendFormat:@"\n  impsRegisteredMobile %@",option.impsRegisteredMobile];
+        [msgString appendFormat:@"\n  impsRegisteredMobile: %@",option.impsRegisteredMobile];
     }
     if(option.code){
-        [msgString appendFormat:@"\n  code %@",option.code];
+        [msgString appendFormat:@"\n  code: %@",option.code];
     }
     
     return msgString;
     
 }
 
+//you can modify this according to your needs
+//this is sample implementation
++ (CTSBill*)getBillFromServer{
+    
+    NSURL* url = [[NSURL alloc]
+                  initWithString:
+                  [NSString
+                   stringWithFormat:BillUrl]];
+    NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:url];
+    [urlReq setHTTPMethod:@"POST"];
+    NSError* error = nil;
+    NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
+                                                  returningResponse:nil
+                                                              error:&error];
+    NSString* billJson = [[NSString alloc] initWithData:signatureData
+                                               encoding:NSUTF8StringEncoding];
+    JSONModelError *jsonError;
+    CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
+                                                    error:&jsonError];
+    NSLog(@"signature %@ ", sampleBill);
+    return sampleBill;
+}
 
 /*
  #pragma mark - Navigation

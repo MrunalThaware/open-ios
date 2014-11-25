@@ -29,6 +29,7 @@
 #define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
 
 #define MerchantAccessKey @"F2VZD1HBS2VVXJPMWO77"
+#define BillUrl @"http://YourServer/Bill"
 
 
 #endif

@@ -18,6 +18,4 @@
 @interface ServerSignature : NSObject
 + (NSString*)getSignatureFromServerTxnId:(NSString*)txnId amount:(NSString*)amt;
 
-+ (CTSBill*)getSampleBill;
-
 @end

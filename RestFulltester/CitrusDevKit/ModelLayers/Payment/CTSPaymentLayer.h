@@ -76,6 +76,9 @@
 @property(nonatomic, strong) RKObjectManager* objectManager;
 @property(weak) id<CTSPaymentProtocol> delegate;
 
+- (instancetype)initWithUrl:(NSString *)url;
+
+
 typedef void (^ASMakeUserPaymentCallBack)(CTSPaymentTransactionRes* paymentInfo,
                                           NSError* error);
 
@@ -139,7 +142,7 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                    withTxnId:(NSString*)merchantTxnId
        withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
 
-- (void)makeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
+- (void)requestChargeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
                  withContact:(CTSContactUpdate*)contactInfo
                  withAddress:(CTSUserAddress*)userAddress
                         bill:(CTSBill *)bill
@@ -163,7 +166,7 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                         withTxnId:(NSString*)merchantTxnId
             withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
 
-- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
+- (void)requestChargePayment:(CTSPaymentDetailUpdate*)paymentInfo
                       withContact:(CTSContactUpdate*)contactInfo
                       withAddress:(CTSUserAddress*)userAddress
                              bill:(CTSBill *)bill

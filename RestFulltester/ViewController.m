@@ -648,7 +648,7 @@
   NSDictionary* responseDict =
       [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
   if (responseDict != nil) {
-    [self transactionComplete:responseDict];
+      [self transactionComplete:responseDict];
   }
 
   return YES;

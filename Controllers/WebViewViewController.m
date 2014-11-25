@@ -7,6 +7,8 @@
 //
 
 #import "WebViewViewController.h"
+#import "CTSUtility.h"
+#import "UIUtility.h"
 
 @interface WebViewViewController ()
 
@@ -32,7 +34,6 @@
     // Do any additional setup after loading the view from its nib.
     
     self.title = @"3D Secure";
-    
     self.webview = [[UIWebView alloc] init];
     self.webview.delegate = self;
     self.webview.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
@@ -61,7 +62,21 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
+- (BOOL)webView:(UIWebView*)webView
+shouldStartLoadWithRequest:(NSURLRequest*)request
+ navigationType:(UIWebViewNavigationType)navigationType {
+    NSDictionary* responseDict =
+    [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
+    if (responseDict != nil) {
+        [self transactionComplete:responseDict];
+    }
+    
+    return YES;
+}
 
+-(void)transactionComplete:(NSDictionary *)responseDictionary{
+    [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[responseDictionary valueForKey:@"TxStatus"] ]];
+}
 
 - (void)didReceiveMemoryWarning
 {

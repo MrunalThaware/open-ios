@@ -46,4 +46,7 @@
  *  @param move to UIView
  */
 + (void)animateTextField:(UITextField*)textField up:(BOOL)up toView:(UIView*)toView;
+
+
++(void)toastMessageOnScreen:(NSString *)string;
 @end

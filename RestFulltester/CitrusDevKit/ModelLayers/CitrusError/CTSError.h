@@ -20,7 +20,7 @@ typedef enum {
   OauthTokenExpired,
   CantFetchSignupToken,
     TokenMissing,
-    InternetDown
+    InternetDown,WrongBill
     
 
 } CTSErrorCode;

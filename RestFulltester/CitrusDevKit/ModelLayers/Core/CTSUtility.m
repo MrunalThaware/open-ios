@@ -500,4 +500,27 @@
     return transactionId;
 }
 
++(BOOL)validateBill:(CTSBill *)bill{
+    if(bill == nil){
+        return NO;
+    }
+    if(bill.amount == nil){
+        return NO;
+    }
+    if(bill.requestSignature == nil){
+        return NO;
+    
+    }
+    if(bill.merchantAccessKey == nil){
+        return NO;
+    }
+    if (bill.returnUrl == nil) {
+        return NO;
+    }
+    return YES;
+
+
+}
+
+
 @end

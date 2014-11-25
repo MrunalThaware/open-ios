@@ -45,6 +45,8 @@
       errorDescription = @"Can not fetch Signup Oauth token from merchant";
       case TokenMissing:
           errorDescription = @"Token for payment is missing";
+          case WrongBill:
+          errorDescription = @"Bill not valid";
 
     default:
       break;

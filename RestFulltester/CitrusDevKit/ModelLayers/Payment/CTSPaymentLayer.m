@@ -151,7 +151,7 @@
 }
 
 
-- (void)makeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
+- (void)requestChargeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
                  withContact:(CTSContactUpdate*)contactInfo
                  withAddress:(CTSUserAddress*)userAddress
                         bill:(CTSBill *)bill
@@ -174,6 +174,11 @@
     if (error != NoError) {
         [self makeTokenizedPaymentHelper:nil
                                    error:[CTSError getErrorForCode:error]];
+        return;
+    }
+    if(![CTSUtility validateBill:bill]){
+        [self makeTokenizedPaymentHelper:nil
+                               error:[CTSError getErrorForCode:WrongBill]];
         return;
     }
     
@@ -260,7 +265,7 @@
   [restCore requestAsyncServer:request];
 }
 
-- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
+- (void)requestChargePayment:(CTSPaymentDetailUpdate*)paymentInfo
                       withContact:(CTSContactUpdate*)contactInfo
                       withAddress:(CTSUserAddress*)userAddress
                              bill:(CTSBill *)bill
@@ -276,7 +281,11 @@
                                error:[CTSError getErrorForCode:error]];
         return;
     }
-    
+    if(![CTSUtility validateBill:bill]){
+        [self makeGuestPaymentHelper:nil
+                               error:[CTSError getErrorForCode:WrongBill]];
+        return;
+    }
     
     CTSPaymentRequest* paymentrequest =
     [self configureReqPayment:paymentInfo
@@ -352,6 +361,37 @@ enum {
                                        baseUrl:CITRUS_PAYMENT_BASE_URL];
   return self;
 }
+
+-(NSDictionary *)getRegistrationDict{
+    return @{
+             toNSString(PaymentAsGuestReqId) : toSelector(handleReqPaymentAsGuest
+                                                          :),
+             toNSString(PaymentUsingtokenizedCardBankReqId) :
+                 toSelector(handleReqPaymentUsingtokenizedCardBank
+                            :),
+             toNSString(PaymentUsingSignedInCardBankReqId) :
+                 toSelector(handlePaymentUsingSignedInCardBank
+                            :),
+             toNSString(PaymentPgSettingsReqId) : toSelector(handleReqPaymentPgSettings
+                                                             :)
+             };
+    
+    
+}
+
+
+- (instancetype)initWithUrl:(NSString *)url
+{
+    
+    if(url == nil){
+        url = CITRUS_PAYMENT_BASE_URL;
+    }
+    self = [super initWithRequestSelectorMapping:[self getRegistrationDict]
+                                         baseUrl:url];
+    return self;
+}
+
+
 
 #pragma mark - response handlers methods
 - (void)handleReqPaymentAsGuest:(CTSRestCoreResponse*)response {

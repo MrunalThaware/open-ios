@@ -41,16 +41,12 @@
                    stringWithFormat:@"http://103.13.97.20/citrus/sandbox/sign.php"]];
     NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:url];
     [urlReq setHTTPMethod:@"POST"];
-    
     NSError* error = nil;
-    
     NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
                                                   returningResponse:nil
                                                               error:&error];
-
    NSString* billJson = [[NSString alloc] initWithData:signatureData
                                                 encoding:NSUTF8StringEncoding];
-    
     JSONModelError *jsonError;
    CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
                                        error:&jsonError];
