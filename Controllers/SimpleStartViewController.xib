@@ -48,7 +48,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="payWithSavedCard:" destination="-1" eventType="touchUpInside" id="3k4-y2-yaJ"/>
+                        <action selector="tokenizedPayment:" destination="-1" eventType="touchUpInside" id="d6s-aT-chW"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2B7-ek-1p2">
@@ -57,7 +57,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="payAsGuestCard:" destination="-1" eventType="touchUpInside" id="S1P-f1-0Im"/>
+                        <action selector="cardPayment:" destination="-1" eventType="touchUpInside" id="Obk-O2-xAP"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y0V-i0-vTI">
@@ -66,7 +66,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="payAsGuestBank:" destination="-1" eventType="touchUpInside" id="iRO-3d-iT4"/>
+                        <action selector="netbankingPayment:" destination="-1" eventType="touchUpInside" id="QgT-gW-03k"/>
                     </connections>
                 </button>
             </subviews>

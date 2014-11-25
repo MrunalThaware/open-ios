@@ -77,19 +77,17 @@
 -(IBAction)getSavedCards:(id)sender{
     [proifleLayer requestPaymentInformationWithCompletionHandler:^(CTSProfilePaymentRes *paymentInfo, NSError *error) {
         if (error == nil) {
-            NSMutableString *toastString = nil;
+            //your code to handle success
+           NSMutableString *toastString = [[NSMutableString alloc] init];
             if([paymentInfo.paymentOptions count]){
-
-                for (CTSPaymentOption* option in paymentInfo.paymentOptions) {
-                    [toastString appendString:@"\n\noption:"];
-                    [toastString appendString:[self convertToString:option]];
-                }
+                    [toastString appendString:[self convertToString:[paymentInfo.paymentOptions objectAtIndex:0]]];
             }
             else{
                 toastString =(NSMutableString *) @" no saved cards ";
             }
             [UIUtility toastMessageOnScreen:toastString];
         } else {
+            //your code to handle error
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't find saved cards \nerror: %@",[error description]]];
         }
     }];
@@ -123,7 +121,7 @@
 }
 
 
--(IBAction)payWithSavedCard:(id)sender{
+-(IBAction)tokenizedPayment:(id)sender{
 
     CTSPaymentDetailUpdate* tokenizedCardInfo =
     [[CTSPaymentDetailUpdate alloc] init];
@@ -141,7 +139,7 @@
 }
 
 
--(IBAction)payAsGuestCard:(id)sender{
+-(IBAction)cardPayment:(id)sender{
 
     CTSPaymentDetailUpdate* creditCardInfo =
     [[CTSPaymentDetailUpdate alloc] init];
@@ -166,7 +164,7 @@
 
 
 
--(IBAction)payAsGuestBank:(id)sender{
+-(IBAction)netbankingPayment:(id)sender{
     
     CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
