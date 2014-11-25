@@ -8,17 +8,6 @@
 
 #ifndef CTS_iOS_Sdk_MerchantConstants_h
 #define CTS_iOS_Sdk_MerchantConstants_h
-//
-//#define VanityUrl @"nativeSDK"
-//#define SignInId @"citrus-native-mobile-app-v1"
-//#define SignInSecretKey @"83df0e4db17fa7b206f4c36d3f19d6c1"
-//#define SubscriptionId @"citrus-native-mobile-subscription"
-//#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
-//
-//#define MerchantAccessKey @"F2VZD1HBS2VVXJPMWO77"
-
-
-
 
 
 //bind oops
@@ -27,8 +16,6 @@
 #define SignInSecretKey @"01248"
 #define SubscriptionId @"citrus-native-mobile-subscription"
 #define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
-
-#define MerchantAccessKey @"F2VZD1HBS2VVXJPMWO77"
 #define BillUrl @"http://YourServer/Bill"
 
 
