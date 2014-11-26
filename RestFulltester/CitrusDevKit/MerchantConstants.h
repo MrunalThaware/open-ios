@@ -10,13 +10,16 @@
 #define CTS_iOS_Sdk_MerchantConstants_h
 
 
-//bind oops
+//KEYS
 #define VanityUrl @"nativeSDK"
 #define SignInId @"oaut-test"
 #define SignInSecretKey @"01248"
 #define SubscriptionId @"citrus-native-mobile-subscription"
 #define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
+
+//URLS
 #define BillUrl @"http://YourServer/Bill"
+#define BaseUrl @"https://oops.citruspay.com"
 
 
 #endif

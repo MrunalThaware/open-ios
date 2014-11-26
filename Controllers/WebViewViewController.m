@@ -68,6 +68,8 @@ shouldStartLoadWithRequest:(NSURLRequest*)request
     NSDictionary* responseDict =
     [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
     if (responseDict != nil) {
+        //your code for success goes here
+        //responseDict> contains all the information related to transaction
         [self transactionComplete:responseDict];
     }
     
