@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "HomeViewController.h"
 #import "ViewController.h"
 #import "SimpleStartViewController.h"
 
