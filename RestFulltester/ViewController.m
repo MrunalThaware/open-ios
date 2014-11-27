@@ -38,12 +38,12 @@
   //  [self testCardSchemes];
     
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
-  //[self signIn];
+  [self signIn];
  // [self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
-//    [authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
+//    [authLayer requestResetPassword:TEST_EMAIL completionHandler:^(NSError *error) {
 //        [self logError:error];
 //        
 //    }];
@@ -65,9 +65,9 @@
 //        [toast dismissWithClickedButtonIndex:0 animated:YES];
 //    });
     
-    [authLayer requestIsUserAlreadyRegisteredMobileOrEmail:TEST_EMAIL completionHandler:^(CTSUserVerificationRes *userVerification, NSError *error) {
-        [self logError:error];
-    }];
+   // [authLayer requestIsUserAlreadyRegisteredMobileOrEmail:TEST_EMAIL completionHandler:^(CTSUserVerificationRes *userVerification, NSError *error) {
+      //  [self logError:error];
+    //}];
     
     
 }
@@ -114,7 +114,7 @@
 #pragma mark - AuthLayer Sample implementation
 
 - (void)signIn {
-  [authLayer requestSigninWithUsername:TEST_MOBILE
+  [authLayer requestSigninWithUsername:TEST_EMAIL
                               password:TEST_PASSWORD
                      completionHandler:^(NSString* userName,
                                          NSString* token,
@@ -136,9 +136,9 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
                          //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
-                         [profileLayer requestUpdateMobile:@"9898989898" WithCompletionHandler:^(NSError *error) {
-                             [self logError:error];
-                         }];
+//                         [profileLayer requestUpdateMobile:@"9898989898" WithCompletionHandler:^(NSError *error) {
+//                             [self logError:error];
+//                         }];
                      }];
 }
 
