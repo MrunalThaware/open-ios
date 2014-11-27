@@ -64,7 +64,7 @@
     [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
         if(error == nil){
             //your code to handle success
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is bound",userName] ];
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName] ];
         }
         else {
             //your code to handle error
@@ -83,7 +83,7 @@
                     [toastString appendString:[self convertToString:[paymentInfo.paymentOptions objectAtIndex:0]]];
             }
             else{
-                toastString =(NSMutableString *) @" no saved cards ";
+                toastString =(NSMutableString *) @" no saved cards, please save card first";
             }
             [UIUtility toastMessageOnScreen:toastString];
         } else {
