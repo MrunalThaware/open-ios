@@ -105,7 +105,8 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
-                         [self updatePaymentInfo];
+                         //[self updatePaymentInfo];
+                         [self updateContactInformation];
                          //[self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
