@@ -82,12 +82,25 @@
   }
 
   error.serverResponse = response.responseString;
+    
+    NSString *newDes;
+    if(error.errorDescription != nil){
+        newDes =error.errorDescription;
+    }
+    else {
+        newDes =[[serverError userInfo] valueForKey:NSLocalizedDescriptionKey];
+        
+    }
+    
+    
+    
+    NSDictionary* userInfo = @{
+                               CITRUS_ERROR_DESCRIPTION_KEY : error,
+                               NSLocalizedDescriptionKey :newDes
+                               
+                               };
 
-  NSDictionary* userInfo = @{
-    CITRUS_ERROR_DESCRIPTION_KEY : error,
-    NSLocalizedDescriptionKey :
-        [[serverError userInfo] valueForKey:NSLocalizedDescriptionKey]
-  };
+
   response.error = [NSError errorWithDomain:CITRUS_ERROR_DOMAIN
                                        code:[serverError code]
                                    userInfo:userInfo];
