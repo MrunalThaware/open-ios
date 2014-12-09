@@ -18,8 +18,7 @@
 #define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
 
 //URLS
-#define BillUrl @"http://YourServer/Bill"
-#define BaseUrl @"https://oops.citruspay.com"
-
-
+#define BillUrl @"http://localhost:8888/bill.php"
+//#define BaseUrl @"https://oops.citruspay.com"
+#define BaseUrl @"https://sandboxadmin.citruspay.com"
 #endif
