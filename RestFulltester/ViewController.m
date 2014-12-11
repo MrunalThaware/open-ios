@@ -33,7 +33,7 @@
   [super viewDidLoad];
   [self initialize];
   //  [self testCardSchemes];
-  //[self signIn];
+  [self signIn];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
@@ -113,7 +113,7 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
-                         [self updatePaymentInfo];
+                        // [self updatePaymentInfo];
                          //[self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
