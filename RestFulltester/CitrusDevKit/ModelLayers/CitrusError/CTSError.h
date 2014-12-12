@@ -30,10 +30,14 @@ typedef enum {
 #define CITRUS_ERROR_DESCRIPTION_KEY @"CTSServerErrorDescription"
 
 @interface CTSError : NSObject
+{
+    NSDictionary *dumbDict;
+}
 // Follwoing methods are for internal use only
 + (NSError*)getErrorForCode:(CTSErrorCode)code;
 + (NSError*)getServerErrorWithCode:(int)errorCode
                           withInfo:(NSDictionary*)information;
-//+(NSString)dumbConversion:(NSString*)error;
+-(NSString *)dumbConversion:(NSString*)error;
++ (id)sharedManager ;
 
 @end

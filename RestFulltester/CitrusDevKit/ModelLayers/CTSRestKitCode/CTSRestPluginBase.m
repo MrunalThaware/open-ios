@@ -62,6 +62,10 @@
   error = [[CTSRestError alloc] initWithString:response.responseString
                                          error:&jsonError];
   [error logProperties];
+    
+    
+    
+    
   if (error != nil) {
     if (error.type != nil) {
       error.error = error.type;
@@ -92,7 +96,7 @@
         
     }
     
-    
+    newDes = [[CTSError sharedManager] dumbConversion:newDes];
     
     NSDictionary* userInfo = @{
                                CITRUS_ERROR_DESCRIPTION_KEY : error,
