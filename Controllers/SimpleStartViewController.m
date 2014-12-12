@@ -18,7 +18,7 @@
 @end
 
 @implementation SimpleStartViewController
-#define SANDBOX_SERVER @"https://sandboxadmin.citruspay.com"
+#define SANDBOX_SERVER @"https://admin.citruspay.com"
 #define toErrorDescription(error) [error.userInfo objectForKey:NSLocalizedDescriptionKey]
 
 
@@ -49,7 +49,7 @@
     contactInfo.lastName = TEST_LAST_NAME;
     contactInfo.email = TEST_EMAIL;
     contactInfo.mobile = TEST_MOBILE;
-    addressInfo = [[CTSUserAddress alloc] init];
+    addressInfo = nil;[[CTSUserAddress alloc] init];
     addressInfo.city = @"Mumbai";
     addressInfo.country = @"India";
     addressInfo.state = @"Maharashtra";

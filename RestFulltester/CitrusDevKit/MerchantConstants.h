@@ -19,6 +19,7 @@
 
 //URLS
 #define BillUrl @"http://localhost:8888/bill.php"
-//#define BaseUrl @"https://oops.citruspay.com"
-#define BaseUrl @"https://sandboxadmin.citruspay.com"
+#define BaseUrl @"https://oops.citruspay.com"
+//https://admin.citruspay.com"
+//#define BaseUrl @"https://sandboxadmin.citruspay.com"
 #endif

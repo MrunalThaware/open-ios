@@ -44,11 +44,11 @@
     //}];
  // [self doGuestPaymentNetbanking];
     
-    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
-        LogTrace(@"userName %@",userName);
-        [self logError:error];
-
-    }];
+//    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
+//        LogTrace(@"userName %@",userName);
+//        [self logError:error];
+//
+//    }];
     
     
 }
