@@ -75,4 +75,14 @@
                          userInfo:userInfo];
 }
 
+
+
+//+(NSString)dumbConversion:(NSString*)errorDes{
+//if([errorDes ])
+//
+//
+//
+//}
+
+
 @end
