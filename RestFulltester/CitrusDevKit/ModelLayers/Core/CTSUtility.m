@@ -339,6 +339,24 @@
     return responseDictionary;
 }
 
++ (NSDictionary*)getResponseIfTransactionIsComplete:(UIWebView *)webview {
+    // contains the HTTP body as in an HTTP POST request.
+    NSString *iosResponse = [webview stringByEvaluatingJavaScriptFromString:@"postResponseiOS()"];
+    NSLog(@"iosResponse %@",iosResponse);
+    if(iosResponse == nil ){
+        return nil;
+    }
+    else{
+        NSError *error;
+        NSDictionary *dictionary =  [NSJSONSerialization JSONObjectWithData: [iosResponse dataUsingEncoding:NSUTF8StringEncoding]
+                                                                           options: NSJSONReadingMutableContainers
+                                                                             error: &error];
+        NSLog(@" dictionary %@ ",dictionary);
+        NSLog(@" error %@ ",error);
+        return dictionary;
+    }
+}
+
 
 + (BOOL)appendHyphenForCardnumber:(UITextField*)textField replacementString:(NSString*)string shouldChangeCharactersInRange:(NSRange)range{
     // Reject appending non-digit characters
