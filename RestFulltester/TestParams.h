@@ -15,7 +15,7 @@
 //#define TEST_MOBILE @"9702964502"
 
 #define TEST_EMAIL @"mangesh.kadam@citruspay.com"
-#define TEST_PASSWORD @"Citrus@12"
+#define TEST_PASSWORD @"Citrus@123"
 #define TEST_MOBILE @"8692862420"
 
 //#define TEST_EMAIL @"fefefefeefff@gmail.com"

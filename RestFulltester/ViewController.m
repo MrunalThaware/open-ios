@@ -678,6 +678,7 @@ didMakePaymentUsingGuestFlow:(CTSPaymentTransactionRes*)paymentInfo
 
     LogTrace(@" error %@  ",error);
     CTSRestError *errorCTS = [[error userInfo] objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+    LogTrace(@" error description %@ ",[[error userInfo] valueForKey:NSLocalizedDescriptionKey]);
     LogTrace(@" errorCTS type %@",errorCTS.type);
     LogTrace(@" errorCTS description %@",errorCTS.description);
     LogTrace(@" errorCTS responseString %@",errorCTS.serverResponse);
