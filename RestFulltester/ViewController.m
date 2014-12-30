@@ -38,7 +38,7 @@
   //  [self testCardSchemes];
     
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
-  [self signIn];
+ // [self signIn];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
@@ -70,6 +70,23 @@
     //}];
     
     
+//    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"09702964502"]);
+// NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"00919702964502"]);
+//     NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"919702964502"]);
+//     NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"+919702964502"]);
+//    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"970-296-4502"]);
+//    
+//    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"0970-296-4502"]);
+//    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"00970-296-4502"]);
+//    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"91970-296-4502"]);
+//    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"+91970-296-4502"]);
+    
+    
+    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility isEmail:@"91970-296@4502"]);
+
+
+    
+
 }
 
 - (void)initialize {

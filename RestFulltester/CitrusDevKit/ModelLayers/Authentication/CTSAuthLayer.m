@@ -38,12 +38,21 @@
     if (oauthStatus.error != nil) {
         [self resetPasswordHelper:oauthStatus.error];
     }
-    
-    if (![CTSUtility validateEmail:userNameArg]) {
-        [self resetPasswordHelper:[CTSError getErrorForCode:EmailNotValid]];
-        return;
+    if ([CTSUtility isEmail:userNameArg]) {
+        if (![CTSUtility validateEmail:userNameArg]) {
+            [self resetPasswordHelper:[CTSError getErrorForCode:EmailNotValid]];
+            return;
+        }
     }
-    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+    else{
+        if (![CTSUtility validateMobile:userNameArg]) {
+            [self resetPasswordHelper:[CTSError getErrorForCode:EmailNotValid]];
+            return;
+        }
+    
+    }
+    
+   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_REQUEST_CHANGE_PWD_REQ_PATH
                                    requestId:RequestForPasswordResetReqId
                                    headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
@@ -152,8 +161,13 @@
 
 -(void)requestOTPVerificationUserName:(NSString *)username otp:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback{
     [self addCallback:callback forRequestId:OTPVerificationRequestId];
+
+        if (![CTSUtility validateMobile:username]) {
+            [self otpVerificationHelper:NO error:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
     
-    NSDictionary* parameters = @{
+       NSDictionary* parameters = @{
                                  MLC_OTP_VER_QUERY_OTP : otp,
                                  MLC_OTP_VER_QUERY_MOBILE : username
                                  };
@@ -175,6 +189,11 @@
 -(void)requestOTPRegenerateMobile:(NSString *)mobile completionHandler:(ASOtpRegenerationCallback)callback{
     [self addCallback:callback forRequestId:OTPRegenerationRequestId];
     
+    if (![CTSUtility validateMobile:mobile]) {
+        [self otpRegenerationHelperError:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
     NSDictionary* parameters = @{
                                  MLC_OTP_REGENERATE_QUERY_MOBILE : mobile
                                  };
@@ -195,6 +214,14 @@
               completionHandler:
 (ASIsMobileVerifiedCallback)callback{
     [self addCallback:callback forRequestId:ISMobileVerifiedRequestId];
+    
+    
+    if (![CTSUtility validateMobile:mobile]) {
+        [self isMobileVerifiedHelper:NO error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
+    
     NSDictionary* parameters = @{
                                  MLC_OTP_REGENERATE_QUERY_MOBILE : mobile
                                  };
@@ -241,13 +268,23 @@
      */
     
     [self addCallback:callBack forRequestId:SigninOauthTokenReqId];
+    if([CTSUtility isEmail:userNameArg]){
+    if (![CTSUtility validateEmail:userNameArg]) {
+        [self signinHelperUsername:userNameArg
+                             oauth:nil
+                             error:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    }
+    else{
+        if (![CTSUtility validateMobile:userNameArg]) {
+            [self signinHelperUsername:userNameArg
+                                 oauth:nil
+                                 error:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
     
-//    if (![CTSUtility validateEmail:userNameArg]) {
-//        [self signinHelperUsername:userNameArg
-//                             oauth:nil
-//                             error:[CTSError getErrorForCode:EmailNotValid]];
-//        return;
-//    }
+    }
     
     userNameSignIn = userNameArg;
     NSDictionary* parameters = @{
@@ -301,6 +338,21 @@
     ENTRY_LOG
     [self addCallback:callback forRequestId:ChangePasswordReqId];
     
+    
+    if([CTSUtility isEmail:userName]){
+        if (![CTSUtility validateEmail:userName]) {
+            [self changePasswordHelper:[CTSError getErrorForCode:EmailNotValid]];
+            return;
+        }
+    }
+    else{
+        if (![CTSUtility validateMobile:userName]) {
+            [self changePasswordHelper:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
+        
+    }
+
     OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
     if (oauthStatus.error != nil) {
         [self changePasswordHelper:oauthStatus.error];
@@ -324,11 +376,27 @@
                         completionHandler:
 (ASIsUserCitrusMemberCallback)callback {
     [self addCallback:callback forRequestId:IsUserCitrusMemberReqId];
-    if (![CTSUtility validateEmail:email]) {
-        [self isUserCitrusMemberHelper:NO
-                                 error:[CTSError getErrorForCode:EmailNotValid]];
-        return;
+    
+    
+    if([CTSUtility isEmail:email]){
+        if (![CTSUtility validateEmail:email]) {
+            [self isUserCitrusMemberHelper:NO
+                                     error:[CTSError getErrorForCode:EmailNotValid]];
+
+            return;
+        }
     }
+    else{
+        if (![CTSUtility validateMobile:email]) {
+            [self isUserCitrusMemberHelper:NO
+                                     error:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
+        
+    }
+
+    
+    
     
     OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
     

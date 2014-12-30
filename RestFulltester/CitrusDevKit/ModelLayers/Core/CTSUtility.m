@@ -121,12 +121,27 @@
     return [emailTest evaluateWithObject:candidate];
 }
 
-+ (BOOL)validateMobile:(NSString*)mobile {
-    BOOL error = NO;
-    if ([mobile length] == 10) {
-        error = YES;
++(BOOL)isEmail:(NSString *)string{
+    if([string rangeOfString:@"@"].location != NSNotFound){
+        return YES;
     }
-    return error;
+    else{
+        return NO;
+    }
+    
+}
+
+
+
++ (BOOL)validateMobile:(NSString*)mobile {
+//    BOOL error = NO;
+//    if ([mobile length] == 10) {
+//        error = YES;
+//    }
+//    return error;
+
+    NSPredicate *regex = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^(?:0091|\\+91||91|0)[7-9][0-9]{9}$"];
+    return [regex evaluateWithObject:mobile];
 }
 
 + (BOOL)validateCVV:(NSString*)cvv cardNumber:(NSString*)cardNumber {
