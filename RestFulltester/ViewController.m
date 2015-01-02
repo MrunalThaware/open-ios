@@ -81,11 +81,12 @@
 //    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"91970-296-4502"]);
 //    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"+91970-296-4502"]);
     
-    
-    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility isEmail:@"91970-296@4502"]);
-
 
     
+    NSLog(@" CTSUtility mobile validate %@ ",[CTSUtility mobileNumberToTenDigitIfValid:@"00919702964502"]);
+
+
+
 
 }
 

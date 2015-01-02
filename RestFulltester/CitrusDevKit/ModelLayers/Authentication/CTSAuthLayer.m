@@ -45,14 +45,15 @@
         }
     }
     else{
-        if (![CTSUtility validateMobile:userNameArg]) {
-            [self resetPasswordHelper:[CTSError getErrorForCode:EmailNotValid]];
+        userNameArg = [CTSUtility mobileNumberToTenDigitIfValid:userNameArg];
+        if (!userNameArg) {
+            [self resetPasswordHelper:[CTSError getErrorForCode:MobileNotValid]];
             return;
         }
-    
+        
     }
     
-   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_REQUEST_CHANGE_PWD_REQ_PATH
                                    requestId:RequestForPasswordResetReqId
                                    headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
@@ -70,7 +71,9 @@
                              error:[CTSError getErrorForCode:EmailNotValid]];
         return;
     }
-    if (![CTSUtility validateMobile:mobile]) {
+    
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    if (!mobile) {
         [self signupHelperUsername:userNameSignup
                              oauth:[CTSOauthManager readOauthToken]
                              error:[CTSError getErrorForCode:MobileNotValid]];
@@ -122,7 +125,9 @@
                              error:[CTSError getErrorForCode:EmailNotValid]];
         return;
     }
-    if (![CTSUtility validateMobile:mobile]) {
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    
+    if (!mobile) {
         [self signupHelperUsername:userNameSignup
                              oauth:[CTSOauthManager readOauthToken]
                              error:[CTSError getErrorForCode:MobileNotValid]];
@@ -161,13 +166,15 @@
 
 -(void)requestOTPVerificationUserName:(NSString *)username otp:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback{
     [self addCallback:callback forRequestId:OTPVerificationRequestId];
-
-        if (![CTSUtility validateMobile:username]) {
-            [self otpVerificationHelper:NO error:[CTSError getErrorForCode:MobileNotValid]];
-            return;
-        }
     
-       NSDictionary* parameters = @{
+    
+    username = [CTSUtility mobileNumberToTenDigitIfValid:username];
+    if (!username) {
+        [self otpVerificationHelper:NO error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
+    NSDictionary* parameters = @{
                                  MLC_OTP_VER_QUERY_OTP : otp,
                                  MLC_OTP_VER_QUERY_MOBILE : username
                                  };
@@ -188,8 +195,9 @@
 
 -(void)requestOTPRegenerateMobile:(NSString *)mobile completionHandler:(ASOtpRegenerationCallback)callback{
     [self addCallback:callback forRequestId:OTPRegenerationRequestId];
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
     
-    if (![CTSUtility validateMobile:mobile]) {
+    if (!mobile) {
         [self otpRegenerationHelperError:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }
@@ -215,8 +223,9 @@
 (ASIsMobileVerifiedCallback)callback{
     [self addCallback:callback forRequestId:ISMobileVerifiedRequestId];
     
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
     
-    if (![CTSUtility validateMobile:mobile]) {
+    if (!mobile) {
         [self isMobileVerifiedHelper:NO error:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }
@@ -269,21 +278,23 @@
     
     [self addCallback:callBack forRequestId:SigninOauthTokenReqId];
     if([CTSUtility isEmail:userNameArg]){
-    if (![CTSUtility validateEmail:userNameArg]) {
-        [self signinHelperUsername:userNameArg
-                             oauth:nil
-                             error:[CTSError getErrorForCode:EmailNotValid]];
-        return;
-    }
+        if (![CTSUtility validateEmail:userNameArg]) {
+            [self signinHelperUsername:userNameArg
+                                 oauth:nil
+                                 error:[CTSError getErrorForCode:EmailNotValid]];
+            return;
+        }
     }
     else{
-        if (![CTSUtility validateMobile:userNameArg]) {
+        userNameArg = [CTSUtility mobileNumberToTenDigitIfValid:userNameArg];
+        
+        if (!userNameArg) {
             [self signinHelperUsername:userNameArg
                                  oauth:nil
                                  error:[CTSError getErrorForCode:MobileNotValid]];
             return;
         }
-    
+        
     }
     
     userNameSignIn = userNameArg;
@@ -346,13 +357,15 @@
         }
     }
     else{
-        if (![CTSUtility validateMobile:userName]) {
+        userName = [CTSUtility mobileNumberToTenDigitIfValid:userName];
+        
+        if (!userName) {
             [self changePasswordHelper:[CTSError getErrorForCode:MobileNotValid]];
             return;
         }
         
     }
-
+    
     OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
     if (oauthStatus.error != nil) {
         [self changePasswordHelper:oauthStatus.error];
@@ -382,19 +395,21 @@
         if (![CTSUtility validateEmail:email]) {
             [self isUserCitrusMemberHelper:NO
                                      error:[CTSError getErrorForCode:EmailNotValid]];
-
+            
             return;
         }
     }
     else{
-        if (![CTSUtility validateMobile:email]) {
+        email = [CTSUtility mobileNumberToTenDigitIfValid:email];
+        
+        if (!email) {
             [self isUserCitrusMemberHelper:NO
                                      error:[CTSError getErrorForCode:MobileNotValid]];
             return;
         }
         
     }
-
+    
     
     
     
@@ -423,7 +438,7 @@
     [self addCallback:callback forRequestId:IsUserAlreadyRegisteredReqId];
     
     int typeOfUsername=0;
-   
+    
     if([mobOrEmail rangeOfString:@"@"].location != NSNotFound){
         typeOfUsername = IsEmail;
     }
@@ -435,12 +450,14 @@
         [self isAlreadyRegisteredHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
         return;
     }
-   else if (typeOfUsername == IsMobile &&  ![CTSUtility validateMobile:mobOrEmail]) {
-       [self isAlreadyRegisteredHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
-
-        return;
+    else {
+        mobOrEmail = [CTSUtility mobileNumberToTenDigitIfValid:mobOrEmail];
+        if (typeOfUsername == IsMobile &&  !mobOrEmail) {
+            [self isAlreadyRegisteredHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
+            
+            return;
+        }
     }
-    
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_IS_USER_EXIST_PATH
@@ -452,8 +469,8 @@
                                    httpMethod:MLC_IS_USER_EXIST_TYPE];
     
     
-[restCore requestAsyncServer:request];
-
+    [restCore requestAsyncServer:request];
+    
 }
 
 
@@ -472,7 +489,7 @@
     CTSRestCoreResponse *response = [CTSRestCore requestSyncServer:request withBaseUrl:CITRUS_BASE_URL];
     
     
-   return  [self convertToUserVerification:response ];
+    return  [self convertToUserVerification:response ];
 }
 
 
@@ -663,8 +680,8 @@ enum {
              toNSString(ISMobileVerifiedRequestId): toSelector(handleIsMobileVerified:),
              toNSString(IsUserAlreadyRegisteredReqId):toSelector(handleIsAlreadyRegistered:)
              };
-
-
+    
+    
 }
 
 - (instancetype)initWithUrl:(NSString *)url
@@ -830,11 +847,11 @@ enum {
     NSError* error = response.error;
     JSONModelError* jsonError;
     CTSUserVerificationRes* resultObject = nil;
-
+    
     if(error == nil){
-     resultObject =
-    [[CTSUserVerificationRes alloc] initWithString:response.responseString
-                                       error:&jsonError];
+        resultObject =
+        [[CTSUserVerificationRes alloc] initWithString:response.responseString
+                                                 error:&jsonError];
     }
     resultObject.error = response.error;
     return resultObject;
@@ -845,7 +862,7 @@ enum {
     CTSUserVerificationRes *veriRes = [self convertToUserVerification:response];
     NSError* error = response.error;
     [self isAlreadyRegisteredHelper:veriRes error:error];
-
+    
 }
 
 
@@ -962,7 +979,7 @@ enum {
 }
 
 -(void)isAlreadyRegisteredHelper:(CTSUserVerificationRes *)userVerification error:(NSError *)error{
-
+    
     ASIsUserAlreadyRegistered callback = [self retrieveAndRemoveCallbackForReqId:IsUserAlreadyRegisteredReqId];
     if(callback != nil){
         callback(userVerification,error);

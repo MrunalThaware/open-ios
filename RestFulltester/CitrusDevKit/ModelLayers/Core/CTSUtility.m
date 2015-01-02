@@ -144,6 +144,38 @@
     return [regex evaluateWithObject:mobile];
 }
 
++ (NSString *)mobileNumberToTenDigit:(NSString*)mobile {
+// remove hyphens
+// first extra charecters
+    // return number
+    NSCharacterSet* myCharSet =
+    [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    NSCharacterSet *invertedValidCharSet = [myCharSet invertedSet];
+    
+    
+    NSArray* words = [mobile componentsSeparatedByCharactersInSet:invertedValidCharSet];
+    NSString* proccesedNumber = [words componentsJoinedByString:@""];
+    
+    
+    
+    int extraCount =  (int)[proccesedNumber length] - 10;
+    if(extraCount){
+        proccesedNumber = [proccesedNumber substringFromIndex:extraCount];
+    }
+    
+    return proccesedNumber;
+}
+
+
++(NSString*)mobileNumberToTenDigitIfValid:(NSString *)number{
+    NSString *proccessedNumber = nil;
+    if([self validateMobile:number]){
+        proccessedNumber = [self mobileNumberToTenDigit:number];
+    }
+    return proccessedNumber;
+}
+
+
 + (BOOL)validateCVV:(NSString*)cvv cardNumber:(NSString*)cardNumber {
     if (cvv == nil)
         return YES;

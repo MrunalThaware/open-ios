@@ -21,6 +21,8 @@
 + (void)removeFromDisk:(NSString*)key;
 + (BOOL)validateEmail:(NSString*)email;
 + (BOOL)validateMobile:(NSString*)mobile;
++ (NSString *)mobileNumberToTenDigit:(NSString*)mobile;
++(NSString*)mobileNumberToTenDigitIfValid:(NSString *)number;
 +(BOOL)isEmail:(NSString *)string;
 + (BOOL)validateCardNumber:(NSString*)number;
 + (BOOL)validateExpiryDate:(NSString*)date;
