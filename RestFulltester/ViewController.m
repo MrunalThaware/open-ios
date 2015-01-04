@@ -83,7 +83,7 @@
     
 
     
-    NSLog(@" CTSUtility mobile validate %@ ",[CTSUtility mobileNumberToTenDigitIfValid:@"00919702964502"]);
+    NSLog(@" CTSUtility mobile validate %@ ",[CTSUtility mobileNumberToTenDigitIfValid:@"1702964502"]);
 
 
 
