@@ -96,7 +96,10 @@
         
     }
     
-    newDes = [[CTSError sharedManager] dumbConversion:newDes];
+  NSString  *tempNewDes = [[CTSError sharedManager] dumbConversion:error.type];
+    if(tempNewDes != nil){
+        newDes = tempNewDes;
+    }
     
     NSDictionary* userInfo = @{
                                CITRUS_ERROR_DESCRIPTION_KEY : error,

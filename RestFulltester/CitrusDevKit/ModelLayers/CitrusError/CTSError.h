@@ -22,7 +22,8 @@ typedef enum {
   OauthTokenExpired,
   CantFetchSignupToken,
     UserExits,
-    TokenMissing
+    TokenMissing,
+    MobileNotVerified
 
 } CTSErrorCode;
 

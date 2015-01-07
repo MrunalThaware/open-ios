@@ -120,7 +120,7 @@
     [self addCallback:callBack forRequestId:SignupOauthTokenReqId];
     
     if (![CTSUtility validateEmail:email]) {
-        [self signupHelperUsername:userNameSignup
+        [self signupHelperUsername:email
                              oauth:[CTSOauthManager readOauthToken]
                              error:[CTSError getErrorForCode:EmailNotValid]];
         return;
@@ -128,7 +128,7 @@
     mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
     
     if (!mobile) {
-        [self signupHelperUsername:userNameSignup
+        [self signupHelperUsername:email
                              oauth:[CTSOauthManager readOauthToken]
                              error:[CTSError getErrorForCode:MobileNotValid]];
         return;
@@ -136,7 +136,7 @@
     
     CTSUserVerificationRes *verificationResponse = [self requestSyncIsUserAlreadyRegisteredMobileOrEmail:email];
     if(verificationResponse.error  || verificationResponse.respCode != 201){
-        [self signupHelperUsername:userNameSignup
+        [self signupHelperUsername:email
                              oauth:[CTSOauthManager readOauthToken]
                              error:[verificationResponse convertToError]];
         return;
@@ -145,7 +145,7 @@
     
     verificationResponse = [self requestSyncIsUserAlreadyRegisteredMobileOrEmail:mobile];
     if(verificationResponse.error  || verificationResponse.respCode != 201){
-        [self signupHelperUsername:userNameSignup
+        [self signupHelperUsername:email
                              oauth:[CTSOauthManager readOauthToken]
                              error:[verificationResponse convertToError]];
         return;
@@ -284,6 +284,9 @@
                                  error:[CTSError getErrorForCode:EmailNotValid]];
             return;
         }
+        else{
+            [self proceedToSiginUserName:userNameArg password:password];
+        }
     }
     else{
         userNameArg = [CTSUtility mobileNumberToTenDigitIfValid:userNameArg];
@@ -294,16 +297,30 @@
                                  error:[CTSError getErrorForCode:MobileNotValid]];
             return;
         }
-        
-    }
+        __block NSString *blockMobile = userNameArg;
+        __block NSString *blockPassword = password;
+        [self requestIsMobileVerified:userNameArg completionHandler:^(BOOL isVerified, NSError *error) {
+            if(isVerified)
+                [self proceedToSiginUserName:blockMobile password:blockPassword];
+            else{
+                [self signinHelperUsername:blockMobile
+                                     oauth:nil
+                                     error:[CTSError getErrorForCode:MobileNotVerified]];
+                return;
+            }
+        }];
+}
     
-    userNameSignIn = userNameArg;
+}
+
+-(void)proceedToSiginUserName:(NSString *)username password:(NSString *)password{
+    userNameSignIn = username;
     NSDictionary* parameters = @{
                                  MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
                                  MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
                                  MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_SIGNIN_GRANT_TYPE,
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD : password,
-                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : userNameArg
+                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : username
                                  };
     
     CTSRestCoreRequest* request =
@@ -315,7 +332,9 @@
                                   httpMethod:POST];
     
     [restCore requestAsyncServer:request];
+
 }
+
 
 - (void)usePassword:(NSString*)password
      hashedUsername:(NSString*)hashedUsername {

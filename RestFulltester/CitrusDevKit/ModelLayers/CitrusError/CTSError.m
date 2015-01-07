@@ -21,7 +21,14 @@
 }
 
 -(void)initDict{
-    dumbDict =  @{@"com.citruspay.directory.exception.CitrusUserAlreadyExistsException":@"user already exits",@"com.citruspay.common.subscription.util.UserAlreadyExistsException":@"user already exits",@"com.citruspay.directory.exception.CitrusUserNotFoundException":@"user not found, Please check username",@"com.citruspay.common.subscription.util.UserNotFoundException":@"user not found, Please check username",@"com.citruspay.common.verificationservice.exception.ExpiredOTPException":@"otp has expired, Please generate new",@"com.citruspay.common.verificationservice.exception.InvalidOTPException":@"otp is not valid",@"javax.security.auth.login.CredentialException":@"old password invalid"};
+    dumbDict =  @{
+                  @"com.citruspay.directory.exception.CitrusUserAlreadyExistsException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
+                  @"com.citruspay.common.subscription.util.UserAlreadyExistsException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
+                  @"com.citruspay.directory.exception.CitrusUserNotFoundException":@"Your mobile number was not found for OTP verification.",
+                  @"com.citruspay.common.subscription.util.UserNotFoundException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
+                  @"com.citruspay.common.verificationservice.exception.ExpiredOTPException":@"OTP entered by you is expired. Please regenerate a new OTP for verification.",
+                  @"com.citruspay.common.verificationservice.exception.InvalidOTPException":@"The OTP Entered by you is invalid. Please enter the correct OTP.",
+                  @"javax.security.auth.login.CredentialException":@"Invalid current password. Please make sure your current password is correct."};
 
 }
 
@@ -65,8 +72,9 @@
             errorDescription = @"First name not valid";
         case LastNameNotValid:
             errorDescription = @"Last name not valid";
-            
-            
+        case MobileNotVerified:
+            errorDescription = @"Mobile number not verified, Please verify it.";
+
         default:
             break;
     }
@@ -101,7 +109,7 @@
             
         }
     }
-    return errorDes;
+    return nil;
     
 }
 
