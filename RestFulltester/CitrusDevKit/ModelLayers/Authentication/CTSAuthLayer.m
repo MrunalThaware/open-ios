@@ -145,7 +145,7 @@
     
     verificationResponse = [self requestSyncIsUserAlreadyRegisteredMobileOrEmail:mobile];
     if(verificationResponse.error  || verificationResponse.respCode != 201){
-        [self signupHelperUsername:email
+        [self signupHelperUsername:mobile
                              oauth:[CTSOauthManager readOauthToken]
                              error:[verificationResponse convertToError]];
         return;
@@ -865,12 +865,14 @@ enum {
 -(CTSUserVerificationRes * )convertToUserVerification:(CTSRestCoreResponse *)response {
     NSError* error = response.error;
     JSONModelError* jsonError;
-    CTSUserVerificationRes* resultObject = nil;
+    CTSUserVerificationRes* resultObject = [[CTSUserVerificationRes alloc] init];
     
     if(error == nil){
         resultObject =
         [[CTSUserVerificationRes alloc] initWithString:response.responseString
                                                  error:&jsonError];
+    }else{
+        resultObject.respMsg = [[response.error userInfo] objectForKey:NSLocalizedDescriptionKey];
     }
     resultObject.error = response.error;
     return resultObject;

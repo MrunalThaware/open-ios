@@ -38,8 +38,8 @@
   //  [self testCardSchemes];
     
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
-  [self signIn];
-  //[self signUp];
+ // [self signIn];
+  [self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
