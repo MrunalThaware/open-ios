@@ -36,13 +36,13 @@
   [self initialize];
 
   //  [self testCardSchemes];
-    
+   // [self regenerateOTP];
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
  // [self signIn];
-  [self signUp];
+  //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
-  //[self doGuestPaymentDebitCard];
+  [self doGuestPaymentDebitCard];
 //    [authLayer requestResetPassword:TEST_EMAIL completionHandler:^(NSError *error) {
 //        [self logError:error];
 //        
@@ -469,12 +469,18 @@ didUpdatePaymentInfoError:(NSError*)error {
     NSString* transactionId = [self createTXNId];
     
     NSString* signature =
-    [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
+    [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"10"];
     
     CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     
     CTSElectronicCardUpdate* debitCard =
     [[CTSElectronicCardUpdate alloc] initDebitCard];
+//    debitCard.number = @"5126520134150205";//TEST_DEBIT_CARD_NUMBER;
+//    debitCard.expiryDate = @"10/2018";
+//    debitCard.scheme = @"Master";//TEST_DEBIT_SCHEME;
+//    debitCard.cvv = @"092";//TEST_DEBIT_CVV;
+//    debitCard.ownerName = @"Vinod Patel";//TEST_OWNER_NAME;
+    
     debitCard.number = TEST_DEBIT_CARD_NUMBER;
     debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
     debitCard.scheme = TEST_DEBIT_SCHEME;
@@ -485,7 +491,7 @@ didUpdatePaymentInfoError:(NSError*)error {
     
     [paymentlayerinfo makePaymentUsingGuestFlow:paymentInfo
                                     withContact:contactInfo
-                                         amount:@"1"
+                                         amount:@"10"
                                     withAddress:addressInfo
                                   withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
                                   withSignature:signature

@@ -14,10 +14,12 @@
 //#define TEST_PASSWORD @"tester@123"
 //#define TEST_MOBILE @"9702964502"
 
+//works on prod
+#define TEST_EMAIL @"mitalee.yadav@gmail.com"
+#define TEST_PASSWORD @"tester@123"
+#define TEST_MOBILE @"9930993582"
 
-//#define TEST_EMAIL @"mangesh.kadam@citruspay.com"
-//#define TEST_PASSWORD @"Citrus@123"
-//#define TEST_MOBILE @"8692862420"
+
 
 
 //#define TEST_EMAIL @"mangesh.kadam1122@citruspay.com"
@@ -29,9 +31,13 @@
 //#define TEST_PASSWORD @"tester@123"
 //#define TEST_MOBILE @"9930993582"
 
-#define TEST_EMAIL @"hhhhhhhhhh@gmail.com"
-#define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"7777777777"
+//#define TEST_EMAIL @"hhhhhhhhhh@gmail.com"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"9811111111"
+
+//#define TEST_EMAIL @"abc12345@gmail.com"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"9822222211"
 
 
 #define TEST_OTP @"ad0x"
