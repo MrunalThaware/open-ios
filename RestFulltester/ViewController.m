@@ -83,7 +83,7 @@
     
 
     
-    NSLog(@" CTSUtility mobile validate %@ ",[CTSUtility mobileNumberToTenDigitIfValid:@"1702964502"]);
+//    NSLog(@" CTSUtility mobile validate %@ ",[CTSUtility mobileNumberToTenDigitIfValid:@"1702964502"]);
 
 
 
@@ -196,8 +196,9 @@
 
 
 -(void)regenerateOTP{
-    [authLayer requestOTPRegenerateMobile:TEST_MOBILE completionHandler:^(NSError *error) {
+    [authLayer requestOTPRegenerateMobile:@"9811112211" completionHandler:^(NSError *error) {
         LogTrace(@" requestOTPRegenerateMobile error %@ ",error);
+        [self logError:error];
     }];
     
 }
