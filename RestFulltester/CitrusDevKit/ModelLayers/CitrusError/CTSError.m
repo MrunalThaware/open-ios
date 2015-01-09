@@ -21,15 +21,14 @@
 }
 
 -(void)initDict{
-    dumbDict =  @{
-                  @"com.citruspay.directory.exception.CitrusUserAlreadyExistsException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
-                  @"com.citruspay.common.subscription.util.UserAlreadyExistsException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
-                  @"com.citruspay.directory.exception.CitrusUserNotFoundException":@"Your mobile number was not found for OTP verification.",
-                  @"com.citruspay.common.subscription.util.UserNotFoundException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
-                  @"com.citruspay.common.verificationservice.exception.ExpiredOTPException":@"OTP entered by you is expired. Please regenerate a new OTP for verification.",
-                  @"com.citruspay.common.verificationservice.exception.InvalidOTPException":@"The OTP Entered by you is invalid. Please enter the correct OTP.",
-                  @"javax.security.auth.login.CredentialException":@"Invalid current password. Please make sure your current password is correct."};
-
+//    dumbDict =  @{
+//                  @"com.citruspay.directory.exception.CitrusUserAlreadyExistsException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
+//                  @"com.citruspay.common.subscription.util.UserAlreadyExistsException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
+//                  @"com.citruspay.directory.exception.CitrusUserNotFoundException":@"Your mobile number was not found for OTP verification.",
+//                  @"com.citruspay.common.subscription.util.UserNotFoundException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
+//                  @"com.citruspay.common.verificationservice.exception.ExpiredOTPException":@"OTP entered by you is expired. Please regenerate a new OTP for verification.",
+//                  @"com.citruspay.common.verificationservice.exception.InvalidOTPException":@"The OTP Entered by you is invalid. Please enter the correct OTP.",
+//                  @"javax.security.auth.login.CredentialException":@"Invalid current password. Please make sure your current password is correct."};
 }
 
 
@@ -99,19 +98,89 @@
                            userInfo:userInfo];
 }
 
-
-
--(NSString *)dumbConversion:(NSString*)errorDes{
-   
-    for(NSString *from in [dumbDict allKeys]){
-        if ([[errorDes uppercaseString] isEqualToString:[from uppercaseString]]) {
-            return [dumbDict valueForKey:from];
-            
-        }
-    }
-    return nil;
+- (NSError*)getSDKErrorWithType:(NSString*)type
+                          withInfo:(NSDictionary*)information {
     
+    return [CTSError getSDKErrorForCode:[self getSDKExceptionCode:type]];
 }
+
+-(SDKExceptionCode)getSDKExceptionCode:(NSString*)errorType{
+    
+    if ([errorType isEqualToString:USER_EXIST_MESSAGE]){
+        return USER_EXIST_EXCEPTION;
+    }else if ([errorType isEqualToString:UPDATE_MOBILE_MESSAGE]){
+        return EXPIRED_OTP_EXCEPTION;
+    }else if ([errorType isEqualToString:USER_NOT_EXISTS_MESSAGE]){
+        return USER_NOT_EXIST_EXCEPTION;
+    }else if ([errorType isEqualToString:USER_NOT_EXISTS_RESET_MESSAGE]){
+        return RESET_EXCEPTION;
+    }else if ([errorType isEqualToString:USER_OTP_EXPIRE_MESSAGE]){
+        return EXPIRED_OTP_EXCEPTION;
+    }else if ([errorType isEqualToString:USER_OTP_INVALID_MESSAGE]){
+        return INVALID_OTP_EXCEPTION;
+    }else if ([errorType isEqualToString:INTERNAL_SERVER_MESSAGE]){
+        return INTERNAL_SERVER_EXCEPTION;
+    }else if ([errorType isEqualToString:BAD_CREDENTIALS]){
+        return BAD_CREDENTIALS_EXCEPTION;
+    }else if ([errorType isEqualToString:USER_LOCKED]){
+        return USER_LOCKED_EXCEPTION;
+    }else if ([errorType isEqualToString:USER_NOT_LOGGED_IN]){
+        return USER_NOT_LOGGED_IN_EXCEPTION;
+    }else if ([errorType isEqualToString:INVALID_PASSWORD]){
+        return INVALID_PASSWORD_EXCEPTION;
+    }else{
+        return UNKNOWN_EXCEPTION;
+    }
+}
+
++ (NSError*)getSDKErrorForCode:(SDKExceptionCode)code {
+    NSString* errorDescription;
+    switch (code) {
+        case USER_EXIST_EXCEPTION:
+            errorDescription = @"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.";
+        break;
+        case EXPIRED_OTP_EXCEPTION:
+            errorDescription = @"OTP entered by you is expired. Please regenerate a new OTP for verification.";
+        break;
+        case INVALID_OTP_EXCEPTION:
+            errorDescription = @"The OTP Entered by you is invalid. Please enter the correct OTP.";
+        break;
+        case USER_NOT_EXIST_EXCEPTION:
+            errorDescription = @"Your mobile number was not found for OTP verification.";
+        break;
+        case RESET_EXCEPTION:
+            errorDescription = nil;
+        break;
+        case INTERNAL_SERVER_EXCEPTION:
+            errorDescription = @"Please enter a valid Mobile Number.";
+        break;
+        case BAD_CREDENTIALS_EXCEPTION:
+            errorDescription = @"Invalid login credentials. Please make sure the entered credentials are are correct.";
+        case USER_LOCKED_EXCEPTION:
+            errorDescription = @"We're sorry, your account is temporarily locked. Please contact our customer care for further assistance.";
+        case USER_NOT_LOGGED_IN_EXCEPTION:
+            errorDescription = nil;
+        case INVALID_PASSWORD_EXCEPTION:
+            errorDescription = @"Invalid current password. Please make sure your current password is correct.";
+        case UNKNOWN_EXCEPTION:
+            errorDescription = @"Oops... Something went wrong.";
+        default:
+        break;
+    }
+    
+    NSDictionary* userInfo = @{NSLocalizedDescriptionKey : errorDescription};
+    return [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:code userInfo:userInfo];
+}
+
+//-(NSString *)dumbConversion:(NSString*)errorDes{
+//
+//    for(NSString *from in [dumbDict allKeys]){
+//        if ([[errorDes uppercaseString] isEqualToString:[from uppercaseString]]) {
+//            return [dumbDict valueForKey:from];
+//        }
+//    }
+//    return nil;
+//}
 
 
 

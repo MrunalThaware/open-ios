@@ -26,17 +26,11 @@
 		375F30F3195BF24500F86149 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 375F30F2195BF24500F86149 /* .gitignore */; };
 		376E4EC919B5A13F00739B00 /* ServerSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 376E4EC819B5A13F00739B00 /* ServerSignature.m */; };
 		37851BF41978F2DD00AE3AD0 /* CTSAuthLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B921978F2DD00AE3AD0 /* CTSAuthLayer.m */; };
-		37851BF51978F2DD00AE3AD0 /* CTSAuthLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B921978F2DD00AE3AD0 /* CTSAuthLayer.m */; };
 		37851BF61978F2DD00AE3AD0 /* CTSError.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B961978F2DD00AE3AD0 /* CTSError.m */; };
-		37851BF71978F2DD00AE3AD0 /* CTSError.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B961978F2DD00AE3AD0 /* CTSError.m */; };
 		37851BF81978F2DD00AE3AD0 /* CTSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B991978F2DD00AE3AD0 /* CTSObject.m */; };
-		37851BF91978F2DD00AE3AD0 /* CTSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B991978F2DD00AE3AD0 /* CTSObject.m */; };
 		37851BFC1978F2DD00AE3AD0 /* CTSUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B9D1978F2DD00AE3AD0 /* CTSUtility.m */; };
-		37851BFD1978F2DD00AE3AD0 /* CTSUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B9D1978F2DD00AE3AD0 /* CTSUtility.m */; };
 		37851C001978F2DD00AE3AD0 /* CreditCard-Validator.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851BA41978F2DD00AE3AD0 /* CreditCard-Validator.m */; };
-		37851C011978F2DD00AE3AD0 /* CreditCard-Validator.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851BA41978F2DD00AE3AD0 /* CreditCard-Validator.m */; };
 		37851C021978F2DD00AE3AD0 /* NSObject+logProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851BA71978F2DD00AE3AD0 /* NSObject+logProperties.m */; };
-		37851C031978F2DD00AE3AD0 /* NSObject+logProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851BA71978F2DD00AE3AD0 /* NSObject+logProperties.m */; };
 		37A7C6A51922458F005D29D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A41922458F005D29D4 /* Foundation.framework */; };
 		37A7C6A71922458F005D29D4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A61922458F005D29D4 /* CoreGraphics.framework */; };
 		37A7C6A91922458F005D29D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A81922458F005D29D4 /* UIKit.framework */; };
@@ -46,11 +40,6 @@
 		37A7C6B81922458F005D29D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6B61922458F005D29D4 /* Main.storyboard */; };
 		37A7C6BB1922458F005D29D4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6BA1922458F005D29D4 /* ViewController.m */; };
 		37A7C6BD1922458F005D29D4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6BC1922458F005D29D4 /* Images.xcassets */; };
-		37A7C6C41922458F005D29D4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6C31922458F005D29D4 /* XCTest.framework */; };
-		37A7C6C51922458F005D29D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A41922458F005D29D4 /* Foundation.framework */; };
-		37A7C6C61922458F005D29D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A81922458F005D29D4 /* UIKit.framework */; };
-		37A7C6CE1922458F005D29D4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6CC1922458F005D29D4 /* InfoPlist.strings */; };
-		37A7C6D01922458F005D29D4 /* RestFulltesterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6CF1922458F005D29D4 /* RestFulltesterTests.m */; };
 		37A7C6DC19224B64005D29D4 /* Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6DB19224B64005D29D4 /* Networking.m */; };
 		37B74D80199CAD7D00D7CC2C /* OauthStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B74D7F199CAD7D00D7CC2C /* OauthStatus.m */; };
 		37C96447198F6B350021DC0B /* CTSProfileLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96445198F6B350021DC0B /* CTSProfileLayer.m */; };
@@ -85,20 +74,9 @@
 		37C964B3198F86960021DC0B /* CTSSignUpRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C964B1198F86960021DC0B /* CTSSignUpRes.m */; };
 		37D6C213197D289300F357FD /* CTSOauthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D6C212197D289300F357FD /* CTSOauthManager.m */; };
 		37E1F89A19C036EC00DC29AF /* CTSSignupState.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E1F89919C036EC00DC29AF /* CTSSignupState.m */; };
-		37E1F89B19C036EC00DC29AF /* CTSSignupState.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E1F89919C036EC00DC29AF /* CTSSignupState.m */; };
 		6BEDF371199382F500F97231 /* CTSPaymentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */; };
 		6BEDF4621993A50600F97231 /* HMACSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF4611993A50600F97231 /* HMACSignature.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		37A7C6C71922458F005D29D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 37A7C6991922458F005D29D4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 37A7C6A01922458F005D29D4;
-			remoteInfo = RestFulltester;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		371536DE1994998200EDF560 /* CTSTokenizedPaymentToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSTokenizedPaymentToken.h; sourceTree = "<group>"; };
@@ -167,7 +145,6 @@
 		37A7C6B91922458F005D29D4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		37A7C6BA1922458F005D29D4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		37A7C6BC1922458F005D29D4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		37A7C6C21922458F005D29D4 /* CTS iOS SdkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CTS iOS SdkTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A7C6C31922458F005D29D4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		37A7C6CB1922458F005D29D4 /* CTS iOS SdkTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CTS iOS SdkTests-Info.plist"; sourceTree = "<group>"; };
 		37A7C6CD1922458F005D29D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -260,16 +237,6 @@
 				37A7C6A71922458F005D29D4 /* CoreGraphics.framework in Frameworks */,
 				37A7C6A91922458F005D29D4 /* UIKit.framework in Frameworks */,
 				37A7C6A51922458F005D29D4 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		37A7C6BF1922458F005D29D4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				37A7C6C41922458F005D29D4 /* XCTest.framework in Frameworks */,
-				37A7C6C61922458F005D29D4 /* UIKit.framework in Frameworks */,
-				37A7C6C51922458F005D29D4 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,7 +409,6 @@
 			isa = PBXGroup;
 			children = (
 				37A7C6A11922458F005D29D4 /* CTS iOS Sdk.app */,
-				37A7C6C21922458F005D29D4 /* CTS iOS SdkTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -685,26 +651,6 @@
 			productReference = 37A7C6A11922458F005D29D4 /* CTS iOS Sdk.app */;
 			productType = "com.apple.product-type.application";
 		};
-		37A7C6C11922458F005D29D4 /* CTS iOS SdkTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 37A7C6D61922458F005D29D4 /* Build configuration list for PBXNativeTarget "CTS iOS SdkTests" */;
-			buildPhases = (
-				92BA0F49A92B47EC8E0FC395 /* Check Pods Manifest.lock */,
-				37A7C6BE1922458F005D29D4 /* Sources */,
-				37A7C6BF1922458F005D29D4 /* Frameworks */,
-				37A7C6C01922458F005D29D4 /* Resources */,
-				BA6117144D9C4864B25338C5 /* Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				37A7C6C81922458F005D29D4 /* PBXTargetDependency */,
-			);
-			name = "CTS iOS SdkTests";
-			productName = RestFulltesterTests;
-			productReference = 37A7C6C21922458F005D29D4 /* CTS iOS SdkTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -713,11 +659,6 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Citrus;
-				TargetAttributes = {
-					37A7C6C11922458F005D29D4 = {
-						TestTargetID = 37A7C6A01922458F005D29D4;
-					};
-				};
 			};
 			buildConfigurationList = 37A7C69C1922458F005D29D4 /* Build configuration list for PBXProject "CTS iOS Sdk" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -733,7 +674,6 @@
 			projectRoot = "";
 			targets = (
 				37A7C6A01922458F005D29D4 /* CTS iOS Sdk */,
-				37A7C6C11922458F005D29D4 /* CTS iOS SdkTests */,
 			);
 		};
 /* End PBXProject section */
@@ -747,14 +687,6 @@
 				37A7C6BD1922458F005D29D4 /* Images.xcassets in Resources */,
 				37A7C6AF1922458F005D29D4 /* InfoPlist.strings in Resources */,
 				37A7C6B81922458F005D29D4 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		37A7C6C01922458F005D29D4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				37A7C6CE1922458F005D29D4 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -773,36 +705,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "";
-		};
-		92BA0F49A92B47EC8E0FC395 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		BA6117144D9C4864B25338C5 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-RestFulltesterTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -876,30 +778,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		37A7C6BE1922458F005D29D4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				37E1F89B19C036EC00DC29AF /* CTSSignupState.m in Sources */,
-				37851BF71978F2DD00AE3AD0 /* CTSError.m in Sources */,
-				37A7C6D01922458F005D29D4 /* RestFulltesterTests.m in Sources */,
-				37851BF51978F2DD00AE3AD0 /* CTSAuthLayer.m in Sources */,
-				37851BF91978F2DD00AE3AD0 /* CTSObject.m in Sources */,
-				37851BFD1978F2DD00AE3AD0 /* CTSUtility.m in Sources */,
-				37851C031978F2DD00AE3AD0 /* NSObject+logProperties.m in Sources */,
-				37851C011978F2DD00AE3AD0 /* CreditCard-Validator.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		37A7C6C81922458F005D29D4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 37A7C6A01922458F005D29D4 /* CTS iOS Sdk */;
-			targetProxy = 37A7C6C71922458F005D29D4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		37A7C6AD1922458F005D29D4 /* InfoPlist.strings */ = {
@@ -1069,46 +948,6 @@
 			};
 			name = Release;
 		};
-		37A7C6D71922458F005D29D4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RestFulltester.app/RestFulltester";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RestFulltester/RestFulltester-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "RestFulltesterTests/CTS iOS SdkTests-Info.plist";
-				PRODUCT_NAME = "CTS iOS SdkTests";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		37A7C6D81922458F005D29D4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RestFulltester.app/RestFulltester";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RestFulltester/RestFulltester-Prefix.pch";
-				INFOPLIST_FILE = "RestFulltesterTests/CTS iOS SdkTests-Info.plist";
-				PRODUCT_NAME = "CTS iOS SdkTests";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1126,15 +965,6 @@
 			buildConfigurations = (
 				37A7C6D41922458F005D29D4 /* Debug */,
 				37A7C6D51922458F005D29D4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		37A7C6D61922458F005D29D4 /* Build configuration list for PBXNativeTarget "CTS iOS SdkTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				37A7C6D71922458F005D29D4 /* Debug */,
-				37A7C6D81922458F005D29D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

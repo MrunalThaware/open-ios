@@ -96,21 +96,24 @@
         
     }
     
-  NSString  *tempNewDes = [[CTSError sharedManager] dumbConversion:error.type];
-    if(tempNewDes != nil){
-        newDes = tempNewDes;
+//  NSString  *tempNewDes = [[CTSError sharedManager] dumbConversion:error.type];
+    
+    NSError  *err = [[CTSError sharedManager] getSDKErrorWithType:error.type  withInfo:serverError.userInfo];
+
+    if(err.userInfo != nil){
+        newDes = err.userInfo[NSLocalizedDescriptionKey];
     }
     
     NSDictionary* userInfo = @{
                                CITRUS_ERROR_DESCRIPTION_KEY : error,
-                               NSLocalizedDescriptionKey :newDes
-                               
+                               NSLocalizedDescriptionKey :err.userInfo[NSLocalizedDescriptionKey]
                                };
 
 
   response.error = [NSError errorWithDomain:CITRUS_ERROR_DOMAIN
-                                       code:[serverError code]
+                                       code:[err code]
                                    userInfo:userInfo];
+    
   return response;
 }
 
