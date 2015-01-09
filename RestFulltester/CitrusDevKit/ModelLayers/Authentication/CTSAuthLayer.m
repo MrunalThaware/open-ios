@@ -197,10 +197,10 @@
     [self addCallback:callback forRequestId:OTPRegenerationRequestId];
     mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
     
-//    if (!mobile) {
-//        [self otpRegenerationHelperError:[CTSError getErrorForCode:MobileNotValid]];
-//        return;
-//    }
+    if (!mobile) {
+        [self otpRegenerationHelperError:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
     
     NSDictionary* parameters = @{
                                  MLC_OTP_REGENERATE_QUERY_MOBILE : mobile
