@@ -78,6 +78,9 @@
 		37D6C213197D289300F357FD /* CTSOauthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D6C212197D289300F357FD /* CTSOauthManager.m */; };
 		37E1F89A19C036EC00DC29AF /* CTSSignupState.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E1F89919C036EC00DC29AF /* CTSSignupState.m */; };
 		6BEDF371199382F500F97231 /* CTSPaymentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */; };
+		76419F591A4ACB400088F77E /* buttonbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 76419F581A4ACB400088F77E /* buttonbackground.png */; };
+		76419F5A1A4ACB400088F77E /* buttonbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 76419F581A4ACB400088F77E /* buttonbackground.png */; };
+		76419F5B1A4ACB400088F77E /* buttonbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 76419F581A4ACB400088F77E /* buttonbackground.png */; };
 		7692AA9D19FF9B04004D56EC /* WebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AA7519FF9B04004D56EC /* WebViewViewController.m */; };
 		7692AA9F19FF9B04004D56EC /* WebViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7692AA7619FF9B04004D56EC /* WebViewViewController.xib */; };
 		7692AAE019FF9B39004D56EC /* UIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AABB19FF9B39004D56EC /* UIUtility.m */; };
@@ -149,7 +152,6 @@
 		7692AB4519FFA247004D56EC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6BC1922458F005D29D4 /* Images.xcassets */; };
 		7692AB4A19FFA247004D56EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6AD1922458F005D29D4 /* InfoPlist.strings */; };
 		7692AB5319FFA247004D56EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6B61922458F005D29D4 /* Main.storyboard */; };
-		7692AB6419FFAA26004D56EC /* CTS iOS GUISdk-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7692AB6319FFAA26004D56EC /* CTS iOS GUISdk-Info.plist */; };
 		7692AB6E19FFACA6004D56EC /* CTS_iOS_GUISdk_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AB6D19FFACA6004D56EC /* CTS_iOS_GUISdk_Tests.m */; };
 /* End PBXBuildFile section */
 
@@ -311,6 +313,7 @@
 		6BEDF36E199382F500F97231 /* CTSPaymentLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPaymentLayer.h; sourceTree = "<group>"; };
 		6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSPaymentLayer.m; sourceTree = "<group>"; };
 		6BEDF370199382F500F97231 /* CTSPaymentLayerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPaymentLayerConstants.h; sourceTree = "<group>"; };
+		76419F581A4ACB400088F77E /* buttonbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonbackground.png; sourceTree = "<group>"; };
 		7692AA7419FF9B04004D56EC /* WebViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewViewController.h; sourceTree = "<group>"; };
 		7692AA7519FF9B04004D56EC /* WebViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewViewController.m; sourceTree = "<group>"; };
 		7692AA7619FF9B04004D56EC /* WebViewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewViewController.xib; sourceTree = "<group>"; };
@@ -736,6 +739,7 @@
 		7692AA5519FF9B04004D56EC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				76419F581A4ACB400088F77E /* buttonbackground.png */,
 				37A7C6B61922458F005D29D4 /* Main.storyboard */,
 				37A7C6B91922458F005D29D4 /* ViewController.h */,
 				37A7C6BA1922458F005D29D4 /* ViewController.m */,
@@ -838,7 +842,7 @@
 		37A7C6991922458F005D29D4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Citrus;
 				TargetAttributes = {
 					37A7C6A01922458F005D29D4 = {
@@ -879,6 +883,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7692AA9F19FF9B04004D56EC /* WebViewViewController.xib in Resources */,
+				76419F5A1A4ACB400088F77E /* buttonbackground.png in Resources */,
 				375F30F3195BF24500F86149 /* .gitignore in Resources */,
 				37A7C6BD1922458F005D29D4 /* Images.xcassets in Resources */,
 				37A7C6AF1922458F005D29D4 /* InfoPlist.strings in Resources */,
@@ -895,8 +900,8 @@
 				7692AB4119FFA247004D56EC /* .gitignore in Resources */,
 				7692AB4519FFA247004D56EC /* Images.xcassets in Resources */,
 				7692AB4A19FFA247004D56EC /* InfoPlist.strings in Resources */,
-				7692AB6419FFAA26004D56EC /* CTS iOS GUISdk-Info.plist in Resources */,
 				7692AB5319FFA247004D56EC /* Main.storyboard in Resources */,
+				76419F591A4ACB400088F77E /* buttonbackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -904,6 +909,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76419F5B1A4ACB400088F77E /* buttonbackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1259,6 +1265,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1292,6 +1299,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				INFOPLIST_FILE = "RestFulltester/CTS iOS GUISdk-Info.plist";

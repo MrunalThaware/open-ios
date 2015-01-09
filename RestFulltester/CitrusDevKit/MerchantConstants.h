@@ -12,14 +12,15 @@
 
 //KEYS
 #define VanityUrl @"nativeSDK"
-#define SignInId @"oaut-test"
-#define SignInSecretKey @"01248"
-#define SubscriptionId @"citrus-native-mobile-subscription"
-#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
+
+#define SignInId @"test-signin"
+#define SignInSecretKey @"52f7e15efd4208cf5345dd554443fd99"
+#define SubscriptionId @"test-signup"
+#define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
 
 //URLS
-#define BillUrl @"http://192.168.2.125:8888/bill.php"
-#define BaseUrl @"https://oops.citruspay.com"
-//https://admin.citruspay.com"
-//#define BaseUrl @"https://sandboxadmin.citruspay.com"
+#define BillUrl @"http://192.168.1.4:8080/billGenerator.jsp"
+
+#define BaseUrl @"https://sandboxadmin.citruspay.com"
+
 #endif
