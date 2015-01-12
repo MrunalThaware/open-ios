@@ -213,7 +213,7 @@
     NSDateComponents* components =
     [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
     int currentyear = [components year];
-    return normalized > currentyear;
+    return normalized >= currentyear;
 }
 
 + (BOOL)hasMonthPassedYear:(int)year month:(int)month {
