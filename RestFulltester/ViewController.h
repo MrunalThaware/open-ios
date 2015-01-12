@@ -18,7 +18,7 @@
   CTSContactUpdate* contactInfo;
   CTSProfileLayer* profileLayer;
   CTSUserAddress* addressInfo;
-
+  NSDictionary *customParams;
   UIWebView* webview;
   UIActivityIndicatorView* indicator;
 

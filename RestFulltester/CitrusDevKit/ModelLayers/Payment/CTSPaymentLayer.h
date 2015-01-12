@@ -120,6 +120,7 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
             withReturnUrl:(NSString*)returnUrl
             withSignature:(NSString*)signature
                 withTxnId:(NSString*)merchantTxnId
+         withCustParams:(NSDictionary *)custParams
     withCompletionHandler:(ASMakeUserPaymentCallBack)callback;
 
 /**
@@ -136,6 +137,7 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                withReturnUrl:(NSString*)returnUrl
                withSignature:(NSString*)signature
                    withTxnId:(NSString*)merchantTxnId
+              withCustParams:(NSDictionary *)custParams
        withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
 
 /**
@@ -154,6 +156,7 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                     withReturnUrl:(NSString*)returnUrl
                     withSignature:(NSString*)signature
                         withTxnId:(NSString*)merchantTxnId
+                   withCustParams:(NSDictionary *)custParams
             withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
 
 /**

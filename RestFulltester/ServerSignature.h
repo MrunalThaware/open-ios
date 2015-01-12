@@ -12,10 +12,10 @@
 //#define SIGNATURE_URL @"http://um.citruspay.com/sign.php"
 //#define SIGNATURE_URL @"https://testbilladmin.citruspay.com/sign.php"
 
-#define SIGNATURE_URL  @"http://testbilladmin.citruspay.com/rio/sign.php"
+//#define SIGNATURE_URL  @"http://testbilladmin.citruspay.com/rio/sign.php"
 
 //working
-//#define SIGNATURE_URL @"http://testbilladmin.citruspay.com/billpayadmin/sign.php"
+#define SIGNATURE_URL @"http://testbilladmin.citruspay.com/billpayadmin/sign.php"
 
 @interface ServerSignature : NSObject
 + (NSString*)getSignatureFromServerTxnId:(NSString*)txnId amount:(NSString*)amt;

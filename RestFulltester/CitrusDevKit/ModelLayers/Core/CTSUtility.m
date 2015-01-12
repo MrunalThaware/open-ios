@@ -321,7 +321,7 @@
         } else if ([CTSUtility hasPrefixArray:MAESTRO cardNumber:cardNumber]) {
             return @"MAESTRO";
         } else if ([CTSUtility hasPrefixArray:MASTER cardNumber:cardNumber]) {
-            return @"MASTER";
+            return @"MCRD";
         }
         return @"UNKNOWN";
     }

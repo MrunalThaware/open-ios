@@ -38,7 +38,7 @@
   //  [self testCardSchemes];
    // [self regenerateOTP];
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
- // [self signIn];
+  //[self signIn];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
@@ -125,7 +125,15 @@
     addressInfo.street2 = @"Pink City";
     addressInfo.zip = @"401209";
     
-    // guest flow
+
+    
+    customParams = @{@"USERDATA2":@"MOB_RC|9988776655",
+                                 @"USERDATA10":@"test",
+                                 @"USERDATA4":@"MOB_RC|test@gmail.com",
+                                 @"USERDATA3":@"MOB_RC|4111XXXXXXXX1111",
+                                 };
+    
+
 }
 /****************************************************|AUTHLAYER|***************************************************/
 
@@ -371,6 +379,7 @@ didUpdatePaymentInfoError:(NSError*)error {
      withSignature:[ServerSignature getSignatureFromServerTxnId:txnId
                                                          amount:@"1"]
      withTxnId:txnId
+     withCustParams:customParams
      withCompletionHandler:nil];
 }
 - (void)doUserDebitCardPayment {
@@ -395,6 +404,7 @@ didUpdatePaymentInfoError:(NSError*)error {
      withSignature:[ServerSignature getSignatureFromServerTxnId:txnId
                                                          amount:@"1"]
      withTxnId:txnId
+     withCustParams:customParams
      withCompletionHandler:nil];
 }
 - (void)doUserCreditCardPayment {
@@ -424,6 +434,7 @@ didUpdatePaymentInfoError:(NSError*)error {
                         withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
                         withSignature:signature
                             withTxnId:transactionId
+                    withCustParams:customParams
                 withCompletionHandler:nil];
 }
 
@@ -463,6 +474,7 @@ didUpdatePaymentInfoError:(NSError*)error {
                                   withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
                                   withSignature:signature
                                       withTxnId:transactionId
+                                 withCustParams:customParams
                           withCompletionHandler:nil];
 }
 
@@ -476,27 +488,35 @@ didUpdatePaymentInfoError:(NSError*)error {
     
     CTSElectronicCardUpdate* debitCard =
     [[CTSElectronicCardUpdate alloc] initDebitCard];
-//    debitCard.number = @"5126520134150205";//TEST_DEBIT_CARD_NUMBER;
-//    debitCard.expiryDate = @"10/2018";
-//    debitCard.scheme = @"Master";//TEST_DEBIT_SCHEME;
-//    debitCard.cvv = @"092";//TEST_DEBIT_CVV;
-//    debitCard.ownerName = @"Vinod Patel";//TEST_OWNER_NAME;
+    debitCard.number = @"5555555555554444";//TEST_DEBIT_CARD_NUMBER;
+    debitCard.expiryDate = @"10/2018";
+    debitCard.scheme = @"MCRD";//TEST_DEBIT_SCHEME;
+    debitCard.cvv = @"092";//TEST_DEBIT_CVV;
+    debitCard.ownerName = @"Vinod Patel";//TEST_OWNER_NAME;
     
-    debitCard.number = TEST_DEBIT_CARD_NUMBER;
-    debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
-    debitCard.scheme = TEST_DEBIT_SCHEME;
-    debitCard.cvv = TEST_DEBIT_CVV;
-    debitCard.ownerName = TEST_OWNER_NAME;
+//    debitCard.number = TEST_DEBIT_CARD_NUMBER;
+//    debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
+//    debitCard.scheme = TEST_DEBIT_SCHEME;
+//    debitCard.cvv = TEST_DEBIT_CVV;
+//    debitCard.ownerName = TEST_OWNER_NAME;
+    
+    NSDictionary *dictionary = @{@"USERDATA2":@"MOB_RC|9988776655",
+                                 @"USERDATA10":@"test",
+                                 @"USERDATA4":@"MOB_RC|test@gmail.com",
+                                 @"USERDATA3":@"MOB_RC|4111XXXXXXXX1111",
+                                 };
+    
     
     [paymentInfo addCard:debitCard];
     
     [paymentlayerinfo makePaymentUsingGuestFlow:paymentInfo
                                     withContact:contactInfo
                                          amount:@"10"
-                                    withAddress:addressInfo
+                                    withAddress:nil
                                   withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
                                   withSignature:signature
                                       withTxnId:transactionId
+                                 withCustParams:customParams
                           withCompletionHandler:nil];
 }
 
@@ -519,6 +539,7 @@ didUpdatePaymentInfoError:(NSError*)error {
                                   withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
                                   withSignature:signature
                                       withTxnId:transactionId
+                                 withCustParams:customParams
                           withCompletionHandler:nil];
 }
 
@@ -540,6 +561,7 @@ didUpdatePaymentInfoError:(NSError*)error {
                              withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
                              withSignature:signature
                                  withTxnId:transactionId
+                            withCustParams:customParams
                      withCompletionHandler:nil];
 }
 
@@ -588,6 +610,7 @@ didUpdatePaymentInfoError:(NSError*)error {
                              withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
                              withSignature:signature
                                  withTxnId:transactionId
+                            withCustParams:customParams
                      withCompletionHandler:nil];
 }
 
