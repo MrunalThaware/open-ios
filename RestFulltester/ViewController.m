@@ -491,7 +491,7 @@ didUpdatePaymentInfoError:(NSError*)error {
     debitCard.number = @"5555555555554444";//TEST_DEBIT_CARD_NUMBER;
     debitCard.expiryDate = @"10/2018";
     debitCard.scheme = @"MCRD";//TEST_DEBIT_SCHEME;
-    debitCard.cvv = @"092";//TEST_DEBIT_CVV;
+    debitCard.cvv = @"111";//TEST_DEBIT_CVV;
     debitCard.ownerName = @"Vinod Patel";//TEST_OWNER_NAME;
     
 //    debitCard.number = TEST_DEBIT_CARD_NUMBER;
@@ -500,11 +500,7 @@ didUpdatePaymentInfoError:(NSError*)error {
 //    debitCard.cvv = TEST_DEBIT_CVV;
 //    debitCard.ownerName = TEST_OWNER_NAME;
     
-    NSDictionary *dictionary = @{@"USERDATA2":@"MOB_RC|9988776655",
-                                 @"USERDATA10":@"test",
-                                 @"USERDATA4":@"MOB_RC|test@gmail.com",
-                                 @"USERDATA3":@"MOB_RC|4111XXXXXXXX1111",
-                                 };
+
     
     
     [paymentInfo addCard:debitCard];
