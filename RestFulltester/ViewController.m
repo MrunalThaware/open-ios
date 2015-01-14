@@ -183,6 +183,18 @@
                         LogTrace(@"signin %d ",isSignedIn );
 
                         [self logError:error];
+                        
+                        if(error){
+                            LogTrace(@"Error is signup");
+                        }
+                        else if (isSignedIn == NO){
+                          LogTrace(@"signup success,signin failed");//take user to signin page
+                        }
+                        else if(isSignedIn ==YES){
+                            LogTrace(@"signup success,signin success");
+                        }
+                        
+                        
                         // [self signIn];
                         //[self doUserCreditCardPayment];
                     }];
