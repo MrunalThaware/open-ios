@@ -15,11 +15,14 @@
 //#define TEST_MOBILE @"9702964502"
 
 //works on prod
-#define TEST_EMAIL @"mitalee.yadav@gmail.com"
+//#define TEST_EMAIL @"mitalee.yadav@gmail.com"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"9930993582"
+
+
+#define TEST_EMAIL @"vinod@leftshift.io"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9930993582"
-
-
+#define TEST_MOBILE @"9999999222"
 
 
 //#define TEST_EMAIL @"mangesh.kadam1122@citruspay.com"

@@ -42,11 +42,11 @@
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
-  [self doGuestPaymentDebitCard];
-//    [authLayer requestResetPassword:TEST_EMAIL completionHandler:^(NSError *error) {
-//        [self logError:error];
-//        
-//    }];
+  //[self doGuestPaymentDebitCard];
+    [authLayer requestResetPassword:TEST_EMAIL completionHandler:^(NSError *error) {
+        [self logError:error];
+        
+    }];
   //[self doGuestPaymentNetbanking];
     //[self isMobileVerified];
     
@@ -176,9 +176,12 @@
                              lastName:TEST_LAST_NAME
                     completionHandler:^(NSString* userName,
                                         NSString* token,
+                                        BOOL isSignedIn,
                                         NSError* error) {
                         LogTrace(@"userName %@ ", userName);
                         LogTrace(@"token %@ ", token);
+                        LogTrace(@"signin %d ",isSignedIn );
+
                         [self logError:error];
                         // [self signIn];
                         //[self doUserCreditCardPayment];

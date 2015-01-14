@@ -113,7 +113,7 @@
     }else if ([errorType isEqualToString:USER_NOT_EXISTS_MESSAGE]){
         return USER_NOT_EXIST_EXCEPTION;
     }else if ([errorType isEqualToString:USER_NOT_EXISTS_RESET_MESSAGE]){
-        return RESET_EXCEPTION;
+        return USER_NOT_EXIST_EXCEPTION;
     }else if ([errorType isEqualToString:USER_OTP_EXPIRE_MESSAGE]){
         return EXPIRED_OTP_EXCEPTION;
     }else if ([errorType isEqualToString:USER_OTP_INVALID_MESSAGE]){
@@ -149,7 +149,7 @@
             errorDescription = @"Your mobile number was not found for OTP verification.";
         break;
         case RESET_EXCEPTION:
-            errorDescription = nil;
+            errorDescription = @"Reset Exception";
         break;
         case INTERNAL_SERVER_EXCEPTION:
             errorDescription = @"Please enter a valid Mobile Number.";
@@ -165,6 +165,8 @@
         case UNKNOWN_EXCEPTION:
             errorDescription = @"Oops... Something went wrong.";
         default:
+          errorDescription = @"Oops... Something went wrong.";
+
         break;
     }
     

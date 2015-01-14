@@ -68,6 +68,7 @@
     if (![CTSUtility validateEmail:email]) {
         [self signupHelperUsername:userNameSignup
                              oauth:[CTSOauthManager readOauthToken]
+                        isSignedIn:NO
                              error:[CTSError getErrorForCode:EmailNotValid]];
         return;
     }
@@ -76,6 +77,7 @@
     if (!mobile) {
         [self signupHelperUsername:userNameSignup
                              oauth:[CTSOauthManager readOauthToken]
+                        isSignedIn:NO
                              error:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }
@@ -83,12 +85,14 @@
     if (firstName == nil) {
         [self signupHelperUsername:userNameSignup
                              oauth:[CTSOauthManager readOauthToken]
+                        isSignedIn:NO
                              error:[CTSError getErrorForCode:FirstNameNotValid]];
         return;
     }
     if (lastName == nil) {
         [self signupHelperUsername:userNameSignup
                              oauth:[CTSOauthManager readOauthToken]
+                        isSignedIn:NO
                              error:[CTSError getErrorForCode:LastNameNotValid]];
         return;
     }
@@ -122,6 +126,7 @@
     if (![CTSUtility validateEmail:email]) {
         [self signupHelperUsername:email
                              oauth:[CTSOauthManager readOauthToken]
+                        isSignedIn:NO
                              error:[CTSError getErrorForCode:EmailNotValid]];
         return;
     }
@@ -130,32 +135,35 @@
     if (!mobile) {
         [self signupHelperUsername:email
                              oauth:[CTSOauthManager readOauthToken]
+                        isSignedIn:NO
                              error:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }
     
-    CTSUserVerificationRes *verificationResponse = [self requestSyncIsUserAlreadyRegisteredMobileOrEmail:email];
-    if(verificationResponse.error  || verificationResponse.respCode != 201){
-        [self signupHelperUsername:email
-                             oauth:[CTSOauthManager readOauthToken]
-                             error:[verificationResponse convertToError]];
-        return;
-    }
-    
-    
-    verificationResponse = [self requestSyncIsUserAlreadyRegisteredMobileOrEmail:mobile];
-    if(verificationResponse.error  || verificationResponse.respCode != 201){
-        [self signupHelperUsername:mobile
-                             oauth:[CTSOauthManager readOauthToken]
-                             error:[verificationResponse convertToError]];
-        return;
-    }
+//    CTSUserVerificationRes *verificationResponse = [self requestSyncIsUserAlreadyRegisteredMobileOrEmail:email];
+//    if(verificationResponse.error  || verificationResponse.respCode != 201){
+//        [self signupHelperUsername:email
+//                             oauth:[CTSOauthManager readOauthToken]
+//                        isSignedIn:NO
+//                             error:[verificationResponse convertToError]];
+//        return;
+//    }
+//    
+//    
+//    verificationResponse = [self requestSyncIsUserAlreadyRegisteredMobileOrEmail:mobile];
+//    if(verificationResponse.error  || verificationResponse.respCode != 201){
+//        [self signupHelperUsername:mobile
+//                             oauth:[CTSOauthManager readOauthToken]
+//                        isSignedIn:NO
+//                             error:[verificationResponse convertToError]];
+//        return;
+//    }
     userNameSignup = email;
     mobileSignUp = mobile;
     firstNameSignup =firstName;
     lastNameSignup = lastName;
     if (password == nil) {
-        passwordSignUp = [self generatePseudoRandomPassword];
+       // passwordSignUp = [self generatePseudoRandomPassword];
     } else {
         passwordSignUp = password;
     }
@@ -344,6 +352,7 @@
     if (oauthToken == nil) {
         [self signupHelperUsername:userNameSignup
                              oauth:[CTSOauthManager readOauthToken]
+                        isSignedIn:NO
                              error:[CTSError getErrorForCode:OauthTokenExpired]];
     }
     
@@ -729,6 +738,7 @@ enum {
     } else {
         [self signupHelperUsername:userNameSignup
                              oauth:[CTSOauthManager readOauthToken]
+                        isSignedIn:NO
                              error:error];
         return;
     }
@@ -737,6 +747,7 @@ enum {
 - (void)handleReqChangePassword:(CTSRestCoreResponse*)response {
     [self changePasswordHelper:response.error];
 }
+
 
 - (void)handleReqSigninOauthToken:(CTSRestCoreResponse*)response {
     NSError* error = response.error;
@@ -748,34 +759,53 @@ enum {
                                            error:&jsonError];
         [resultObject logProperties];
         [CTSOauthManager saveOauthData:resultObject];
-        if (wasSignupCalled == YES) {
-            // in case of sign up flow
-            
-            [self usePassword:passwordSignUp
-               hashedUsername:[self generateBigIntegerString:userNameSignup]];
-            wasSignupCalled = NO;
-        } else {
-            // in case of sign in flow
-            
-            [self signinHelperUsername:userNameSignIn
-                                 oauth:[CTSOauthManager readOauthToken]
-                                 error:error];
-        }
-    } else {
-        if (wasSignupCalled == YES) {
-            // in case of sign up flow
-            [self signupHelperUsername:userNameSignup
-                                 oauth:[CTSOauthManager readOauthToken]
-                                 error:error];
-        } else {
-            // in case of sign in flow
-            
-            [self signinHelperUsername:userNameSignIn
-                                 oauth:[CTSOauthManager readOauthToken]
-                                 error:error];
-        }
+
     }
+    
+    [self signinHelperUsername:userNameSignIn
+                                   oauth:[CTSOauthManager readOauthToken]
+                                   error:error];
 }
+
+//- (void)handleReqSigninOauthToken:(CTSRestCoreResponse*)response {
+//    NSError* error = response.error;
+//    JSONModelError* jsonError;
+//    // signup flow
+//    if (error == nil) {
+//        CTSOauthTokenRes* resultObject =
+//        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+//                                           error:&jsonError];
+//        [resultObject logProperties];
+//        [CTSOauthManager saveOauthData:resultObject];
+//        if (wasSignupCalled == YES) {
+//            // in case of sign up flow
+//            
+//            [self usePassword:passwordSignUp
+//               hashedUsername:[self generateBigIntegerString:userNameSignup]];
+//            wasSignupCalled = NO;
+//        } else {
+//            // in case of sign in flow
+//            
+//            [self signinHelperUsername:userNameSignIn
+//                                 oauth:[CTSOauthManager readOauthToken]
+//                                 error:error];
+//        }
+//    } else {
+//        if (wasSignupCalled == YES) {
+//            // in case of sign up flow
+//            [self signupHelperUsername:userNameSignup
+//                                 oauth:[CTSOauthManager readOauthToken]
+//                            isSignedIn:NO
+//                                 error:error];
+//        } else {
+//            // in case of sign in flow
+//            
+//            [self signinHelperUsername:userNameSignIn
+//                                 oauth:[CTSOauthManager readOauthToken]
+//                                 error:error];
+//        }
+//    }
+//}
 
 - (void)handleReqSignupStageOneComplete:(CTSRestCoreResponse*)response {
     NSError* error = response.error;
@@ -807,9 +837,35 @@ enum {
     //                         error:error];
     //  }
     
-    [self signupHelperUsername:userNameSignup
-                         oauth:[CTSOauthManager readOauthToken]
-                         error:error];
+    
+    if(error != nil){
+    
+        [self signupHelperUsername:userNameSignup
+                             oauth:[CTSOauthManager readOauthToken]
+                        isSignedIn:NO
+                             error:error];
+        
+        
+    }
+    else {
+    [self requestSigninWithUsername:userNameSignup password:passwordSignUp completionHandler:^(NSString *userName, NSString *token, NSError *error) {
+        if(error){
+            [self signupHelperUsername:userName
+                                 oauth:[CTSOauthManager readOauthToken]
+                            isSignedIn:NO
+                                 error:nil];
+        }
+        else{
+            [self signupHelperUsername:userName
+                                 oauth:[CTSOauthManager readOauthToken]
+                            isSignedIn:YES
+                                 error:nil];
+        }
+    }];
+    
+    }
+    
+
 }
 
 - (void)handleReqUsePassword:(CTSRestCoreResponse*)response {
@@ -817,6 +873,7 @@ enum {
     
     [self signupHelperUsername:userNameSignup
                          oauth:[CTSOauthManager readOauthToken]
+                    isSignedIn:NO
                          error:response.error];
 }
 
@@ -912,8 +969,9 @@ enum {
 
 - (void)signupHelperUsername:(NSString*)username
                        oauth:(NSString*)token
+                  isSignedIn:(BOOL)isSignedIn
                        error:(NSError*)error {
-    ASSigninCallBack callBack =
+    ASSignupCallBack callBack =
     [self retrieveAndRemoveCallbackForReqId:SignupOauthTokenReqId];
     
     wasSignupCalled = NO;
@@ -923,11 +981,12 @@ enum {
     }
     
     if (callBack != nil) {
-        callBack(username, token, error);
+        callBack(username, token, isSignedIn,error);
     } else {
         [delegate auth:self
      didSignupUsername:username
             oauthToken:token
+            isSignedIn:(BOOL)isSignedIn
                  error:error];
     }
     

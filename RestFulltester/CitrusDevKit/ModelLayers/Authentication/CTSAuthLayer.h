@@ -44,6 +44,7 @@ didSigninUsername:(NSString*)userName
 - (void)auth:(CTSAuthLayer*)layer
 didSignupUsername:(NSString*)userName
   oauthToken:(NSString*)token
+  isSignedIn:(BOOL)isSignedIn
        error:(NSError*)error;
 
 /**
@@ -104,6 +105,7 @@ typedef void (^ASSigninCallBack)(NSString* userName,
 
 typedef void (^ASSignupCallBack)(NSString* userName,
                                  NSString* token,
+                                 BOOL isSignedIn,
                                  NSError* error);
 
 typedef void (^ASChangePassword)(NSError* error);
