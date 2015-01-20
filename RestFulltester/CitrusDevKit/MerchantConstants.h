@@ -33,7 +33,7 @@
 
 #endif
 
-#define BaseUrl @"https://stgadmin.citruspay.com"
+//#define BaseUrl @"https://stgadmin.citruspay.com"
 
 
 //live only for payments
