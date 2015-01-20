@@ -42,10 +42,10 @@
             break;
         case EmailNotValid:
             errorDescription =
-            @"email adress format not valid,expected e.g. rob@gmail.com";
+            @"email adress format not valid";
             break;
         case MobileNotValid:
-            errorDescription = @"mobile number not valid, expected 10 digits";
+            errorDescription = @"mobile number not valid";
             break;
         case CvvNotValid:
             errorDescription = @"cvv format not valid, expected 3 digits for non "

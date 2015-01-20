@@ -33,6 +33,9 @@
 
 #endif
 
+#define BaseUrl @"https://stgadmin.citruspay.com"
+
+
 //live only for payments
 //#define VanityUrl @"rio"
 //#define SignInId @"citrus-native-mobile-app-v1"

@@ -20,10 +20,15 @@
 //#define TEST_MOBILE @"9930993582"
 
 
-#define TEST_EMAIL @"vinod@leftshift.io"
-#define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9999999222"
+//#define TEST_EMAIL @"vinod@leftshift.io"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"9999999222"
 
+
+
+#define TEST_EMAIL @"yadnesh.wankhede@citruspay.com"
+#define TEST_PASSWORD @"tester@123"
+#define TEST_MOBILE @"9999999000"
 
 //#define TEST_EMAIL @"mangesh.kadam1122@citruspay.com"
 //#define TEST_PASSWORD @"Citrus@123"
@@ -47,6 +52,10 @@
 
 #define TEST_FIRST_NAME @"FaceBook"
 #define TEST_LAST_NAME @"Orkut1@"
+
+#define RIO_SRC_TYPE @"RIO"
+#define CASH_SRC_TYPE @"CASH"
+
 
 //#define TEST_DEBIT_CARD_NUMBER @"4028530012345678"
 #define TEST_DEBIT_CARD_NUMBER @"4028530052708001"

@@ -94,7 +94,7 @@ didCheckIsUserCitrusMember:(BOOL)isMember
 
 @interface CTSAuthLayer : CTSRestPluginBase {
     int seedState;
-    NSString* userNameSignIn, *userNameSignup, *passwordSignUp, *mobileSignUp,*firstNameSignup,*lastNameSignup;
+    NSString* userNameSignIn, *userNameSignup, *passwordSignUp, *mobileSignUp,*firstNameSignup,*lastNameSignup,*sourceTypeSignup;
     BOOL wasSignupCalled;
 }
 - (instancetype)initWithUrl:(NSString *)url;
@@ -154,6 +154,7 @@ typedef void (^ASIsMobileVerifiedCallback)(BOOL isVerified,NSError* error);
                       password:(NSString*)password
                      firstName:(NSString*)firstName
                       lastName:(NSString*)lastName
+                    sourceType:(NSString *)sourceType
              completionHandler:(ASSignupCallBack)callBack;
 
 

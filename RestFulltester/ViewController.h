@@ -12,7 +12,7 @@
 @interface ViewController : UIViewController<CTSAuthenticationProtocol,
                                              CTSPaymentProtocol,
                                              CTSProfileProtocol,
-                                             UIWebViewDelegate> {
+                                             UIWebViewDelegate,NSURLConnectionDelegate> {
   CTSAuthLayer* authLayer;
   CTSPaymentLayer* paymentlayerinfo;
   CTSContactUpdate* contactInfo;
@@ -21,6 +21,7 @@
   NSDictionary *customParams;
   UIWebView* webview;
   UIActivityIndicatorView* indicator;
+                                                 NSMutableURLRequest* originalRequest;
 
   CTSProfilePaymentRes* paymentSavedResponse;
 }

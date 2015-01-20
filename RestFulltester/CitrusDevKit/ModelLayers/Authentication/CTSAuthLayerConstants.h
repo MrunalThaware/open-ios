@@ -92,6 +92,8 @@ typedef enum SignOutResponseState {
 #define MLC_SIGNUP_QUERY_FIRSTNAME @"firstName"
 #define MLC_SIGNUP_QUERY_LASTNAME @"lastName"
 #define MLC_SIGNUP_QUERY_PASSWORD @"password"
+#define MLC_SIGNUP_QUERY_SOURCE_TYPE @"sourceType"
+
 
 
 #pragma mark - REQUEST_CHANGE_PASSWORD

@@ -99,6 +99,20 @@
     
     
     
+//    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+//                                   initWithPath:MLC_SIGNUP_REQ_PATH
+//                                   requestId:SignupStageOneReqId
+//                                   headers:[CTSUtility readSignupTokenAsHeader]
+//                                   parameters:@{
+//                                                MLC_SIGNUP_QUERY_EMAIL : email,
+//                                                MLC_SIGNUP_QUERY_MOBILE : mobile,
+//                                                MLC_SIGNUP_QUERY_FIRSTNAME:firstName,
+//                                                MLC_SIGNUP_QUERY_LASTNAME:lastName,
+//                                                MLC_SIGNUP_QUERY_PASSWORD:passwordSignUp
+//                                                } json:nil
+//                                   httpMethod:POST];
+    
+    
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_SIGNUP_REQ_PATH
                                    requestId:SignupStageOneReqId
@@ -108,9 +122,11 @@
                                                 MLC_SIGNUP_QUERY_MOBILE : mobile,
                                                 MLC_SIGNUP_QUERY_FIRSTNAME:firstName,
                                                 MLC_SIGNUP_QUERY_LASTNAME:lastName,
-                                                MLC_SIGNUP_QUERY_PASSWORD:passwordSignUp
+                                                MLC_SIGNUP_QUERY_PASSWORD:passwordSignUp,
+                                                MLC_SIGNUP_QUERY_SOURCE_TYPE:sourceTypeSignup
                                                 } json:nil
                                    httpMethod:POST];
+    
     
     [restCore requestAsyncServer:request];
 }
@@ -120,6 +136,7 @@
                       password:(NSString*)password
                      firstName:(NSString*)firstName
                       lastName:(NSString*)lastName
+                    sourceType:(NSString *)sourceType
              completionHandler:(ASSignupCallBack)callBack{
     [self addCallback:callBack forRequestId:SignupOauthTokenReqId];
     
@@ -162,6 +179,7 @@
     mobileSignUp = mobile;
     firstNameSignup =firstName;
     lastNameSignup = lastName;
+    sourceTypeSignup = sourceType;
     if (password == nil) {
        // passwordSignUp = [self generatePseudoRandomPassword];
     } else {
@@ -1078,7 +1096,7 @@ enum {
     passwordSignUp = @"";
     firstNameSignup = @"";
     lastNameSignup = @"";
-    
+    sourceTypeSignup = @"";
 }
 
 @end

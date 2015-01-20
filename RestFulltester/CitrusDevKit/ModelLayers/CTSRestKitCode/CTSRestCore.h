@@ -26,4 +26,6 @@
 - (void)requestAsyncServer:(CTSRestCoreRequest*)restRequest;
 + (CTSRestCoreResponse*)requestSyncServer:(CTSRestCoreRequest*)restRequest
                               withBaseUrl:(NSString*)baseUrl;
+
++ (NSString*)serializeParams:(NSDictionary*)params;
 @end
