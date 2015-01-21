@@ -21,8 +21,7 @@
   NSDictionary *customParams;
   UIWebView* webview;
   UIActivityIndicatorView* indicator;
-                                                 NSMutableURLRequest* originalRequest;
-
+  NSMutableURLRequest* originalRequest;
   CTSProfilePaymentRes* paymentSavedResponse;
 }
 

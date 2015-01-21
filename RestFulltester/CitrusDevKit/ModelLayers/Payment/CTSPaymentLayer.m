@@ -234,6 +234,27 @@
   [restCore requestAsyncServer:request];
 }
 
+
+//- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
+//                      withContact:(CTSContactUpdate*)contactInfo
+//                           amount:(NSString*)amount
+//                      withAddress:(CTSUserAddress*)userAddress
+//                    withReturnUrl:(NSString*)returnUrl
+//                    withSignature:(NSString*)signature
+//                        withTxnId:(NSString*)merchantTxnId
+//            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback{
+//
+////    [self makePaymentUsingGuestFlow:paymentInfo withContact:contactInfo amount:amount withAddress:userAddress withReturnUrl:returnUrl withSignature:signature withTxnId:merchantTxnId withCustParams:nil withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+////        <#code#>
+////    }];
+//
+//
+//
+//}
+
+
+
+
 - (void)requestMerchantPgSettings:(NSString*)vanityUrl
             withCompletionHandler:(ASGetMerchantPgSettingsCallBack)callback {
   [self addCallback:callback forRequestId:PaymentPgSettingsReqId];

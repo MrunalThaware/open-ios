@@ -159,6 +159,26 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                    withCustParams:(NSDictionary *)custParams
             withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
 
+
+
+/**
+ *  called when client request to make payment as a guest user
+ *
+ *  @param paymentInfo Payment Information
+ *  @param contactInfo contact Information
+ *  @param amount      payment amount
+ *  @param isDoSignup  send YES if signup should be done simultaneously for this
+ *user
+ */
+//- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
+//                      withContact:(CTSContactUpdate*)contactInfo
+//                           amount:(NSString*)amount
+//                      withAddress:(CTSUserAddress*)userAddress
+//                    withReturnUrl:(NSString*)returnUrl
+//                    withSignature:(NSString*)signature
+//                        withTxnId:(NSString*)merchantTxnId
+//            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
+
 /**
  *  request card pament options(visa,master,debit) and netbanking settngs for
  *the merchant
