@@ -224,7 +224,7 @@
         [self logError:error];
     }
     else{
-        LogTrace(@" status %d",verificationRes.status);
+        LogTrace(@" status %d",verificationRes.status);//status 0 when this username is not used(can be used for mobile and email), else 1
         LogTrace(@" response Message %@ ",verificationRes.respMsg);
         LogTrace(@" user name type %@ ",verificationRes.userType);
 
