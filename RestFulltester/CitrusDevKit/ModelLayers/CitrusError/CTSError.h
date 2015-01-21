@@ -23,8 +23,10 @@ typedef enum {
   CantFetchSignupToken,
     UserExits,
     TokenMissing,
+    MobileAlreadyExits = 212,
     MobileNotVerified = 210,
-unknownError = 222
+unknownError = 222,
+    
 } CTSErrorCode;
 
 

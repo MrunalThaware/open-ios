@@ -223,4 +223,9 @@ typedef void (^ASUSerVerificationCallback)(CTSUserVerificationRes *verificationR
  *  @return yes if anyone is signed in, NO otherwise
  */
 -(BOOL)isAnyoneSignedIn;
+
+
++(CTSUserVerificationRes * )convertToUserVerification:(CTSRestCoreResponse *)response ;
++ (CTSUserVerificationRes *)requestSyncIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail;
+
 @end

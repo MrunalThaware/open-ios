@@ -34,11 +34,11 @@
 
   [super viewDidLoad];
   [self initialize];
-    [self verifyUser];
+    //[self verifyUser];
    //[self testCardSchemes];
    // [self regenerateOTP];
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
-  //[self signIn];
+  [self signIn];
 //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
@@ -162,9 +162,9 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
                          //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
-//                         [profileLayer requestUpdateMobile:@"9898989898" WithCompletionHandler:^(NSError *error) {
-//                             [self logError:error];
-//                         }];
+                         [profileLayer requestUpdateMobile:TEST_MOBILE WithCompletionHandler:^(NSError *error) {
+                            [self logError:error];
+                        }];
                      }];
 }
 

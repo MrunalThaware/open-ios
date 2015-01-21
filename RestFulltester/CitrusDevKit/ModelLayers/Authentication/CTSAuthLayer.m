@@ -560,7 +560,7 @@
 }
 
 
-- (CTSUserVerificationRes *)requestSyncIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail{
++ (CTSUserVerificationRes *)requestSyncIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail{
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_IS_USER_EXIST_PATH
@@ -985,7 +985,7 @@ enum {
     }
     
 }
--(CTSUserVerificationRes * )convertToUserVerification:(CTSRestCoreResponse *)response {
++(CTSUserVerificationRes * )convertToUserVerification:(CTSRestCoreResponse *)response {
     NSError* error = response.error;
     JSONModelError* jsonError;
     CTSUserVerificationRes* resultObject = [[CTSUserVerificationRes alloc] init];
@@ -1026,7 +1026,7 @@ enum {
 }
 
 -(void)handleIsAlreadyRegistered:(CTSRestCoreResponse *)response{
-    CTSUserVerificationRes *veriRes = [self convertToUserVerification:response];
+    CTSUserVerificationRes *veriRes = [CTSAuthLayer convertToUserVerification:response];
     NSError* error = response.error;
     [self isAlreadyRegisteredHelper:veriRes error:error];
     

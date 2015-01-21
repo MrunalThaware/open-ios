@@ -75,6 +75,8 @@
             errorDescription = @"Mobile number not verified, Please verify it.";
         case unknownError:
             errorDescription = @"Oops... Something went wrong.";
+            case MobileAlreadyExits:
+            errorDescription = @"The Mobile Number entered by you already exists. Please use a different Mobile Number.";
 
 
         default:

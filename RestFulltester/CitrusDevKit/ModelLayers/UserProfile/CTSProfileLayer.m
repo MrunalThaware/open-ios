@@ -14,6 +14,7 @@
 #import "CTSError.h"
 #import "CTSOauthManager.h"
 #import "NSObject+logProperties.h"
+#import "CTSAuthLayer.h"
 
 @implementation CTSProfileLayer
 @synthesize delegate;
@@ -177,6 +178,8 @@ enum {
 (ASUpdateMobileNumberCallback)callback;{
     [self addCallback:callback forRequestId:ProfileUpdateMobileRequestId];
     
+    
+
     OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
@@ -184,8 +187,14 @@ enum {
         [self updateMobileHelper:oauthStatus.error];
     }
     
+
+      CTSUserVerificationRes *verificationResponse = [CTSAuthLayer requestSyncIsUserAlreadyRegisteredMobileOrEmail:mobileNumber];
+        if(verificationResponse.error  || verificationResponse.status == YES){
+            [self updateMobileHelper:[CTSError getErrorForCode:MobileAlreadyExits]];
+            return;
+        }
     
-    
+ 
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_PROFILE_UPDATE_MOBILE_PATH
                                    requestId:ProfileUpdateMobileRequestId
