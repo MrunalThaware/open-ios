@@ -34,7 +34,8 @@
 
   [super viewDidLoad];
   [self initialize];
-  //[self testCardSchemes];
+    [self verifyUser];
+   //[self testCardSchemes];
    // [self regenerateOTP];
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
   //[self signIn];
@@ -80,7 +81,7 @@
 //    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"91970-296-4502"]);
 //    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"+91970-296-4502"]);
     
-
+    //[self validateOTP:@"ae2y"];
     
 //    NSLog(@" CTSUtility mobile validate %@ ",[CTSUtility mobileNumberToTenDigitIfValid:@"1702964502"]);
 
@@ -216,7 +217,24 @@
         
     }];
 }
+-(void)verifyUser{
 
+    [authLayer requestVerifyUser:TEST_MOBILE completionHandler:^(CTSUserVerificationRes *verificationRes, NSError *error) {
+    if(error){
+        [self logError:error];
+    }
+    else{
+        LogTrace(@" status %d",verificationRes.status);
+        LogTrace(@" response Message %@ ",verificationRes.respMsg);
+        LogTrace(@" user name type %@ ",verificationRes.userType);
+
+    
+    }
+    
+    
+}];
+
+}
 
 -(void)regenerateOTP{
     [authLayer requestOTPRegenerateMobile:@"9811112211" completionHandler:^(NSError *error) {

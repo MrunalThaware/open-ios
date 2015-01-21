@@ -477,6 +477,46 @@
     [restCore requestAsyncServer:request];
 }
 
+
+-(void)requestVerifyUser:(NSString *)userName completionHandler:
+(ASUSerVerificationCallback)callback{
+    
+    [self addCallback:callback forRequestId:UserVerificationReqId];
+    
+    if([CTSUtility isEmail:userName]){
+        if (![CTSUtility validateEmail:userName]) {
+         [self userVerificationHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+            return;
+        }
+    }
+    else{
+        userName = [CTSUtility mobileNumberToTenDigitIfValid:userName];
+        
+        if (!userName) {
+            [self userVerificationHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
+        
+    }
+
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_IS_USER_EXIST_PATH
+                                   requestId:UserVerificationReqId
+                                   headers:nil
+                                   parameters:@{
+                                                MLC_IS_USER_EXIST_QUERY_USER : userName
+                                                } json:nil
+                                   httpMethod:MLC_IS_USER_EXIST_TYPE];
+    
+    
+    [restCore requestAsyncServer:request];
+
+
+}
+
+
+
 #define IsMobile 1
 #define IsEmail 2
 - (void)requestIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail
@@ -686,6 +726,7 @@ enum {
     ChangePasswordReqId,
     RequestForPasswordResetReqId,
     IsUserCitrusMemberReqId,
+    UserVerificationReqId,
     IsUserAlreadyRegisteredReqId,
     OTPVerificationRequestId,
     OTPRegenerationRequestId,
@@ -724,7 +765,10 @@ enum {
              toNSString(OTPRegenerationRequestId):toSelector(handleOTPRegeneration:),
              
              toNSString(ISMobileVerifiedRequestId): toSelector(handleIsMobileVerified:),
-             toNSString(IsUserAlreadyRegisteredReqId):toSelector(handleIsAlreadyRegistered:)
+             toNSString(IsUserAlreadyRegisteredReqId):toSelector(handleIsAlreadyRegistered:),
+             toNSString(UserVerificationReqId):toSelector(handleUserVerification:),
+
+             
              };
     
     
@@ -765,6 +809,10 @@ enum {
 - (void)handleReqChangePassword:(CTSRestCoreResponse*)response {
     [self changePasswordHelper:response.error];
 }
+
+
+
+
 
 
 - (void)handleReqSigninOauthToken:(CTSRestCoreResponse*)response {
@@ -954,6 +1002,29 @@ enum {
 }
 
 
+
+-(void)handleUserVerification:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSUserVerificationRes* resultObject = nil;
+    if(error == nil){
+        resultObject =
+        [[CTSUserVerificationRes alloc] initWithString:response.responseString
+                                                 error:&jsonError];
+    }
+    
+    if(jsonError){
+        error = [CTSError getErrorForCode:unknownError];
+    }
+    
+    
+
+    
+    [self userVerificationHelper:resultObject error:error];
+
+    
+}
+
 -(void)handleIsAlreadyRegistered:(CTSRestCoreResponse *)response{
     CTSUserVerificationRes *veriRes = [self convertToUserVerification:response];
     NSError* error = response.error;
@@ -1087,6 +1158,17 @@ enum {
     }
     
     
+}
+
+-(void)userVerificationHelper:(CTSUserVerificationRes *)verificationRes error:(NSError *)error{
+
+    ASUSerVerificationCallback callback = [self retrieveAndRemoveCallbackForReqId:UserVerificationReqId];
+    if(callback != nil){
+        callback(verificationRes,error);
+    }
+    else{
+        [delegate auth:self didUserVerification:callback error:error];
+    }
 }
 
 

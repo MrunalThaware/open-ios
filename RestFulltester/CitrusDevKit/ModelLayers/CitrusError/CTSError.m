@@ -73,6 +73,9 @@
             errorDescription = @"Last name not valid";
         case MobileNotVerified:
             errorDescription = @"Mobile number not verified, Please verify it.";
+        case unknownError:
+            errorDescription = @"Oops... Something went wrong.";
+
 
         default:
             break;

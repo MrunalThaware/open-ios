@@ -24,7 +24,7 @@ typedef enum {
     UserExits,
     TokenMissing,
     MobileNotVerified = 210,
-
+unknownError = 222
 } CTSErrorCode;
 
 

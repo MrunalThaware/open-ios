@@ -89,6 +89,8 @@ didCheckIsUserCitrusMember:(BOOL)isMember
 @optional
 -(void)auth:(CTSAuthLayer *)layer didCheckIsUserAlreadyRegistered:(CTSUserVerificationRes *)verificationRes error:(NSError *)error;
 
+@optional
+-(void)auth:(CTSAuthLayer *)layer didUserVerification:(CTSUserVerificationRes *)verificationRes error:(NSError *)error;
 
 @end
 
@@ -125,6 +127,7 @@ typedef void (^ASOtpRegenerationCallback)(NSError* error);
 
 typedef void (^ASIsMobileVerifiedCallback)(BOOL isVerified,NSError* error);
 
+typedef void (^ASUSerVerificationCallback)(CTSUserVerificationRes *verificationRes,NSError* error);
 
 
 
@@ -203,6 +206,10 @@ typedef void (^ASIsMobileVerifiedCallback)(BOOL isVerified,NSError* error);
 
 - (void)requestIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail
                         completionHandler:(ASIsUserAlreadyRegistered)callback;
+
+
+
+-(void)requestVerifyUser:(NSString *)userName completionHandler:(ASUSerVerificationCallback)callback;
 /**
  *  signout
  *
