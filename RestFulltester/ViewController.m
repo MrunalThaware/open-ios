@@ -162,7 +162,7 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
                          //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
-                         [profileLayer requestUpdateMobile:TEST_MOBILE WithCompletionHandler:^(NSError *error) {
+                         [profileLayer requestUpdateMobile:TEST_MOBILE allowUnverified:NO WithCompletionHandler:^(NSError *error) {
                             [self logError:error];
                         }];
                      }];

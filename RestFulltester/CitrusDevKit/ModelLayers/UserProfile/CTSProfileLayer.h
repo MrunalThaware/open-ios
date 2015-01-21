@@ -111,7 +111,7 @@ typedef void (^ASUpdateMobileNumberCallback)(NSError* error);
 - (void)requestPaymentInformationWithCompletionHandler:
         (ASGetPaymentInfoCallBack)callback;
 
-- (void)requestUpdateMobile:(NSString *)mobileNumber WithCompletionHandler:
+- (void)requestUpdateMobile:(NSString *)mobileNumber allowUnverified:(BOOL)allowUnverified WithCompletionHandler:
 (ASUpdateMobileNumberCallback)callback;
 
 

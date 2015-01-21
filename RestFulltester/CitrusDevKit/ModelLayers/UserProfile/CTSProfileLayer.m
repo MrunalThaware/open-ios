@@ -175,7 +175,7 @@ enum {
 
 
 
-- (void)requestUpdateMobile:(NSString *)mobileNumber WithCompletionHandler:
+- (void)requestUpdateMobile:(NSString *)mobileNumber allowUnverified:(BOOL)allowUnverified WithCompletionHandler:
 (ASUpdateMobileNumberCallback)callback;{
     [self addCallback:callback forRequestId:ProfileUpdateMobileRequestId];
     
@@ -191,9 +191,14 @@ enum {
     
 
       CTSUserVerificationRes *verificationResponse = [CTSAuthLayer requestSyncIsUserAlreadyRegisteredMobileOrEmail:mobileNumber];
-        if(verificationResponse.error  || verificationResponse.status == YES){
+        if(allowUnverified == NO &&( verificationResponse.error  || verificationResponse.respCode == 202 || verificationResponse.respCode == 203)){
             [self updateMobileHelper:[CTSError getErrorForCode:MobileAlreadyExits]];
             return;
+        }
+        else if(allowUnverified == YES &&( verificationResponse.error  ||  verificationResponse.respCode == 203)){
+            [self updateMobileHelper:[CTSError getErrorForCode:MobileAlreadyExits]];
+            return;
+        
         }
     
  
