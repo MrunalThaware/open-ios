@@ -157,7 +157,7 @@
             errorDescription = @"Reset Exception";
         break;
         case INTERNAL_SERVER_EXCEPTION:
-            errorDescription = @"Please enter a valid Mobile Number.";
+            errorDescription = @"Internal Server Error.";
         break;
         case BAD_CREDENTIALS_EXCEPTION:
             errorDescription = @"Invalid login credentials. Please make sure the entered credentials are are correct.";

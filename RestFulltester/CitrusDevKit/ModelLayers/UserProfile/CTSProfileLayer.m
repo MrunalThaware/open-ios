@@ -185,6 +185,7 @@ enum {
     
     if (oauthStatus.error != nil) {
         [self updateMobileHelper:oauthStatus.error];
+        return;
     }
     
 
