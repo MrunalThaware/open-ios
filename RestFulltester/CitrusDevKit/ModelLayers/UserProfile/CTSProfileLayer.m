@@ -135,7 +135,7 @@ enum {
 
   if (oauthStatus.error != nil) {
     [self updatePaymentInfoHelper:[CTSError getErrorForCode:UserNotSignedIn]];
-
+      return;
     return;
   }
 
@@ -159,6 +159,7 @@ enum {
 
   if (oauthStatus.error != nil) {
     [self getPaymentInfoHelper:nil error:oauthStatus.error];
+      return;
   }
 
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
