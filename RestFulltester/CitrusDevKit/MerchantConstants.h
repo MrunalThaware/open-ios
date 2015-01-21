@@ -21,6 +21,6 @@
 //URLS
 #define BillUrl @"http://192.168.1.4:8080/billGenerator.jsp"
 
-#define BaseUrl @"https://sandboxadmin.citruspay.com"
+#define BaseUrl @"https://stgadmin.citruspay.com"
 
 #endif

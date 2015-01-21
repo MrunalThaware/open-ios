@@ -12,6 +12,7 @@
 #import "TestParams.h"
 #import "MerchantConstants.h"
 #import "ServerSignature.h"
+#import "CTSRestCore.h"
 
 
 @interface ViewController ()
@@ -33,7 +34,8 @@
   [super viewDidLoad];
   [self initialize];
   //  [self testCardSchemes];
-  [self signIn];
+  //[self signIn];
+    [self testCookie];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
@@ -657,5 +659,118 @@
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
   [indicator stopAnimating];
 }
+
+
+
+
+
+
+
+
+
+-(void)testCookie{
+    
+    NSMutableURLRequest *originalRequest =
+    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BaseUrl, @"/prepaid/pg/_verify"]]
+                            cachePolicy:NSURLRequestUseProtocolCachePolicy
+                        timeoutInterval:30.0];
+    
+    [originalRequest setHTTPMethod:@"POST"];
+    
+    [originalRequest setHTTPBody:[[CTSRestCore serializeParams:@{@"email":@"foo@bar.com",@"password":@"fubar",@"rmcookie":@"true"}]
+                                  dataUsingEncoding:NSUTF8StringEncoding]];
+    //[request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    //
+    //        [request.headers setObject:@"application/json" forKey:@"Content-Type"];
+    //
+    //
+    //    request = [self requestByAddingHeaders:request headers:restRequest.headers];
+    //    return request;
+    
+    
+    
+    
+    NSOperationQueue* mainQueue = [[NSOperationQueue alloc] init];
+    [mainQueue setMaxConcurrentOperationCount:5];
+    
+    
+    LogTrace(@"URL > %@ ", originalRequest);
+    LogTrace(@"URL data> %@ ", [[NSString alloc] initWithData:[originalRequest HTTPBody] encoding:NSUTF8StringEncoding]);
+    
+    
+    // LogTrace(@"allHeaderFields %@", [request allHeaderFields]);
+    
+    
+    NSURLConnection *urlConn = [[NSURLConnection alloc] initWithRequest:originalRequest delegate:self];
+    [urlConn start];
+    
+    
+    //    [NSURLConnection
+    //     sendAsynchronousRequest:request
+    //     queue:mainQueue
+    //     completionHandler:^(NSURLResponse* response,
+    //                         NSData* data,
+    //                         NSError* connectionError) {
+    //         NSLog(@"response %@",response);
+    //         NSLog(@"data %@",response);
+    //         NSLog(@"connectionError %@",connectionError);
+    //
+    //     }];
+    
+}
+
+- (NSURLRequest *) connection: (NSURLConnection *) connection
+              willSendRequest: (NSURLRequest *) request
+             redirectResponse: (NSURLResponse *) redirectResponse
+{
+    
+    NSLog(@"connection %@",connection);
+    
+    NSLog(@"redirect request %@",request);
+    NSLog(@"redirect redirectResponse %@",redirectResponse);
+    LogTrace(@"URL data> %@ ", [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding]);
+    
+    
+    NSURLResponse* response = redirectResponse;// the response, from somewhere
+    NSDictionary* headers = [(NSHTTPURLResponse *)response allHeaderFields];
+    
+    NSLog(@" headers %@ ",headers);
+    NSLog(@"  setCookie %@ ",[headers valueForKey:@"Set-Cookie"]);
+    
+
+    return request;
+}
+
+//-(NSString *)proccessAndsaveAuthCookie:()
+
+
+- (void)connection:(NSURLConnection *)connection
+didReceiveResponse:(NSURLResponse *)response{
+    
+    NSLog(@"didReceiveResponse response %@",response);
+    
+    
+    
+}
+
+
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+    NSLog(@" didReceiveData ");
+    
+}
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection{
+    
+    NSLog(@" did finish loading connection %@",connection);
+    
+}
+
+-(void)connection:(NSURLConnection *)connection didFailLoadingWithError:(NSError *)error{
+    
+    NSLog(@" did error loading connection %@",connection);
+    
+    NSLog(@" error %@ ",error);
+}
+
 
 @end
