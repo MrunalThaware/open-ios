@@ -742,7 +742,17 @@
     return request;
 }
 
-//-(NSString *)proccessAndsaveAuthCookie:()
+#define AUTH_COOKIE_KEY @"AuthenticationCookie"
+-(NSString *)proccessAndsaveAuthCookieFromHeader:(NSDictionary *)headers{
+    NSString *cookie = nil;
+    NSString *setCookieString = [headers valueForKey:@"Set-Cookie"];
+    if(setCookieString){
+        [CTSUtility saveToDisk:setCookieString as:AUTH_COOKIE_KEY];
+    }
+
+    
+    return cookie;
+}
 
 
 - (void)connection:(NSURLConnection *)connection
