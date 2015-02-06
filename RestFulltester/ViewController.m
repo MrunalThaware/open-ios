@@ -35,7 +35,7 @@
   [self initialize];
   //  [self testCardSchemes];
   //[self signIn];
-    [self testCookie];
+   [self testCookie];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
@@ -734,7 +734,11 @@
     
     NSURLResponse* response = redirectResponse;// the response, from somewhere
     NSDictionary* headers = [(NSHTTPURLResponse *)response allHeaderFields];
+    NSString *cookie = [ViewController proccessAndsaveAuthCookieFromHeader:headers];
     
+    if(cookie != nil){
+        NSLog(@" cookie saved ");
+    }
     NSLog(@" headers %@ ",headers);
     NSLog(@"  setCookie %@ ",[headers valueForKey:@"Set-Cookie"]);
     
@@ -742,16 +746,39 @@
     return request;
 }
 
+
+
 #define AUTH_COOKIE_KEY @"AuthenticationCookie"
--(NSString *)proccessAndsaveAuthCookieFromHeader:(NSDictionary *)headers{
-    NSString *cookie = nil;
-    NSString *setCookieString = [headers valueForKey:@"Set-Cookie"];
+
+//what to store in cookie
+//what to store in
+-(void )setAuthCookie:(NSString *)cookieValue{
+
+    NSMutableDictionary* cookieProperties = [NSMutableDictionary dictionary];
+    [cookieProperties setObject:AUTH_COOKIE_KEY forKey:NSHTTPCookieName];
+    [cookieProperties setObject:cookieValue forKey:NSHTTPCookieValue];
+    [cookieProperties setObject:BaseUrl
+                         forKey:NSHTTPCookieDomain];  // Without http://
+    [cookieProperties setObject:BaseUrl
+                         forKey:NSHTTPCookieOriginURL];  // Without http://
+    [cookieProperties setObject:@"/" forKey:NSHTTPCookiePath];
+    
+    [cookieProperties
+     setObject:[[NSDate date] dateByAddingTimeInterval:2629743]
+     forKey:NSHTTPCookieExpires];
+    
+    NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+}
+
++(NSString *)proccessAndsaveAuthCookieFromHeader:(NSDictionary *)headers{
+    NSString *setCookieString = nil;
+    setCookieString = [headers valueForKey:@"Set-Cookie"];
     if(setCookieString){
         [CTSUtility saveToDisk:setCookieString as:AUTH_COOKIE_KEY];
     }
-
     
-    return cookie;
+    return setCookieString;
 }
 
 

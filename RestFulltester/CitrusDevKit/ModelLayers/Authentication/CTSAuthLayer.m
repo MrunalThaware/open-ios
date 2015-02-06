@@ -367,6 +367,31 @@
     return YES;
 }
 
+
+-(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
+            completionHandler:(ASCitrusSigninCallBack)callBack{
+
+    [self addCallback:callBack forRequestId:CitruPaySigniInReqId];
+
+//validate username
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_CITRUS_PAY_AUTH_COOKIE_PATH
+                                   requestId:CitruPaySigniInReqId
+                                   headers:nil
+                                   parameters:@{
+                                                MLC_CITRUS_PAY_AUTH_COOKIE_EMAIL:userName,
+                                                MLC_CITRUS_PAY_AUTH_COOKIE_PASSWORD:password,
+                                                MLC_CITRUS_PAY_AUTH_COOKIE_RMCOOKIE:@"true"
+                                            }
+                                   json:nil
+                                   httpMethod:POST];
+    
+    [restCore requestAsyncServerDelegation:request];
+    
+
+}
+
+
 #pragma mark - pseudo password generator methods
 - (NSString*)generatePseudoRandomPassword {
   // Build the password using C strings - for speed
@@ -501,7 +526,8 @@ enum {
   IsUserCitrusMemberReqId,
     BindOauthTokenRequestId,
     BindUserRequestId,
-    BindSigninRequestId
+    BindSigninRequestId,
+    CitruPaySigniInReqId
 };
 - (instancetype)init {
   NSDictionary* dict = @{
@@ -526,7 +552,9 @@ enum {
                                                      :),
  
     toNSString(BindSigninRequestId) : toSelector(handleBindSignIn
-                                                     :)
+                                                     :),
+    toNSString(CitruPaySigniInReqId) : toSelector(handleCitrusPaySignin
+                                                 :)
     
   };
 
@@ -730,6 +758,11 @@ enum {
   }
 }
 
+
+-(void)handleCitrusPaySignin:(CTSRestCoreResponse *)response{
+    [self citrusPaySigninHelper:(NSError *)response.data];
+}
+
 #pragma mark - helper methods
 - (void)signinHelperUsername:(NSString*)username
                        oauth:(NSString*)token
@@ -818,6 +851,16 @@ enum {
     [self resetBindData];
 }
 
+-(void)citrusPaySigninHelper:(NSError *)error{
+    ASCitrusSigninCallBack callback =
+    [self retrieveAndRemoveCallbackForReqId:CitruPaySigniInReqId];
+    if (callback != nil) {
+        callback(error);
+    } else {
+        [delegate auth:self didCitrusSigninInerror:error];
+    }
+
+}
 
 - (void)resetBindData {
     userNameBind = @"";

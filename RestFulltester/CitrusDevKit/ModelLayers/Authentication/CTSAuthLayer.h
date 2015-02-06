@@ -80,6 +80,9 @@
 @optional
 - (void)auth:(CTSAuthLayer*)layer didBindUser:(NSString*)userName error:(NSError *)error;
 
+
+@optional
+- (void)auth:(CTSAuthLayer*)layer didCitrusSigninInerror:(NSError *)error;
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -108,7 +111,11 @@ typedef void (^ASResetPasswordCallback)(NSError* error);
 typedef void (^ASBindUserCallback)(NSString *userName,
                                    NSError* error);
 
+typedef void (^ASCitrusSigninCallBack)(NSError* error);
+
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
+
+
 
 /**
  *  sign in the user
@@ -171,6 +178,10 @@ typedef void (^ASBindUserCallback)(NSString *userName,
                         completionHandler:
 (ASBindUserCallback)callback;
 
+
+
+-(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
+            completionHandler:(ASCitrusSigninCallBack)callBack;
 
 /**
  *  signout

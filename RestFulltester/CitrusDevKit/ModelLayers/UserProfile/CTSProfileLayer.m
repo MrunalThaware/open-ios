@@ -21,7 +21,8 @@ enum {
   ProfileGetContactReqId,
   ProfileUpdateContactReqId,
   ProfileGetPaymentReqId,
-  ProfileUpdatePaymentReqId
+  ProfileUpdatePaymentReqId,
+    ProfileGetBalanceReqId
 };
 
 - (instancetype)init {
@@ -35,7 +36,8 @@ enum {
                                                     :),
     toNSString(ProfileUpdatePaymentReqId) :
         toSelector(handleProfileUpdatePayment
-                   :)
+                   :),
+    toNSString(ProfileGetBalanceReqId):toSelector(handleProfileGetBanlance:)
   };
 
   self = [super initWithRequestSelectorMapping:dic
@@ -152,6 +154,30 @@ enum {
   [restCore requestAsyncServer:request];
 }
 
+
+-(void)requetGetBalance:(ASGetBalanceCallBack)calback{
+    [self addCallback:calback forRequestId:ProfileGetBalanceReqId];
+
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self getBalanceHelper:nil error:oauthStatus.error];
+    }
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_GET_BALANCE_PATH
+                                   requestId:ProfileGetBalanceReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:nil
+                                   httpMethod:GET];
+    
+    [restCore requestAsyncServer:request];
+}
+
+
+
 #pragma mark - response handlers methods
 
 - (void)handleReqProfileGetContact:(CTSRestCoreResponse*)response {
@@ -188,6 +214,21 @@ enum {
 
 - (void)handleProfileUpdatePayment:(CTSRestCoreResponse*)response {
   [self updatePaymentInfoHelper:response.error];
+}
+
+
+-(void)handleProfileGetBanlance:(CTSRestCoreResponse*)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSAmount* amount = nil;
+    
+    if(error == nil){
+        amount = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
+    
+    }
+    
+    [self getBalanceHelper:amount error:error];
+
 }
 
 #pragma mark - helper methods
@@ -237,6 +278,20 @@ enum {
   } else {
     [delegate profile:self didReceivePaymentInformation:payment error:error];
   }
+}
+
+-(void)getBalanceHelper:(CTSAmount *)amount error:(NSError *)error{
+
+    
+    ASGetBalanceCallBack callback =
+    [self retrieveAndRemoveCallbackForReqId:ProfileGetBalanceReqId];
+    if (callback != nil) {
+        callback(amount, error);
+        
+    } else {
+        [delegate profile:self didGetBalance:amount error:error];
+    }
+  
 }
 
 @end

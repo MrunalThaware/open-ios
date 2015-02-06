@@ -22,6 +22,7 @@ typedef enum {
     MemberNetbank,
     TokenizedCard,
     TokenizedNetbank,
+    CitrusPay,
     UndefinedPayment
 } CTSPaymentType;
 
@@ -42,6 +43,7 @@ typedef enum {
 @property(nonatomic, strong) NSString<Optional>* cvv;
 @property(nonatomic, strong) NSString<Optional>* code;
 
+-(instancetype)initCitrusPay;
 - (instancetype)initWithNetBanking:(CTSNetBankingUpdate*)bankDetails;
 - (instancetype)initWithCard:(CTSElectronicCardUpdate*)eCard;
 - (instancetype)initWithTokenized:(CTSTokenizedPayment*)tokenizedPayment;

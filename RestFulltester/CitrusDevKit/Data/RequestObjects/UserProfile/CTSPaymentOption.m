@@ -40,6 +40,22 @@
 @synthesize type, name, owner, number, expiryDate, scheme, bank, token, mmid,
     impsRegisteredMobile, cvv, code;
 
+
+-(instancetype)initCitrusPay{
+    self = [super init];
+    if (self) {
+        type = MLC_CITRUS_PAY_TYPE;
+        owner = MLC_CITRUS_PAY_HOLDER;
+        number = MLC_CITRUS_PAY_NUMBER;
+        expiryDate = MLC_CITRUS_PAY_EXPIRY;
+        scheme = MLC_CITRUS_PAY_SCHEME;
+        cvv = MLC_CITRUS_PAY_CVV;
+    }
+    return self;
+
+}
+
+
 - (instancetype)initWithCard:(CTSElectronicCardUpdate*)eCard {
   self = [super init];
   if (self) {
@@ -102,6 +118,7 @@
 }
 
 - (CTSPaymentType)fetchPaymentType {
+    
   if (self.token != nil && self.cvv != nil) {
     return TokenizedCard;
   } else if (self.token != nil && self.cvv == nil) {
@@ -148,6 +165,16 @@
       paymentMode.code = code;
 
       break;
+      case CitrusPay:
+          paymentToken.type = TYPE_MEMBER;
+          paymentMode = [[CTSPaymentMode alloc] init];
+          paymentMode.cvv = cvv;
+          paymentMode.holder = owner;
+          paymentMode.number = number;
+          paymentMode.scheme = scheme;
+          paymentMode.expiry = expiryDate;
+          paymentMode.type = type;
+          
     default:
       break;
   }

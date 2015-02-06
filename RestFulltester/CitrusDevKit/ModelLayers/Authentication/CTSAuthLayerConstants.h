@@ -120,6 +120,14 @@ typedef enum SignOutResponseState {
 #define MLC_BIND_SIGNIN_GRANT_TYPE @"username"
 
 
+#pragma mark - CITRUS_PAY_AUTH_COOKIE
+
+#define MLC_CITRUS_PAY_AUTH_COOKIE_PATH @"/prepaid/pg/_verify"
+#define MLC_CITRUS_PAY_AUTH_COOKIE_TYPE POST
+#define MLC_CITRUS_PAY_AUTH_COOKIE_EMAIL @"email"
+#define MLC_CITRUS_PAY_AUTH_COOKIE_PASSWORD @"password"
+#define MLC_CITRUS_PAY_AUTH_COOKIE_RMCOOKIE @"rmcookie"
+
 typedef enum {
   OauthRefreshStatusSuccess,
   OauthRefreshStatusNeedToLogin

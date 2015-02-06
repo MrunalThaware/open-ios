@@ -313,6 +313,65 @@
 
 }
 
+
+
+- (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
+                               withAddress:(CTSUserAddress*)userAddress
+                                      bill:(CTSBill *)bill
+                     withCompletionHandler:(ASMakeGuestPaymentCallBack)callback{
+
+    [self requestChargeInternalCitrusCashWithContact:contactInfo withAddress:userAddress bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+        
+        NSLog(@"paymentInfo %@",paymentInfo);
+        NSLog(@"error %@",error);
+        
+        [self handlePaymentResponse:paymentInfo error:error] ;
+        
+
+    }];
+
+    
+    
+}
+
+
+- (void)requestChargeInternalCitrusCashWithContact:(CTSContactUpdate*)contactInfo
+                               withAddress:(CTSUserAddress*)userAddress
+                                      bill:(CTSBill *)bill
+                     withCompletionHandler:(ASMakeCitruspayCallBackInternal)callback{
+    [self addCallback:callback forRequestId:PaymentAsCitruspayInternalReqId];
+
+
+    CTSPaymentDetailUpdate *paymentCitrus = [[CTSPaymentDetailUpdate alloc] initCitrusPay];
+
+    
+    
+    CTSPaymentRequest* paymentrequest =
+    [self configureReqPayment:paymentCitrus
+                      contact:contactInfo
+                      address:userAddress
+                       amount:bill.amount.value
+                    returnUrl:bill.returnUrl
+                    signature:bill.requestSignature
+                        txnId:bill.merchantTxnId
+               merchantAccess:bill.merchantAccessKey];
+    
+    
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL
+                                   requestId:PaymentAsCitruspayInternalReqId
+                                     headers:nil
+                                  parameters:nil
+                                        json:[paymentrequest toJSONString]
+                                  httpMethod:POST];
+    [restCore requestAsyncServer:request];
+
+}
+
+
+
+
 - (void)requestMerchantPgSettings:(NSString*)vanityUrl
             withCompletionHandler:(ASGetMerchantPgSettingsCallBack)callback {
   [self addCallback:callback forRequestId:PaymentPgSettingsReqId];
@@ -346,7 +405,8 @@ enum {
   PaymentAsGuestReqId,
   PaymentUsingtokenizedCardBankReqId,
   PaymentUsingSignedInCardBankReqId,
-  PaymentPgSettingsReqId
+  PaymentPgSettingsReqId,
+    PaymentAsCitruspayInternalReqId
 };
 - (instancetype)init {
   NSDictionary* dict = @{
@@ -359,7 +419,11 @@ enum {
         toSelector(handlePaymentUsingSignedInCardBank
                    :),
     toNSString(PaymentPgSettingsReqId) : toSelector(handleReqPaymentPgSettings
+                                                    :),
+    
+    toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
                                                     :)
+    
   };
   self = [super initWithRequestSelectorMapping:dict
                                        baseUrl:CITRUS_PAYMENT_BASE_URL];
@@ -377,9 +441,11 @@ enum {
                  toSelector(handlePaymentUsingSignedInCardBank
                             :),
              toNSString(PaymentPgSettingsReqId) : toSelector(handleReqPaymentPgSettings
-                                                             :)
+                                                             :),
+             
+             toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
+                                                                      :)
              };
-    
     
 }
 
@@ -450,6 +516,25 @@ enum {
   [self makeUserPaymentHelper:payment error:error];
 }
 
+
+-(void)handlePayementUsingCitruspayInternal:(CTSRestCoreResponse*)response  {
+
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSPaymentTransactionRes* payment = nil;
+    if (error == nil) {
+        NSLog(@"error:%@", jsonError);
+        payment =
+        [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
+                                                   error:&jsonError];
+        [payment logProperties];
+    }
+    [self makeCitrusPayInternalHelper:payment error:error];
+
+
+
+}
+
 - (void)handleReqPaymentPgSettings:(CTSRestCoreResponse*)response {
   NSError* error = response.error;
   JSONModelError* jsonError;
@@ -497,6 +582,19 @@ enum {
   }
 }
 
+-(void)makeCitrusPayInternalHelper:(CTSPaymentTransactionRes*)payment
+                     error:(NSError*)error{
+
+    ASMakeCitruspayCallBackInternal callback =
+    [self retrieveAndRemoveCallbackForReqId:PaymentAsCitruspayInternalReqId];
+    if (callback != nil) {
+        callback(payment, error);
+    } 
+
+}
+
+
+
 - (void)getMerchantPgSettingsHelper:(CTSPgSettings*)pgSettings
                               error:(NSError*)error {
   ASGetMerchantPgSettingsCallBack callback =
@@ -507,4 +605,93 @@ enum {
     [delegate payment:self didRequestMerchantPgSettings:pgSettings error:error];
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+-(void)handlePaymentResponse:(CTSPaymentTransactionRes *)paymentInfo error:(NSError *)error{
+    
+    BOOL hasSuccess =
+    ((paymentInfo != nil) && ([paymentInfo.pgRespCode integerValue] == 0) &&
+     (error == nil))
+    ? YES
+    : NO;
+    if(hasSuccess){
+        // Your code to handle success.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self loadPaymentWebview:paymentInfo.redirectUrl];
+        });
+        
+    }
+    else{
+        // Your code to handle error.
+        NSString *errorToast;
+
+    }
+}
+
+
+
+#pragma mark -  CitrusPayWebView
+
+
+- (void)webViewDidStartLoad:(UIWebView*)webView {
+    NSLog(@"webViewDidStartLoad ");
+}
+
+
+-(void)loadPaymentWebview:(NSString *)url{
+
+    UIWebView  *webview = [[UIWebView alloc] init];
+    webview.delegate = self;
+    [webview loadRequest:[[NSURLRequest alloc]
+                               initWithURL:[NSURL URLWithString:url]]];
+
+}
+
+
+
+- (void)webViewDidFinishLoad:(UIWebView*)webView {
+    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
+    if(responseDict){
+        //responseDict> contains all the information related to transaction
+       // [self transactionComplete:responseDict];
+    }
+}
+
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    NSLog(@"request url %@",[request URL]);
+    
+    
+    NSArray* cookies =
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[request URL]];
+    NSLog(@"cookie array:%@", cookies);
+    if([CTSUtility isVerifyPage:[[request URL] absoluteString]]){
+    
+        NSLog(@" user not verified  ");
+    
+    }
+    return YES;
+}
+
+
+
+
+//-(void)transactionComplete:(NSDictionary *)responseDictionary{
+//    if([responseDictionary valueForKey:@"TxStatus"] != nil){
+//        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[responseDictionary valueForKey:@"TxStatus"] ]];
+//    }
+//    else{
+//        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n Response: %@",responseDictionary]];
+//    }
+//}
+
 @end

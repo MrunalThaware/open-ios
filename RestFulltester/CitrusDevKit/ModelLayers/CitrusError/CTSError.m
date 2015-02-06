@@ -91,4 +91,37 @@
 }
 
 
++(NSError *)errorForStatusCode:(int)statusCode{
+    NSString *errorDescription ;
+    switch (statusCode) {
+        case 200:
+            errorDescription = @"Request Complete";
+        case 400:
+           errorDescription = @"Bad Request";
+            break;
+        case 401:
+            errorDescription = @"Unauthorized Access";
+            break;
+        case 403:
+            errorDescription = @"Access forbidden";
+            break;
+        case 503:
+            errorDescription = @"Server Unavailable";
+            break;
+        case 504:
+            errorDescription = @"Gateway Timeout";
+            break;
+        default:
+            errorDescription = @"Oops Something went wrong";
+
+            break;
+    }
+    
+    NSDictionary* userInfo = @{NSLocalizedDescriptionKey : errorDescription};
+    
+    return
+    [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:statusCode userInfo:userInfo];
+}
+
+
 @end

@@ -39,4 +39,5 @@
 + (NSString*)createTXNId;
 +(NSString*)correctExpiryDate:(NSString *)date;
 +(BOOL)validateBill:(CTSBill *)bill;
++(BOOL)isVerifyPage:(NSString *)urlString;
 @end

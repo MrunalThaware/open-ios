@@ -29,6 +29,8 @@
 		37851BFC1978F2DD00AE3AD0 /* CTSUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B9D1978F2DD00AE3AD0 /* CTSUtility.m */; };
 		37851C001978F2DD00AE3AD0 /* CreditCard-Validator.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851BA41978F2DD00AE3AD0 /* CreditCard-Validator.m */; };
 		37851C021978F2DD00AE3AD0 /* NSObject+logProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851BA71978F2DD00AE3AD0 /* NSObject+logProperties.m */; };
+		378D711D1A84939400A6FD36 /* CTSGetBalanceRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 378D711C1A84939400A6FD36 /* CTSGetBalanceRes.m */; };
+		378D711E1A8493D300A6FD36 /* CTSGetBalanceRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 378D711C1A84939400A6FD36 /* CTSGetBalanceRes.m */; };
 		378D79DA1A26FE9A00E373B2 /* ServerSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 378D79D91A26FE9A00E373B2 /* ServerSignature.m */; };
 		378D79DB1A26FE9A00E373B2 /* ServerSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 378D79D91A26FE9A00E373B2 /* ServerSignature.m */; };
 		37A7C6A51922458F005D29D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A41922458F005D29D4 /* Foundation.framework */; };
@@ -214,6 +216,8 @@
 		37851BA41978F2DD00AE3AD0 /* CreditCard-Validator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CreditCard-Validator.m"; sourceTree = "<group>"; };
 		37851BA61978F2DD00AE3AD0 /* NSObject+logProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+logProperties.h"; sourceTree = "<group>"; };
 		37851BA71978F2DD00AE3AD0 /* NSObject+logProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+logProperties.m"; sourceTree = "<group>"; };
+		378D711B1A84939400A6FD36 /* CTSGetBalanceRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSGetBalanceRes.h; sourceTree = "<group>"; };
+		378D711C1A84939400A6FD36 /* CTSGetBalanceRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSGetBalanceRes.m; sourceTree = "<group>"; };
 		378D79D81A26FE9A00E373B2 /* ServerSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerSignature.h; sourceTree = "<group>"; };
 		378D79D91A26FE9A00E373B2 /* ServerSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerSignature.m; sourceTree = "<group>"; };
 		37A7C6A11922458F005D29D4 /* CTS iOS Sdk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CTS iOS Sdk.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -713,6 +717,8 @@
 				37C9648D198F723E0021DC0B /* CTSProfilePrepaidRes.m */,
 				37C9648E198F723E0021DC0B /* GetProfileRes.h */,
 				37C9648F198F723E0021DC0B /* GetProfileRes.m */,
+				378D711B1A84939400A6FD36 /* CTSGetBalanceRes.h */,
+				378D711C1A84939400A6FD36 /* CTSGetBalanceRes.m */,
 			);
 			path = UserProfile;
 			sourceTree = "<group>";
@@ -977,6 +983,7 @@
 				3733269619B860190084D52D /* JSONValueTransformer.m in Sources */,
 				37C96493198F723E0021DC0B /* CTSPaymentNetbankingRequest.m in Sources */,
 				37C9649F198F723E0021DC0B /* CTSPaymentOption.m in Sources */,
+				378D711E1A8493D300A6FD36 /* CTSGetBalanceRes.m in Sources */,
 				37851BFC1978F2DD00AE3AD0 /* CTSUtility.m in Sources */,
 				371B5D24198A5CCF0096451C /* CTSRestCore.m in Sources */,
 				371B5D27198A5CCF0096451C /* CTSRestObject.m in Sources */,
@@ -1025,6 +1032,7 @@
 				7692AAF019FFA247004D56EC /* CTSError.m in Sources */,
 				7692AAF119FFA247004D56EC /* CTSOauthManager.m in Sources */,
 				7692AAF219FFA247004D56EC /* ViewController.m in Sources */,
+				378D711D1A84939400A6FD36 /* CTSGetBalanceRes.m in Sources */,
 				7692AAF319FFA247004D56EC /* AppDelegate.m in Sources */,
 				7692AAF419FFA247004D56EC /* CTSAmount.m in Sources */,
 				7692AAF519FFA247004D56EC /* JSONModelError.m in Sources */,
@@ -1147,7 +1155,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yadnesh Wankhede (9NQH2263XK)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1265,7 +1274,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yadnesh Wankhede (9NQH2263XK)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1290,6 +1299,7 @@
 					SystemConfiguration,
 				);
 				PRODUCT_NAME = "CTS iOS GUISdk";
+				PROVISIONING_PROFILE = "98ca9fc3-86ae-4ea8-8550-f7dd00f9e6ad";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1319,6 +1329,7 @@
 					SystemConfiguration,
 				);
 				PRODUCT_NAME = "CTS iOS GUISdk";
+				PROVISIONING_PROFILE = "98ca9fc3-86ae-4ea8-8550-f7dd00f9e6ad";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

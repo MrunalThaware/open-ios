@@ -19,7 +19,9 @@
     didReceiveResponse:(CTSRestCoreResponse*)response;
 @end
 
-@interface CTSRestCore : NSObject
+@interface CTSRestCore : NSObject{
+    int delegationRequestId;
+}
 @property(strong, nonatomic) NSString* baseUrl;
 @property(weak) id<CTSRestCoreDelegate> delegate;
 - (instancetype)initWithBaseUrl:(NSString*)url;
@@ -27,4 +29,6 @@
 + (CTSRestCoreResponse*)requestSyncServer:(CTSRestCoreRequest*)restRequest
                               withBaseUrl:(NSString*)baseUrl;
 + (NSString*)serializeParams:(NSDictionary*)params ;
+-(void)requestAsyncServerDelegation:(CTSRestCoreRequest *)restRequest;
+
 @end

@@ -35,4 +35,6 @@ typedef enum {
 + (NSError*)getServerErrorWithCode:(int)errorCode
                           withInfo:(NSDictionary*)information;
 +(NSString *)getFakeJsonForCode:(CTSErrorCode)errorCode;
++(NSError *)errorForStatusCode:(int)statusCode;
+
 @end

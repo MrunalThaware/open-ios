@@ -127,4 +127,20 @@
 #define MLC_PAYMENT_GET_PGSETTINGS_NETBANKING_REQ_MAPPING \
   @{@"bankName" : @"bankName", @"issuerCode" : @"issuerCode"}
 
+#define MLC_CITRUS_PAY_CVV @"000"
+#define MLC_CITRUS_PAY_HOLDER @"Tester Citrus"
+#define MLC_CITRUS_PAY_NUMBER @"1234561234561234"
+#define MLC_CITRUS_PAY_SCHEME @"CPAY"
+#define MLC_CITRUS_PAY_TYPE @"prepaid"
+#define MLC_CITRUS_PAY_EXPIRY @"04/2021"
+
+
+
+
+
+
+
+
+
+
 #endif

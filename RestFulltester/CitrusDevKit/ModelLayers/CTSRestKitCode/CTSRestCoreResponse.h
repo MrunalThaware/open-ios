@@ -12,6 +12,7 @@
 @property(strong) NSString* responseString;
 @property(assign) int requestId;
 @property(assign) long indexData;
+@property(assign) id data;
 
 @property(strong) NSError* error;
 @end

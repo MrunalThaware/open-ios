@@ -53,6 +53,7 @@
 #pragma mark - webview delegates
 
 - (void)webViewDidStartLoad:(UIWebView*)webView {
+    NSLog(@"webView %@",[webView.request URL].absoluteString);
     [indicator startAnimating];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
@@ -64,6 +65,30 @@
         //responseDict> contains all the information related to transaction
         [self transactionComplete:responseDict];
     }
+}
+
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    NSLog(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
+    //NSString *iosResponse = [webView stringByEvaluatingJavaScriptFromString:@"callTojavaFn()"];
+
+    if ([[[request URL] scheme] isEqualToString:@"closewebview"]) {
+        NSLog(@"found url");
+    
+    }
+    NSArray* cookies =
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[request URL]];
+    NSLog(@"cookie array:%@", cookies);
+    [WebViewViewController isVerifyPage:[[request URL] absoluteString]];
+    return YES;
+}
+
++(BOOL)isVerifyPage:(NSString *)urlString{
+    BOOL isVerifyPage = NO;
+    if([urlString containsString:@"prepaid/pg/verify/"]){
+        NSLog(@"not logged in");
+        isVerifyPage = YES;
+    }
+    return isVerifyPage;
 }
 
 

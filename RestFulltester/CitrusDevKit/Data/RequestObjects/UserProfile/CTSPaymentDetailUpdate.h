@@ -18,6 +18,9 @@
 @property(nonatomic, strong) NSString<Optional>* password;
 @property(nonatomic, strong) NSMutableArray<CTSPaymentOption>* paymentOptions;
 
+-(instancetype)initCitrusPay;
+
++(CTSPaymentDetailUpdate *)citrusPay;
 /**
  *  to add card to the object, internally stored in an array to send to
  *server,card is validated before they are added to the array

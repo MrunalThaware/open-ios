@@ -69,7 +69,7 @@
                            error:(NSError*)error;
 
 @end
-@interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol> {
+@interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol,UIWebViewDelegate> {
 }
 @property(strong) NSString* merchantTxnId;
 @property(strong) NSString* signature;
@@ -89,6 +89,9 @@ typedef void (^ASMakeTokenizedPaymentCallBack)(
 typedef void (^ASMakeGuestPaymentCallBack)(
     CTSPaymentTransactionRes* paymentInfo,
     NSError* error);
+
+typedef void (^ASMakeCitruspayCallBackInternal)(CTSPaymentTransactionRes* paymentInfo,
+                                           NSError* error);
 
 typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                                                 NSError* error);
@@ -171,6 +174,23 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                       withAddress:(CTSUserAddress*)userAddress
                              bill:(CTSBill *)bill
             withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
+
+- (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
+                               withAddress:(CTSUserAddress*)userAddress
+                                      bill:(CTSBill *)bill
+                     withCompletionHandler:(ASMakeCitruspayCallBackInternal)callback;
+
+
+
+- (void)requestChargeInternalCitrusCashWithContact:(CTSContactUpdate*)contactInfo
+                 withAddress:(CTSUserAddress*)userAddress
+                        bill:(CTSBill *)bill
+       withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
+
+
+
+
+
 
 /**
  *  request card pament options(visa,master,debit) and netbanking settngs for

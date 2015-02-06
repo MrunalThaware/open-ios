@@ -19,8 +19,15 @@
 #define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
 
 //URLS
-#define BillUrl @"http://192.168.1.4:8080/billGenerator.jsp"
+//#define BillUrl @"http://192.168.1.105:8888/bill.php"
 
-#define BaseUrl @"https://stgadmin.citruspay.com"
+
+#define BillUrl @"http://192.168.2.34:8888/bill.php"
+
+
+#define BaseUrl @"https://sandboxadmin.citruspay.com"
+
+
+//#define BaseUrl @"https://stgadmin.citruspay.com"
 
 #endif

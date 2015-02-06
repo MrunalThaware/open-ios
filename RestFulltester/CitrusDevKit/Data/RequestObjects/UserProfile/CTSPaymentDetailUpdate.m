@@ -21,6 +21,15 @@
     return self;
 }
 
+-(instancetype)initCitrusPay{
+    self = [[CTSPaymentDetailUpdate alloc] init];
+    [self.paymentOptions addObject:[[CTSPaymentOption alloc] initCitrusPay]];
+    return self;
+}
+
+
+
+
 - (void)addCard:(CTSElectronicCardUpdate*)eCard {
     eCard.expiryDate = [CTSUtility correctExpiryDate:eCard.expiryDate];
     [paymentOptions addObject:[[CTSPaymentOption alloc] initWithCard:eCard]];
