@@ -65,6 +65,14 @@
         //responseDict> contains all the information related to transaction
         [self transactionComplete:responseDict];
     }
+    
+    
+    NSString *iosResponse = [webView stringByEvaluatingJavaScriptFromString:@"callTojavaFn3()"];
+    NSLog(@"callTojavaFn1() iosResponse %@",iosResponse);
+    
+    
+    id iosResponse2 = [webView stringByEvaluatingJavaScriptFromString:@"callToiOS()"];
+    NSLog(@"callToiOS() iosResponse %@",iosResponse2);
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{

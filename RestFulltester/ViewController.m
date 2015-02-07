@@ -34,8 +34,8 @@
   [super viewDidLoad];
   [self initialize];
   //  [self testCardSchemes];
-  //[self signIn];
-   [self testCookie];
+  [self signIn];
+   //[self testCookie];
   //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
@@ -120,6 +120,13 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
                          //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
+                         
+                         
+                         
+                         [profileLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
+                             NSLog(@"amount %@",amount);
+                             NSLog(@"error %@",error);
+                         }];
                      }];
 }
 
