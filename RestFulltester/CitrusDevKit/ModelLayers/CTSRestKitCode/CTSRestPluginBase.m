@@ -89,14 +89,16 @@
     
     NSString *newDes;
     if(error.errorDescription != nil){
-        newDes =error.errorDescription;
+        newDes = error.errorDescription;
     }
     else {
         newDes =[[serverError userInfo] valueForKey:NSLocalizedDescriptionKey];
-        
     }
     
 //  NSString  *tempNewDes = [[CTSError sharedManager] dumbConversion:error.type];
+    
+    NSLog(@"newDes %@",newDes);
+    
     
     NSError  *err = [[CTSError sharedManager] getSDKErrorWithType:error.type  withInfo:serverError.userInfo];
 

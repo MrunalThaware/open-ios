@@ -945,6 +945,23 @@ enum {
 
 - (void)handleReqRequestForPasswordReset:(CTSRestCoreResponse*)response {
     LogTrace(@"password change requested");
+    
+    
+    
+    if(response.error){
+        CTSError *ctsError = [[response.error userInfo]objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+        NSDictionary* userInfo = @{
+                                   CITRUS_ERROR_DESCRIPTION_KEY : ctsError,
+                                   NSLocalizedDescriptionKey :ctsError.description
+                                   };
+        
+        
+        response.error = [NSError errorWithDomain:CITRUS_ERROR_DOMAIN
+                                             code:[response.error code]
+                                         userInfo:userInfo];
+    }
+    
+    
     [self resetPasswordHelper:response.error];
 }
 

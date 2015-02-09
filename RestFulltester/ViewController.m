@@ -38,15 +38,15 @@
    //[self testCardSchemes];
    // [self regenerateOTP];
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
-  [self signIn];
+  //[self signIn];
 //[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
-//    [authLayer requestResetPassword:TEST_EMAIL completionHandler:^(NSError *error) {
-//        [self logError:error];
-//        
-//    }];
+    [authLayer requestResetPassword:TEST_EMAIL completionHandler:^(NSError *error) {
+        [self logError:error];
+        
+    }];
   //[self doGuestPaymentNetbanking];
     //[self isMobileVerified];
     
