@@ -179,6 +179,10 @@
     return [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:code userInfo:userInfo];
 }
 
+
+
+
+
 //-(NSString *)dumbConversion:(NSString*)errorDes{
 //
 //    for(NSString *from in [dumbDict allKeys]){

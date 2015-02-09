@@ -731,7 +731,7 @@ enum {
     OTPVerificationRequestId,
     OTPRegenerationRequestId,
     ISMobileVerifiedRequestId
-};
+}AuthRequestId;
 
 
 
@@ -952,7 +952,7 @@ enum {
         CTSError *ctsError = [[response.error userInfo]objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
         NSDictionary* userInfo = @{
                                    CITRUS_ERROR_DESCRIPTION_KEY : ctsError,
-                                   NSLocalizedDescriptionKey :ctsError.description
+                                   NSLocalizedDescriptionKey :[self getDescrptionForRquestId:RequestForPasswordResetReqId ]
                                    };
         
         
@@ -1198,4 +1198,19 @@ enum {
     sourceTypeSignup = @"";
 }
 
+
+
+-(NSString *)getDescrptionForRquestId:(AuthRequestId)reqId{
+    NSString *errorDes = nil;
+    switch (reqId) {
+        case RequestForPasswordResetReqId:
+          errorDes =  @"Email ID invalid or not registered with Citrus. Please use a different Email ID."
+            break;
+            
+        default:
+            errorDes =@"Oops something went wrong!";
+            break;
+    }
+    return errorDes;
+}
 @end
