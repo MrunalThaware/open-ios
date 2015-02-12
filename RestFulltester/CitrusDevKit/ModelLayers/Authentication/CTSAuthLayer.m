@@ -718,7 +718,7 @@ static NSData* digest(NSData* data,
 
 
 #pragma mark - main class methods
-enum {
+typedef enum {
     SignupOauthTokenReqId,
     SigninOauthTokenReqId,
     SignupStageOneReqId,
@@ -1204,7 +1204,7 @@ enum {
     NSString *errorDes = nil;
     switch (reqId) {
         case RequestForPasswordResetReqId:
-          errorDes =  @"Email ID invalid or not registered with Citrus. Please use a different Email ID."
+          errorDes =  @"Email ID invalid or not registered with Citrus. Please use a different Email ID.";
             break;
             
         default:

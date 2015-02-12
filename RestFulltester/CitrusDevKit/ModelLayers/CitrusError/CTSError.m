@@ -125,7 +125,7 @@
         return INVALID_OTP_EXCEPTION;
     }else if ([errorType isEqualToString:INTERNAL_SERVER_MESSAGE]){
         return INTERNAL_SERVER_EXCEPTION;
-    }else if ([errorType isEqualToString:BAD_CREDENTIALS]){
+    }else if ([errorType isEqualToString:BAD_CREDENTIALS]|| [errorType isEqualToString:INVALID_GRANT]){
         return BAD_CREDENTIALS_EXCEPTION;
     }else if ([errorType isEqualToString:USER_LOCKED]){
         return USER_LOCKED_EXCEPTION;
@@ -161,17 +161,22 @@
         break;
         case BAD_CREDENTIALS_EXCEPTION:
             errorDescription = @"Invalid login credentials. Please make sure the entered credentials are are correct.";
+            break;
+
         case USER_LOCKED_EXCEPTION:
             errorDescription = @"We're sorry, your account is temporarily locked. Please contact our customer care for further assistance.";
-        case USER_NOT_LOGGED_IN_EXCEPTION:
-            errorDescription = nil;
+            break;
+
         case INVALID_PASSWORD_EXCEPTION:
             errorDescription = @"Invalid current password. Please make sure your current password is correct.";
+            break;
+
         case UNKNOWN_EXCEPTION:
             errorDescription = @"Oops... Something went wrong.";
+            break;
+
         default:
           errorDescription = @"Oops... Something went wrong.";
-
         break;
     }
     

@@ -41,6 +41,7 @@ typedef enum {
     USER_LOCKED_EXCEPTION = 207, //user locked
     USER_NOT_LOGGED_IN_EXCEPTION = 208, //user not logged in
     INVALID_PASSWORD_EXCEPTION = 209, //invalid old password
+    
     UNKNOWN_EXCEPTION = 222, //all exceptions except above all
 } SDKExceptionCode;
 
@@ -67,7 +68,10 @@ typedef enum {
 
 #define INVALID_PASSWORD @"javax.security.auth.login.CredentialException"
 
+#define INVALID_GRANT @"invalid_grant"
+
 #define DEFAULT_MESSAGE @"Something Went Wrong!!!"
+
 
 
 #define CITRUS_ERROR_DOMAIN @"com.citrus.errorDomain"

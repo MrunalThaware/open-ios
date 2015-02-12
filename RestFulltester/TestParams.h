@@ -43,10 +43,15 @@
 //#define TEST_PASSWORD @"tester@123"
 //#define TEST_MOBILE @"9811111111"
 
-#define TEST_EMAIL @"abc12345@gmail.com"
-#define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9822222211"
+//#define TEST_EMAIL @"abc12345@gmail.com"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"9822222211"
 
+
+
+#define TEST_EMAIL @"bijaldesai0907@gmail.com"
+#define TEST_PASSWORD @"tester@123"
+#define TEST_MOBILE @"9822222222"
 
 #define TEST_OTP @"ad0x"
 
