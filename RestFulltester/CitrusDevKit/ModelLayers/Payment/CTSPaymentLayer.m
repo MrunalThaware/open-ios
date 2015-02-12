@@ -652,8 +652,11 @@ enum {
 
     UIWebView  *webview = [[UIWebView alloc] init];
     webview.delegate = self;
+    UIView *view = [[UIView alloc] init];
+    [view addSubview:webview];
     [webview loadRequest:[[NSURLRequest alloc]
                                initWithURL:[NSURL URLWithString:url]]];
+
 
 }
 

@@ -33,8 +33,10 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initialize];
+    [authLayer generateBigIntegerString:@"shardulLavekar@mailinator.com" ];
+    
   //  [self testCardSchemes];
-  [self signIn];
+  //[self signIn];
    //[self testCookie];
   //[self signUp];
   //[self testCardSchemes];

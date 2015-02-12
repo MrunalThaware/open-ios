@@ -33,11 +33,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initializeLayers];
-    //[self testCookie];
+    [self testCookie];
     self.title = @"iOS Native SDKs kit Demo";
    // [self loadRedirectUrl:@"http://192.168.2.34:8888/return.php"];
     
-    [self loadRedirectUrl:@"http://192.168.2.34:8080/JSPTest/NewFile.jsp"];
+    //[self loadRedirectUrl:@"http://192.168.2.34:8080/JSPTest/NewFile.jsp"];
 
     
 }
