@@ -8,6 +8,7 @@
 
 #import "CTSUtility.h"
 #import "CreditCard-Validator.h"
+#import "CTSError.h"
 
 #define ALPHABETICS @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
 #define NUMERICS @"0123456789"
@@ -523,5 +524,25 @@
         return NO;
     }
 }
+
+
++(NSError *)verifiyEmailOrMobile:(NSString *)userName{
+    
+    NSError *error = nil;
+    
+    if([CTSUtility isEmail:userName]){
+        if (![CTSUtility validateEmail:userName]) {
+            error = [CTSError getErrorForCode:EmailNotValid];
+        
+        }
+    }else{
+        userName = [CTSUtility mobileNumberToTenDigitIfValid:userName];
+        if (!userName) {
+            error = [CTSError getErrorForCode:MobileNotValid];
+        }
+    }
+    return nil;
+}
+
 
 @end

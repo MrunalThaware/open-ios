@@ -23,7 +23,9 @@ enum {
   ProfileUpdateContactReqId,
   ProfileGetPaymentReqId,
   ProfileUpdatePaymentReqId,
-    ProfileUpdateMobileRequestId
+    ProfileUpdateMobileRequestId,
+    ProfileGetNewContactReqId,
+
 };
 
 - (instancetype)init {
@@ -47,7 +49,11 @@ enum {
                             :),
              toNSString(ProfileUpdateMobileRequestId) :
                  toSelector(handleProfileMobileUpdate
+                            :),
+             toNSString(ProfileGetNewContactReqId) :
+                 toSelector(handleGetNewProfileContact
                             :)
+             
              
              };
 
@@ -218,6 +224,37 @@ enum {
 
 
 
+
+-(void)requestContactInfoNewWithCompletionHandler:(ASGetContactInfoNewCallback)callback{
+    [self addCallback:callback forRequestId:ProfileGetNewContactReqId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self getNewProfileHelper:nil error:oauthStatus.error];
+        return;
+    }
+
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_GET_NEW_CONTACT
+                                   requestId:ProfileGetNewContactReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:nil
+                                   httpMethod:GET];
+    
+    [restCore requestAsyncServer:request];
+
+
+}
+
+
+
+
+
+
+
 #pragma mark - response handlers methods
 
 - (void)handleReqProfileGetContact:(CTSRestCoreResponse*)response {
@@ -260,6 +297,28 @@ enum {
     [self updateMobileHelper:response.error];
 }
 
+
+-(void)handleGetNewProfileContact:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSProfileContactNewRes* contactInfo = nil;
+    
+    if (error == nil) {
+        contactInfo =
+        [[CTSProfileContactNewRes alloc] initWithString:response.responseString
+                                               error:&jsonError];
+        contactInfo.emailDate = [NSDate dateWithTimeIntervalSince1970:[contactInfo.emailVerifiedDate longValue]];
+        contactInfo.mobileDate = [NSDate dateWithTimeIntervalSince1970:[contactInfo.mobileVerifiedDate longValue]];
+
+        LogTrace(@"jsonError %@", jsonError);
+    }
+    
+    if(jsonError){
+            error = [CTSError getErrorForCode:unknownError];
+    }
+    [self getNewProfileHelper:contactInfo error:error];
+
+}
 
 
 #pragma mark - helper methods
@@ -321,4 +380,20 @@ enum {
     }
 
 }
+
+
+
+
+-(void)getNewProfileHelper:(CTSProfileContactNewRes *)userProfile error:(NSError *)error{
+ASGetContactInfoNewCallback callback = [self retrieveAndRemoveCallbackForReqId:ProfileGetNewContactReqId];
+    
+    if(callback != nil){
+        callback(userProfile,error);
+        }
+    else {
+        [delegate profile:self didReceiveNewContactInfo:userProfile error:error];
+        }
+    
+}
+
 @end

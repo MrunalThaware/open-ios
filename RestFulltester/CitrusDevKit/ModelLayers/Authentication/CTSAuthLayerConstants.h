@@ -139,6 +139,11 @@ typedef enum SignOutResponseState {
 #define MLC_IS_USER_EXIST_TYPE POST
 #define MLC_IS_USER_EXIST_QUERY_USER @"user"
 
+#pragma mark - USER_VERIFIED_OAUTH
+#define MLC_USER_VERIFIED_OAUTH_PATH @"/service/v2/user/verification/isUserVerified"
+#define MLC_USER_VERIFIED_OAUTH_TYPE POST
+#define MLC_USER_VERIFIED_OAUTH_QUERY_USER @"userType"
+
 typedef enum {
   OauthRefreshStatusSuccess,
   OauthRefreshStatusNeedToLogin

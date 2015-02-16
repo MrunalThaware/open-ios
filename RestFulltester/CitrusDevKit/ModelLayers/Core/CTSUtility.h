@@ -39,5 +39,5 @@
 + (NSString*)createTXNId;
 +(BOOL)convertToBool:(NSString *)boolStr;
 +(NSString*)correctExpiryDate:(NSString *)date;
-
++(NSError *)verifiyEmailOrMobile:(NSString *)userName;
 @end

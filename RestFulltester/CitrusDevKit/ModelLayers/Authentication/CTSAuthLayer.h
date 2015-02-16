@@ -92,6 +92,9 @@ didCheckIsUserCitrusMember:(BOOL)isMember
 @optional
 -(void)auth:(CTSAuthLayer *)layer didUserVerification:(CTSUserVerificationRes *)verificationRes error:(NSError *)error;
 
+
+@optional
+-(void)auth:(CTSAuthLayer *)layer didCheckIsUserVerified:(CTSUserVerificationRes *)verificationRes error:(NSError *)error;
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -128,6 +131,8 @@ typedef void (^ASOtpRegenerationCallback)(NSError* error);
 typedef void (^ASIsMobileVerifiedCallback)(BOOL isVerified,NSError* error);
 
 typedef void (^ASUSerVerificationCallback)(CTSUserVerificationRes *verificationRes,NSError* error);
+
+typedef void (^ASIsUserVerified)(CTSUserVerificationRes *verificationRes,NSError* error);
 
 
 
@@ -227,5 +232,13 @@ typedef void (^ASUSerVerificationCallback)(CTSUserVerificationRes *verificationR
 
 +(CTSUserVerificationRes * )convertToUserVerification:(CTSRestCoreResponse *)response ;
 + (CTSUserVerificationRes *)requestSyncIsUserAlreadyRegisteredMobileOrEmail:(NSString*)mobOrEmail;
+
+
+
+#pragma mark - new methods
+
+-(void)requestIsUserVerified:(NSString *)userName  completionHandler:(ASIsUserVerified)callback;
+
+
 
 @end

@@ -38,8 +38,8 @@
    //[self testCardSchemes];
    // [self regenerateOTP];
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
-  [self signIn];
-//[self signUp];
+  //[self signIn];
+[self signUp];
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
@@ -162,9 +162,31 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
                          //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
-                         [profileLayer requestUpdateMobile:@"9867836292" allowUnverified:NO WithCompletionHandler:^(NSError *error) {
-                            [self logError:error];
-                        }];
+//                         [profileLayer requestUpdateMobile:@"9867836292" allowUnverified:NO WithCompletionHandler:^(NSError *error) {
+//                            [self logError:error];
+//                        }];
+                         
+                         //[self isUserVerifedWithOauth];
+                         
+                         [profileLayer requestContactInfoNewWithCompletionHandler:^(CTSProfileContactNewRes *contactInfo2, NSError *error) {
+                             
+                             if(!error){
+                             NSLog(@"uuid %@",contactInfo2.uuid);
+                              NSLog(@"type %@",contactInfo2.type);
+                              NSLog(@"firstName %@",contactInfo2.firstName);
+                              NSLog(@"lastName %@",contactInfo2.lastName);
+                              NSLog(@"mobileVerified %d",contactInfo2.mobileVerified);
+                              NSLog(@"mobile %@",contactInfo2.mobile);
+                              NSLog(@"email %@",contactInfo2.email);
+                              NSLog(@"emailVerified %d",contactInfo2.emailVerified);
+                              NSLog(@"emailDate %@",contactInfo2.emailDate);
+                              NSLog(@"mobileDate %@",contactInfo2.mobileDate);
+                             }
+                             else {
+                                 [self logError:error];
+                             }
+
+                         }];
                      }];
 }
 
@@ -235,6 +257,26 @@
 }];
 
 }
+
+
+-(void)isUserVerifedWithOauth{
+    [authLayer requestIsUserVerified:TEST_MOBILE completionHandler:^(CTSUserVerificationRes *verificationRes, NSError *error) {
+        if(error){
+            [self logError:error];
+        }
+        else{
+            LogTrace(@" status %d",verificationRes.status);//status 0 when this username is not used(can be used for mobile and email), else 1
+            LogTrace(@" response Message %@ ",verificationRes.respMsg);
+            LogTrace(@" user name type %@ ",verificationRes.userType);
+            
+            
+        }
+        
+        
+    }];
+
+}
+
 
 -(void)regenerateOTP{
     [authLayer requestOTPRegenerateMobile:@"9811112211" completionHandler:^(NSError *error) {

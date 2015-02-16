@@ -7,6 +7,7 @@
 //
 
 #import "CTSError.h"
+#import "CTSUtility.h"
 
 @implementation CTSError
 
@@ -59,24 +60,44 @@
             break;
         case ServerErrorWithCode:
             errorDescription = @"server sent error code";
+            break;
+
         case InvalidParameter:
             errorDescription = @"invalid parameter passed to method";
+            break;
+
         case OauthTokenExpired:
             errorDescription = @"Oauth Token expired, Please refresh it from server";
+            break;
+
         case CantFetchSignupToken:
             errorDescription = @"Can not fetch Signup Oauth token from merchant";
+            break;
+
         case TokenMissing:
             errorDescription = @"Token for payment is missing";
+            break;
+
         case FirstNameNotValid:
             errorDescription = @"First name not valid";
+            break;
+
         case LastNameNotValid:
             errorDescription = @"Last name not valid";
+            break;
+
         case MobileNotVerified:
+            break;
+
             errorDescription = @"Mobile number not verified, Please verify it.";
+            break;
+
         case unknownError:
             errorDescription = @"Oops... Something went wrong.";
+            break;
             case MobileAlreadyExits:
             errorDescription = @"The Mobile Number entered by you already exists. Please use a different Mobile Number.";
+            break;
 
 
         default:
@@ -184,7 +205,18 @@
     return [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:code userInfo:userInfo];
 }
 
-
++(NSString *)userNameSpecificDes:(NSString*)userName{
+    NSString *errorDes = nil;
+    if([CTSUtility isEmail:userName]){
+        errorDes = @"The Email ID entered by you already exists. Please use a different Email ID.";
+    }
+    else{
+        errorDes = @"The  ID Mobile Number entered by you already exists. Please use a different Email ID Mobile Number.";
+    }
+    
+    return errorDes;
+    
+}
 
 
 

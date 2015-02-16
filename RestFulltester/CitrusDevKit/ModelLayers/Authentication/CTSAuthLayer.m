@@ -594,6 +594,53 @@
         return YES;
 }
 
+
+
+
+#pragma mark - New Methods
+
+-(void)requestIsUserVerified:(NSString *)userName  completionHandler:(ASIsUserVerified)callback{
+    [self addCallback:callback forRequestId:isUserVerifiedRequestId];
+
+    
+    NSError* validationError = [CTSUtility verifiyEmailOrMobile:userName];
+    if (validationError) {
+        [self isUserVerifedHelper:nil error:validationError];
+        return;
+        
+    }
+    if(![CTSUtility isEmail:userName]){
+        userName = [CTSUtility mobileNumberToTenDigitIfValid:userName];
+    }
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self isUserVerifedHelper:nil error:oauthStatus.error];
+        return;
+    }
+    
+    
+
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_USER_VERIFIED_OAUTH_PATH
+                                   requestId:isUserVerifiedRequestId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:@{
+                                                MLC_USER_VERIFIED_OAUTH_QUERY_USER : userName
+                                                } json:nil
+                                   httpMethod:MLC_USER_VERIFIED_OAUTH_TYPE];
+    
+    
+    [restCore requestAsyncServer:request];
+
+    
+}
+
+
+
 #pragma mark - pseudo password generator methods
 - (NSString*)generatePseudoRandomPassword {
     // Build the password using C strings - for speed
@@ -730,7 +777,8 @@ typedef enum {
     IsUserAlreadyRegisteredReqId,
     OTPVerificationRequestId,
     OTPRegenerationRequestId,
-    ISMobileVerifiedRequestId
+    ISMobileVerifiedRequestId,
+    isUserVerifiedRequestId
 }AuthRequestId;
 
 
@@ -767,6 +815,8 @@ typedef enum {
              toNSString(ISMobileVerifiedRequestId): toSelector(handleIsMobileVerified:),
              toNSString(IsUserAlreadyRegisteredReqId):toSelector(handleIsAlreadyRegistered:),
              toNSString(UserVerificationReqId):toSelector(handleUserVerification:),
+             toNSString(isUserVerifiedRequestId):toSelector(handleIsUserVerified:)
+             
 
              
              };
@@ -1002,6 +1052,37 @@ typedef enum {
     }
     
 }
+
+-(void)handleIsUserVerified:(CTSRestCoreResponse *)response{
+
+    NSLog(@"response %@",response.responseString);
+    
+    
+    
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSUserVerificationRes* resultObject = nil;
+    if(error == nil){
+        resultObject =
+        [[CTSUserVerificationRes alloc] initWithString:response.responseString
+                                                 error:&jsonError];
+    }
+    
+    if(jsonError){
+        error = [CTSError getErrorForCode:unknownError];
+    }
+
+    [self isUserVerifedHelper:resultObject error:error];
+    
+}
+
+
+
+
+
+
+
+
 +(CTSUserVerificationRes * )convertToUserVerification:(CTSRestCoreResponse *)response {
     NSError* error = response.error;
     JSONModelError* jsonError;
@@ -1085,6 +1166,9 @@ typedef enum {
     if (error != nil) {
         [CTSOauthManager resetOauthData];
     }
+    
+    
+    error = [self dumbSignupErrorConverter:error];
     
     if (callBack != nil) {
         callBack(username, token, isSignedIn,error);
@@ -1189,6 +1273,18 @@ typedef enum {
 }
 
 
+-(void)isUserVerifedHelper:(CTSUserVerificationRes *)verification error:(NSError *)error{
+    ASIsUserVerified callback = [self retrieveAndRemoveCallbackForReqId:isUserVerifiedRequestId];
+    if(callback !=nil){
+        callback(verification,error);
+    }
+    else {
+        [delegate auth:self didCheckIsUserVerified:verification error:error];
+    }
+}
+
+
+
 - (void)resetSignupCredentials {
     userNameSignup = @"";
     mobileSignUp = @"";
@@ -1213,4 +1309,29 @@ typedef enum {
     }
     return errorDes;
 }
+
+-(NSError *)dumbSignupErrorConverter:(NSError *)error{
+    if([error code] == USER_EXIST_EXCEPTION){
+         error = [self dumbReplaceDescription:error description:[CTSError userNameSpecificDes:userNameSignup]];
+    
+    }
+    return error;
+}
+
+-(NSError *)dumbReplaceDescription:(NSError *)error description:(NSString *)newDescription{
+    CTSError *ctsError = [[error userInfo]objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+    NSDictionary* userInfo = @{
+                               CITRUS_ERROR_DESCRIPTION_KEY : ctsError,
+                               NSLocalizedDescriptionKey :newDescription
+                               };
+    
+    
+    return [NSError errorWithDomain:CITRUS_ERROR_DOMAIN
+                                         code:[error code]
+                                     userInfo:userInfo];
+
+
+}
+
+
 @end

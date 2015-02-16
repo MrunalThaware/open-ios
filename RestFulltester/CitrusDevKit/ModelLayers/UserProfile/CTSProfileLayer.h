@@ -14,6 +14,7 @@
 #import "CTSRestCoreResponse.h"
 #import "CTSRestPluginBase.h"
 #import "CTSProfileLayerConstants.h"
+#import "CTSProfileContactNewRes.h"
 @class CTSProfileLayer;
 @protocol CTSProfileProtocol
 /**
@@ -58,6 +59,12 @@
 - (void)profile:(CTSProfileLayer*)profile
 didUpdateMobileError:(NSError*)error;
 
+
+
+@optional
+- (void)profile:(CTSProfileLayer*)profile
+didReceiveNewContactInfo:(CTSProfileContactNewRes*)contactInfo
+          error:(NSError*)error;
 @end
 
 /**
@@ -81,6 +88,8 @@ typedef void (^ASUpdatePaymentInfoCallBack)(NSError* error);
 typedef void (^ASUpdateContactInfoCallBack)(NSError* error);
 
 typedef void (^ASUpdateMobileNumberCallback)(NSError* error);
+
+typedef void (^ASGetContactInfoNewCallback)(CTSProfileContactNewRes*contactInfo, NSError* error);
 
 
 /**
@@ -114,5 +123,7 @@ typedef void (^ASUpdateMobileNumberCallback)(NSError* error);
 - (void)requestUpdateMobile:(NSString *)mobileNumber allowUnverified:(BOOL)allowUnverified WithCompletionHandler:
 (ASUpdateMobileNumberCallback)callback;
 
+
+-(void)requestContactInfoNewWithCompletionHandler:(ASGetContactInfoNewCallback)callback;
 
 @end
