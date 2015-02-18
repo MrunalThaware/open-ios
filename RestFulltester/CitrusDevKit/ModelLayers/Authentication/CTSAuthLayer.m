@@ -16,6 +16,7 @@
 #import "CTSOauthManager.h"
 #import "NSObject+logProperties.h"
 #import "CTSSignupState.h"
+#import "CTSRestError.h"
 
 #import <CommonCrypto/CommonDigest.h>
 #ifndef MIN
@@ -1312,14 +1313,15 @@ typedef enum {
 
 -(NSError *)dumbSignupErrorConverter:(NSError *)error{
     if([error code] == USER_EXIST_EXCEPTION){
-         error = [self dumbReplaceDescription:error description:[CTSError userNameSpecificDes:userNameSignup]];
+        CTSRestError *ctsError = [[error userInfo]objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+         error = [self dumbReplaceDescription:error description:[CTSError userNameSpecificDes:ctsError.description]];
     
     }
     return error;
 }
 
 -(NSError *)dumbReplaceDescription:(NSError *)error description:(NSString *)newDescription{
-    CTSError *ctsError = [[error userInfo]objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
+    CTSRestError *ctsError = [[error userInfo]objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
     NSDictionary* userInfo = @{
                                CITRUS_ERROR_DESCRIPTION_KEY : ctsError,
                                NSLocalizedDescriptionKey :newDescription

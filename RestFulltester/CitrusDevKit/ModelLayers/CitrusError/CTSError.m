@@ -211,7 +211,7 @@
         errorDes = @"The Email ID entered by you already exists. Please use a different Email ID.";
     }
     else{
-        errorDes = @"The  ID Mobile Number entered by you already exists. Please use a different Email ID Mobile Number.";
+        errorDes = @"The  ID Mobile Number entered by you already exists. Please use a different Mobile Number.";
     }
     
     return errorDes;

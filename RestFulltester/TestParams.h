@@ -26,18 +26,18 @@
 
 
 //my sandbox one
-#define TEST_EMAIL @"yadnesh.wankhede@citruspay.com"
-#define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9702964502"
+//#define TEST_EMAIL @"yadnesh.wankhede@citruspay.com"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"9702964502"
 
 //#define TEST_EMAIL @"mangesh.kadam1122@citruspay.com"
 //#define TEST_PASSWORD @"Citrus@123"
 //#define TEST_MOBILE @"9811111111"
 
 
-//#define TEST_EMAIL @"mitalee.yadav@gmail.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9930993582"
+#define TEST_EMAIL @"mitalee.yadav1111@gmail.com"
+#define TEST_PASSWORD @"tester@123"
+#define TEST_MOBILE @"9930993582"
 
 //#define TEST_EMAIL @"hhhhhhhhhh@gmail.com"
 //#define TEST_PASSWORD @"tester@123"
