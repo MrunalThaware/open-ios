@@ -33,7 +33,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initializeLayers];
-    [self testCookie];
     self.title = @"iOS Native SDKs kit Demo";
    // [self loadRedirectUrl:@"http://192.168.2.34:8888/return.php"];
     
@@ -216,34 +215,39 @@
 
 -(void)handlePaymentResponse:(CTSPaymentTransactionRes *)paymentInfo error:(NSError *)error{
     
-    BOOL hasSuccess =
-    ((paymentInfo != nil) && ([paymentInfo.pgRespCode integerValue] == 0) &&
-     (error == nil))
-    ? YES
-    : NO;
-    if(hasSuccess){
-        // Your code to handle success.
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [UIUtility dismissLoadingAlertView:YES];
-            if (hasSuccess && error.code != ServerErrorWithCode) {
-                [UIUtility didPresentLoadingAlertView:@"Connecting to the PG" withActivity:YES];
-                [self loadRedirectUrl:paymentInfo.redirectUrl];
-            }else{
-                [UIUtility didPresentErrorAlertView:error];
-            }
-        });
-        
-    }
-    else{
-        // Your code to handle error.
-        NSString *errorToast;
-        if(error== nil){
-            errorToast = [NSString stringWithFormat:@" payment failed : %@",paymentInfo.txMsg] ;
-        }else{
-            errorToast = [NSString stringWithFormat:@" payment failed : %@",toErrorDescription(error)] ;
-        }
-        [UIUtility toastMessageOnScreen:errorToast];
-    }
+//    BOOL hasSuccess =
+//    ((paymentInfo != nil) && ([paymentInfo.pgRespCode integerValue] == 0) &&
+//     (error == nil))
+//    ? YES
+//    : NO;
+//    if(hasSuccess){
+//        // Your code to handle success.
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [UIUtility dismissLoadingAlertView:YES];
+//            if (hasSuccess && error.code != ServerErrorWithCode) {
+//                [UIUtility didPresentLoadingAlertView:@"Connecting to the PG" withActivity:YES];
+//                [self loadRedirectUrl:paymentInfo.redirectUrl];
+//            }else{
+//                [UIUtility didPresentErrorAlertView:error];
+//            }
+//        });
+//        
+//    }
+//    else{
+//        // Your code to handle error.
+//        NSString *errorToast;
+//        if(error== nil){
+//            errorToast = [NSString stringWithFormat:@" payment failed : %@",paymentInfo.txMsg] ;
+//        }else{
+//            errorToast = [NSString stringWithFormat:@" payment failed : %@",toErrorDescription(error)] ;
+//        }
+//        [UIUtility toastMessageOnScreen:errorToast];
+//    }
+    
+    
+    
+    
+    [self tryURL:paymentInfo.redirectUrl];
 }
 
 
@@ -328,6 +332,46 @@
 //#define EMAIL @"monish.correia@citruspay.com"
 //#define PASSWORD @"tester@123"
 
+-(void)tryURL:(NSString *)url{
+    
+    NSMutableURLRequest *originalRequest =
+    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
+                            cachePolicy:NSURLRequestUseProtocolCachePolicy
+                        timeoutInterval:30.0];
+    
+    [originalRequest setHTTPMethod:@"POST"];
+    
+    //[originalRequest setHTTPBody:[[CTSRestCore serializeParams:@{@"email":EMAIL,@"password":PASSWORD,@"rmcookie":@"true"}]
+                                 // dataUsingEncoding:NSUTF8StringEncoding]];
+    //[request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    //
+    //        [request.headers setObject:@"application/json" forKey:@"Content-Type"];
+    //
+    //
+    //    request = [self requestByAddingHeaders:request headers:restRequest.headers];
+    //    return request;
+    
+    
+    
+    
+    NSOperationQueue* mainQueue = [[NSOperationQueue alloc] init];
+    [mainQueue setMaxConcurrentOperationCount:5];
+    
+    
+    LogTrace(@"URL > %@ ", originalRequest);
+    LogTrace(@"URL data> %@ ", [[NSString alloc] initWithData:[originalRequest HTTPBody] encoding:NSUTF8StringEncoding]);
+    
+    
+    // LogTrace(@"allHeaderFields %@", [request allHeaderFields]);
+    
+    
+    NSURLConnection *urlConn = [[NSURLConnection alloc] initWithRequest:originalRequest delegate:self];
+    [urlConn start];
+
+}
+
+
 -(void)testCookie{
     
     [authLayer requestCitrusPaySignin:EMAIL password:PASSWORD completionHandler:^(NSError *error) {
@@ -348,41 +392,8 @@
     
     
 //    
-//    NSMutableURLRequest *originalRequest =
-//    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BaseUrl, @"/prepaid/pg/_verify"]]
-//                            cachePolicy:NSURLRequestUseProtocolCachePolicy
-//                        timeoutInterval:30.0];
-//    
-//    [originalRequest setHTTPMethod:@"POST"];
-//    
-//    [originalRequest setHTTPBody:[[CTSRestCore serializeParams:@{@"email":EMAIL,@"password":PASSWORD,@"rmcookie":@"true"}]
-//                                  dataUsingEncoding:NSUTF8StringEncoding]];
-//    //[request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//    
-//    //
-//    //        [request.headers setObject:@"application/json" forKey:@"Content-Type"];
-//    //
-//    //
-//    //    request = [self requestByAddingHeaders:request headers:restRequest.headers];
-//    //    return request;
-//    
-//    
-//    
-//    
-//    NSOperationQueue* mainQueue = [[NSOperationQueue alloc] init];
-//    [mainQueue setMaxConcurrentOperationCount:5];
-//    
-//    
-//    LogTrace(@"URL > %@ ", originalRequest);
-//    LogTrace(@"URL data> %@ ", [[NSString alloc] initWithData:[originalRequest HTTPBody] encoding:NSUTF8StringEncoding]);
-//    
-//    
-//    // LogTrace(@"allHeaderFields %@", [request allHeaderFields]);
-//    
-//    
-//    NSURLConnection *urlConn = [[NSURLConnection alloc] initWithRequest:originalRequest delegate:self];
-//    [urlConn start];
-//    
+
+//
 //    
 //    //    [NSURLConnection
 //    //     sendAsynchronousRequest:request
