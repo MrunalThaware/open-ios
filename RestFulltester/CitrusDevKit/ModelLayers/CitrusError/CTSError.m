@@ -124,13 +124,13 @@
                            userInfo:userInfo];
 }
 
-- (NSError*)getSDKErrorWithType:(NSString*)type
-                          withInfo:(NSDictionary*)information {
-    
-    return [CTSError getSDKErrorForCode:[self getSDKExceptionCode:type]];
-}
+//+ (NSError*)getSDKErrorWithType:(NSString*)type
+//                          withInfo:(NSDictionary*)information {
+//    
+//    return [CTSError getSDKErrorForCode:[self getSDKExceptionCode:type]];
+//}
 
--(SDKExceptionCode)getSDKExceptionCode:(NSString*)errorType{
++(SDKExceptionCode)getSDKExceptionCode:(NSString*)errorType{
     
     if ([errorType isEqualToString:USER_EXIST_MESSAGE]){
         return USER_EXIST_EXCEPTION;
@@ -159,7 +159,7 @@
     }
 }
 
-+ (NSError*)getSDKErrorForCode:(SDKExceptionCode)code {
++ (NSString*)getSDKDescriptionForCode:(SDKExceptionCode)code {
     NSString* errorDescription;
     switch (code) {
         case USER_EXIST_EXCEPTION:
@@ -200,9 +200,7 @@
           errorDescription = @"Oops... Something went wrong.";
         break;
     }
-    
-    NSDictionary* userInfo = @{NSLocalizedDescriptionKey : errorDescription};
-    return [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:code userInfo:userInfo];
+    return errorDescription;
 }
 
 +(NSString *)userNameSpecificDes:(NSString*)userName{

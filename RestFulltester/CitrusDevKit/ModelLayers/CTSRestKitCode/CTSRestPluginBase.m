@@ -98,22 +98,23 @@
 //  NSString  *tempNewDes = [[CTSError sharedManager] dumbConversion:error.type];
     
     NSLog(@"newDes %@",newDes);
-    
-    
-    NSError  *err = [[CTSError sharedManager] getSDKErrorWithType:error.type  withInfo:serverError.userInfo];
-
-    if(err.userInfo != nil){
-        newDes = err.userInfo[NSLocalizedDescriptionKey];
+    NSInteger errorCode = [serverError code];
+    NSInteger tempErrorCode = [CTSError getSDKExceptionCode:error.type ];
+    if(tempErrorCode != UNKNOWN_EXCEPTION){
+        errorCode = tempErrorCode;
+        newDes = [CTSError getSDKDescriptionForCode:(SDKExceptionCode)errorCode];
     }
+
+
     
     NSDictionary* userInfo = @{
                                CITRUS_ERROR_DESCRIPTION_KEY : error,
-                               NSLocalizedDescriptionKey :err.userInfo[NSLocalizedDescriptionKey]
+                               NSLocalizedDescriptionKey :newDes
                                };
 
 
   response.error = [NSError errorWithDomain:CITRUS_ERROR_DOMAIN
-                                       code:[err code]
+                                       code:errorCode
                                    userInfo:userInfo];
     
   return response;

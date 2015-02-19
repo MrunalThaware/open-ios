@@ -87,8 +87,12 @@ typedef enum {
                           withInfo:(NSDictionary*)information;
 //-(NSString *)dumbConversion:(NSString*)error;
 + (id)sharedManager ;
-- (NSError*)getSDKErrorWithType:(NSString*)type
++ (NSError*)getSDKErrorWithType:(NSString*)type
                        withInfo:(NSDictionary*)information;
 +(NSString *)userNameSpecificDes:(NSString*)userName;
+//+(SDKExceptionCode)getSDKExceptionCode:(NSString*)errorType;
++ (NSString*)getSDKDescriptionForCode:(SDKExceptionCode)code;
++(SDKExceptionCode)getSDKExceptionCode:(NSString*)errorType;
+
 
 @end
