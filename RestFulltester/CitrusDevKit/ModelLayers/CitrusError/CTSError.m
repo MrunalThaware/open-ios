@@ -16,7 +16,7 @@
   switch (code) {
     case UserNotSignedIn:
       errorDescription = @"This proccess cannot be completed without signing "
-          @"in,please signin";
+          @"in, Please signin";
       break;
     case EmailNotValid:
       errorDescription =
@@ -121,6 +121,14 @@
     
     return
     [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:statusCode userInfo:userInfo];
+}
+
++(NSError *)convertToError:(CTSPaymentTransactionRes *)ctsPaymentTxRes{
+    NSDictionary* userInfo = @{NSLocalizedDescriptionKey : ctsPaymentTxRes.txMsg};
+
+        return
+    [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:(NSInteger)ctsPaymentTxRes.pgRespCode userInfo:userInfo];
+
 }
 
 

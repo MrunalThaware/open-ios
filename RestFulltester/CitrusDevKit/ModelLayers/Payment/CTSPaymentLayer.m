@@ -36,7 +36,6 @@
 @implementation CTSPaymentLayer
 @synthesize merchantTxnId;
 @synthesize signature;
-@synthesize objectManager;
 @synthesize delegate;
 
 - (CTSPaymentRequest*)configureReqPayment:(CTSPaymentDetailUpdate*)paymentInfo
@@ -318,7 +317,26 @@
 - (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
                                withAddress:(CTSUserAddress*)userAddress
                                       bill:(CTSBill *)bill
-                     withCompletionHandler:(ASMakeGuestPaymentCallBack)callback{
+                      returnViewController:(UIViewController *)controller
+                     withCompletionHandler:(ASCitruspayCallback)callback{
+    
+    [self addCallback:callback forRequestId:PaymentAsCitruspayReqId];
+    
+    //vallidate
+    //check if signed in if no then return error accordigly(from handler)
+    //save controller
+    //save callback
+    //when the reply comesback
+    //redirect it on web controller
+    //from webcontroller keep detecting if verifypage has come if yes then reutrn for signin error
+    //when webview controller returns with proper callback from ios get the reply back
+    if(![CTSUtility validateBill:bill]){}
+    if(controller == nil){}
+    
+    
+    citrusCashBackViewController = controller;
+    
+    
 
     [self requestChargeInternalCitrusCashWithContact:contactInfo withAddress:userAddress bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         
@@ -406,7 +424,9 @@ enum {
   PaymentUsingtokenizedCardBankReqId,
   PaymentUsingSignedInCardBankReqId,
   PaymentPgSettingsReqId,
-    PaymentAsCitruspayInternalReqId
+    PaymentAsCitruspayInternalReqId,
+    PaymentAsCitruspayReqId
+
 };
 - (instancetype)init {
   NSDictionary* dict = @{
@@ -422,7 +442,9 @@ enum {
                                                     :),
     
     toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
-                                                    :)
+                                                    :),
+    toNSString(PaymentAsCitruspayReqId) : toSelector(handlePayementUsingCitruspay
+                                                             :)
     
   };
   self = [super initWithRequestSelectorMapping:dict
@@ -444,7 +466,8 @@ enum {
                                                              :),
              
              toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
-                                                                      :)
+                                                                      :),
+             toNSString(PaymentAsCitruspayReqId) : toSelector(handlePayementUsingCitruspay:)
              };
     
 }
@@ -535,6 +558,19 @@ enum {
 
 }
 
+-(void)handlePayementUsingCitruspay:(CTSRestCoreResponse*)response  {
+    
+    //call back view controller
+    // or delegate
+    //reset view controller and callback
+    
+    
+    
+    
+}
+
+
+
 - (void)handleReqPaymentPgSettings:(CTSRestCoreResponse*)response {
   NSError* error = response.error;
   JSONModelError* jsonError;
@@ -595,6 +631,25 @@ enum {
 
 
 
+-(void)makeCitrusPayHelper:(CTSCitrusCashRes*)paymentRes
+                             error:(NSError*)error{
+    
+    ASCitruspayCallback callback =
+    [self retrieveAndRemoveCallbackForReqId:PaymentAsCitruspayReqId];
+    
+    if (callback != nil) {
+        callback(paymentRes, error);
+    }
+    else{
+        [delegate payment:self
+             didPaymentCitrusCash:paymentRes
+                    error:error];
+    }
+    [self resetCitrusPay];
+}
+
+
+
 - (void)getMerchantPgSettingsHelper:(CTSPgSettings*)pgSettings
                               error:(NSError*)error {
   ASGetMerchantPgSettingsCallBack callback =
@@ -625,23 +680,33 @@ enum {
     ? YES
     : NO;
     if(hasSuccess){
-        // Your code to handle success.
         dispatch_async(dispatch_get_main_queue(), ^{
             [self loadPaymentWebview:paymentInfo.redirectUrl];
         });
         
     }
     else{
-        // Your code to handle error.
-        NSString *errorToast;
+        //TODO: add the helper call
+        [self makeCitrusPayHelper:nil error:[CTSError convertToError:paymentInfo]];
 
     }
 }
 
 
 
-#pragma mark -  CitrusPayWebView
 
+-(void)resetCitrusPay{
+
+    if( [citrusPayWebview isLoading]){
+        [citrusPayWebview stopLoading];
+    }
+    [citrusPayWebview removeFromSuperview];
+    citrusPayWebview.delegate = nil;
+    citrusPayWebview = nil;
+    citrusCashBackViewController = nil;
+}
+
+#pragma mark -  CitrusPayWebView
 
 - (void)webViewDidStartLoad:(UIWebView*)webView {
     NSLog(@"webViewDidStartLoad ");
@@ -652,21 +717,20 @@ enum {
 
     UIWebView  *webview = [[UIWebView alloc] init];
     webview.delegate = self;
-    UIView *view = [[UIView alloc] init];
-    [view addSubview:webview];
+    [citrusCashBackViewController.view addSubview:webview];
     [webview loadRequest:[[NSURLRequest alloc]
                                initWithURL:[NSURL URLWithString:url]]];
-
-
 }
 
 
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
+    NSLog(@"did finish loading");
     NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
     if(responseDict){
-        //responseDict> contains all the information related to transaction
-       // [self transactionComplete:responseDict];
+        CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];
+        response.responseDict = responseDict;
+        [self makeCitrusPayHelper:response error:nil];
     }
 }
 
@@ -678,8 +742,8 @@ enum {
     [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[request URL]];
     NSLog(@"cookie array:%@", cookies);
     if([CTSUtility isVerifyPage:[[request URL] absoluteString]]){
-    
-        NSLog(@" user not verified  ");
+            [self makeCitrusPayHelper:nil
+                            error:[CTSError getErrorForCode:UserNotSignedIn]];
     
     }
     return YES;

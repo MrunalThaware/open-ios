@@ -34,6 +34,7 @@
     [super viewDidLoad];
     [self initializeLayers];
     self.title = @"iOS Native SDKs kit Demo";
+    [self testCookie];
    // [self loadRedirectUrl:@"http://192.168.2.34:8888/return.php"];
     
     //[self loadRedirectUrl:@"http://192.168.2.34:8080/JSPTest/NewFile.jsp"];
@@ -173,12 +174,17 @@
     
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
 
-    [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
         NSLog(@"paymentInfo %@",paymentInfo);
         NSLog(@"error %@",error);
         //[self handlePaymentResponse:paymentInfo error:error];
+        if(error){
+        [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+
 
     }];
+    
     
 
     

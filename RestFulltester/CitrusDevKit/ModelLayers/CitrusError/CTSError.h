@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CTSPaymentTransactionRes.h"
+
 typedef enum {
   NoError,
   UserNotSignedIn,
@@ -36,5 +38,5 @@ typedef enum {
                           withInfo:(NSDictionary*)information;
 +(NSString *)getFakeJsonForCode:(CTSErrorCode)errorCode;
 +(NSError *)errorForStatusCode:(int)statusCode;
-
++(NSError *)convertToError:(CTSPaymentTransactionRes *)ctsPaymentTxRes;
 @end

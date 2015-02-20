@@ -22,8 +22,10 @@
 #import "CTSRestPluginBase.h"
 #import "CTSUserAddress.h"
 #import "CTSBill.h"
+#import "CitrusCashRes.h"
 
-@class RKObjectManager;
+
+
 @class CTSAuthLayer;
 @class CTSAuthenticationProtocol;
 @class CTSPaymentLayer;
@@ -65,15 +67,21 @@
  */
 @optional
 - (void)payment:(CTSPaymentLayer*)layer
-    didRequestMerchantPgSettings:(CTSPgSettings*)pgSettings
+    didPaymentCitrusCash:(CTSCitrusCashRes*)pgSettings
                            error:(NSError*)error;
+
+@optional
+- (void)payment:(CTSPaymentLayer*)layer
+didRequestMerchantPgSettings:(CTSPgSettings*)pgSettings
+          error:(NSError*)error;
 
 @end
 @interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol,UIWebViewDelegate> {
+    UIViewController *citrusCashBackViewController;
+    UIWebView *citrusPayWebview;
 }
 @property(strong) NSString* merchantTxnId;
 @property(strong) NSString* signature;
-@property(nonatomic, strong) RKObjectManager* objectManager;
 @property(weak) id<CTSPaymentProtocol> delegate;
 
 - (instancetype)initWithUrl:(NSString *)url;
@@ -92,6 +100,9 @@ typedef void (^ASMakeGuestPaymentCallBack)(
 
 typedef void (^ASMakeCitruspayCallBackInternal)(CTSPaymentTransactionRes* paymentInfo,
                                            NSError* error);
+
+typedef void (^ASCitruspayCallback)(CTSCitrusCashRes* citrusCashResponse,
+                                                NSError* error);
 
 typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                                                 NSError* error);
@@ -178,7 +189,8 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
 - (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
                                withAddress:(CTSUserAddress*)userAddress
                                       bill:(CTSBill *)bill
-                     withCompletionHandler:(ASMakeCitruspayCallBackInternal)callback;
+                      returnViewController:(UIViewController *)controller
+                     withCompletionHandler:(ASCitruspayCallback)callback;
 
 
 
