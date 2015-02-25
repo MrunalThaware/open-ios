@@ -47,7 +47,9 @@
           errorDescription = @"Token for payment is missing";
           case WrongBill:
           errorDescription = @"Bill not valid";
-
+          
+      case NoViewController:
+          errorDescription = @"ReturnViewController not valid";
     default:
       break;
   }

@@ -330,8 +330,16 @@
     //redirect it on web controller
     //from webcontroller keep detecting if verifypage has come if yes then reutrn for signin error
     //when webview controller returns with proper callback from ios get the reply back
-    if(![CTSUtility validateBill:bill]){}
-    if(controller == nil){}
+    if(![CTSUtility validateBill:bill]){
+        [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:WrongBill]];
+        return;
+    
+    }
+    if(controller == nil){
+        [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:NoViewController]];
+        return;
+    
+    }
     
     
     citrusCashBackViewController = controller;
@@ -339,13 +347,9 @@
     
 
     [self requestChargeInternalCitrusCashWithContact:contactInfo withAddress:userAddress bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        
         NSLog(@"paymentInfo %@",paymentInfo);
         NSLog(@"error %@",error);
-        
         [self handlePaymentResponse:paymentInfo error:error] ;
-        
-
     }];
 
     

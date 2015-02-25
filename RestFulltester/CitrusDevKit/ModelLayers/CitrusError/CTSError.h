@@ -22,7 +22,9 @@ typedef enum {
   OauthTokenExpired,
   CantFetchSignupToken,
     TokenMissing,
-    InternetDown,WrongBill
+    InternetDown,
+    WrongBill,
+    NoViewController
     
 
 } CTSErrorCode;
