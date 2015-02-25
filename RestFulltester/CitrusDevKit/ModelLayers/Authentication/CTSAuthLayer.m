@@ -392,6 +392,13 @@
 }
 
 
+-(void)requestLinkUser:(NSString *)email mobile:(NSString *)mobile{
+//call bind
+//do signin
+}
+
+
+
 #pragma mark - pseudo password generator methods
 - (NSString*)generatePseudoRandomPassword {
   // Build the password using C strings - for speed
