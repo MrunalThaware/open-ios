@@ -16,6 +16,7 @@
 #import "CTSOauthManager.h"
 #import "NSObject+logProperties.h"
 #import "CTSSignupState.h"
+#import "CTSProfileLayer.h"
 
 #import <CommonCrypto/CommonDigest.h>
 #ifndef MIN
@@ -177,6 +178,7 @@
   }
 
   userNameSignIn = userNameArg;
+    passwordSignin = password;
   NSDictionary* parameters = @{
     MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
     MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
@@ -219,7 +221,16 @@
 }
 
 
+-(void)requestSetPassword:(NSString *)password userName:(NSString *)userName completionHandler:(ASSetPassword)callback{
 
+    [self addCallback:callback forRequestId:SetPasswordReqId];
+    
+    [self requestChangePasswordUserName:userName oldPassword:[self generateBigIntegerString:userName] newPassword:userName completionHandler:^(NSError *error) {
+        [self setPasswordHelper:error];
+    }];
+    
+    
+}
 
 
 - (void)usePassword:(NSString*)password
@@ -254,7 +265,7 @@
   ENTRY_LOG
   [self addCallback:callback forRequestId:ChangePasswordReqId];
 
-  OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
   if (oauthStatus.error != nil) {
     [self changePasswordHelper:oauthStatus.error];
   }
@@ -392,9 +403,67 @@
 }
 
 
--(void)requestLinkUser:(NSString *)email mobile:(NSString *)mobile{
+-(void)requestLinkUser:(NSString *)email mobile:(NSString *)mobile completionHandler:(ASLinkUserCallBack)callBack;
+{
+    
+    
+    [self addCallback:callBack forRequestId:LinkUserReqId];
 //call bind
-//do signin
+    //yes > set user password
+    //password already set
+    
+    
+    
+    
+    
+    //implementtaion
+    //verify the email and mobile
+    isInLink = YES;
+    
+    if (![CTSUtility validateEmail:email]) {
+        [self linkUserHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    
+    if (![CTSUtility validateMobile:mobile]) {
+        [self linkUserHelper:nil
+                               error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
+    
+    //
+    __block NSString *blockEmail = email;
+    
+    [self requestBindUsername:email mobile:mobile completionHandler:^(NSString *userName, NSError *error) {
+        if(error){
+        // return error
+            [self linkUserHelper:nil error:error];
+        
+        }
+        else if(userName){
+            //TODO: check error
+            
+            [self
+             requestSigninWithUsername:blockEmail
+             password:[self generateBigIntegerString:blockEmail]
+             completionHandler:^(NSString *userName, NSString *token, NSError *error) {
+                 if(error){
+                     [self linkUserHelper:[[CTSLinkUserRes alloc] initPasswordAlreadySet] error:nil];
+
+                 }
+                 else if(userName) {
+                     [self linkUserHelper:[[CTSLinkUserRes alloc] initPasswordAlreadyNotSet] error:nil];
+                     
+                }
+             }];
+            
+        }
+    }];
+    
+    
+    
+    
 }
 
 
@@ -509,6 +578,7 @@ static NSData* digest(NSData* data,
   return x;
 }
 - (NSString*)generateBigIntegerString:(NSString*)email {
+    LogTrace(@"email %@",email);
   int ran = [self genrateSeed:email];
 
   [self generator:ran];
@@ -531,10 +601,12 @@ enum {
   ChangePasswordReqId,
   RequestForPasswordResetReqId,
   IsUserCitrusMemberReqId,
-    BindOauthTokenRequestId,
-    BindUserRequestId,
-    BindSigninRequestId,
-    CitruPaySigniInReqId
+  BindOauthTokenRequestId,
+  BindUserRequestId,
+  BindSigninRequestId,
+  CitruPaySigniInReqId,
+  LinkUserReqId,
+    SetPasswordReqId
 };
 - (instancetype)init {
   NSDictionary* dict = @{
@@ -672,44 +744,138 @@ enum {
   [self changePasswordHelper:response.error];
 }
 
+//OLD IMPLEMENTATION BEFORE PREPAID FLOW
+//- (void)handleReqSigninOauthToken:(CTSRestCoreResponse*)response {
+//  NSError* error = response.error;
+//  JSONModelError* jsonError;
+//  // signup flow
+//  if (error == nil) {
+//    CTSOauthTokenRes* resultObject =
+//        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+//                                           error:&jsonError];
+//    [resultObject logProperties];
+//    [CTSOauthManager saveOauthData:resultObject];
+//    if (wasSignupCalled == YES) {
+//      // in case of sign up flow
+//
+//      [self usePassword:passwordSignUp
+//          hashedUsername:[self generateBigIntegerString:userNameSignup]];
+//      wasSignupCalled = NO;
+//    } else {
+//      // in case of sign in flow
+//
+//      [self signinHelperUsername:userNameSignIn
+//                           oauth:[CTSOauthManager readOauthToken]
+//                           error:error];
+//    }
+//  } else {
+//    if (wasSignupCalled == YES) {
+//      // in case of sign up flow
+//      [self signupHelperUsername:userNameSignup
+//                           oauth:[CTSOauthManager readOauthToken]
+//                           error:error];
+//    } else {
+//      // in case of sign in flow
+//
+//      [self signinHelperUsername:userNameSignIn
+//                           oauth:[CTSOauthManager readOauthToken]
+//                           error:error];
+//    }
+//  }
+//}
+
+
+
+
 - (void)handleReqSigninOauthToken:(CTSRestCoreResponse*)response {
-  NSError* error = response.error;
-  JSONModelError* jsonError;
-  // signup flow
-  if (error == nil) {
-    CTSOauthTokenRes* resultObject =
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    // signup flow
+    if (error == nil) {
+        CTSOauthTokenRes* resultObject =
         [[CTSOauthTokenRes alloc] initWithString:response.responseString
                                            error:&jsonError];
-    [resultObject logProperties];
-    [CTSOauthManager saveOauthData:resultObject];
-    if (wasSignupCalled == YES) {
-      // in case of sign up flow
-
-      [self usePassword:passwordSignUp
-          hashedUsername:[self generateBigIntegerString:userNameSignup]];
-      wasSignupCalled = NO;
+        [resultObject logProperties];
+        [CTSOauthManager saveOauthData:resultObject];
+        if (wasSignupCalled == YES) {
+            // in case of sign up flow_ not being used for prepaid
+            
+            [self usePassword:passwordSignUp
+               hashedUsername:[self generateBigIntegerString:userNameSignup]];
+            wasSignupCalled = NO;
+        } else {
+            if(!isInLink){
+                [self proceedForTokensCall];
+            }
+            else {
+                [self signinHelperUsername:userNameSignIn
+                                     oauth:[CTSOauthManager readOauthToken]
+                                     error:error];
+            }
+        }
     } else {
-      // in case of sign in flow
-
-      [self signinHelperUsername:userNameSignIn
-                           oauth:[CTSOauthManager readOauthToken]
-                           error:error];
+        if (wasSignupCalled == YES) {
+            // in case of sign up flow
+            [self signupHelperUsername:userNameSignup
+                                 oauth:[CTSOauthManager readOauthToken]
+                                 error:error];
+        } else {
+            // in case of sign in flow
+            
+            [self signinHelperUsername:userNameSignIn
+                                 oauth:[CTSOauthManager readOauthToken]
+                                 error:error];
+        }
     }
-  } else {
-    if (wasSignupCalled == YES) {
-      // in case of sign up flow
-      [self signupHelperUsername:userNameSignup
-                           oauth:[CTSOauthManager readOauthToken]
-                           error:error];
-    } else {
-      // in case of sign in flow
-
-      [self signinHelperUsername:userNameSignIn
-                           oauth:[CTSOauthManager readOauthToken]
-                           error:error];
-    }
-  }
 }
+
+
+-(void)proceedForTokensCall{
+
+    CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
+    [profileLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
+        //if get balance is succesfull
+        //get coockie
+        LogTrace(@" GetBalance Successful ");
+        LogTrace(@"amount %@",amount.value);
+        LogTrace(@"error %@",error);
+        
+        if(error == nil){
+            
+            [self requestCitrusPaySignin:userNameSignIn password:passwordSignin completionHandler:^(NSError *error) {
+                
+                LogTrace(@" requestCitrusPaySignin ");
+                
+                [self signinHelperUsername:userNameSignIn
+                                     oauth:[CTSOauthManager readOauthToken]
+                                     error:error];
+                
+                
+                
+            }];
+            
+        }
+        else{
+            //gt balance failed
+            //callsignin helper
+            LogTrace(@" GetBalance Failed ");
+            
+            
+            
+            [self signinHelperUsername:userNameSignIn
+                                 oauth:[CTSOauthManager readOauthToken]
+                                 error:error];
+            
+        }
+    }];
+    
+    
+    
+
+
+}
+
+
 
 - (void)handleReqSignupStageOneComplete:(CTSRestCoreResponse*)response {
   NSError* error = response.error;
@@ -777,6 +943,10 @@ enum {
   ASSigninCallBack callBack =
       [self retrieveAndRemoveCallbackForReqId:SigninOauthTokenReqId];
 
+    userNameSignIn = @"";
+    passwordSignin = @"";
+
+    
   if (error != nil) {
     [CTSOauthManager resetOauthData];
   }
@@ -826,6 +996,17 @@ enum {
   }
 }
 
+
+- (void)setPasswordHelper:(NSError*)error {
+    ASSetPassword callback =
+    [self retrieveAndRemoveCallbackForReqId:SetPasswordReqId];
+        if (callback != nil) {
+        callback(error);
+    } else {
+        [delegate auth:self didSetPasswordError:error];
+    }
+}
+
 - (void)isUserCitrusMemberHelper:(BOOL)isMember error:(NSError*)error {
   ASIsUserCitrusMemberCallback callback =
       [self retrieveAndRemoveCallbackForReqId:IsUserCitrusMemberReqId];
@@ -869,9 +1050,35 @@ enum {
 
 }
 
+
+
+-(void)linkUserHelper:(CTSLinkUserRes *)linkUserRes error:(NSError *)error{
+    
+    [self resetLinkData];
+    
+    ASLinkUserCallBack callback = [self retrieveAndRemoveCallbackForReqId:LinkUserReqId];
+    if(callback != nil){
+        callback(linkUserRes,error);
+    }
+    else{
+        [delegate auth:self didLinkUser:linkUserRes error:error];
+    
+    }
+}
+
+
+-(void)resetLinkData{
+    isInLink = NO;
+}
+
 - (void)resetBindData {
     userNameBind = @"";
     mobileBind = @"";
+}
+
+-(void)resetSignIn{
+   userNameSignIn = @"";
+   passwordSignin = @"";
 }
 
 - (void)resetSignupCredentials {

@@ -13,6 +13,7 @@
 #import "CTSRestPluginBase.h"
 #import "CTSRestCoreResponse.h"
 #import "MerchantConstants.h"
+#import "CTSLinkUserRes.h"
 
 @class CTSAuthLayer;
 @protocol CTSAuthenticationProtocol
@@ -83,12 +84,20 @@
 
 @optional
 - (void)auth:(CTSAuthLayer*)layer didCitrusSigninInerror:(NSError *)error;
+
+@optional
+- (void)auth:(CTSAuthLayer*)layer didLinkUser:(CTSLinkUserRes *)linkUserRes error:(NSError *)error;
+
+
+@optional
+- (void)auth:(CTSAuthLayer*)layer didSetPasswordError:(NSError*)error;
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
   int seedState;
-  NSString* userNameSignIn, *userNameSignup, *passwordSignUp, *mobileSignUp;
+  NSString* userNameSignIn,*passwordSignin, *userNameSignup, *passwordSignUp, *mobileSignUp;
     NSString  *userNameBind,*mobileBind;
+    BOOL isInLink;
 
   BOOL wasSignupCalled;
 }
@@ -103,6 +112,9 @@ typedef void (^ASSignupCallBack)(NSString* userName,
 
 typedef void (^ASChangePassword)(NSError* error);
 
+typedef void (^ASSetPassword)(NSError* error);
+
+
 typedef void (^ASIsUserCitrusMemberCallback)(BOOL isUserCitrusMember,
                                              NSError* error);
 
@@ -112,6 +124,8 @@ typedef void (^ASBindUserCallback)(NSString *userName,
                                    NSError* error);
 
 typedef void (^ASCitrusSigninCallBack)(NSError* error);
+
+typedef void (^ASLinkUserCallBack)(CTSLinkUserRes *linkUserRes, NSError* error);
 
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
 
@@ -178,7 +192,7 @@ typedef void (^ASCitrusSigninCallBack)(NSError* error);
                         completionHandler:
 (ASBindUserCallback)callback;
 
-
+-(void)requestSetPassword:(NSString *)password userName:(NSString *)userName completionHandler:(ASSetPassword)callback;
 
 -(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
             completionHandler:(ASCitrusSigninCallBack)callBack;
@@ -197,5 +211,8 @@ typedef void (^ASCitrusSigninCallBack)(NSError* error);
  */
 -(BOOL)isAnyoneSignedIn;
 - (NSString*)generateBigIntegerString:(NSString*)email ;
+
+
+-(void)requestLinkUser:(NSString *)email mobile:(NSString *)mobile completionHandler:(ASLinkUserCallBack)callBack;
 
 @end

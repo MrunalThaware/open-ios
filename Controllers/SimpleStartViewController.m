@@ -33,8 +33,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initializeLayers];
-    self.title = @"iOS Native SDKs kit Demo";
+    self.title = @"Citrus iOS SDK";
+
+    
+    [self linkUser];
+    //[self signIn];
+
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -73,7 +80,7 @@
         }
         else {
             // Your code to handle error.
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error description]]];
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
         }
     }];
 }
@@ -94,7 +101,7 @@
             [UIUtility toastMessageOnScreen:toastString];
         } else {
             // Your code to handle error.
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't find saved cards \nerror: %@",[error description]]];
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't find saved cards \nerror: %@",[error localizedDescription]]];
         }
     }];
 }
@@ -199,6 +206,51 @@
         [self handlePaymentResponse:paymentInfo error:error];
     }];
 }
+
+-(void)linkUser{
+    [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+        if (error) {
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+         }
+        else{
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"User is now Linked, %@",linkUserRes.message]];
+            [self setPassword];
+
+        }
+    }];
+}
+
+
+-(void)setPassword{
+    [authLayer requestSetPassword:TEST_PASSWORD userName:TEST_EMAIL completionHandler:^(NSError *error) {
+        if (error) {
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Password is now set"]];
+        }
+    }];
+}
+
+-(void)loadMoney{
+
+
+}
+
+
+-(void)signIn{
+    [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
+        LogTrace(@"userName %@",userName);
+        LogTrace(@"error %@",error);
+    }];
+
+
+}
+
+
+
+
+
 
 - (void)loadRedirectUrl:(NSString*)redirectURL {
     WebViewViewController* webViewViewController = [[WebViewViewController alloc] init];

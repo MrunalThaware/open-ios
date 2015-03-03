@@ -128,6 +128,13 @@ typedef enum SignOutResponseState {
 #define MLC_CITRUS_PAY_AUTH_COOKIE_PASSWORD @"password"
 #define MLC_CITRUS_PAY_AUTH_COOKIE_RMCOOKIE @"rmcookie"
 
+
+#pragma mark - LINK_USER
+#define MLC_LINK_USER_PASSWORD_ALREADY_SET_MESSAGE @"password is set already"
+#define MLC_LINK_USER_PASSWORD_ALREADY_SET_NOT_MESSAGE @"set user password"
+
+
+
 typedef enum {
   OauthRefreshStatusSuccess,
   OauthRefreshStatusNeedToLogin

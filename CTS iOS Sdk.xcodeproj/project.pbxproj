@@ -20,6 +20,7 @@
 		371B5D49198A5D110096451C /* JSONModelError.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D34198A5D110096451C /* JSONModelError.m */; };
 		371B5D4A198A5D110096451C /* NSArray+JSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D37198A5D110096451C /* NSArray+JSONModel.m */; };
 		371B5D52198A5D770096451C /* CTSRestError.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D51198A5D770096451C /* CTSRestError.m */; };
+		372D8C291A9DD0DA004680C2 /* CTSLinkUserRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 372D8C281A9DD0DA004680C2 /* CTSLinkUserRes.m */; };
 		3733269519B860190084D52D /* JSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733269219B860190084D52D /* JSONKeyMapper.m */; };
 		3733269619B860190084D52D /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733269419B860190084D52D /* JSONValueTransformer.m */; };
 		375F30F3195BF24500F86149 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 375F30F2195BF24500F86149 /* .gitignore */; };
@@ -200,6 +201,8 @@
 		371B5D51198A5D770096451C /* CTSRestError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSRestError.m; sourceTree = "<group>"; };
 		371C5FD0199B43D600522AD7 /* MerchantConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MerchantConstants.h; sourceTree = "<group>"; };
 		3723D1571948371B00C50FA5 /* TestParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestParams.h; sourceTree = "<group>"; };
+		372D8C271A9DD0DA004680C2 /* CTSLinkUserRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSLinkUserRes.h; sourceTree = "<group>"; };
+		372D8C281A9DD0DA004680C2 /* CTSLinkUserRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSLinkUserRes.m; sourceTree = "<group>"; };
 		3733269119B860190084D52D /* JSONKeyMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKeyMapper.h; sourceTree = "<group>"; };
 		3733269219B860190084D52D /* JSONKeyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKeyMapper.m; sourceTree = "<group>"; };
 		3733269319B860190084D52D /* JSONValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONValueTransformer.h; sourceTree = "<group>"; };
@@ -685,6 +688,8 @@
 				37C964AF198F86960021DC0B /* CTSOauthTokenRes.m */,
 				37C964B0198F86960021DC0B /* CTSSignUpRes.h */,
 				37C964B1198F86960021DC0B /* CTSSignUpRes.m */,
+				372D8C271A9DD0DA004680C2 /* CTSLinkUserRes.h */,
+				372D8C281A9DD0DA004680C2 /* CTSLinkUserRes.m */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -1074,6 +1079,7 @@
 				7692AB1619FFA247004D56EC /* WebViewViewController.m in Sources */,
 				7692AB1819FFA247004D56EC /* CTSRestCoreRequest.m in Sources */,
 				7692AB1A19FFA247004D56EC /* CTSNetBankingUpdate.m in Sources */,
+				372D8C291A9DD0DA004680C2 /* CTSLinkUserRes.m in Sources */,
 				7692AB1B19FFA247004D56EC /* CTSPaymentTransactionRes.m in Sources */,
 				7692AB1C19FFA247004D56EC /* CTSTokenizedPaymentToken.m in Sources */,
 				7692AB1E19FFA247004D56EC /* JSONKeyMapper.m in Sources */,

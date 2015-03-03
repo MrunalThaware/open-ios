@@ -37,17 +37,27 @@
       break;
     case ServerErrorWithCode:
       errorDescription = @"server sent error code";
+          break;
+
     case InvalidParameter:
       errorDescription = @"invalid parameter passed to method";
+          break;
+
     case OauthTokenExpired:
       errorDescription = @"Oauth Token expired, Please refresh it from server";
+          break;
+
     case CantFetchSignupToken:
       errorDescription = @"Can not fetch Signup Oauth token from merchant";
+          break;
+
       case TokenMissing:
           errorDescription = @"Token for payment is missing";
+          break;
+
           case WrongBill:
           errorDescription = @"Bill not valid";
-          
+          break;
       case NoViewController:
           errorDescription = @"ReturnViewController not valid";
     default:
