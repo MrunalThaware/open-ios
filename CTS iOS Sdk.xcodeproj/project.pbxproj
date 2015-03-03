@@ -20,6 +20,7 @@
 		371B5D49198A5D110096451C /* JSONModelError.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D34198A5D110096451C /* JSONModelError.m */; };
 		371B5D4A198A5D110096451C /* NSArray+JSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D37198A5D110096451C /* NSArray+JSONModel.m */; };
 		371B5D52198A5D770096451C /* CTSRestError.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D51198A5D770096451C /* CTSRestError.m */; };
+		372D83FD1AA5B26C00C5EA52 /* CTSLinkUserRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 372D8C281A9DD0DA004680C2 /* CTSLinkUserRes.m */; };
 		372D8C291A9DD0DA004680C2 /* CTSLinkUserRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 372D8C281A9DD0DA004680C2 /* CTSLinkUserRes.m */; };
 		3733269519B860190084D52D /* JSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733269219B860190084D52D /* JSONKeyMapper.m */; };
 		3733269619B860190084D52D /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733269419B860190084D52D /* JSONValueTransformer.m */; };
@@ -992,6 +993,7 @@
 				37851BF81978F2DD00AE3AD0 /* CTSObject.m in Sources */,
 				37851C001978F2DD00AE3AD0 /* CreditCard-Validator.m in Sources */,
 				37851BF41978F2DD00AE3AD0 /* CTSAuthLayer.m in Sources */,
+				372D83FD1AA5B26C00C5EA52 /* CTSLinkUserRes.m in Sources */,
 				3733269619B860190084D52D /* JSONValueTransformer.m in Sources */,
 				37C96493198F723E0021DC0B /* CTSPaymentNetbankingRequest.m in Sources */,
 				37C9649F198F723E0021DC0B /* CTSPaymentOption.m in Sources */,

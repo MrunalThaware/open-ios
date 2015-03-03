@@ -210,6 +210,7 @@ typedef void (^ASLinkUserCallBack)(CTSLinkUserRes *linkUserRes, NSError* error);
  *  @return yes if anyone is signed in, NO otherwise
  */
 -(BOOL)isAnyoneSignedIn;
+
 - (NSString*)generateBigIntegerString:(NSString*)email ;
 
 

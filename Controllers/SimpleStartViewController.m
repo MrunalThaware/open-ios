@@ -333,6 +333,16 @@
     
 }
 
+
+-(void)getbalance{
+
+    [proifleLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
+        LogTrace(@" value %@ ",amount.value);
+        LogTrace(@" currency %@ ",amount.currency);
+
+    }];
+}
+
 /*
  You can modify this according to your needs.
  This is sample implementation.

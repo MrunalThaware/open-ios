@@ -11,6 +11,7 @@
 #import "CTSAuthLayerConstants.h"
 #import "UserLogging.h"
 #import "CTSBill.h"
+@import UIKit;
 
 @interface CTSUtility : NSObject
 + (NSString*)readFromDisk:(NSString*)key;
