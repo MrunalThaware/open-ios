@@ -21,6 +21,7 @@
 
 @interface CTSRestCore : NSObject{
     int delegationRequestId;
+    BOOL finished;
 }
 @property(strong, nonatomic) NSString* baseUrl;
 @property(weak) id<CTSRestCoreDelegate> delegate;

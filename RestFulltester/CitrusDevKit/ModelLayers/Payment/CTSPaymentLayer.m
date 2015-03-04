@@ -378,7 +378,7 @@
                         txnId:bill.merchantTxnId
                merchantAccess:bill.merchantAccessKey];
     
-    
+
     
     CTSRestCoreRequest* request =
     [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL
@@ -390,6 +390,52 @@
     [restCore requestAsyncServer:request];
 
 }
+
+
+- (void)requestLoadMoneyInCitrusPay:(CTSPaymentDetailUpdate *)paymentInfo
+                        withContact:(CTSContactUpdate*)contactInfo
+                                       withAddress:(CTSUserAddress*)userAddress
+                                        amount:( NSString *)amount
+                                     returnUrl:(NSString *)returnUrl
+withCompletionHandler:(ASLoadMoneyCallBack)callback{
+    [self addCallback:callback forRequestId:PaymentLoadMoneyCitrusPayReqId];
+    
+    __block NSString *amountBlock = amount;
+    __block NSString *returnUrlBlock = returnUrl;
+    
+    [self requestGetPrepaidBillForAmount:amount returnUrl:returnUrl withCompletionHandler:^(CTSPrepaidBill *prepaidBill, NSError *error) {
+        CTSPaymentRequest* paymentrequest =
+        [self configureReqPayment:paymentInfo
+                          contact:contactInfo
+                          address:userAddress
+                           amount:amountBlock
+                        returnUrl:prepaidBill.returnUrl
+                        signature:prepaidBill.signature
+                            txnId:prepaidBill.merchantTransactionId
+                   merchantAccess:prepaidBill.merchantAccessKey];
+        
+        paymentrequest.notifyUrl = prepaidBill.notifyUrl;
+        
+        CTSRestCoreRequest* request =
+        [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL
+                                       requestId:PaymentLoadMoneyCitrusPayReqId
+                                         headers:nil
+                                      parameters:nil
+                                            json:[paymentrequest toJSONString]
+                                      httpMethod:POST];
+        [restCore requestAsyncServer:request];
+    }];
+    
+    
+    
+    
+    
+    
+    
+
+    
+}
+
 
 
 
@@ -415,6 +461,49 @@
   [restCore requestAsyncServer:request];
 }
 
+-(void)requestGetPrepaidBillForAmount:(NSString *)amount returnUrl:(NSString *)returnUrl withCompletionHandler:(ASGetPrepaidBill)callback{
+
+    [self addCallback:callback forRequestId:PaymentGetPrepaidBillReqId];
+    
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self getPrepaidBillHelper:nil error:oauthStatus.error];
+        return;
+    }
+    
+    if(returnUrl == nil){
+        [self getPrepaidBillHelper:nil error:[CTSError
+                                              getErrorForCode:ReturnUrlNotValid]];
+    }
+
+    if(amount == nil){
+        [self getPrepaidBillHelper:nil error:[CTSError
+                                              getErrorForCode:ReturnUrlNotValid]];
+    
+    }
+
+    NSDictionary *params = @{MLC_PAYMENT_GET_PREPAID_BILL_QUERY_AMOUNT:amount,
+                                MLC_PAYMENT_GET_PREPAID_BILL_QUERY_CURRENCY:MLC_PAYMENT_GET_PREPAID_BILL_QUERY_CURRENCY_INR,
+                                MLC_PAYMENT_GET_PREPAID_BILL_QUERY_REDIRECT:returnUrl};
+
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PAYMENT_GET_PREPAID_BILL_PATH
+                                   requestId:PaymentGetPrepaidBillReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:params
+                                   json:nil
+                                   httpMethod:POST];
+    [restCore requestAsyncServer:request];
+
+
+}
+
+
+
+
 #pragma mark - authentication protocol mehods
 - (void)signUp:(BOOL)isSuccessful
     accessToken:(NSString*)token
@@ -429,7 +518,9 @@ enum {
   PaymentUsingSignedInCardBankReqId,
   PaymentPgSettingsReqId,
     PaymentAsCitruspayInternalReqId,
-    PaymentAsCitruspayReqId
+    PaymentAsCitruspayReqId,
+    PaymentGetPrepaidBillReqId,
+    PaymentLoadMoneyCitrusPayReqId
 
 };
 - (instancetype)init {
@@ -448,7 +539,12 @@ enum {
     toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
                                                     :),
     toNSString(PaymentAsCitruspayReqId) : toSelector(handlePayementUsingCitruspay
-                                                             :)
+                                                             :),
+    toNSString(PaymentGetPrepaidBillReqId) : toSelector(handleGetPrepaidBill
+                                                     :),
+    toNSString(PaymentLoadMoneyCitrusPayReqId) : toSelector(handleLoadMoneyCitrusPay
+                                                        :)
+    
     
   };
   self = [super initWithRequestSelectorMapping:dict
@@ -471,8 +567,14 @@ enum {
              
              toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
                                                                       :),
-             toNSString(PaymentAsCitruspayReqId) : toSelector(handlePayementUsingCitruspay:)
+             toNSString(PaymentAsCitruspayReqId) : toSelector(handlePayementUsingCitruspay:),
+             toNSString(PaymentGetPrepaidBillReqId) : toSelector(handleGetPrepaidBill
+                                                                 :),
+             toNSString(PaymentLoadMoneyCitrusPayReqId) : toSelector(handleLoadMoneyCitrusPay
+                                                                     :)
+
              };
+    
     
 }
 
@@ -491,6 +593,26 @@ enum {
 
 
 #pragma mark - response handlers methods
+
+
+-(void)handleGetPrepaidBill:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSPrepaidBill* bill = nil;
+    if (error == nil) {
+        bill =
+        [[CTSPrepaidBill alloc] initWithString:response.responseString
+                                                   error:&jsonError];
+        
+        [bill logProperties];
+    }
+    
+    [self getPrepaidBillHelper:bill error:error];
+
+}
+
+
+
 - (void)handleReqPaymentAsGuest:(CTSRestCoreResponse*)response {
   NSError* error = response.error;
   JSONModelError* jsonError;
@@ -543,6 +665,22 @@ enum {
   [self makeUserPaymentHelper:payment error:error];
 }
 
+
+-(void)handleLoadMoneyCitrusPay:(CTSRestCoreResponse *)response {
+    
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSPaymentTransactionRes* payment = nil;
+    if (error == nil) {
+        NSLog(@"error:%@", jsonError);
+        payment =
+        [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
+                                                   error:&jsonError];
+        [payment logProperties];
+    }
+    [self loadMoneyHelper:payment error:error];
+    
+}
 
 -(void)handlePayementUsingCitruspayInternal:(CTSRestCoreResponse*)response  {
 
@@ -632,7 +770,17 @@ enum {
     } 
 
 }
-
+- (void)loadMoneyHelper:(CTSPaymentTransactionRes*)payment
+                        error:(NSError*)error {
+    ASLoadMoneyCallBack callback = [self
+                                          retrieveAndRemoveCallbackForReqId:PaymentLoadMoneyCitrusPayReqId];
+    
+    if (callback != nil) {
+        callback(payment, error);
+    } else {
+        [delegate payment:self didLoadMoney:payment error:error];
+    }
+}
 
 
 -(void)makeCitrusPayHelper:(CTSCitrusCashRes*)paymentRes
@@ -665,13 +813,21 @@ enum {
   }
 }
 
-
-
-
-
-
-
-
+-(void)getPrepaidBillHelper:(CTSPrepaidBill*)bill
+                     error:(NSError*)error{
+    
+    ASGetPrepaidBill callback =
+    [self retrieveAndRemoveCallbackForReqId:PaymentGetPrepaidBillReqId];
+    
+    if (callback != nil) {
+        callback(bill, error);
+    }
+    else{
+        [delegate payment:self
+     didGetPrepaidBill:bill error:error];
+    }
+    [self resetCitrusPay];
+}
 
 
 
@@ -695,7 +851,6 @@ enum {
 
     }
 }
-
 
 
 

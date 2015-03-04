@@ -28,7 +28,9 @@
 //#define BillUrl @"http://192.168.1.105:8888/bill.php"
 
 
-#define BillUrl @"http://192.168.2.186:8888/bill.php"
+#define BillUrl @"http://192.168.1.82:8888/bill.php"
+#define ReturnUrl @"http://192.168.1.82:8888/return.php"
+
 
 
 #define BaseUrl @"https://sandboxadmin.citruspay.com"

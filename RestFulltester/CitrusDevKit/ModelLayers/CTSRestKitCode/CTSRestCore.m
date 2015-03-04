@@ -57,8 +57,7 @@
     [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
     
     delegationRequestId = restRequest.requestId;
-    NSOperationQueue* mainQueue = [[NSOperationQueue alloc] init];
-    [mainQueue setMaxConcurrentOperationCount:5];
+
 
     LogTrace(@"URL > %@ ", request);
     LogTrace(@"restRequest JSON> %@", restRequest.requestJson);
@@ -68,6 +67,11 @@
     
     NSURLConnection *urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [urlConn start];
+    
+    
+    while(!finished) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
 }
 
 
@@ -294,6 +298,10 @@ didReceiveResponse:(NSURLResponse *)response{
 
 }
 
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    finished = TRUE;
+}
 
 //stripe the domain from baseurl
 

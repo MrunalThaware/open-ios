@@ -540,6 +540,14 @@
 
 }
 
++(BOOL)string:(NSString *)source containsString:(NSString*)desti{
+    if ([source rangeOfString:desti options:NSCaseInsensitiveSearch].location != NSNotFound){
+        return YES;
+    }
+    return NO;
+
+}
+
 
 +(BOOL)isVerifyPage:(NSString *)urlString{
     BOOL isVerifyPage = NO;

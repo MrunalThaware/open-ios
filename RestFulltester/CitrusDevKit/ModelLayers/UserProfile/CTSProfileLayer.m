@@ -22,7 +22,9 @@ enum {
   ProfileUpdateContactReqId,
   ProfileGetPaymentReqId,
   ProfileUpdatePaymentReqId,
-    ProfileGetBalanceReqId
+    ProfileGetBalanceReqId,
+    ProfileActivatePrepaidAccountReqId
+
 };
 
 - (instancetype)init {
@@ -37,7 +39,9 @@ enum {
     toNSString(ProfileUpdatePaymentReqId) :
         toSelector(handleProfileUpdatePayment
                    :),
-    toNSString(ProfileGetBalanceReqId):toSelector(handleProfileGetBanlance:)
+    toNSString(ProfileGetBalanceReqId):toSelector(handleProfileGetBanlance:),
+        toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:)
+    
   };
 
   self = [super initWithRequestSelectorMapping:dic
@@ -176,6 +180,28 @@ enum {
     [restCore requestAsyncServer:request];
 }
 
+-(void)requestActivatePrepaidAccount:(ASActivatePrepaidCallBack)callback{
+    [self addCallback:callback forRequestId:ProfileActivatePrepaidAccountReqId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self getBalanceHelper:nil error:oauthStatus.error];
+    }
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_GET_BALANCE_PATH
+                                   requestId:ProfileActivatePrepaidAccountReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:nil
+                                   httpMethod:GET];
+    
+    [restCore requestAsyncServer:request];
+
+
+}
 
 
 #pragma mark - response handlers methods
@@ -230,6 +256,25 @@ enum {
     [self getBalanceHelper:amount error:error];
 
 }
+
+
+-(void)handleActivatePrepaidAccount:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSAmount* amount = nil;
+    BOOL isActivated = NO;
+    
+    if(error == nil){
+        amount = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
+        
+    }
+    if(amount != nil){
+        
+        isActivated = YES;
+    }
+    [self activatePrepaidHelper:isActivated error:error];
+}
+
 
 #pragma mark - helper methods
 
@@ -292,6 +337,18 @@ enum {
         [delegate profile:self didGetBalance:amount error:error];
     }
   
+}
+
+
+-(void)activatePrepaidHelper:(BOOL )isActivated error:(NSError *)error{
+    
+    
+    ASActivatePrepaidCallBack callback =
+    [self retrieveAndRemoveCallbackForReqId:ProfileActivatePrepaidAccountReqId];
+    if (callback != nil) {
+        callback(isActivated, error);
+    }
+    
 }
 
 @end

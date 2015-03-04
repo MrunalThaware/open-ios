@@ -10,5 +10,24 @@
 
 @implementation CTSAmount
 @synthesize currency, value;
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        currency = @"INR";
+    }
+    return self;
+}
 
+- (instancetype)initWithValue:(NSString *)valueArg
+{
+    self = [super init];
+    if (self) {
+        currency = @"INR";
+        value = valueArg;
+        
+
+    }
+    return self;
+}
 @end

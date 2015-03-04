@@ -36,8 +36,13 @@
     self.title = @"Citrus iOS SDK";
 
     
-    [self linkUser];
-    //[self signIn];
+   // [self linkUser];
+   //[self signIn];
+    //[self getPrepaidBill];
+    //[self getCookie];
+    //[self getbalance];
+    
+    [self loadMoneyIntoCitrusAccount];
 
 }
 
@@ -160,7 +165,7 @@
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
     creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-    creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     [creditCardInfo addCard:creditCard];
     
@@ -173,20 +178,6 @@
     }];
     
 
-}
-
-
--(void)citrusPayPayment{
-    CTSBill *bill = [SimpleStartViewController getBillFromServer];
-    
-    [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
-        NSLog(@"paymentInfo %@",paymentInfo);
-        NSLog(@"error %@",error);
-        //[self handlePaymentResponse:paymentInfo error:error];
-        if(error){
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-    }];
 }
 
 
@@ -207,6 +198,22 @@
     }];
 }
 
+
+-(void)citrusPayPayment{
+    CTSBill *bill = [SimpleStartViewController getBillFromServer];
+    
+    [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
+        NSLog(@"paymentInfo %@",paymentInfo);
+        NSLog(@"error %@",error);
+        //[self handlePaymentResponse:paymentInfo error:error];
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+    }];
+}
+
+
+
 -(void)linkUser{
     [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
         if (error) {
@@ -214,7 +221,10 @@
          }
         else{
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"User is now Linked, %@",linkUserRes.message]];
-            [self setPassword];
+            
+            if(!linkUserRes.isPasswordAlreadySet){
+             [self setPassword];
+            }
 
         }
     }];
@@ -232,23 +242,82 @@
     }];
 }
 
+
+-(void)getPrepaidBill{
+    
+    
+    [paymentLayer requestGetPrepaidBillForAmount:@"100" returnUrl:ReturnUrl withCompletionHandler:^(CTSPrepaidBill *prepaidBill, NSError *error) {
+        if(error){
+            LogTrace(@"error %@",[error localizedDescription]);
+        }
+        else {
+            LogTrace(@"prepaidBill %@",prepaidBill);
+            
+        }
+    }];
+}
+
+
 -(void)loadMoney{
 
 
 }
 
+-(void)getCookie{
+[authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
+    LogTrace(@" error %@ ",error);
+}];
+
+
+}
 
 -(void)signIn{
     [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
         LogTrace(@"userName %@",userName);
         LogTrace(@"error %@",error);
+        if(!error){
+            [self getPrepaidBill];
+        }
+        
     }];
-
-
+  
 }
 
 
+-(void)loadMoneyIntoCitrusAccount{
 
+//    CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
+//    // Update card for card payment.
+//    CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
+//    creditCard.number = TEST_CREDIT_CARD_NUMBER;
+//    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
+//    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
+//    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
+//    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+//    creditCard.cvv = TEST_CREDIT_CARD_CVV;
+//    [creditCardInfo addCard:creditCard];
+    
+    
+    
+    CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
+    // Update card for card payment.
+    CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
+    creditCard.number = @"4293932013265972";
+    creditCard.expiryDate = @"12/2020";
+    creditCard.scheme = @"visa";
+    creditCard.ownerName = @"Yadnesh Wankehde";
+    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+    creditCard.cvv = @"137";
+    [creditCardInfo addCard:creditCard];
+    
+    
+    
+    
+    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+        [self handlePaymentResponse:paymentInfo error:error];
+    }];
+
+}
 
 
 

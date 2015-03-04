@@ -78,6 +78,8 @@ typedef void (^ASUpdatePaymentInfoCallBack)(NSError* error);
 
 typedef void (^ASUpdateContactInfoCallBack)(NSError* error);
 typedef void (^ASGetBalanceCallBack)(CTSAmount *amount, NSError* error);
+typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
+
 
 
 /**
@@ -110,4 +112,7 @@ typedef void (^ASGetBalanceCallBack)(CTSAmount *amount, NSError* error);
 
 
 -(void)requetGetBalance:(ASGetBalanceCallBack)calback;
+
+
+-(void)requestActivatePrepaidAccount:(ASActivatePrepaidCallBack)callback;
 @end

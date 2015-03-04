@@ -23,6 +23,7 @@
 #import "CTSUserAddress.h"
 #import "CTSBill.h"
 #import "CitrusCashRes.h"
+#import "CTSPrepaidBill.h"
 
 
 
@@ -75,6 +76,20 @@
 didRequestMerchantPgSettings:(CTSPgSettings*)pgSettings
           error:(NSError*)error;
 
+
+@optional
+- (void)payment:(CTSPaymentLayer*)layer
+didGetPrepaidBill:(CTSPrepaidBill*)bill
+          error:(NSError*)error;
+
+
+
+
+@optional
+- (void)payment:(CTSPaymentLayer*)layer
+didLoadMoney:(CTSPaymentTransactionRes*)paymentInfo
+          error:(NSError*)error;
+
 @end
 @interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol,UIWebViewDelegate> {
     UIViewController *citrusCashBackViewController;
@@ -106,6 +121,12 @@ typedef void (^ASCitruspayCallback)(CTSCitrusCashRes* citrusCashResponse,
 
 typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                                                 NSError* error);
+
+typedef void (^ASGetPrepaidBill)(CTSPrepaidBill* prepaidBill,
+                                                NSError* error);
+
+typedef void (^ASLoadMoneyCallBack)(CTSPaymentTransactionRes* paymentInfo,
+                                          NSError* error);
 /**
  * called when client request to make payment through credit card/debit card
 
@@ -214,4 +235,13 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
 - (void)requestMerchantPgSettings:(NSString*)vanityUrl
             withCompletionHandler:(ASGetMerchantPgSettingsCallBack)callback;
 
+
+-(void)requestGetPrepaidBillForAmount:(NSString *)amount returnUrl:(NSString *)returnUrl withCompletionHandler:(ASGetPrepaidBill)callback;
+
+- (void)requestLoadMoneyInCitrusPay:(CTSPaymentDetailUpdate *)paymentInfo
+                        withContact:(CTSContactUpdate*)contactInfo
+                                   withAddress:(CTSUserAddress*)userAddress
+                                        amount:( NSString *)amount
+                                     returnUrl:(NSString *)returnUrl
+                         withCompletionHandler:(ASLoadMoneyCallBack)callback;
 @end

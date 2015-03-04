@@ -24,7 +24,10 @@ typedef enum {
     TokenMissing,
     InternetDown,
     WrongBill,
-    NoViewController
+    NoViewController,
+    ReturnUrlNotValid,
+    AmountNotValid
+
     
 
 } CTSErrorCode;

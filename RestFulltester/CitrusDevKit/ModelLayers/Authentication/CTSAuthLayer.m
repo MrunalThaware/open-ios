@@ -225,7 +225,7 @@
 
     [self addCallback:callback forRequestId:SetPasswordReqId];
     
-    [self requestChangePasswordUserName:userName oldPassword:[self generateBigIntegerString:userName] newPassword:userName completionHandler:^(NSError *error) {
+    [self requestChangePasswordUserName:userName oldPassword:[self generateBigIntegerString:userName] newPassword:password completionHandler:^(NSError *error) {
         [self setPasswordHelper:error];
     }];
     
@@ -448,11 +448,11 @@
              requestSigninWithUsername:blockEmail
              password:[self generateBigIntegerString:blockEmail]
              completionHandler:^(NSString *userName, NSString *token, NSError *error) {
-                 if(error){
+                 if(error && [self isBadCredentials:error]){
                      [self linkUserHelper:[[CTSLinkUserRes alloc] initPasswordAlreadySet] error:nil];
 
                  }
-                 else if(userName) {
+                 else {
                      [self linkUserHelper:[[CTSLinkUserRes alloc] initPasswordAlreadyNotSet] error:nil];
                      
                 }
@@ -460,10 +460,7 @@
             
         }
     }];
-    
-    
-    
-    
+   
 }
 
 
@@ -804,14 +801,16 @@ enum {
                hashedUsername:[self generateBigIntegerString:userNameSignup]];
             wasSignupCalled = NO;
         } else {
-            if(!isInLink){
-                [self proceedForTokensCall];
-            }
-            else {
-                [self signinHelperUsername:userNameSignIn
-                                     oauth:[CTSOauthManager readOauthToken]
-                                     error:error];
-            }
+            [self proceedForTokensCall];
+
+//            if(!isInLink){
+//                [self proceedForTokensCall];
+//            }
+//            else {
+//                [self signinHelperUsername:userNameSignIn
+//                                     oauth:[CTSOauthManager readOauthToken]
+//                                     error:error];
+//            }
         }
     } else {
         if (wasSignupCalled == YES) {
@@ -831,13 +830,13 @@ enum {
 
 
 -(void)proceedForTokensCall{
-
+    
     CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
-    [profileLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
+    [profileLayer requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
         //if get balance is succesfull
         //get coockie
         LogTrace(@" GetBalance Successful ");
-        LogTrace(@"amount %@",amount.value);
+        LogTrace(@"isActivated %d",isActivated);
         LogTrace(@"error %@",error);
         
         if(error == nil){
@@ -849,15 +848,9 @@ enum {
                 [self signinHelperUsername:userNameSignIn
                                      oauth:[CTSOauthManager readOauthToken]
                                      error:error];
-                
-                
-                
             }];
-            
         }
         else{
-            //gt balance failed
-            //callsignin helper
             LogTrace(@" GetBalance Failed ");
             
             
@@ -868,11 +861,6 @@ enum {
             
         }
     }];
-    
-    
-    
-
-
 }
 
 
@@ -1066,7 +1054,15 @@ enum {
     }
 }
 
+-(BOOL)isBadCredentials:(NSError *)error{
+    
+    if([CTSUtility string:[error localizedDescription] containsString:@"Bad credentials"]){
+    
+        return YES;
+    }
+    return NO;
 
+}
 -(void)resetLinkData{
     isInLink = NO;
 }

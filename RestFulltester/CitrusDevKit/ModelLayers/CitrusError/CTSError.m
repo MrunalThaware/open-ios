@@ -60,7 +60,13 @@
           break;
       case NoViewController:
           errorDescription = @"ReturnViewController not valid";
-    default:
+          break;
+      case ReturnUrlNotValid:
+          errorDescription = @"Return url not valid";
+          break;
+      default:
+          
+          
       break;
   }
   NSDictionary* userInfo = @{NSLocalizedDescriptionKey : errorDescription};
