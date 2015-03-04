@@ -161,14 +161,21 @@
     CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update card for card payment.
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = TEST_CREDIT_CARD_NUMBER;
-    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
-    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-    creditCard.cvv = TEST_CREDIT_CARD_CVV;
-    [creditCardInfo addCard:creditCard];
+//    creditCard.number = TEST_CREDIT_CARD_NUMBER;
+//    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
+//    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
+//    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
+//    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+//    creditCard.cvv = TEST_CREDIT_CARD_CVV;
+//    [creditCardInfo addCard:creditCard];
     
+    
+    creditCard.number = @"4293932013265972";
+    creditCard.expiryDate = @"12/2020";
+    creditCard.scheme = @"visa";
+    creditCard.ownerName = @"Yadnesh Wankehde";
+    creditCard.cvv = @"137";
+    [creditCardInfo addCard:creditCard];
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
     
@@ -289,15 +296,21 @@
     CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update card for card payment.
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = TEST_CREDIT_CARD_NUMBER;
-    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
-    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-    creditCard.cvv = TEST_CREDIT_CARD_CVV;
+//    creditCard.number = TEST_CREDIT_CARD_NUMBER;
+//    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
+//    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
+//    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
+//    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+//    creditCard.cvv = TEST_CREDIT_CARD_CVV;
+   // [creditCardInfo addCard:creditCard];
+    
+    creditCard.number = @"4293932013265972";
+    creditCard.expiryDate = @"12/2020";
+    creditCard.scheme = @"visa";
+    creditCard.ownerName = @"Yadnesh Wankehde";
+    creditCard.cvv = @"137";
     [creditCardInfo addCard:creditCard];
-    
-    
+
     
 
     

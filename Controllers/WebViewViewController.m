@@ -60,6 +60,8 @@
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
     [indicator stopAnimating];
+    
+    //for payment proccessing return url finish
     NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
     if(responseDict){
         //responseDict> contains all the information related to transaction
@@ -69,13 +71,14 @@
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     NSLog(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
-       NSURL* URL = [request URL];
-    NSString* test = URL.fragment;
-    NSArray* check = [test componentsSeparatedByString:@":"];
-    LogTrace(@"check %@",check);
+    
+    //for load balance return url finish
+    NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
+    LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
     return YES;
     
 }
+
 
 
 -(void)transactionComplete:(NSDictionary *)responseDictionary{

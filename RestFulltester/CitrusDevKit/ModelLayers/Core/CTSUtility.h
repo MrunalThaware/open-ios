@@ -41,6 +41,6 @@
 +(NSString*)correctExpiryDate:(NSString *)date;
 +(BOOL)validateBill:(CTSBill *)bill;
 +(BOOL)isVerifyPage:(NSString *)urlString;
-
++(NSArray *)getLoadResponseIfSuccesfull:(NSURLRequest *)request;
 +(BOOL)string:(NSString *)source containsString:(NSString*)desti;
 @end

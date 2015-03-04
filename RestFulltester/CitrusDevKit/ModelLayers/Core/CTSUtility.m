@@ -548,6 +548,13 @@
 
 }
 
++(NSArray *)getLoadResponseIfSuccesfull:(NSURLRequest *)request{
+    
+    NSURL* URL = [request URL];
+    NSString* fragmentString = URL.fragment;
+    NSArray* response = [fragmentString componentsSeparatedByString:@":"];
+    return response;
+}
 
 +(BOOL)isVerifyPage:(NSString *)urlString{
     BOOL isVerifyPage = NO;
