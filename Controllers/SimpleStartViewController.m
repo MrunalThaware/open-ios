@@ -286,29 +286,20 @@
 
 -(void)loadMoneyIntoCitrusAccount{
 
-//    CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
-//    // Update card for card payment.
-//    CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-//    creditCard.number = TEST_CREDIT_CARD_NUMBER;
-//    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-//    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
-//    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-//    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-//    creditCard.cvv = TEST_CREDIT_CARD_CVV;
-//    [creditCardInfo addCard:creditCard];
-    
-    
-    
     CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update card for card payment.
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = @"4293932013265972";
-    creditCard.expiryDate = @"12/2020";
-    creditCard.scheme = @"visa";
-    creditCard.ownerName = @"Yadnesh Wankehde";
+    creditCard.number = TEST_CREDIT_CARD_NUMBER;
+    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
+    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
+    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
     //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-    creditCard.cvv = @"137";
+    creditCard.cvv = TEST_CREDIT_CARD_CVV;
     [creditCardInfo addCard:creditCard];
+    
+    
+    
+
     
     
     
