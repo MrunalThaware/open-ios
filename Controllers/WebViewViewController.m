@@ -60,21 +60,35 @@
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
     [indicator stopAnimating];
-    
-    //for payment proccessing return url finish
-    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
-    if(responseDict){
-        //responseDict> contains all the information related to transaction
-        [self transactionComplete:responseDict];
-    }
+//    
+//    //for payment proccessing return url finish
+//    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
+//    if(responseDict){
+//        //responseDict> contains all the information related to transaction
+//        [self transactionComplete:responseDict];
+//    }
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     NSLog(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
-    
+
     //for load balance return url finish
     NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
-    LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
+    if(loadMoneyResponse){
+        LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
+
+        [self loadMoneyComplete:loadMoneyResponse];
+    }
+    
+    
+    
+    //for general payments
+    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
+    if(responseDict){
+        //responseDict> contains all the information related to transaction
+        [self transactionComplete:responseDict];
+    }
+    
     return YES;
     
 }
@@ -91,6 +105,12 @@
     }
 
 }
+
+
+-(void)loadMoneyComplete:(NSArray *)resPonseArray{
+    [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" loac Money Complete\n Response: %@",resPonseArray]];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
