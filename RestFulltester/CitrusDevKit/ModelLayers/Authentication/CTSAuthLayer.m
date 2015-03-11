@@ -201,7 +201,7 @@
 
 -(void)requestBindSigninUsername:(NSString *)email{
     NSDictionary* parameters = @{
-                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_CLIENT_ID,
                                  MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
                                  MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_BIND_SIGNIN_GRANT_TYPE,
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : email

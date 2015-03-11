@@ -37,7 +37,7 @@
 
     
    // [self linkUser];
-   //[self signIn];
+   [self signIn];
     //[self getPrepaidBill];
     //[self getCookie];
     //[self getbalance];
@@ -120,9 +120,8 @@
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
     creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-    creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-    [paymentInfo addCard:creditCard];
-    paymentInfo.defaultOption = TEST_CREDIT_CARD_BANK_NAME;
+    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+    creditCard.cvv = TEST_CREDIT_CARD_CVV;
     [paymentInfo addCard:creditCard];
     
     // Configure your request here.
@@ -143,8 +142,8 @@
     CTSPaymentDetailUpdate *tokenizedCardInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update card for tokenized payment.
     CTSElectronicCardUpdate *tokenizedCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    tokenizedCard.token = TEST_TOKENIZED_CARD_TOKEN;
-    tokenizedCard.cvv = TEST_TOKENIZED_CARD_CVV;
+     tokenizedCard.cvv= TEST_CREDIT_CARD_CVV;
+     tokenizedCard.token= TEST_TOKENIZED_CARD_TOKEN;
     [tokenizedCardInfo addCard:tokenizedCard];
     
     // Get your bill here.
@@ -169,14 +168,15 @@
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     [creditCardInfo addCard:creditCard];
     
-    
+    CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
 
-    [creditCardInfo addCard:creditCard];
+    [paymentInfo addCard:creditCard];
+
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
     
     // Configure your request here.
-    [paymentLayer requestChargePayment:creditCardInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
     
@@ -246,25 +246,8 @@
 }
 
 
--(void)getPrepaidBill{
-    
-    
-    [paymentLayer requestGetPrepaidBillForAmount:@"100" returnUrl:ReturnUrl withCompletionHandler:^(CTSPrepaidBill *prepaidBill, NSError *error) {
-        if(error){
-            LogTrace(@"error %@",[error localizedDescription]);
-        }
-        else {
-            LogTrace(@"prepaidBill %@",prepaidBill);
-            
-        }
-    }];
-}
 
 
--(void)loadMoney{
-
-
-}
 
 -(void)getCookie{
 [authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
@@ -278,9 +261,6 @@
     [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
         LogTrace(@"userName %@",userName);
         LogTrace(@"error %@",error);
-        if(!error){
-            [self getPrepaidBill];
-        }
         
     }];
   
@@ -418,6 +398,7 @@
     JSONModelError *jsonError;
     CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
                                                     error:&jsonError];
+    NSLog(@"billJson %@",billJson);
     NSLog(@"signature %@ ", sampleBill);
     return sampleBill;
 }

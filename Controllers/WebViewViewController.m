@@ -9,6 +9,8 @@
 #import "WebViewViewController.h"
 #import "CTSUtility.h"
 #import "UIUtility.h"
+#import "SimpleStartViewController.h"
+#import "PrepaidViewController.h"
 
 @interface WebViewViewController ()
 
@@ -61,12 +63,12 @@
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
     [indicator stopAnimating];
 //    
-//    //for payment proccessing return url finish
-//    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
-//    if(responseDict){
-//        //responseDict> contains all the information related to transaction
-//        [self transactionComplete:responseDict];
-//    }
+    //for payment proccessing return url finish
+    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
+    if(responseDict){
+        //responseDict> contains all the information related to transaction
+        [self transactionComplete:responseDict];
+    }
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
@@ -103,7 +105,9 @@
         [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n Response: %@",responseDictionary]];
     
     }
-
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    [self finishWebView];
 }
 
 
@@ -118,4 +122,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)finishWebView{
+    
+    if( [self.webview isLoading]){
+        [self.webview stopLoading];
+    }
+    [self.webview removeFromSuperview];
+    self.webview.delegate = nil;
+    self.webview = nil;
+}
 @end

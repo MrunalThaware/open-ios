@@ -341,7 +341,7 @@
 
 + (NSDictionary*)getResponseIfTransactionIsComplete:(UIWebView *)webview {
     // contains the HTTP body as in an HTTP POST request.
-    NSString *iosResponse = [webview stringByEvaluatingJavaScriptFromString:@"postResponseiOS()"];
+    NSString *iosResponse = [webview stringByEvaluatingJavaScriptFromString:@"postResponseiOS();"];
     NSLog(@"iosResponse %@",iosResponse);
     if(iosResponse == nil ){
         return nil;

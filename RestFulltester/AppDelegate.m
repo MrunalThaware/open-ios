@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "SimpleStartViewController.h"
+#import "PrepaidViewController.h"
 
 @implementation AppDelegate
 @synthesize managedObjectContext = _managedObjectContext;
@@ -26,13 +27,19 @@
     // add into nav contoller
     SimpleStartViewController *homeViewController = [[SimpleStartViewController alloc] initWithNibName:@"SimpleStartViewController" bundle:nil];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+#elif defined (Prepaid_SDK)
+    PrepaidViewController *viewController = [[PrepaidViewController alloc] initWithNibName:@"PrepaidViewController" bundle:nil];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:viewController];
 #else
-    //
-    // add into nav contoller
     ViewController *viewController = [[ViewController alloc] init];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:viewController];
-#endif
+    
 
+#endif
+    
+    
+
+    
     
     [self.window makeKeyAndVisible];
     return YES;

@@ -12,9 +12,9 @@
 
 
 
-//KEYS
+////KEYS
 #define VanityUrl @"nativeSDK"
-
+//
 //#define SignInId @"test-signin"
 //#define SignInSecretKey @"52f7e15efd4208cf5345dd554443fd99"
 #define SignInId @"gogo-pre-wallet"
@@ -22,20 +22,34 @@
 
 #define SubscriptionId @"test-signup"
 #define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
-
-
-//URLS
-//#define BillUrl @"http://192.168.1.105:8888/bill.php"
-
-
-#define BillUrl @"http://192.168.2.186:8888/bill.php"
+//
+//
+////URLS
+//#define BillUrl @"http://192.168.2.186:8888/bill.php"
+////
+////
+#define BillUrl @"http://103.13.97.20/citrus/sandbox/sign.php"
+//
+////#define BillUrl @"http://test.bhoomata.com/default.aspx"
 #define ReturnUrl @"http://192.168.1.82:8888/return.php"
-
-
-
+//
+//
+////
+////
+////
 #define BaseUrl @"https://sandboxadmin.citruspay.com"
 
 
 //#define BaseUrl @"https://stgadmin.citruspay.com"
+
+
+
+
+
+
+
+
+
+
 
 #endif
