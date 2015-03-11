@@ -25,10 +25,10 @@
 //
 //
 ////URLS
-//#define BillUrl @"http://192.168.2.186:8888/bill.php"
+#define BillUrl @"http://192.168.2.186:8888/bill.php"
 ////
 ////
-#define BillUrl @"http://103.13.97.20/citrus/sandbox/sign.php"
+//#define BillUrl @"http://103.13.97.20/citrus/sandbox/sign.php"
 //
 ////#define BillUrl @"http://test.bhoomata.com/default.aspx"
 #define ReturnUrl @"http://192.168.1.82:8888/return.php"

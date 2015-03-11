@@ -37,11 +37,11 @@
 
     
    // [self linkUser];
-   [self signIn];
+   //[self signIn];
     //[self getPrepaidBill];
     //[self getCookie];
     //[self getbalance];
-    
+    [self citrusPayPayment];
     //[self loadMoneyIntoCitrusAccount];
 
 }
@@ -212,6 +212,7 @@
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
+        
     }];
 }
 

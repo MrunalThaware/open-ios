@@ -232,6 +232,10 @@
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
+        else{
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[paymentInfo.responseDict valueForKey:@"TxStatus"] ]];
+        
+        }
     }];
 }
 

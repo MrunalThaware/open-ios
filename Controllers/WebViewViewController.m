@@ -112,7 +112,7 @@
 
 
 -(void)loadMoneyComplete:(NSArray *)resPonseArray{
-    [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" loac Money Complete\n Response: %@",resPonseArray]];
+    [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" load Money Complete\n Response: %@",resPonseArray]];
 }
 
 
