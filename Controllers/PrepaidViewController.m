@@ -31,7 +31,7 @@
     //[self getPrepaidBill];
     //[self getCookie];
     //[self getbalance]; 
-    [authLayer signOut];
+    //[authLayer signOut];
     //[self loadMoneyIntoCitrusAccount];
     
 }
