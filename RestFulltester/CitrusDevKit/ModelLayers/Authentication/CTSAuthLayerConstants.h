@@ -35,6 +35,14 @@ typedef enum SignOutResponseState {
 #define MLC_OAUTH_TYPE @"token_type"
 #define MLC_OAUTH_OBJECT_KEY @"oauth_object_key"
 #define MLC_OAUTH_TOKEN_SAVE_DATE @"oauth_token_save_date"
+
+#define MLC_OAUTH_BIND_SIGN_IN @"oauth_object_key_bind"
+
+
+
+
+
+
 #define MLC_CLIENT_ID SignInId
 #define MLC_CLIENT_SECRET SignInSecretKey
 

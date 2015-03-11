@@ -102,7 +102,7 @@ enum {
            withCompletionHandler:(ASUpdatePaymentInfoCallBack)callback {
   [self addCallback:callback forRequestId:ProfileUpdatePaymentReqId];
 
-  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
   if (oauthStatus.error != nil) {
@@ -140,7 +140,7 @@ enum {
             (ASGetPaymentInfoCallBack)callback {
   [self addCallback:callback forRequestId:ProfileGetPaymentReqId];
 
-  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
   if (oauthStatus.error != nil) {
@@ -162,7 +162,7 @@ enum {
 -(void)requetGetBalance:(ASGetBalanceCallBack)calback{
     [self addCallback:calback forRequestId:ProfileGetBalanceReqId];
 
-    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
     if (oauthStatus.error != nil) {

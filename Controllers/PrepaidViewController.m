@@ -30,8 +30,8 @@
     //[self signIn];
     //[self getPrepaidBill];
     //[self getCookie];
-    //[self getbalance];
-    
+    //[self getbalance]; 
+    [authLayer signOut];
     //[self loadMoneyIntoCitrusAccount];
     
 }
@@ -78,6 +78,13 @@
 #pragma mark - button handlers
 
 -(IBAction)isUserSignedIn:(id)sender{
+    if([authLayer isAnyoneSignedIn]){
+                [UIUtility toastMessageOnScreen:@"user is signed in"];
+    
+    }
+    else{
+     [UIUtility toastMessageOnScreen:@"no one is logged in"];
+    }
 }
 
 -(IBAction)linkUser:(id)sender{

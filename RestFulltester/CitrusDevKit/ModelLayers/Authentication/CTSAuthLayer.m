@@ -703,7 +703,7 @@ enum {
         [[CTSOauthTokenRes alloc] initWithString:response.responseString
                                            error:&jsonError];
         [resultObject logProperties];
-        [CTSOauthManager saveOauthData:resultObject];
+        [CTSOauthManager saveBindSignInOauth:resultObject];
          }
     [self bindUserHelperUsername:userNameBind error:error];
     
