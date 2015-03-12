@@ -463,6 +463,9 @@
    
 }
 
+-(NSString *)requestSignInOauthToken{
+    return [CTSOauthManager readOauthToken];
+}
 
 
 #pragma mark - pseudo password generator methods
