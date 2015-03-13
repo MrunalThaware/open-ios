@@ -18,7 +18,7 @@
 @property(nonatomic, strong) NSString<Optional>* password;
 @property(nonatomic, strong) NSMutableArray<CTSPaymentOption>* paymentOptions;
 
--(instancetype)initCitrusPay;
+-(instancetype)initCitrusPayWithEmail:(NSString *)email;
 
 +(CTSPaymentDetailUpdate *)citrusPay;
 /**

@@ -21,9 +21,9 @@
     return self;
 }
 
--(instancetype)initCitrusPay{
+-(instancetype)initCitrusPayWithEmail:(NSString *)email{
     self = [[CTSPaymentDetailUpdate alloc] init];
-    [self.paymentOptions addObject:[[CTSPaymentOption alloc] initCitrusPay]];
+    [self.paymentOptions addObject:[[CTSPaymentOption alloc] initCitrusPayWithEmail:email]];
     return self;
 }
 

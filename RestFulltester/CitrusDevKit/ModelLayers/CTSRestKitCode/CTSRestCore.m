@@ -16,6 +16,7 @@
     self = [super init];
     if (self) {
         baseUrl = url;
+        finished = YES;
     }
     return self;
 }
@@ -69,7 +70,7 @@
     [urlConn start];
     
     
-    while(!finished) {
+    while(finished) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
 }

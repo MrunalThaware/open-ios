@@ -181,19 +181,15 @@
 
 -(IBAction)loadUsingCardToken:(id)sender{
     
-    CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
-    // Update card for card payment.
-    CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = TEST_CREDIT_CARD_NUMBER;
-    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
-    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-    creditCard.cvv = TEST_CREDIT_CARD_CVV;
-    [creditCardInfo addCard:creditCard];
+    CTSPaymentDetailUpdate *tokenizedCardInfo = [[CTSPaymentDetailUpdate alloc] init];
+    // Update card for tokenized payment.
+    CTSElectronicCardUpdate *tokenizedCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
+    tokenizedCard.cvv= TEST_CREDIT_CARD_CVV;
+    tokenizedCard.token= TEST_TOKENIZED_CARD_TOKEN;
+    [tokenizedCardInfo addCard:tokenizedCard];
     
     
-    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentLayer requestLoadMoneyInCitrusPay:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
     
@@ -201,20 +197,14 @@
 }
 
 -(IBAction)loadUsingNetbank:(id)sender{
+
+    CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
+    // Update bank details for net banking payment.
+    CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
+    netBank.code = TEST_NETBAK_CODE;
+    [paymentInfo addNetBanking:netBank];
     
-    CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
-    // Update card for card payment.
-    CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = TEST_CREDIT_CARD_NUMBER;
-    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
-    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-    creditCard.cvv = TEST_CREDIT_CARD_CVV;
-    [creditCardInfo addCard:creditCard];
-    
-    
-    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentLayer requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
     

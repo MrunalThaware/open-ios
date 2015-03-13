@@ -364,7 +364,7 @@
     [self addCallback:callback forRequestId:PaymentAsCitruspayInternalReqId];
 
 
-    CTSPaymentDetailUpdate *paymentCitrus = [[CTSPaymentDetailUpdate alloc] initCitrusPay];
+    CTSPaymentDetailUpdate *paymentCitrus = [[CTSPaymentDetailUpdate alloc] initCitrusPayWithEmail:contactInfo.email];
 
     
     
@@ -401,9 +401,10 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     [self addCallback:callback forRequestId:PaymentLoadMoneyCitrusPayReqId];
     
     __block NSString *amountBlock = amount;
-    __block NSString *returnUrlBlock = returnUrl;
     
     [self requestGetPrepaidBillForAmount:amount returnUrl:returnUrl withCompletionHandler:^(CTSPrepaidBill *prepaidBill, NSError *error) {
+       
+        if(error == nil){
         CTSPaymentRequest* paymentrequest =
         [self configureReqPayment:paymentInfo
                           contact:contactInfo
@@ -424,6 +425,10 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                                             json:[paymentrequest toJSONString]
                                       httpMethod:POST];
         [restCore requestAsyncServer:request];
+        }
+        else {
+            [self loadMoneyHelper:nil error:[CTSError getErrorForCode:PrepaidBillFetchFailed]];
+        }
     }];
     
     
@@ -905,6 +910,10 @@ enum {
                             error:[CTSError getErrorForCode:UserNotSignedIn]];
     
     }
+    
+    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
+    LogTrace(@"responseDict %@",responseDict);
+    
     return YES;
 }
 

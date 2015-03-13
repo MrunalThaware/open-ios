@@ -35,14 +35,6 @@
     [self initializeLayers];
     self.title = @"Citrus iOS SDK";
 
-    
-   // [self linkUser];
-   //[self signIn];
-    //[self getPrepaidBill];
-    //[self getCookie];
-    //[self getbalance];
-    [self citrusPayPayment];
-    //[self loadMoneyIntoCitrusAccount];
 
 }
 
@@ -202,93 +194,6 @@
 }
 
 
--(void)citrusPayPayment{
-    CTSBill *bill = [SimpleStartViewController getBillFromServer];
-    
-    [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
-        NSLog(@"paymentInfo %@",paymentInfo);
-        NSLog(@"error %@",error);
-        //[self handlePaymentResponse:paymentInfo error:error];
-        if(error){
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-        
-    }];
-}
-
-
-
--(void)linkUser{
-    [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
-        if (error) {
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-         }
-        else{
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"User is now Linked, %@",linkUserRes.message]];
-            
-            if(!linkUserRes.isPasswordAlreadySet){
-             [self setPassword];
-            }
-
-        }
-    }];
-}
-
-
--(void)setPassword{
-    [authLayer requestSetPassword:TEST_PASSWORD userName:TEST_EMAIL completionHandler:^(NSError *error) {
-        if (error) {
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-        else{
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Password is now set"]];
-        }
-    }];
-}
-
-
-
-
-
--(void)getCookie{
-[authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
-    LogTrace(@" error %@ ",error);
-}];
-
-
-}
-
--(void)signIn{
-    [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
-        LogTrace(@"userName %@",userName);
-        LogTrace(@"error %@",error);
-        
-    }];
-  
-}
-
-
--(void)loadMoneyIntoCitrusAccount{
-
-    CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
-    // Update card for card payment.
-    CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = TEST_CREDIT_CARD_NUMBER;
-    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
-    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-    creditCard.cvv = TEST_CREDIT_CARD_CVV;
-    [creditCardInfo addCard:creditCard];
-    
-
-    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        [self handlePaymentResponse:paymentInfo error:error];
-    }];
-
-}
-
-
 
 - (void)loadRedirectUrl:(NSString*)redirectURL {
     WebViewViewController* webViewViewController = [[WebViewViewController alloc] init];
@@ -372,14 +277,6 @@
 }
 
 
--(void)getbalance{
-
-    [proifleLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
-        LogTrace(@" value %@ ",amount.value);
-        LogTrace(@" currency %@ ",amount.currency);
-
-    }];
-}
 
 /*
  You can modify this according to your needs.

@@ -10,7 +10,7 @@
 #define RestFulltester_TestParams_h
 // TestParams.h should be populated according to your needs
 
-#define TEST_EMAIL @"yaddyboy2022@mailinator.com"
+#define TEST_EMAIL @"yaddyboy46@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
 #define TEST_MOBILE @"1234567890"
 
@@ -44,11 +44,10 @@
 #define TEST_NETBAK_OWNER_NAME @"Yadnesh Wankhede"
 #define TEST_NETBAK_NAME @"Axis Bank"
 
-// sample value
-#define TEST_TOKENIZED_PAYBANK_TOKEN @"frfr6arrabcrrrrfee5ec787ad61f8bm"
+
 
 // sample value
-#define TEST_TOKENIZED_CARD_TOKEN @"8fae5a431643ccb9885bd1cef947f961"
+#define TEST_TOKENIZED_CARD_TOKEN @"eb73506503c130911226f683fe034c3a"
 
 #define TEST_TOKENIZED_CARD_CVV @"000"
 

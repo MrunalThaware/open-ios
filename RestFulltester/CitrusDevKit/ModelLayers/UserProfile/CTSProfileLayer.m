@@ -191,7 +191,7 @@ enum {
     }
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-                                   initWithPath:MLC_PROFILE_GET_BALANCE_PATH
+                                   initWithPath:MLC_PROFILE_GET_BALANCE_ACTIVATE_PATH
                                    requestId:ProfileActivatePrepaidAccountReqId
                                    headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
                                    parameters:nil

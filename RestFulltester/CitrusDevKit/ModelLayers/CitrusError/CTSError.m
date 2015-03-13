@@ -64,6 +64,10 @@
       case ReturnUrlNotValid:
           errorDescription = @"Return url not valid";
           break;
+      case PrepaidBillFetchFailed:
+          errorDescription = @"Couldn't fetch prepaid bill";
+          break;
+          
       default:
           
           
