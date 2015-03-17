@@ -33,7 +33,7 @@ In case you do not have these details, DO NOT proceed.
 ## From source code
 Get the latest source code from github.com:
 ```bash
-$ git clone -b BindSdk https://github.com/citruspay/open-ios.git
+$ git clone https://github.com/citruspay/open-ios.git
 ```
 ## IDE integration
 ### Xcode
