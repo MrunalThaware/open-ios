@@ -13,13 +13,13 @@
 // Sandbox
 #ifdef SANDBOX_MODE
 
-#define VanityUrl @"nativesdk"
+#define VanityUrl @"stgcube"
 #define SignInId @"citrus-native-mobile-app-v1"
 #define SignInSecretKey @"83df0e4db17fa7b206f4c36d3f19d6c1"
 #define SubscriptionId @"citrus-native-mobile-subscription"
 #define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
 #define MerchantAccessKey @"F2VZD1HBS2VVXJPMWO77"
-#define BaseUrl @"https://testbilladmin.citruspay.com"
+#define BaseUrl @"http://stg1admin.citruspay.com"
 
 #else
 //live only for payments
