@@ -236,7 +236,7 @@
                 LogTrace(@"CC %@ ", val);
             }
             
-            for (NSString* val in pgSettings.creditCard) {
+            for (NSString* val in pgSettings.debitCard) {
                 LogTrace(@"DC %@ ", val);
             }
             
