@@ -142,17 +142,12 @@
     [proifleLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
         LogTrace(@" value %@ ",amount.value);
         LogTrace(@" currency %@ ",amount.currency);
-        
-        
         if (error) {
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
         else{
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Balance is %@ %@",amount.value,amount.currency]];
         }
-
-
-        
     }];
 }
 
@@ -229,9 +224,33 @@
     }];
 }
 
+-(void)requestPaymentModes{
 
+    [paymentLayer requestMerchantPgSettings:VanityUrl withCompletionHandler:^(CTSPgSettings *pgSettings, NSError *error) {
+        if(error){
+        //handle error
+        }
+        else {
+            LogTrace(@" pgSettings %@ ", pgSettings);
+            for (NSString* val in pgSettings.creditCard) {
+                LogTrace(@"CC %@ ", val);
+            }
+            
+            for (NSString* val in pgSettings.creditCard) {
+                LogTrace(@"DC %@ ", val);
+            }
+            
+            for (NSDictionary* arr in pgSettings.netBanking) {
+                LogTrace(@"bankName %@ ", [arr valueForKey:@"bankName"]);
+                LogTrace(@"issuerCode %@ ", [arr valueForKey:@"issuerCode"]);
+            }
 
+        
+        }
+        
+    }];
 
+}
 #pragma mark - Payment Helpers
 -(void)handlePaymentResponse:(CTSPaymentTransactionRes *)paymentInfo error:(NSError *)error{
     
@@ -272,20 +291,6 @@
     [self.navigationController pushViewController:webViewViewController animated:YES];
 }
 
-
--(void)getPrepaidBill{
-    
-    
-    [paymentLayer requestGetPrepaidBillForAmount:@"100" returnUrl:ReturnUrl withCompletionHandler:^(CTSPrepaidBill *prepaidBill, NSError *error) {
-        if(error){
-            LogTrace(@"error %@",[error localizedDescription]);
-        }
-        else {
-            LogTrace(@"prepaidBill %@",prepaidBill);
-            
-        }
-    }];
-}
 
 /*
  You can modify this according to your needs.
