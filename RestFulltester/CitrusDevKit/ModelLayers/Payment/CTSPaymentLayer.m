@@ -912,6 +912,13 @@ enum {
     }
     
     NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
+    
+    if(responseDict){
+        CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];
+        response.responseDict = responseDict;
+        [self makeCitrusPayHelper:response error:nil];
+    }
+
     LogTrace(@"responseDict %@",responseDict);
     
     return YES;

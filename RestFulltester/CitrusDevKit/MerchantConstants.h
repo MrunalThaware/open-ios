@@ -32,11 +32,11 @@
 
 
 ////URLS
-//#define BillUrl @"http://192.168.2.195:8888/bill.php"
+#define BillUrl @"http://192.168.2.186:8888/bill.php"
 
 //#define BillUrl @"http://test.bhoomata.com/default.aspx"
-#define BillUrl @"http://mobile.faasos.com/Service1.svc/genrateBill_v2"
-#define ReturnUrl @"http://192.168.2.195:8888/return.php"
+//#define BillUrl @"http://mobile.faasos.com/Service1.svc/genrateBill_v2"
+#define ReturnUrl @"http://192.168.2.186:8888/return.php"
 
 #define BaseUrl @"https://sandboxadmin.citruspay.com"
 
