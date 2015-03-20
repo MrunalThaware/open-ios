@@ -938,7 +938,7 @@ enum {
     passwordSignin = @"";
 
     
-  if (error != nil) {
+  if (error != nil && isInLink == NO) {
     [CTSOauthManager resetOauthData];
   }
 
@@ -960,7 +960,7 @@ enum {
 
   wasSignupCalled = NO;
 
-  if (error != nil) {
+  if (error != nil && isInLink == NO) {
     [CTSOauthManager resetOauthData];
   }
 

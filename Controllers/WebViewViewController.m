@@ -11,6 +11,7 @@
 #import "UIUtility.h"
 #import "SimpleStartViewController.h"
 #import "PrepaidViewController.h"
+#import "TestParams.h"
 
 @interface WebViewViewController ()
 
@@ -76,6 +77,7 @@
 
     //for load balance return url finish
     NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
+    NSLog(@"loadMoneyResponse %@",loadMoneyResponse);
     if(loadMoneyResponse){
         LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
 
@@ -85,11 +87,11 @@
     
     
     //for general payments
-    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
-    if(responseDict){
-        //responseDict> contains all the information related to transaction
-        [self transactionComplete:responseDict];
-    }
+//    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
+//    if(responseDict){
+//        //responseDict> contains all the information related to transaction
+//        [self transactionComplete:responseDict];
+//    }
     
     return YES;
     
