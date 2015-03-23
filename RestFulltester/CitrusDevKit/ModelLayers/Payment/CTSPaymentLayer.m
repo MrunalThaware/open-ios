@@ -879,10 +879,10 @@ enum {
 
 -(void)loadPaymentWebview:(NSString *)url{
 
-    UIWebView  *webview = [[UIWebView alloc] init];
-    webview.delegate = self;
-    [citrusCashBackViewController.view addSubview:webview];
-    [webview loadRequest:[[NSURLRequest alloc]
+    citrusPayWebview = [[UIWebView alloc] init];
+    citrusPayWebview.delegate = self;
+    [citrusCashBackViewController.view addSubview:citrusPayWebview];
+    [citrusPayWebview loadRequest:[[NSURLRequest alloc]
                                initWithURL:[NSURL URLWithString:url]]];
 }
 

@@ -304,7 +304,7 @@
     NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:
                                    [NSURL URLWithString:BillUrl]];
     [urlReq setHTTPMethod:@"POST"];
-    //[urlReq setHTTPBody:[NSJSONSerialization dataWithJSONObject: @{@"amount": @"10"} options:NSJSONWritingPrettyPrinted error:nil]];
+    [urlReq setHTTPBody:[NSJSONSerialization dataWithJSONObject: @{@"amount": @"10"} options:NSJSONWritingPrettyPrinted error:nil]];
     NSError* error = nil;
     NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
                                                   returningResponse:nil
