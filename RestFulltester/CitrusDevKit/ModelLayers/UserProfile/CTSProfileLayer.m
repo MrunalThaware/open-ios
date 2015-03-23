@@ -165,10 +165,21 @@ enum {
     OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
+    
+    
+    
     if (oauthStatus.error != nil) {
-        [self getBalanceHelper:nil error:oauthStatus.error];
+        
+        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthToken = oauthStatus.oauthToken;
+
     }
     
+    
+    if (oauthStatus.error != nil) {
+        [self getBalanceHelper:nil error:oauthStatus.error];
+
+    }
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_PROFILE_GET_BALANCE_PATH
                                    requestId:ProfileGetBalanceReqId

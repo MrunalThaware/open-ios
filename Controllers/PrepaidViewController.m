@@ -30,7 +30,7 @@
     //[self signIn];
     //[self getPrepaidBill];
     //[self getCookie];
-    //[self getbalance]; 
+    //[self getbalance];
     //[authLayer signOut];
     //[self loadMoneyIntoCitrusAccount];
     
@@ -165,6 +165,9 @@
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     [creditCardInfo addCard:creditCard];
     
+
+    
+    
     
     [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
@@ -196,10 +199,10 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update bank details for net banking payment.
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
-    netBank.code = TEST_NETBAK_CODE;
+    netBank.code = @"CID002";TEST_NETBAK_CODE;
     [paymentInfo addNetBanking:netBank];
     
-    [paymentLayer requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentLayer requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"10" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
     
