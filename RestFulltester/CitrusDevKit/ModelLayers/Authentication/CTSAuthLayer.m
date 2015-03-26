@@ -26,6 +26,12 @@
 @implementation CTSAuthLayer
 @synthesize delegate;
 
+// 260315 Dynamic Oauth keys
+static NSString * _signInIdAlias;
+static NSString * _signInSecretKeyAlias;
+static NSString * _subscriptionIdAlias;
+static NSString * _subscriptionSecretKeyAlias;
+
 #pragma mark - public methods
 
 - (void)requestResetPassword:(NSString*)userNameArg
@@ -279,17 +285,50 @@
     ENTRY_LOG
     wasSignupCalled = YES;
     
+    // 260315 Dynamic Oauth keys
+    if (!_subscriptionId) {
+        _subscriptionId = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_ID;
+    }
+    if (!_subscriptionSecretKey) {
+        _subscriptionSecretKey = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET;
+    }
+    
+    _subscriptionIdAlias = _subscriptionId;
+    _subscriptionSecretKeyAlias = _subscriptionSecretKey;
+
+    NSDictionary* parameters = @{MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : _subscriptionId,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : _subscriptionSecretKey,
+                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_TOKEN_SIGNUP_GRANT_TYPE
+                                 };
+
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
                                    requestId:SignupOauthTokenReqId
                                    headers:nil
-                                   parameters:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
+                                   parameters:parameters
                                    json:nil
                                    httpMethod:POST];
+
+//    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+//                                   initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+//                                   requestId:SignupOauthTokenReqId
+//                                   headers:nil
+//                                   parameters:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
+//                                   json:nil
+//                                   httpMethod:POST];
     
     [restCore requestAsyncServer:request];
     
     EXIT_LOG
+}
+
+// 260315 Dynamic Oauth keys
++ (NSString*)getDynamicSubscriptionId{
+    return _subscriptionIdAlias;
+}
+
++ (NSString*)getDynamicSubscriptionSecretKey{
+    return _subscriptionSecretKeyAlias;
 }
 
 - (void)requestSigninWithUsername:(NSString*)userNameArg
@@ -342,9 +381,30 @@
 
 -(void)proceedToSiginUserName:(NSString *)username password:(NSString *)password{
     userNameSignIn = username;
+//    NSDictionary* parameters = @{
+//                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
+//                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
+//                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_SIGNIN_GRANT_TYPE,
+//                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD : password,
+//                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : username
+//                                 };
+
+    // 260315 Dynamic Oauth keys
+    if (!_signInId) {
+        _signInId = MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID;
+    }
+    
+    if (!_signInSecretKey) {
+        _signInSecretKey = MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET;
+    }
+    
+    _signInIdAlias = _signInId;
+    _signInSecretKeyAlias = _signInSecretKey;
+
+    
     NSDictionary* parameters = @{
-                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
-                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : _signInId,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : _signInSecretKey,
                                  MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_SIGNIN_GRANT_TYPE,
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD : password,
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : username
@@ -360,6 +420,15 @@
     
     [restCore requestAsyncServer:request];
 
+}
+
+// 260315 Dynamic Oauth keys
++ (NSString*)getDynamicSignInId{
+    return _signInIdAlias;
+}
+
++ (NSString*)getDynamicSignInSecretKey{
+    return _signInSecretKeyAlias;
 }
 
 
@@ -834,6 +903,43 @@ typedef enum {
     self = [super initWithRequestSelectorMapping:[self getRegistrationDict]
                                          baseUrl:url];
     return self;
+}
+
+// 260315 Dynamic Oauth keys
+- (void)initWithDynamicKeys:(NSString *)signInId signInSecretKey:(NSString *)signInSecretKey subscriptionId:(NSString *)subscriptionId subscriptionSecretKey:(NSString *)subscriptionSecretKey{
+    
+    if (!signInId) {
+        _signInId = MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID;
+    }else{
+        _signInId = signInId;
+    }
+    
+    if (!signInSecretKey) {
+        _signInSecretKey = MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET;
+    }else{
+        _signInSecretKey = signInSecretKey;
+    }
+    
+    _signInIdAlias = _signInId;
+    _signInSecretKeyAlias = _signInSecretKey;
+    
+    
+    
+    if (!subscriptionId) {
+        _subscriptionId = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_ID;
+    }else{
+        _subscriptionId = subscriptionId;
+    }
+    
+    if (!subscriptionSecretKey) {
+        _subscriptionSecretKey = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET;
+    }else{
+        _subscriptionSecretKey = subscriptionSecretKey;
+    }
+    
+    _subscriptionIdAlias = _subscriptionId;
+    _subscriptionSecretKeyAlias = _subscriptionSecretKey;
+    
 }
 
 

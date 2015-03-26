@@ -13,6 +13,7 @@
 #import <Foundation/NSObjCRuntime.h>
 #import <objc/runtime.h>
 #import "CTSRestCore.h"
+#import "CTSAuthLayer.h"
 
 @implementation CTSOauthManager
 - (instancetype)init {
@@ -149,12 +150,30 @@
 }
 
 + (CTSOauthTokenRes*)refreshOauthToken {
-  NSDictionary* parameters = @{
-    MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_REFRESH_CLIENT_ID,
-    MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
-    MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN,
-    MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN : [CTSOauthManager readRefreshToken]
-  };
+//  NSDictionary* parameters = @{
+//    MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_REFRESH_CLIENT_ID,
+//    MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
+//    MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN,
+//    MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN : [CTSOauthManager readRefreshToken]
+//  };
+
+    // 260315 Dynamic Oauth keys
+    NSString *signInId = [CTSAuthLayer getDynamicSignInId];
+    if (!signInId) {
+        signInId = MLC_OAUTH_REFRESH_CLIENT_ID;
+    }
+    
+    NSString *signInSecretKey = [CTSAuthLayer getDynamicSignInSecretKey];
+    if (!signInSecretKey) {
+        signInSecretKey = MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET;
+    }
+    
+    NSDictionary* parameters = @{
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : signInId,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : signInSecretKey,
+                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN,
+                                 MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN : [CTSOauthManager readRefreshToken]
+                                 };
 
   CTSRestCoreRequest* request =
       [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
@@ -180,13 +199,38 @@
 }
 
 + (CTSOauthTokenRes*)requestSignupOauthToken {
-  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-      initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
-         requestId:-1
-           headers:nil
-        parameters:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
-              json:nil
-        httpMethod:POST];
+    
+    // 260315 Dynamic Oauth keys
+    NSString *subscriptionId = [CTSAuthLayer getDynamicSubscriptionId];
+    if (!subscriptionId) {
+        subscriptionId = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_ID;
+    }
+    
+    NSString *subscriptionSecretKey = [CTSAuthLayer getDynamicSubscriptionSecretKey];
+    if (!subscriptionSecretKey) {
+        subscriptionSecretKey = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET;
+    }
+    
+    NSDictionary* parameters = @{MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : subscriptionId,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : subscriptionSecretKey,
+                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_TOKEN_SIGNUP_GRANT_TYPE
+                                 };
+
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+                                   requestId:-1
+                                   headers:nil
+                                   parameters:parameters
+                                   json:nil
+                                   httpMethod:POST];
+
+//  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+//      initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+//         requestId:-1
+//           headers:nil
+//        parameters:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
+//              json:nil
+//        httpMethod:POST];
 
   CTSRestCoreResponse* response =
       [CTSRestCore requestSyncServer:request withBaseUrl:CITRUS_BASE_URL];

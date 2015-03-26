@@ -33,20 +33,31 @@
 - (void)viewDidLoad {
 
   [super viewDidLoad];
+    
   [self initialize];
+    
     //[self verifyUser];
    //[self testCardSchemes];
    // [self regenerateOTP];
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
-  //[self signIn];
-[self signUp];
+  
+    
+    [self signIn];
+    
+    
+//    [self signUp];
+    
+//    [self isUserCitrusMember];
+    
+    
+//    [self requestResetPassword];
+
+    
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
-//    [authLayer requestResetPassword:TEST_EMAIL completionHandler:^(NSError *error) {
-//        [self logError:error];
-//        
-//    }];
+    
+    
   //[self doGuestPaymentNetbanking];
     //[self isMobileVerified];
     
@@ -105,6 +116,13 @@
     
     authLayer = [[CTSAuthLayer alloc] initWithUrl:BaseUrl];
     authLayer.delegate = self;
+
+    // Optional
+    // 260315 Dynamic Oauth keys
+    [authLayer initWithDynamicKeys:@"citrus-native-mobile-app-v1" signInSecretKey:@"83df0e4db17fa7b206f4c36d3f19d6c1" subscriptionId:@"citrus-native-mobile-subscription" subscriptionSecretKey:@"3e2288d3a1a3f59ef6f93373884d2ca1"];
+    
+
+    
     profileLayer = [[CTSProfileLayer alloc] init];
     profileLayer.delegate = self;
     
@@ -140,6 +158,7 @@
 #pragma mark - AuthLayer Sample implementation
 
 - (void)signIn {
+    
   [authLayer requestSigninWithUsername:TEST_EMAIL
                               password:TEST_PASSWORD
                      completionHandler:^(NSString* userName,
@@ -156,8 +175,8 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
-                         //[self updatePaymentInfo];
-                         //[self updateContactInformation];
+                         [self updatePaymentInfo];
+                         [self updateContactInformation];
                          //[self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
@@ -167,7 +186,7 @@
 //                        }];
                          
                          //[self isUserVerifedWithOauth];
-                         
+//                         
                          [profileLayer requestContactInfoNewWithCompletionHandler:^(CTSProfileContactNewRes *contactInfo2, NSError *error) {
                              
                              if(!error){
@@ -187,10 +206,12 @@
                              }
 
                          }];
+                         
                      }];
 }
 
 - (void)signUp {
+    
     [authLayer requestSignUpWithEmail:TEST_EMAIL
                                mobile:TEST_MOBILE
                              password:TEST_PASSWORD
@@ -295,6 +316,14 @@
                                    LogTrace(@" error %@ ", error);
                                }];
 }
+
+- (void)requestResetPassword {
+    [authLayer requestResetPassword:TEST_EMAIL completionHandler:^(NSError *error) {
+        [self logError:error];
+        
+    }];
+}
+
 
 #pragma mark - AuthLayer delegates
 

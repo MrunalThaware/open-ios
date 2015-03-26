@@ -138,6 +138,18 @@ typedef void (^ASIsUserVerified)(CTSUserVerificationRes *verificationRes,NSError
 
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
 
+// 260315 Dynamic Oauth keys
+@property (strong, nonatomic) NSString *signInId;
+@property (strong, nonatomic) NSString *signInSecretKey;
+
+@property (strong, nonatomic) NSString *subscriptionId;
+@property (strong, nonatomic) NSString *subscriptionSecretKey;
+
+- (void)initWithDynamicKeys:(NSString *)signInId signInSecretKey:(NSString *)signInSecretKey subscriptionId:(NSString *)subscriptionId subscriptionSecretKey:(NSString *)subscriptionSecretKey;
++ (NSString*)getDynamicSignInId;
++ (NSString*)getDynamicSignInSecretKey;
++ (NSString*)getDynamicSubscriptionId;
++ (NSString*)getDynamicSubscriptionSecretKey;
 /**
  *  sign in the user
  *
