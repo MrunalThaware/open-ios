@@ -25,7 +25,7 @@
     [super viewDidLoad];
     [self initializeLayers];
     self.title = @"Citrus iOS SDK";
-    [PrepaidViewController getBillFromServer];
+    //[PrepaidViewController getBillFromServer];
     
     // [self linkUser];
     //[self signIn];
@@ -307,41 +307,8 @@
  You can modify this according to your needs.
  This is sample implementation.
  */
-//+ (CTSBill*)getBillFromServer{
-//    // Configure your request here.
-//    NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:
-//                                   [NSURL URLWithString:BillUrl]];
-//    [urlReq setHTTPMethod:@"POST"];
-//    [urlReq setHTTPBody:[NSJSONSerialization dataWithJSONObject: @{@"amount": @"10"} options:NSJSONWritingPrettyPrinted error:nil]];
-//    NSError* error = nil;
-//    NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
-//                                                  returningResponse:nil
-//                                                              error:&error];
-//    NSString* billJson = [[NSString alloc] initWithData:signatureData
-//                                               encoding:NSUTF8StringEncoding];
-//    JSONModelError *jsonError;
-//    CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
-//                                                    error:&jsonError];
-//    NSLog(@"billJson %@",billJson);
-//    NSLog(@"signature %@ ", sampleBill);
-//    return sampleBill;
-//
-//}
-
-
 + (CTSBill*)getBillFromServer{
     // Configure your request here.
-    
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    
-    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"INR", @"currency", @"10", @"value", nil];
-    
-    [dict setObject:dict1 forKey:@"amount"];
-    [dict setObject:@"56OXQYRPH5WVR7YATIQD" forKey:@"merchantAccessKey"];
-    [dict setObject:@"142710952686155" forKey:@"merchantTxnId"];
-    [dict setObject:@"04aca6dec7450fddeae53e117dcf6430de5e499f" forKey:@"requestSignature"];
-    [dict setObject:@"https://demo.faasos.com/onlinepay.aspx" forKey:@"returnUrl"];
-    
     NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:
                                    [NSURL URLWithString:BillUrl]];
     [urlReq setHTTPMethod:@"POST"];
@@ -353,15 +320,48 @@
     NSString* billJson = [[NSString alloc] initWithData:signatureData
                                                encoding:NSUTF8StringEncoding];
     JSONModelError *jsonError;
-    CTSBill* sampleBill2 = [[CTSBill alloc] initWithDictionary:dict error:&jsonError];
-    CTSBill *sampleBill = [[CTSBill alloc] initWithString:billJson error:&jsonError];
-    
+    CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
+                                                    error:&jsonError];
     NSLog(@"billJson %@",billJson);
     NSLog(@"signature %@ ", sampleBill);
-    NSLog(@"signature %@ ", sampleBill2);
-    return sampleBill2;
-   // return sampleBill;
+    return sampleBill;
 
 }
+
+//
+//+ (CTSBill*)getBillFromServer{
+//    // Configure your request here.
+//    
+//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+//    
+//    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"INR", @"currency", @"10", @"value", nil];
+//    
+//    [dict setObject:dict1 forKey:@"amount"];
+//    [dict setObject:@"56OXQYRPH5WVR7YATIQD" forKey:@"merchantAccessKey"];
+//    [dict setObject:@"142710952686155" forKey:@"merchantTxnId"];
+//    [dict setObject:@"04aca6dec7450fddeae53e117dcf6430de5e499f" forKey:@"requestSignature"];
+//    [dict setObject:@"https://demo.faasos.com/onlinepay.aspx" forKey:@"returnUrl"];
+//    
+//    NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:
+//                                   [NSURL URLWithString:BillUrl]];
+//    [urlReq setHTTPMethod:@"POST"];
+//    [urlReq setHTTPBody:[NSJSONSerialization dataWithJSONObject: @{@"amount": @"10"} options:NSJSONWritingPrettyPrinted error:nil]];
+//    NSError* error = nil;
+//    NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
+//                                                  returningResponse:nil
+//                                                              error:&error];
+//    NSString* billJson = [[NSString alloc] initWithData:signatureData
+//                                               encoding:NSUTF8StringEncoding];
+//    JSONModelError *jsonError;
+//    CTSBill* sampleBill2 = [[CTSBill alloc] initWithDictionary:dict error:&jsonError];
+//    CTSBill *sampleBill = [[CTSBill alloc] initWithString:billJson error:&jsonError];
+//    
+//    NSLog(@"billJson %@",billJson);
+//    NSLog(@"signature %@ ", sampleBill);
+//    NSLog(@"signature %@ ", sampleBill2);
+//   // return sampleBill2;
+//    return sampleBill;
+//
+//}
 
 @end

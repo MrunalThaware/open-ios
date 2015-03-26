@@ -30,8 +30,8 @@
 #import "NSObject+logProperties.h"
 #import "MerchantConstants.h"
 #import "CTSUserAddress.h"
-#import "WebViewViewController.h"
-#import "UIUtility.h"
+//#import "WebViewViewController.h"
+//#import "UIUtility.h"
 @interface CTSPaymentLayer ()
 @end
 
@@ -881,21 +881,23 @@ enum {
 
 -(void)loadPaymentWebview:(NSString *)url{
 
-//    citrusPayWebview = [[UIWebView alloc] init];
-//    citrusPayWebview.delegate = self;
-//    [citrusCashBackViewController.view addSubview:citrusPayWebview];
-//    [citrusPayWebview loadRequest:[[NSURLRequest alloc]
-//                               initWithURL:[NSURL URLWithString:url]]];
+    citrusPayWebview = [[UIWebView alloc] init];
+    citrusPayWebview.delegate = self;
+    [citrusCashBackViewController.view addSubview:citrusPayWebview];
+    [citrusPayWebview loadRequest:[[NSURLRequest alloc]
+                               initWithURL:[NSURL URLWithString:url]]];
+    citrusPayWebview.frame = CGRectMake(0, 0, 0, 0);
+
     
-    [self loadRedirectUrl:url];
+    //[self loadRedirectUrl:url];
 }
 
-- (void)loadRedirectUrl:(NSString*)redirectURL {
-    WebViewViewController* webViewViewController = [[WebViewViewController alloc] init];
-    webViewViewController.redirectURL = redirectURL;
-    [UIUtility dismissLoadingAlertView:YES];
-    [citrusCashBackViewController.navigationController pushViewController:webViewViewController animated:YES];
-}
+//- (void)loadRedirectUrl:(NSString*)redirectURL {
+//    WebViewViewController* webViewViewController = [[WebViewViewController alloc] init];
+//    webViewViewController.redirectURL = redirectURL;
+//    [UIUtility dismissLoadingAlertView:YES];
+//    [citrusCashBackViewController.navigationController pushViewController:webViewViewController animated:YES];
+//}
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
     NSLog(@"did finish loading");

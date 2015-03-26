@@ -78,16 +78,16 @@
     //for load balance return url finish
     NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
     NSLog(@"loadMoneyResponse %@",loadMoneyResponse);
-    if(loadMoneyResponse){
-        LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
-
-        [self loadMoneyComplete:loadMoneyResponse];
-    }
+//    if(loadMoneyResponse){
+//        LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
+//
+//        [self loadMoneyComplete:loadMoneyResponse];
+//    }
     
     
     
     //for general payments
-//    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
+    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
 //    if(responseDict){
 //        //responseDict> contains all the information related to transaction
 //        [self transactionComplete:responseDict];

@@ -105,7 +105,12 @@ enum {
   OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
-  if (oauthStatus.error != nil) {
+    if (oauthStatus.error != nil) {
+        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthToken = oauthStatus.oauthToken;
+    }
+    
+  if (oauthStatus.error != nil || oauthToken == nil) {
     [self updatePaymentInfoHelper:oauthStatus.error];
     return;
   } else {
@@ -143,7 +148,14 @@ enum {
   OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
-  if (oauthStatus.error != nil) {
+    
+    if (oauthStatus.error != nil) {
+        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthToken = oauthStatus.oauthToken;
+    }
+    
+    
+  if (oauthStatus.error != nil || oauthToken == nil ) {
     [self getPaymentInfoHelper:nil error:oauthStatus.error];
   }
 
@@ -169,14 +181,12 @@ enum {
     
     
     if (oauthStatus.error != nil) {
-        
         oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
         oauthToken = oauthStatus.oauthToken;
-
     }
     
     
-    if (oauthStatus.error != nil) {
+    if (oauthStatus.error != nil || oauthToken == nil) {
         [self getBalanceHelper:nil error:oauthStatus.error];
 
     }
@@ -292,7 +302,6 @@ enum {
 - (void)updateContactInfoHelper:(NSError*)error {
   ASUpdateContactInfoCallBack callback =
       [self retrieveAndRemoveCallbackForReqId:ProfileUpdateContactReqId];
-
   if (callback != nil) {
     callback(error);
   } else {
