@@ -15,6 +15,7 @@
     CTSPaymentLayer *paymentLayer;
     CTSContactUpdate* contactInfo;
     CTSUserAddress* addressInfo;
+    int seedState;
 
 }
 

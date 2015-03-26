@@ -14,6 +14,11 @@
 #define TEST_PASSWORD @"tester@123"
 #define TEST_MOBILE @"1234567890"
 
+
+//#define TEST_EMAIL @"yaddyboy47@mailinator.com"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"1234567890"
+
 //
 //#define TEST_EMAIL @"adnan.haris03@gmail.com"
 //#define TEST_PASSWORD @"123456"
