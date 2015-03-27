@@ -25,6 +25,11 @@
     [super viewDidLoad];
     [self initializeLayers];
     self.title = @"Citrus iOS SDK";
+//    [authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
+//        LogTrace(@" requestCitrusPaySignin ");
+//        NSLog(@"%@", error);
+//    }];
+
     //[PrepaidViewController getBillFromServer];
     
     // [self linkUser];
@@ -216,14 +221,13 @@
 -(IBAction)payUsingCitrusCash:(id)sender{
     
     CTSBill *bill = [PrepaidViewController getBillFromServer];
-    
     [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
         NSLog(@"paymentInfo %@",paymentInfo);
         NSLog(@"error %@",error);
         //[self handlePaymentResponse:paymentInfo error:error];
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
+        }     
         else{
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[paymentInfo.responseDict valueForKey:@"TxStatus"] ]];
         
