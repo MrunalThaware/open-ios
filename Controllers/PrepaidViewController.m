@@ -160,7 +160,7 @@
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
     creditCard.number = TEST_CREDIT_CARD_NUMBER;
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
+    creditCard.scheme = @"VISA";
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
     //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
@@ -170,7 +170,7 @@
     
     
     
-    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
     
@@ -182,11 +182,7 @@
 
 
 -(IBAction)loadUsingCardToken:(id)sender{
-    
-    
-    
-    
-    
+
     CTSPaymentDetailUpdate *tokenizedCardInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update card for tokenized payment.
     CTSElectronicCardUpdate *tokenizedCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
@@ -345,6 +341,8 @@
 //    NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:
 //                                   [NSURL URLWithString:BillUrl]];
 //    [urlReq setHTTPMethod:@"POST"];
+//    [urlReq addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//
 //    [urlReq setHTTPBody:[NSJSONSerialization dataWithJSONObject: @{@"amount": @"10"} options:NSJSONWritingPrettyPrinted error:nil]];
 //    NSError* error = nil;
 //    NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
@@ -356,11 +354,25 @@
 //    CTSBill* sampleBill2 = [[CTSBill alloc] initWithDictionary:dict error:&jsonError];
 //    CTSBill *sampleBill = [[CTSBill alloc] initWithString:billJson error:&jsonError];
 //    
+//    NSDictionary *res = [NSJSONSerialization JSONObjectWithData:signatureData options:NSJSONWritingPrettyPrinted error:nil];
+//    NSDictionary *billDict = [res objectForKey:@"data"];
+//    
+//    
+//    [dict setObject:[billDict objectForKey:@"amount"] forKey:@"amount"];
+//    [dict setObject:[billDict objectForKey:@"merchantAccessKey"] forKey:@"merchantAccessKey"];
+//    [dict setObject:[billDict objectForKey:@"merchantTxnId"] forKey:@"merchantTxnId"];
+//    [dict setObject:[billDict objectForKey:@"requestSignature"] forKey:@"requestSignature"];
+//    [dict setObject:[billDict objectForKey:@"returnUrl"] forKey:@"returnUrl"];
+//    
+//     sampleBill2 = [[CTSBill alloc] initWithDictionary:dict error:&jsonError];
+//
+//    
+//    
 //    NSLog(@"billJson %@",billJson);
 //    NSLog(@"signature %@ ", sampleBill);
 //    NSLog(@"signature %@ ", sampleBill2);
-//   // return sampleBill2;
-//    return sampleBill;
+//   return sampleBill2;
+//    //return sampleBill;
 //
 //}
 
