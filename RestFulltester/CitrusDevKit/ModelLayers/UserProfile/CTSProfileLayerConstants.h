@@ -89,6 +89,10 @@ typedef enum CardValidationError {
 #define MLC_PROFILE_GET_BALANCE_PATH @"/service/v2/mycard"
 #define MLC_PROFILE_GET_BALANCE_TYPE GET
 
+#define MLC_NEW_CONTACT_PROFILE_GET_PATH @"/service/um/profile/memberInfo"
+#define MLC_NEW_CONTACT_PROFILE_GET_METHOD POST
+#define MLC_NEW_CONTACT_PROFILE_GET_EMAIL @"email"
+#define MLC_NEW_CONTACT_PROFILE_GET_MOBILE @"mobile"
 
 
 

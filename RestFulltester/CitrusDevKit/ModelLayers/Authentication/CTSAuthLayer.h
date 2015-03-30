@@ -192,10 +192,15 @@ typedef void (^ASLinkUserCallBack)(CTSLinkUserRes *linkUserRes, NSError* error);
                         completionHandler:
 (ASBindUserCallback)callback;
 
+
+-(void)requestBindMobile:(NSString *)mobile completionHandler:(ASBindUserCallback)callback;
+
+
 -(void)requestSetPassword:(NSString *)password userName:(NSString *)userName completionHandler:(ASSetPassword)callback;
 
 -(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
             completionHandler:(ASCitrusSigninCallBack)callBack;
+
 
 /**
  *  signout
@@ -216,4 +221,5 @@ typedef void (^ASLinkUserCallBack)(CTSLinkUserRes *linkUserRes, NSError* error);
 
 -(void)requestLinkUser:(NSString *)email mobile:(NSString *)mobile completionHandler:(ASLinkUserCallBack)callBack;
 
+- (void)requestSignUpOauthToken;
 @end

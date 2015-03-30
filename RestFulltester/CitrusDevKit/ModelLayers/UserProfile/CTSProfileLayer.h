@@ -14,6 +14,7 @@
 #import "CTSRestCoreResponse.h"
 #import "CTSRestPluginBase.h"
 #import "CTSProfileLayerConstants.h"
+#import "CTSNewContactProfile.h"
 @class CTSProfileLayer;
 @protocol CTSProfileProtocol
 /**
@@ -59,6 +60,12 @@
   didGetBalance:(CTSAmount *)amount
                error:(NSError*)error;
 
+
+@optional
+- (void)profile:(CTSProfileLayer*)profile
+  didGetNewProfile:(CTSNewContactProfile *)profile
+          error:(NSError*)error;
+
 @end
 
 /**
@@ -79,6 +86,9 @@ typedef void (^ASUpdatePaymentInfoCallBack)(NSError* error);
 typedef void (^ASUpdateContactInfoCallBack)(NSError* error);
 typedef void (^ASGetBalanceCallBack)(CTSAmount *amount, NSError* error);
 typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
+typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
+
+typedef void (^ASNewContactProfile)(CTSNewContactProfile* profile, NSError*error);
 
 
 
@@ -109,6 +119,8 @@ typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
  */
 - (void)requestPaymentInformationWithCompletionHandler:
         (ASGetPaymentInfoCallBack)callback;
+
+-(void)requestGetNewProfileMobile:(NSString *)mobile email:(NSString *)email WithCompletionHandler:(ASNewContactProfile)callback;
 
 
 -(void)requetGetBalance:(ASGetBalanceCallBack)calback;

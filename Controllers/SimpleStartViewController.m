@@ -37,12 +37,20 @@
 
     
    // [self linkUser];
-   [self signIn];
+   //[self signIn];
     //[self getPrepaidBill];
     //[self getCookie];
     //[self getbalance];
     
     //[self loadMoneyIntoCitrusAccount];
+    
+    [authLayer requestSignUpOauthToken];
+//
+    [proifleLayer requestGetNewProfileMobile:@"9920684710" email:@"shardullavekar@mailinator.com" WithCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
+        profile;
+    }];
+    
+    
 
 }
 

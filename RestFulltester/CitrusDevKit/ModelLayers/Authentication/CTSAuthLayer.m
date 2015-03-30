@@ -344,6 +344,12 @@
 
 }
 
+-(void)requestBindMobile:(NSString *)mobile completionHandler:(ASBindUserCallback)callback{
+
+
+}
+
+-(void)requestBindOauthTokenAsync{}
 
 - (void)requestBindOauthToken {
     ENTRY_LOG
@@ -599,6 +605,7 @@ enum {
   RequestForPasswordResetReqId,
   IsUserCitrusMemberReqId,
   BindOauthTokenRequestId,
+    BindOauthAsyncTokenRequestId,
   BindUserRequestId,
   BindSigninRequestId,
   CitruPaySigniInReqId,
@@ -656,6 +663,28 @@ enum {
         return;
     }
 
+    //if success
+    //save singup oauth token
+    //call for bind
+    //else
+    //call bind helper with error
+    
+    
+    
+    
+}
+
+-(void)handleBindOauthAsyncToken:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    // signup flow
+    if (error == nil) {
+        CTSOauthTokenRes* resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+        [CTSOauthManager saveSignupToken:resultObject.accessToken];
+    }
+    
     //if success
     //save singup oauth token
     //call for bind
