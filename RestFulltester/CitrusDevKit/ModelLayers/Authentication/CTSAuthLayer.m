@@ -842,7 +842,7 @@ enum {
         LogTrace(@"isActivated %d",isActivated);
         LogTrace(@"error %@",error);
         
-        if(error == nil){
+        if(YES){
             
             [self requestCitrusPaySignin:userNameSignIn password:passwordSignin completionHandler:^(NSError *error) {
                 
