@@ -905,13 +905,13 @@ enum {
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
     NSLog(@"did finish loading");
-    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
-    if(responseDict){
-        CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];
-        response.responseDict = responseDict;
-       // [self makeCitrusPayHelper:response error:nil];
-       // finished = NO;
-    }
+   // NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
+//    if(responseDict){
+//        CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];
+//        response.responseDict = responseDict;
+//       // [self makeCitrusPayHelper:response error:nil];
+//       // finished = NO;
+//    }
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
