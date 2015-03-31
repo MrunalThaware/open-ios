@@ -939,7 +939,7 @@ enum {
 
     
   if (error != nil && isInLink == NO) {
-    [CTSOauthManager resetOauthData];
+    //[CTSOauthManager resetOauthData];
   }
 
   if (callBack != nil) {

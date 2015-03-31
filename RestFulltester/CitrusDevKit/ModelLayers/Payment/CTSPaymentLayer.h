@@ -94,6 +94,7 @@ didLoadMoney:(CTSPaymentTransactionRes*)paymentInfo
 @interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol,UIWebViewDelegate> {
     UIViewController *citrusCashBackViewController;
     UIWebView *citrusPayWebview;
+    BOOL finished;
 }
 @property(strong) NSString* merchantTxnId;
 @property(strong) NSString* signature;

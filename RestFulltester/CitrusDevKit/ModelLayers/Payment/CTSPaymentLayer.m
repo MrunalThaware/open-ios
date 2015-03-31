@@ -531,6 +531,7 @@ enum {
 
 };
 - (instancetype)init {
+    finished = YES;
   NSDictionary* dict = @{
     toNSString(PaymentAsGuestReqId) : toSelector(handleReqPaymentAsGuest
                                                  :),
@@ -888,7 +889,10 @@ enum {
                                initWithURL:[NSURL URLWithString:url]]];
     citrusPayWebview.frame = CGRectMake(0, 0, citrusCashBackViewController.view.frame.size.width, citrusCashBackViewController.view.frame.size.height);
 
-    
+    while(finished) {
+        NSLog(@" run loop");
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
     //[self loadRedirectUrl:url];
 }
 
@@ -905,7 +909,8 @@ enum {
     if(responseDict){
         CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];
         response.responseDict = responseDict;
-        [self makeCitrusPayHelper:response error:nil];
+       // [self makeCitrusPayHelper:response error:nil];
+        finished = NO;
     }
 }
 
