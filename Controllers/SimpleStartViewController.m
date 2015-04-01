@@ -44,11 +44,11 @@
     
     //[self loadMoneyIntoCitrusAccount];
     
-    [authLayer requestSignUpOauthToken];
+  //  [authLayer requestSignUpOauthToken];
 //
-    [proifleLayer requestGetNewProfileMobile:@"9920684710" email:@"shardullavekar@mailinator.com" WithCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
-        profile;
-    }];
+//    [proifleLayer requestGetNewProfileMobile:@"9920684710" email:@"shardullavekar@mailinator.com" WithCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
+//        profile;
+//    }];
     
     
 
@@ -90,6 +90,11 @@
         if(error == nil){
             // Your code to handle success.
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
+            
+            
+            [self signInMobile];
+            
+            
         }
         else {
             // Your code to handle error.
@@ -274,6 +279,13 @@
   
 }
 
+-(void)signInMobile{
+
+[authLayer requestBindMobileSignIn:TEST_MOBILE withCompletionHandler:^(NSError *error) {
+    LogTrace(@"error %@",error);
+
+}];
+}
 
 -(void)loadMoneyIntoCitrusAccount{
 

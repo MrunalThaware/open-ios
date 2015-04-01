@@ -91,6 +91,11 @@
 
 @optional
 - (void)auth:(CTSAuthLayer*)layer didSetPasswordError:(NSError*)error;
+
+
+@optional
+- (void)auth:(CTSAuthLayer*)layer didBindMobileSigninError:(NSError*)error;
+
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -114,6 +119,9 @@ typedef void (^ASChangePassword)(NSError* error);
 
 typedef void (^ASSetPassword)(NSError* error);
 
+typedef void (^ASSBindSignInAsync)(NSError *error);
+
+typedef void (^ASSBindMobileSignIn)(NSError *error);
 
 typedef void (^ASIsUserCitrusMemberCallback)(BOOL isUserCitrusMember,
                                              NSError* error);
@@ -193,14 +201,12 @@ typedef void (^ASLinkUserCallBack)(CTSLinkUserRes *linkUserRes, NSError* error);
 (ASBindUserCallback)callback;
 
 
--(void)requestBindMobile:(NSString *)mobile completionHandler:(ASBindUserCallback)callback;
-
+-(void)requestBindMobileSignIn:(NSString *)mobile withCompletionHandler:(ASSBindMobileSignIn)callback;
 
 -(void)requestSetPassword:(NSString *)password userName:(NSString *)userName completionHandler:(ASSetPassword)callback;
 
 -(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
             completionHandler:(ASCitrusSigninCallBack)callBack;
-
 
 /**
  *  signout
@@ -217,7 +223,6 @@ typedef void (^ASLinkUserCallBack)(CTSLinkUserRes *linkUserRes, NSError* error);
 -(BOOL)isAnyoneSignedIn;
 
 - (NSString*)generateBigIntegerString:(NSString*)email ;
-
 
 -(void)requestLinkUser:(NSString *)email mobile:(NSString *)mobile completionHandler:(ASLinkUserCallBack)callBack;
 

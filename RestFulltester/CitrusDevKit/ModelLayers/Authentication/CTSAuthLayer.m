@@ -101,8 +101,6 @@
 
 
 
-
-
 - (void)requestSignUpWithEmail:(NSString*)email
                         mobile:(NSString*)mobile
                       password:(NSString*)password
@@ -221,6 +219,67 @@
 }
 
 
+-(void)requestBindSigninUserNameAsync:(NSString *)email withCompletionHandler:(ASSBindSignInAsync)callback{
+    
+    
+    [self addCallback:callback forRequestId:BindAsyncSigninRequestId];
+
+    
+    
+    NSDictionary* parameters = @{
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_CLIENT_ID,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
+                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_BIND_SIGNIN_GRANT_TYPE,
+                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : email
+                                 };
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+                                   requestId:BindAsyncSigninRequestId
+                                     headers:nil
+                                  parameters:parameters
+                                        json:nil
+                                  httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+
+
+
+}
+
+-(void)requestBindMobileSignIn:(NSString *)mobile withCompletionHandler:(ASSBindMobileSignIn)callback;{
+
+    
+    if(![CTSUtility validateMobile:mobile]){
+        [self bindMobileSigninHelper:[CTSError getErrorForCode:MobileNotValid]];
+    }
+    
+    [self addCallback:callback forRequestId:BindMobileSignInRequestId];
+    CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
+    [profileLayer requestGetNewProfileMobile:mobile email:[NSString stringWithFormat:@"%@@TinyOwl_CitrusPay.com",mobile] WithCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
+        if(error){
+            [self bindMobileSigninHelper:error];
+        }
+        else {
+        
+            
+            [self requestBindSigninUserNameAsync:profile.responseData.profileByMobile.email withCompletionHandler:^(NSError *error) {
+                [self bindMobileSigninHelper:error];
+            }];
+        }
+    }];
+    
+    
+//get the profile by mobile
+    //use that email to do bind sign in
+    
+
+
+
+}
+
+
+
 -(void)requestSetPassword:(NSString *)password userName:(NSString *)userName completionHandler:(ASSetPassword)callback{
 
     [self addCallback:callback forRequestId:SetPasswordReqId];
@@ -320,17 +379,28 @@
 (ASBindUserCallback)callback{
     [self addCallback:callback forRequestId:BindUserRequestId];
     
-    if (![CTSUtility validateEmail:email]) {
+    if (email != nil && email.length > 0 && [CTSUtility validateEmail:email] == NO) {
         [self bindUserHelperUsername:email
                                  error:[CTSError getErrorForCode:EmailNotValid]];
         return;
     }
 
+    
+
+    
     if (![CTSUtility validateMobile:mobile]) {
         [self bindUserHelperUsername:email
                                error:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }
+    
+    
+    if((email == nil || email.length == 0) && [CTSUtility validateEmail:email] == NO){
+        
+        email = [NSString stringWithFormat:@"%@@TinyOwl_CitrusPay.com",mobile];
+        
+    }
+    
     userNameBind = email;
     mobileBind = mobile;
 
@@ -610,7 +680,9 @@ enum {
   BindSigninRequestId,
   CitruPaySigniInReqId,
   LinkUserReqId,
-    SetPasswordReqId
+    SetPasswordReqId,
+    BindAsyncSigninRequestId,
+    BindMobileSignInRequestId
 };
 - (instancetype)init {
   NSDictionary* dict = @{
@@ -636,6 +708,8 @@ enum {
  
     toNSString(BindSigninRequestId) : toSelector(handleBindSignIn
                                                      :),
+    toNSString(BindAsyncSigninRequestId) : toSelector(handleBindSignInAsync
+                                                 :),
     toNSString(CitruPaySigniInReqId) : toSelector(handleCitrusPaySignin
                                                  :)
     
@@ -738,6 +812,21 @@ enum {
     
 }
 
+-(void)handleBindSignInAsync:(CTSRestCoreResponse *)response{
+    
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    // signup flow
+    if (error == nil) {
+        CTSOauthTokenRes* resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+        [resultObject logProperties];
+        [CTSOauthManager saveOauthData:resultObject];
+    }
+    
+    [self bindSigninUsernameAsyncHelperError:error];
+}
 
 
 
@@ -1054,6 +1143,23 @@ enum {
         [delegate auth:self didBindUser:userName error:error];
     }
     [self resetBindData];
+}
+
+-(void)bindMobileSigninHelper:(NSError *)error{
+    ASSBindMobileSignIn callback =    [self retrieveAndRemoveCallbackForReqId:BindMobileSignInRequestId];
+    if (callback != nil) {
+        callback(error);
+    }else{
+        [delegate auth:self didBindMobileSigninError:error];
+    }
+}
+
+- (void)bindSigninUsernameAsyncHelperError:(NSError*)error {
+    ASSBindSignInAsync callback =
+    [self retrieveAndRemoveCallbackForReqId:BindAsyncSigninRequestId];
+    if (callback != nil) {
+        callback(error);
+    }
 }
 
 -(void)citrusPaySigninHelper:(NSError *)error{

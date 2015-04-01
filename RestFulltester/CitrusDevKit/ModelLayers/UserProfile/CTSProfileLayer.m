@@ -221,11 +221,7 @@ enum {
     profileReq.mobile = mobile;
     profileReq.email = email;
     
-    NSDictionary* jsonDictParam = @{MLC_NEW_CONTACT_PROFILE_GET_EMAIL:email,MLC_NEW_CONTACT_PROFILE_GET_MOBILE:mobile};
-    NSError * err;
-    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictParam options:0 error:&err];
-    NSString *paramJson = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
+       
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_NEW_CONTACT_PROFILE_GET_PATH
