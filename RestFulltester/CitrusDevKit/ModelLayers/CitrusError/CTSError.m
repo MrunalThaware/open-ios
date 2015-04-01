@@ -64,6 +64,10 @@
       case ReturnUrlNotValid:
           errorDescription = @"Return url not valid";
           break;
+      case InterLinkedEmailNotFound:
+          errorDescription = @"Inter-linked data not found";
+          break;
+          
       default:
           
           

@@ -262,10 +262,15 @@
         }
         else {
         
-            
+            if(profile.responseData.profileByMobile.email !=nil ){
             [self requestBindSigninUserNameAsync:profile.responseData.profileByMobile.email withCompletionHandler:^(NSError *error) {
                 [self bindMobileSigninHelper:error];
             }];
+            }
+            else{
+                [self bindMobileSigninHelper:[CTSError getErrorForCode:InterLinkedEmailNotFound]];
+            }
+            
         }
     }];
     
@@ -386,14 +391,11 @@
     }
 
     
-
-    
     if (![CTSUtility validateMobile:mobile]) {
         [self bindUserHelperUsername:email
                                error:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }
-    
     
     if((email == nil || email.length == 0) && [CTSUtility validateEmail:email] == NO){
         
