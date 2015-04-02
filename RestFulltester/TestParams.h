@@ -35,9 +35,9 @@
 //#define TEST_MOBILE @"9811111111"
 
 
-#define TEST_EMAIL @"mitalee.yadav@gmail.com"
+#define TEST_EMAIL @"yaddyboy46@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9930993582"
+#define TEST_MOBILE @"1234567890"
 
 //#define TEST_EMAIL @"hhhhhhhhhh@gmail.com"
 //#define TEST_PASSWORD @"tester@123"

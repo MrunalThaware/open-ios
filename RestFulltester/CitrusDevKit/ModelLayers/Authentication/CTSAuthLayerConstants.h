@@ -38,6 +38,8 @@ typedef enum SignOutResponseState {
 #define MLC_CLIENT_ID SignInId
 #define MLC_CLIENT_SECRET SignInSecretKey
 
+#define MLC_OAUTH_BIND_SIGN_IN @"oauth_object_key_bind"
+
 #pragma mark - OAUTH_TOKEN
 #define MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE @"grant_type"
 #define MLC_OAUTH_TOKEN_QUERY_CLIENT_ID @"client_id"
@@ -148,5 +150,15 @@ typedef enum {
   OauthRefreshStatusSuccess,
   OauthRefreshStatusNeedToLogin
 } OauthRefresStatus;
+
+
+#pragma mark - CITRUS_PAY_AUTH_COOKIE
+
+#define MLC_CITRUS_PAY_AUTH_COOKIE_PATH @"/prepaid/pg/_verify"
+#define MLC_CITRUS_PAY_AUTH_COOKIE_TYPE POST
+#define MLC_CITRUS_PAY_AUTH_COOKIE_EMAIL @"email"
+#define MLC_CITRUS_PAY_AUTH_COOKIE_PASSWORD @"password"
+#define MLC_CITRUS_PAY_AUTH_COOKIE_RMCOOKIE @"rmcookie"
+
 
 #endif

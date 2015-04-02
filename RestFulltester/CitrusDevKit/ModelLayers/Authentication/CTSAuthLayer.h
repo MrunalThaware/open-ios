@@ -95,6 +95,10 @@ didCheckIsUserCitrusMember:(BOOL)isMember
 
 @optional
 -(void)auth:(CTSAuthLayer *)layer didCheckIsUserVerified:(CTSUserVerificationRes *)verificationRes error:(NSError *)error;
+
+@optional
+- (void)auth:(CTSAuthLayer*)layer didCitrusSigninInerror:(NSError *)error;
+
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -134,6 +138,7 @@ typedef void (^ASUSerVerificationCallback)(CTSUserVerificationRes *verificationR
 
 typedef void (^ASIsUserVerified)(CTSUserVerificationRes *verificationRes,NSError* error);
 
+typedef void (^ASCitrusSigninCallBack)(NSError* error);
 
 
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
@@ -252,5 +257,14 @@ typedef void (^ASIsUserVerified)(CTSUserVerificationRes *verificationRes,NSError
 -(void)requestIsUserVerified:(NSString *)userName  completionHandler:(ASIsUserVerified)callback;
 
 
+/**
+ @brief              Sign in using Citrus pay Account.
+ @param userName     Set Citrus pay username.
+ @param password     Set Citrus pay passwrd.
+ @param callback     Set success/failure callBack.
+ @details            Using this method user will Sign in into Citrus pay prepaid Account.
+ */
+-(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
+            completionHandler:(ASCitrusSigninCallBack)callBack;
 
 @end

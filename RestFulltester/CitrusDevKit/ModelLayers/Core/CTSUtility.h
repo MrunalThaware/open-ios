@@ -10,6 +10,7 @@
 #import "CTSOauthTokenRes.h"
 #import "CTSAuthLayerConstants.h"
 #import "UserLogging.h"
+#import "CTSBill.h"
 
 @interface CTSUtility : NSObject
 + (NSString*)readFromDisk:(NSString*)key;
@@ -40,4 +41,7 @@
 +(BOOL)convertToBool:(NSString *)boolStr;
 +(NSString*)correctExpiryDate:(NSString *)date;
 +(NSError *)verifiyEmailOrMobile:(NSString *)userName;
++(BOOL)validateBill:(CTSBill *)bill;
++ (NSDictionary*)getResponseIfTransactionIsComplete:(UIWebView *)webview;
++(BOOL)isVerifyPage:(NSString *)urlString;
 @end

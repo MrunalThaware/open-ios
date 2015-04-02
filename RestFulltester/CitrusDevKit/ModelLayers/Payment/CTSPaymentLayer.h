@@ -21,6 +21,8 @@
 #import "CTSAuthLayer.h"
 #import "CTSRestPluginBase.h"
 #import "CTSUserAddress.h"
+#import "CTSPrepaidBill.h"
+#import "CTSCitrusCashRes.h"
 
 @class RKObjectManager;
 @class CTSAuthLayer;
@@ -67,8 +69,32 @@
     didRequestMerchantPgSettings:(CTSPgSettings*)pgSettings
                            error:(NSError*)error;
 
+@optional
+- (void)payment:(CTSPaymentLayer*)layer
+didGetPrepaidBill:(CTSPrepaidBill*)bill
+          error:(NSError*)error;
+
+@optional
+- (void)payment:(CTSPaymentLayer*)layer
+   didLoadMoney:(CTSPaymentTransactionRes*)paymentInfo
+          error:(NSError*)error;
+
+/**
+ *  pg setting are recived for merchant
+ *
+ *  @param pgSetting pegsetting,nil in case of error
+ *  @param error     ctserror
+ */
+@optional
+- (void)payment:(CTSPaymentLayer*)layer
+didPaymentCitrusCash:(CTSCitrusCashRes*)pgSettings
+          error:(NSError*)error;
+
+
 @end
-@interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol> {
+@interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol, UIWebViewDelegate> {
+    UIViewController *citrusCashBackViewController;
+    UIWebView *citrusPayWebview;
 }
 @property(strong) NSString* merchantTxnId;
 @property(strong) NSString* signature;
@@ -83,11 +109,23 @@ typedef void (^ASMakeTokenizedPaymentCallBack)(
     NSError* error);
 
 typedef void (^ASMakeGuestPaymentCallBack)(
-    CTSPaymentTransactionRes* paymentInfo,
-    NSError* error);
+    CTSPaymentTransactionRes* paymentInfo, NSError* error);
 
 typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
                                                 NSError* error);
+
+typedef void (^ASGetPrepaidBill)(CTSPrepaidBill* prepaidBill,
+                                 NSError* error);
+
+typedef void (^ASLoadMoneyCallBack)(CTSPaymentTransactionRes* paymentInfo,
+                                    NSError* error);
+
+typedef void (^ASCitruspayCallback)(CTSCitrusCashRes* citrusCashResponse,
+                                    NSError* error);
+
+typedef void (^ASMakeCitruspayCallBackInternal)(CTSPaymentTransactionRes* paymentInfo,
+                                                NSError* error);
+
 - (instancetype)initWithUrl:(NSString *)url;
 /**
  * called when client request to make payment through credit card/debit card
@@ -188,5 +226,42 @@ typedef void (^ASGetMerchantPgSettingsCallBack)(CTSPgSettings* pgSettings,
  */
 - (void)requestMerchantPgSettings:(NSString*)vanityUrl
             withCompletionHandler:(ASGetMerchantPgSettingsCallBack)callback;
+
+/**
+ @brief                 Load cash into Citrus Pay account.
+ @param paymentInfo     Set payment related information.
+ @param contactInfo     Set contact related information.
+ @param userAddress     Set user address details.
+ @param amount          Set transction amount.
+ @param returnUrl       Set redirect URL navigate 3D Secure page.
+ @param callback        Set success/failure callBack.
+ @details               Using this method user can load money using Debit/Credit Card, Net Banking & Tokenized bank into Citrus cash account.
+ */
+- (void)requestLoadMoneyInCitrusPay:(CTSPaymentDetailUpdate *)paymentInfo
+                        withContact:(CTSContactUpdate*)contactInfo
+                        withAddress:(CTSUserAddress*)userAddress
+                             amount:( NSString *)amount
+                          returnUrl:(NSString *)returnUrl
+              withCompletionHandler:(ASLoadMoneyCallBack)callback;
+
+
+
+/**
+ @brief                 Make payment with Citrus pay.
+ @param contactInfo     Set contact related information.
+ @param userAddress     Set user address details.
+ @param bill            Set bill values from bill generator URL Viz, merchantTxnId/amo
+ unt/requestSignature/merchantAccessKey/returnUrl.
+ @param controller      Set view controller for navigate to webview.
+ @param callback        Set success/failure callBack.
+ @details               Using this method user can pay money from Citrus Pay account for any online transcton.
+ */
+- (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
+                               withAddress:(CTSUserAddress*)userAddress
+                                      bill:(CTSBill *)bill
+                      returnViewController:(UIViewController *)controller
+                     withCompletionHandler:(ASCitruspayCallback)callback;
+
+
 
 @end

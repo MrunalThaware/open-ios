@@ -19,13 +19,14 @@
 @implementation CTSProfileLayer
 @synthesize delegate;
 enum {
-  ProfileGetContactReqId,
-  ProfileUpdateContactReqId,
-  ProfileGetPaymentReqId,
-  ProfileUpdatePaymentReqId,
+    ProfileGetContactReqId,
+    ProfileUpdateContactReqId,
+    ProfileGetPaymentReqId,
+    ProfileUpdatePaymentReqId,
     ProfileUpdateMobileRequestId,
     ProfileGetNewContactReqId,
-
+    ProfileGetBalanceReqId,
+    ProfileActivatePrepaidAccountReqId
 };
 
 - (instancetype)init {
@@ -52,11 +53,10 @@ enum {
                             :),
              toNSString(ProfileGetNewContactReqId) :
                  toSelector(handleGetNewProfileContact
-                            :)
-             
-             
+                            :),
+             toNSString(ProfileGetBalanceReqId):toSelector(handleProfileGetBanlance:),
+             toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:)
              };
-
 }
 
 - (instancetype)initWithUrl:(NSString *)url
@@ -250,9 +250,53 @@ enum {
 }
 
 
+-(void)requestGetBalance:(ASGetBalanceCallBack)calback{
+    [self addCallback:calback forRequestId:ProfileGetBalanceReqId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthToken = oauthStatus.oauthToken;
+    }
+    
+    if (oauthStatus.error != nil || oauthToken == nil) {
+        [self getBalanceHelper:nil error:oauthStatus.error];
+        
+    }
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_GET_BALANCE_PATH
+                                   requestId:ProfileGetBalanceReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:nil
+                                   httpMethod:GET];
+    
+    [restCore requestAsyncServer:request];
+}
 
 
-
+-(void)requestActivatePrepaidAccount:(ASActivatePrepaidCallBack)callback{
+    [self addCallback:callback forRequestId:ProfileActivatePrepaidAccountReqId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self getBalanceHelper:nil error:oauthStatus.error];
+    }
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_GET_BALANCE_ACTIVATE_PATH
+                                   requestId:ProfileActivatePrepaidAccountReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:nil
+                                   httpMethod:GET];
+    
+    [restCore requestAsyncServer:request];
+}
 
 
 #pragma mark - response handlers methods
@@ -321,6 +365,37 @@ enum {
 }
 
 
+-(void)handleProfileGetBanlance:(CTSRestCoreResponse*)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSAmount* amount = nil;
+    
+    if(error == nil){
+        amount = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
+        
+    }
+    [self getBalanceHelper:amount error:error];
+}
+
+
+-(void)handleActivatePrepaidAccount:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSAmount* amount = nil;
+    BOOL isActivated = NO;
+    
+    if(error == nil){
+        amount = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
+        
+    }
+    if(amount != nil){
+        
+        isActivated = YES;
+    }
+    [self activatePrepaidHelper:isActivated error:error];
+}
+
+
 #pragma mark - helper methods
 
 - (void)updateContactInfoHelper:(NSError*)error {
@@ -381,9 +456,6 @@ enum {
 
 }
 
-
-
-
 -(void)getNewProfileHelper:(CTSProfileContactNewRes *)userProfile error:(NSError *)error{
 ASGetContactInfoNewCallback callback = [self retrieveAndRemoveCallbackForReqId:ProfileGetNewContactReqId];
     
@@ -395,5 +467,28 @@ ASGetContactInfoNewCallback callback = [self retrieveAndRemoveCallbackForReqId:P
         }
     
 }
+
+
+-(void)getBalanceHelper:(CTSAmount *)amount error:(NSError *)error{
+    ASGetBalanceCallBack callback =
+    [self retrieveAndRemoveCallbackForReqId:ProfileGetBalanceReqId];
+    if (callback != nil) {
+        callback(amount, error);
+        
+    } else {
+        [delegate profile:self didGetBalance:amount error:error];
+    }
+}
+
+
+-(void)activatePrepaidHelper:(BOOL )isActivated error:(NSError *)error{
+    
+    ASActivatePrepaidCallBack callback =
+    [self retrieveAndRemoveCallbackForReqId:ProfileActivatePrepaidAccountReqId];
+    if (callback != nil) {
+        callback(isActivated, error);
+    }
+}
+
 
 @end

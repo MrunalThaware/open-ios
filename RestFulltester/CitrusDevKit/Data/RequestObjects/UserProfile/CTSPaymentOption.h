@@ -42,6 +42,7 @@ typedef enum {
 @property(nonatomic, strong) NSString<Optional>* cvv;
 @property(nonatomic, strong) NSString<Optional>* code;
 
+-(instancetype)initCitrusPayWithEmail:(NSString *)email;
 - (instancetype)initWithNetBanking:(CTSNetBankingUpdate*)bankDetails;
 - (instancetype)initWithCard:(CTSElectronicCardUpdate*)eCard;
 - (instancetype)initWithTokenized:(CTSTokenizedPayment*)tokenizedPayment;

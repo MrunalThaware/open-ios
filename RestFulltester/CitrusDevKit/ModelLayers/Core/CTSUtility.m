@@ -544,5 +544,51 @@
     return nil;
 }
 
++(BOOL)validateBill:(CTSBill *)bill{
+    if(bill == nil){
+        return NO;
+    }
+    if(bill.amount == nil){
+        return NO;
+    }
+    if(bill.requestSignature == nil){
+        return NO;
+        
+    }
+    if(bill.merchantAccessKey == nil){
+        return NO;
+    }
+    if (bill.returnUrl == nil) {
+        return NO;
+    }
+    return YES;
+}
+
++ (NSDictionary*)getResponseIfTransactionIsComplete:(UIWebView *)webview {
+    // contains the HTTP body as in an HTTP POST request.
+    NSString *iosResponse = [webview stringByEvaluatingJavaScriptFromString:@"postResponseiOS();"];
+    NSLog(@"iosResponse %@",iosResponse);
+    if(iosResponse == nil ){
+        return nil;
+    }
+    else{
+        NSError *error;
+        NSDictionary *dictionary =  [NSJSONSerialization JSONObjectWithData: [iosResponse dataUsingEncoding:NSUTF8StringEncoding]
+                                                                    options: NSJSONReadingMutableContainers
+                                                                      error: &error];
+        NSLog(@" dictionary %@ ",dictionary);
+        NSLog(@" error %@ ",error);
+        return dictionary;
+    }
+}
+
++(BOOL)isVerifyPage:(NSString *)urlString{
+    BOOL isVerifyPage = NO;
+    if([urlString containsString:@"prepaid/pg/verify/"]){
+        NSLog(@"not logged in");
+        isVerifyPage = YES;
+    }
+    return isVerifyPage;
+}
 
 @end

@@ -40,6 +40,20 @@
 @synthesize type, name, owner, number, expiryDate, scheme, bank, token, mmid,
     impsRegisteredMobile, cvv, code;
 
+-(instancetype)initCitrusPayWithEmail:(NSString *)email{
+    self = [super init];
+    if (self) {
+        type = MLC_CITRUS_PAY_TYPE;
+        owner = email;//MLC_CITRUS_PAY_HOLDER;
+        number = MLC_CITRUS_PAY_NUMBER;
+        expiryDate = MLC_CITRUS_PAY_EXPIRY;
+        scheme = MLC_CITRUS_PAY_SCHEME;
+        cvv = MLC_CITRUS_PAY_CVV;
+    }
+    return self;
+    
+}
+
 - (instancetype)initWithCard:(CTSElectronicCardUpdate*)eCard {
   self = [super init];
   if (self) {

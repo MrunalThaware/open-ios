@@ -10,16 +10,19 @@
 #define CTS_iOS_Sdk_MerchantConstants_h
 //
 
+
 // Sandbox
 #ifdef SANDBOX_MODE
 // for sandbox envirement
-#define VanityUrl @"stgcube"
-#define SignInId @"citrus-native-mobile-app-v1"
-#define SignInSecretKey @"83df0e4db17fa7b206f4c36d3f19d6c1"
-#define SubscriptionId @"citrus-native-mobile-subscription"
-#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
-#define MerchantAccessKey @"F2VZD1HBS2VVXJPMWO77"
+#define VanityUrl @"nativeSDK"
+#define SignInId @"gogo-pre-wallet"
+#define SignInSecretKey @"e6f1b840c652d2ffc46530faaac8b771"
+#define SubscriptionId @"test-signup"
+#define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
+#define BillUrl @"http://localhost:8888/billGeneratorPrepaid.php"
+#define ReturnUrl @"http://localhost:8888/redirectURL.php"
 #define BaseUrl @"https://sandboxadmin.citruspay.com"
+#define MerchantAccessKey @"F2VZD1HBS2VVXJPMWO77"
 
 #elif STAGING_MODE
 // for staging envirement
@@ -28,8 +31,10 @@
 #define SignInSecretKey @"83df0e4db17fa7b206f4c36d3f19d6c1"
 #define SubscriptionId @"citrus-native-mobile-subscription"
 #define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
-#define MerchantAccessKey @"F2VZD1HBS2VVXJPMWO77"
+#define BillUrl @"http://localhost:8888/billGeneratorPrepaid.php"
+#define ReturnUrl @"http://localhost:8888/redirectURL.php"
 #define BaseUrl @"https://stgadmin.citruspay.com"
+#define MerchantAccessKey @"F2VZD1HBS2VVXJPMWO77"
 
 #else 
 // for production envirement
@@ -38,8 +43,10 @@
 #define SignInSecretKey @"83df0e4db17fa7b206f4c36d3f19d6c1"
 #define SubscriptionId @"citrus-native-mobile-subscription"
 #define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
-#define MerchantAccessKey @"2GPZFO5FDDLTQY0O98JT"
+#define BillUrl @"http://localhost:8888/billGeneratorPrepaid.php"
+#define ReturnUrl @"http://localhost:8888/redirectURL.php"
 #define BaseUrl @"https://admin.citruspay.com"
+#define MerchantAccessKey @"2GPZFO5FDDLTQY0O98JT"
 #endif
 
 

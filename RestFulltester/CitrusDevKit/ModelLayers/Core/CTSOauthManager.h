@@ -46,4 +46,12 @@
 
 + (NSString*)readSignupToken;
 
++ (CTSOauthTokenRes*)readBindSignInOauthData;
+
++(void)saveBindSignInOauth:(CTSOauthTokenRes*)object;
+
++ (OauthStatus*)fetchBindSigninTokenStatus;
+
++ (void)resetBindSiginOauthData ;
+
 @end

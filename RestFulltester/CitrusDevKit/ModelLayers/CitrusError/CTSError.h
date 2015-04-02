@@ -7,26 +7,31 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CTSPaymentTransactionRes.h"
+
 typedef enum {
-  NoError,
-  UserNotSignedIn,
-  EmailNotValid,
-  MobileNotValid,
-  FirstNameNotValid,
-  LastNameNotValid,
-  CvvNotValid,
-  CardNumberNotValid,
-  ExpiryDateNotValid,
-  ServerErrorWithCode,
-  InvalidParameter,
-  OauthTokenExpired,
-  CantFetchSignupToken,
+    NoError,
+    UserNotSignedIn,
+    EmailNotValid,
+    MobileNotValid,
+    FirstNameNotValid,
+    LastNameNotValid,
+    CvvNotValid,
+    CardNumberNotValid,
+    ExpiryDateNotValid,
+    ServerErrorWithCode,
+    InvalidParameter,
+    OauthTokenExpired,
+    CantFetchSignupToken,
     UserExits,
     TokenMissing,
     MobileAlreadyExits = 212,
     MobileNotVerified = 210,
-unknownError = 222,
-    
+    unknownError = 222,
+    ReturnUrlNotValid,
+    PrepaidBillFetchFailed,
+    WrongBill,
+    NoViewController
 } CTSErrorCode;
 
 
@@ -87,12 +92,12 @@ typedef enum {
                           withInfo:(NSDictionary*)information;
 //-(NSString *)dumbConversion:(NSString*)error;
 + (id)sharedManager ;
-+ (NSError*)getSDKErrorWithType:(NSString*)type
-                       withInfo:(NSDictionary*)information;
+//+ (NSError*)getSDKErrorWithType:(NSString*)type
+//                       withInfo:(NSDictionary*)information;
 +(NSString *)userNameSpecificDes:(NSString*)userName;
 //+(SDKExceptionCode)getSDKExceptionCode:(NSString*)errorType;
 + (NSString*)getSDKDescriptionForCode:(SDKExceptionCode)code;
 +(SDKExceptionCode)getSDKExceptionCode:(NSString*)errorType;
-
-
++(NSError *)errorForStatusCode:(int)statusCode;
++(NSError *)convertToError:(CTSPaymentTransactionRes *)ctsPaymentTxRes;
 @end

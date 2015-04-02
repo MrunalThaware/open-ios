@@ -14,10 +14,8 @@
 #import "ServerSignature.h"
 #import "CTSUtility.h"
 
+#define toErrorDescription(error) [error.userInfo objectForKey:NSLocalizedDescriptionKey]
 
-@interface ViewController ()
-
-@end
 #define TextCreditCards  \
 @[                     \
 @"371449635398431",  \
@@ -43,7 +41,6 @@
   
     
     [self signIn];
-    
     
 //    [self signUp];
     
@@ -119,7 +116,7 @@
 
     // Optional
     // 260315 Dynamic Oauth keys
-    [authLayer initWithDynamicKeys:@"citrus-native-mobile-app-v1" signInSecretKey:@"83df0e4db17fa7b206f4c36d3f19d6c1" subscriptionId:@"citrus-native-mobile-subscription" subscriptionSecretKey:@"3e2288d3a1a3f59ef6f93373884d2ca1"];
+//    [authLayer initWithDynamicKeys:@"citrus-native-mobile-app-v1" signInSecretKey:@"83df0e4db17fa7b206f4c36d3f19d6c1" subscriptionId:@"citrus-native-mobile-subscription" subscriptionSecretKey:@"3e2288d3a1a3f59ef6f93373884d2ca1"];
     
 
     
@@ -150,9 +147,9 @@
                                  @"USERDATA4":@"MOB_RC|test@gmail.com",
                                  @"USERDATA3":@"MOB_RC|4111XXXXXXXX1111",
                                  };
-    
-
 }
+
+
 /****************************************************|AUTHLAYER|***************************************************/
 
 #pragma mark - AuthLayer Sample implementation
@@ -169,14 +166,28 @@
                          [self logError:error];
 
 
+//                         [self getCookie];
+                         
+                         [self getBalance];
+                         
+//                         [self activatePrepaidUser];
+                         
+//                         [self loadMoneyInCitrusPayUsingCard];
+                         
+//                         [self loadMoneyInCitrusPayUsingCardToken];
+                         
+//                         [self loadMoneyInCitrusPayUsingNetbank];
+                         
+//                         [self payUsingCitrusCash];
+
 
                          //[self doUserDebitCardPayment];
                          //[self doGuestPaymentCard];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
-                         [self updatePaymentInfo];
-                         [self updateContactInformation];
+//                         [self updatePaymentInfo];
+//                         [self updateContactInformation];
                          //[self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
@@ -187,25 +198,25 @@
                          
                          //[self isUserVerifedWithOauth];
 //                         
-                         [profileLayer requestContactInfoNewWithCompletionHandler:^(CTSProfileContactNewRes *contactInfo2, NSError *error) {
-                             
-                             if(!error){
-                             NSLog(@"uuid %@",contactInfo2.uuid);
-                              NSLog(@"type %@",contactInfo2.type);
-                              NSLog(@"firstName %@",contactInfo2.firstName);
-                              NSLog(@"lastName %@",contactInfo2.lastName);
-                              NSLog(@"mobileVerified %d",contactInfo2.mobileVerified);
-                              NSLog(@"mobile %@",contactInfo2.mobile);
-                              NSLog(@"email %@",contactInfo2.email);
-                              NSLog(@"emailVerified %d",contactInfo2.emailVerified);
-                              NSLog(@"emailDate %@",contactInfo2.emailDate);
-                              NSLog(@"mobileDate %@",contactInfo2.mobileDate);
-                             }
-                             else {
-                                 [self logError:error];
-                             }
-
-                         }];
+//                         [profileLayer requestContactInfoNewWithCompletionHandler:^(CTSProfileContactNewRes *contactInfo2, NSError *error) {
+//                             
+//                             if(!error){
+//                             NSLog(@"uuid %@",contactInfo2.uuid);
+//                              NSLog(@"type %@",contactInfo2.type);
+//                              NSLog(@"firstName %@",contactInfo2.firstName);
+//                              NSLog(@"lastName %@",contactInfo2.lastName);
+//                              NSLog(@"mobileVerified %d",contactInfo2.mobileVerified);
+//                              NSLog(@"mobile %@",contactInfo2.mobile);
+//                              NSLog(@"email %@",contactInfo2.email);
+//                              NSLog(@"emailVerified %d",contactInfo2.emailVerified);
+//                              NSLog(@"emailDate %@",contactInfo2.emailDate);
+//                              NSLog(@"mobileDate %@",contactInfo2.mobileDate);
+//                             }
+//                             else {
+//                                 [self logError:error];
+//                             }
+//
+//                         }];
                          
                      }];
 }
@@ -855,6 +866,172 @@ shouldStartLoadWithRequest:(NSURLRequest*)request
     [indicator stopAnimating];
 }
 
+
+#pragma mark - Prepaid API
+// Prepaid API
+
+// get Cookie
+-(void)getCookie {
+    [authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
+        LogTrace(@"requestCitrusPaySignin");
+        if (error) {
+            LogTrace(@"error %@",[error localizedDescription]);
+        }
+        else{
+            LogTrace(@" Success ");
+        }
+    }];
+}
+
+
+// get Balance
+-(void)getBalance{
+    [profileLayer requestGetBalance:^(CTSAmount *amount, NSError *error) {
+         if (error) {
+            LogTrace(@"error %@",[error localizedDescription]);
+        }
+        else{
+            LogTrace(@" Success ");
+            LogTrace(@" value %@ ",amount.value);
+            LogTrace(@" currency %@ ",amount.currency);
+        }
+    }];
+}
+
+
+// activate Prepaid User
+-(void)activatePrepaidUser{
+    [profileLayer requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
+        if (error) {
+            LogTrace(@"error %@",[error localizedDescription]);
+        }
+        else{
+            LogTrace(@" Success ");
+            LogTrace(@"isActivated %d",isActivated);
+            LogTrace(@" GetBalance Successful ");
+        }
+    }];
+}
+
+// load Money In CitrusPay Using Card
+-(void)loadMoneyInCitrusPayUsingCard{
+    
+    CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
+    // Update card for card payment.
+    CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
+    creditCard.number = TEST_CREDIT_CARD_NUMBER;
+    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
+    creditCard.scheme = @"VISA";
+    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
+    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+    creditCard.cvv = TEST_CREDIT_CARD_CVV;
+    [creditCardInfo addCard:creditCard];
+    
+    [paymentlayerinfo requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+        [self handlePaymentResponse:paymentInfo error:error];
+    }];
+}
+
+
+// load Money InCitrusPay Using CardToken
+-(void)loadMoneyInCitrusPayUsingCardToken{
+    
+    CTSPaymentDetailUpdate *tokenizedCardInfo = [[CTSPaymentDetailUpdate alloc] init];
+    // Update card for tokenized payment.
+    CTSElectronicCardUpdate *tokenizedCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
+    tokenizedCard.cvv= TEST_CREDIT_CARD_CVV;
+    tokenizedCard.token= TEST_TOKENIZED_CARD_TOKEN;
+    [tokenizedCardInfo addCard:tokenizedCard];
+    
+    [paymentlayerinfo requestLoadMoneyInCitrusPay:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+        [self handlePaymentResponse:paymentInfo error:error];
+    }];
+}
+
+
+// load Money In CitrusPay Using Netbank
+-(void)loadMoneyInCitrusPayUsingNetbank{
+    
+    CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
+    // Update bank details for net banking payment.
+    CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
+    netBank.code = TEST_NETBAK_CODE;
+    [paymentInfo addNetBanking:netBank];
+    
+    [paymentlayerinfo requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"10" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+        [self handlePaymentResponse:paymentInfo error:error];
+    }];
+}
+
+
+// pay Using Citrus Cash
+-(void)payUsingCitrusCash{
+    
+    CTSBill *bill = [ViewController getBillFromServer];
+    [paymentlayerinfo requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
+        NSLog(@"paymentInfo %@",paymentInfo);
+        if(error){
+            LogTrace(@"error %@",[error localizedDescription]);
+        }
+        else{
+            LogTrace(@" transaction complete\n txStatus: %@",[paymentInfo.responseDict valueForKey:@"TxStatus"]);
+        }
+    }];
+}
+
+
+
+#pragma mark - Prepaid Payment Helpers
+
+// handle Payment Response
+-(void)handlePaymentResponse:(CTSPaymentTransactionRes *)paymentInfo error:(NSError *)error{
+    
+    BOOL hasSuccess =
+    ((paymentInfo != nil) && ([paymentInfo.pgRespCode integerValue] == 0) &&
+     (error == nil))
+    ? YES
+    : NO;
+    if(hasSuccess){
+        // Your code to handle success.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (hasSuccess && error.code != ServerErrorWithCode) {
+                [self loadRedirectUrl:paymentInfo.redirectUrl];
+            }else{
+            }
+        });
+    }
+    else{
+        // Your code to handle error.
+        if(error== nil){
+            LogTrace(@" payment failed : %@",paymentInfo.txMsg);
+        }else{
+            LogTrace(@" payment failed : %@",toErrorDescription(error));
+        }
+    }
+}
+
+
+// get Prepaid Bill From Server
++ (CTSBill*)getBillFromServer{
+    // Configure your request here.
+    NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:
+                                   [NSURL URLWithString:BillUrl]];
+    [urlReq setHTTPMethod:@"POST"];
+    [urlReq setHTTPBody:[NSJSONSerialization dataWithJSONObject: @{@"amount": @"10"} options:NSJSONWritingPrettyPrinted error:nil]];
+    NSError* error = nil;
+    NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
+                                                  returningResponse:nil
+                                                              error:&error];
+    NSString* billJson = [[NSString alloc] initWithData:signatureData
+                                               encoding:NSUTF8StringEncoding];
+    JSONModelError *jsonError;
+    CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
+                                                    error:&jsonError];
+    NSLog(@"billJson %@",billJson);
+    NSLog(@"signature %@ ", sampleBill);
+    return sampleBill;
+    
+}
 
 
 @end

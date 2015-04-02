@@ -16,6 +16,7 @@
   self = [super init];
   if (self) {
     baseUrl = url;
+    finished = YES;
   }
   return self;
 }
@@ -50,6 +51,25 @@
                                              dataIndex:dataIndex];
                 [blockDelegate restCore:self didReceiveResponse:restResponse];
             }];
+}
+
+
+-(void)requestAsyncServerDelegation:(CTSRestCoreRequest *)restRequest{
+    NSMutableURLRequest* request =
+    [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
+    
+    delegationRequestId = restRequest.requestId;
+    
+    LogTrace(@"URL > %@ ", request);
+    LogTrace(@"restRequest JSON> %@", restRequest.requestJson);
+
+    
+    NSURLConnection *urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [urlConn start];
+    
+    while(finished) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
 }
 
 + (CTSRestCoreResponse*)requestSyncServer:(CTSRestCoreRequest*)restRequest
@@ -215,4 +235,62 @@ NSRange statusCodeRangeForClass(CTSStatusCodeClass statusCodeClass) {
   [restResponse logProperties];
   return restResponse;
 }
+
+#pragma mark - NSURLConnection Delegates
+- (NSURLRequest *) connection: (NSURLConnection *) connection
+              willSendRequest: (NSURLRequest *) request
+             redirectResponse: (NSURLResponse *) redirectResponse
+{
+    
+    NSLog(@"connection %@",connection);
+    
+    NSLog(@"redirect request %@",request);
+    NSLog(@"redirect redirectResponse %@",redirectResponse);
+    
+    CTSRestCoreResponse *restResponse = nil;
+    
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) redirectResponse;
+    
+    if (redirectResponse !=nil && httpResponse.statusCode == 302 ) {
+        request = nil;
+        
+        
+    }
+    return request;
+}
+
+- (void)connection:(NSURLConnection *)connection
+didReceiveResponse:(NSURLResponse *)response{
+    
+    NSLog(@"didReceiveResponse response %@",response);
+    CTSRestCoreResponse *restResponse = [[CTSRestCoreResponse alloc] init];
+    restResponse.requestId = delegationRequestId;
+    
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+    
+    if (response !=nil && httpResponse.statusCode == 302 ) {
+        NSArray* httpscookies =
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[response URL]];
+        NSHTTPCookie* cookie = [httpscookies objectAtIndex:1];
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+        restResponse.data = nil;
+        
+    }
+    else{
+        
+        NSError *error = [CTSError errorForStatusCode:httpResponse.statusCode];
+        restResponse.requestId = delegationRequestId;
+        restResponse.data = error;
+        
+    }
+    [delegate restCore:self didReceiveResponse:restResponse];
+    
+}
+
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    finished = TRUE;
+}
+
+
 @end

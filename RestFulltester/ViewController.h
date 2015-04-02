@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CitrusDevKit/CitrusSdk.h"
+#import "CTSBill.h"
 
 @interface ViewController : UIViewController<CTSAuthenticationProtocol,
                                              CTSPaymentProtocol,

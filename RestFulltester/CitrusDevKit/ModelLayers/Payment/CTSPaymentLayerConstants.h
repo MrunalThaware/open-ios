@@ -128,4 +128,21 @@
 #define MLC_PAYMENT_GET_PGSETTINGS_NETBANKING_REQ_MAPPING \
   @{@"bankName" : @"bankName", @"issuerCode" : @"issuerCode"}
 
+
+#define MLC_CITRUS_PAY_CVV @"000"
+#define MLC_CITRUS_PAY_HOLDER @"Tester Citrus"
+#define MLC_CITRUS_PAY_NUMBER @"1234561234561234"
+#define MLC_CITRUS_PAY_SCHEME @"CPAY"
+#define MLC_CITRUS_PAY_TYPE @"prepaid"
+#define MLC_CITRUS_PAY_EXPIRY @"04/2021"
+
+#pragma - mark MLC_PAYMENT_GET_PREPAID_BILL
+
+#define MLC_PAYMENT_GET_PREPAID_BILL_PATH @"/service/v2/prepayment/load"
+#define MLC_PAYMENT_GET_PREPAID_BILL_QUERY_AMOUNT @"amount"
+#define MLC_PAYMENT_GET_PREPAID_BILL_QUERY_CURRENCY @"currency"
+#define MLC_PAYMENT_GET_PREPAID_BILL_QUERY_REDIRECT @"redirect"
+#define MLC_PAYMENT_GET_PREPAID_BILL_QUERY_CURRENCY_INR @"INR"
+
+
 #endif

@@ -39,6 +39,9 @@
  */
 - (BOOL)addNetBanking:(CTSNetBankingUpdate*)netBankDetail;
 
+
+-(instancetype)initCitrusPayWithEmail:(NSString *)email;
+
 - (CTSErrorCode)validate;
 
 - (void)clearCVV;

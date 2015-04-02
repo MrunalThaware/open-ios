@@ -664,7 +664,27 @@ static NSString * _subscriptionSecretKeyAlias;
         return YES;
 }
 
-
+// get Cookie
+-(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
+            completionHandler:(ASCitrusSigninCallBack)callBack{
+    
+    [self addCallback:callBack forRequestId:CitruPaySigniInReqId];
+    
+    //validate username
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_CITRUS_PAY_AUTH_COOKIE_PATH
+                                   requestId:CitruPaySigniInReqId
+                                   headers:nil
+                                   parameters:@{
+                                                MLC_CITRUS_PAY_AUTH_COOKIE_EMAIL:userName,
+                                                MLC_CITRUS_PAY_AUTH_COOKIE_PASSWORD:password,
+                                                MLC_CITRUS_PAY_AUTH_COOKIE_RMCOOKIE:@"true"
+                                                }
+                                   json:nil
+                                   httpMethod:POST];
+    
+    [restCore requestAsyncServerDelegation:request];
+}
 
 
 #pragma mark - New Methods
@@ -848,7 +868,8 @@ typedef enum {
     OTPVerificationRequestId,
     OTPRegenerationRequestId,
     ISMobileVerifiedRequestId,
-    isUserVerifiedRequestId
+    isUserVerifiedRequestId,
+    CitruPaySigniInReqId
 }AuthRequestId;
 
 
@@ -885,10 +906,10 @@ typedef enum {
              toNSString(ISMobileVerifiedRequestId): toSelector(handleIsMobileVerified:),
              toNSString(IsUserAlreadyRegisteredReqId):toSelector(handleIsAlreadyRegistered:),
              toNSString(UserVerificationReqId):toSelector(handleUserVerification:),
-             toNSString(isUserVerifiedRequestId):toSelector(handleIsUserVerified:)
+             toNSString(isUserVerifiedRequestId):toSelector(handleIsUserVerified:),
              
+             toNSString(CitruPaySigniInReqId) : toSelector(handleCitrusPaySignin:)
 
-             
              };
     
     
@@ -1238,6 +1259,10 @@ typedef enum {
 }
 
 
+-(void)handleCitrusPaySignin:(CTSRestCoreResponse *)response{
+    [self citrusPaySigninHelper:(NSError *)response.data];
+}
+
 
 
 #pragma mark - helper methods
@@ -1390,6 +1415,15 @@ typedef enum {
     }
 }
 
+-(void)citrusPaySigninHelper:(NSError *)error{
+    ASCitrusSigninCallBack callback =
+    [self retrieveAndRemoveCallbackForReqId:CitruPaySigniInReqId];
+    if (callback != nil) {
+        callback(error);
+    } else {
+        [delegate auth:self didCitrusSigninInerror:error];
+    }
+}
 
 
 - (void)resetSignupCredentials {

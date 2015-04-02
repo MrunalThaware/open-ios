@@ -21,6 +21,13 @@
     return self;
 }
 
+
+-(instancetype)initCitrusPayWithEmail:(NSString *)email{
+    self = [[CTSPaymentDetailUpdate alloc] init];
+    [self.paymentOptions addObject:[[CTSPaymentOption alloc] initCitrusPayWithEmail:email]];
+    return self;
+}
+
 - (void)addCard:(CTSElectronicCardUpdate*)eCard {
     eCard.expiryDate = [CTSUtility correctExpiryDate:eCard.expiryDate];
     [paymentOptions addObject:[[CTSPaymentOption alloc] initWithCard:eCard]];

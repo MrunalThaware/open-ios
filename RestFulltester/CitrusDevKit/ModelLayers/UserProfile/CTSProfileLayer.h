@@ -15,6 +15,8 @@
 #import "CTSRestPluginBase.h"
 #import "CTSProfileLayerConstants.h"
 #import "CTSProfileContactNewRes.h"
+#import "CTSAmount.h"
+
 @class CTSProfileLayer;
 @protocol CTSProfileProtocol
 /**
@@ -65,6 +67,12 @@ didUpdateMobileError:(NSError*)error;
 - (void)profile:(CTSProfileLayer*)profile
 didReceiveNewContactInfo:(CTSProfileContactNewRes*)contactInfo
           error:(NSError*)error;
+
+@optional
+- (void)profile:(CTSProfileLayer*)profile
+  didGetBalance:(CTSAmount *)amount
+          error:(NSError*)error;
+
 @end
 
 /**
@@ -91,6 +99,9 @@ typedef void (^ASUpdateMobileNumberCallback)(NSError* error);
 
 typedef void (^ASGetContactInfoNewCallback)(CTSProfileContactNewRes*contactInfo, NSError* error);
 
+typedef void (^ASGetBalanceCallBack)(CTSAmount *amount, NSError* error);
+
+typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
 
 /**
  *  update contact related information
@@ -126,4 +137,19 @@ typedef void (^ASGetContactInfoNewCallback)(CTSProfileContactNewRes*contactInfo,
 
 -(void)requestContactInfoNewWithCompletionHandler:(ASGetContactInfoNewCallback)callback;
 
+
+/**
+ @brief                 Get Citrus cash balance.
+ @param callback        Set success/failure callBack.
+ @details               Using this method user will get Citrus cash Prepaid balance.
+ */
+-(void)requestGetBalance:(ASGetBalanceCallBack)calback;
+
+
+/**
+ @brief                 Getting activate prepaid user account.
+ @param callback        Set success/failure callBack.
+ @details               Using this method user will activate Citrus cash Prepaid account.
+ */
+-(void)requestActivatePrepaidAccount:(ASActivatePrepaidCallBack)callback;
 @end
