@@ -24,6 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initializeLayers];
+    [self testCardSchemes];
     self.title = @"Citrus iOS SDK";
 //    [authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
 //        LogTrace(@" requestCitrusPaySignin ");
@@ -165,7 +166,7 @@
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
     creditCard.number = TEST_CREDIT_CARD_NUMBER;
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-    creditCard.scheme = @"VISA";
+    creditCard.scheme = [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
     //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
@@ -379,4 +380,11 @@
 //
 //}
 
+- (void)testCardSchemes {
+    for (NSString* cardNumber in TextCreditCards) {
+        LogTrace(@" card scheme %@ for card number %@",
+                 [CTSUtility fetchCardSchemeForCardNumber:cardNumber],
+                 cardNumber);
+    }
+}
 @end

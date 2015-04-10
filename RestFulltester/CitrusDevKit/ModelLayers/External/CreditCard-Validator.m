@@ -16,6 +16,9 @@
 #define kAMEX_TYPE		@"^3[47][0-9]{2}$"
 #define kDINERS_CLUB_TYPE	@"^3(?:0[0-5]|[68][0-9])[0-9]$"
 #define kDISCOVER_TYPE		@"^6(?:011|5[0-9]{2})$"
+#define kMAESTRO_TYPE   @"^(?:5[0678]\d\d|6304|6390|67\d\d)\d{8,15}$"
+
+
 
 #import "CreditCard-Validator.h"
 
@@ -49,6 +52,11 @@
             case CreditCardBrandDiscover:
                 regex = [NSRegularExpression regularExpressionWithPattern:kDISCOVER_TYPE options:0 error:&error];
                 break;
+                
+            case CreditCardBrandMaestro:
+                regex = [NSRegularExpression regularExpressionWithPattern:kMAESTRO_TYPE options:0 error:&error];
+                break;
+                
 		}
         
 		NSUInteger matches = [regex numberOfMatchesInString:cardNumber options:0 range:NSMakeRange(0, 4)];

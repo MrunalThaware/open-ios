@@ -26,7 +26,7 @@
     @"3530111333300000", \
     @"5555555555554444", \
     @"4111111111111111", \
-    @"6759649826438453"  \
+    @"6799990100000000019"  \
   ]
 @implementation ViewController
 //@synthesize contactInfo, guestflowdebitcard, guestFlowDebitCardInfo;
@@ -35,7 +35,7 @@
   [self initialize];
    // [authLayer generateBigIntegerString:@"shardulLavekar@mailinator.com" ];
     
-  //  [self testCardSchemes];
+    [self testCardSchemes];
   //[self signIn];
    //[self testCookie];
   //[self signUp];
@@ -46,7 +46,7 @@
       //  [self logError:error];
         
     //}];
-  [self doGuestPaymentNetbanking];
+ // [self doGuestPaymentNetbanking];
     
 //    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
 //        LogTrace(@"userName %@",userName);
@@ -616,9 +616,11 @@
 
 - (void)testCardSchemes {
   for (NSString* cardNumber in TextCreditCards) {
-    LogTrace(@" card scheme %@ for card number %@",
+      LogTrace(@" card valid %d card scheme %@ for card number %@",[CTSUtility validateCardNumber:cardNumber],
              [CTSUtility fetchCardSchemeForCardNumber:cardNumber],
              cardNumber);
+
+      
   }
 }
 

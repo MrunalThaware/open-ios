@@ -14,6 +14,7 @@ typedef NS_ENUM(NSInteger, CreditCardBrand) {
     CreditCardBrandDinersClub,
     CreditCardBrandAmex,
     CreditCardBrandDiscover,
+    CreditCardBrandMaestro,
     CreditCardBrandUnknown
 };
 

@@ -51,9 +51,11 @@
 ]
 #define MASTER @[ @"5" ]
 
+#define UNKNOWN_CARD_TYPE @"UNKNOWN"
+
 @implementation CTSUtility
 + (BOOL)validateCardNumber:(NSString*)number {
-    return [CreditCard_Validator checkCreditCardNumber:number];
+        return [CreditCard_Validator checkCreditCardNumber:number];
 }
 
 + (NSString*)readFromDisk:(NSString*)key {
@@ -258,7 +260,7 @@
 
 + (NSString*)fetchCardSchemeForCardNumber:(NSString*)cardNumber {
     if (![CTSUtility validateCardNumber:cardNumber]) {
-        return @"UNKNOWN";
+        return UNKNOWN_CARD_TYPE;
         
     } else {
         if ([CTSUtility hasPrefixArray:amex cardNumber:cardNumber]) {
@@ -272,11 +274,11 @@
         } else if ([CTSUtility hasPrefixArray:VISA cardNumber:cardNumber]) {
             return @"VISA";
         } else if ([CTSUtility hasPrefixArray:MAESTRO cardNumber:cardNumber]) {
-            return @"MAESTRO";
+            return @"MTRO";
         } else if ([CTSUtility hasPrefixArray:MASTER cardNumber:cardNumber]) {
             return @"MCRD";
         }
-        return @"UNKNOWN";
+        return UNKNOWN_CARD_TYPE;
     }
 }
 
