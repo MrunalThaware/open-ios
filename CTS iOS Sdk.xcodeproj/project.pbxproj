@@ -77,6 +77,9 @@
 		37EF1CD31A91D6E400D496F0 /* CTSProfileContactNewRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EF1CD21A91D6E400D496F0 /* CTSProfileContactNewRes.m */; };
 		6BEDF371199382F500F97231 /* CTSPaymentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */; };
 		6BEDF4621993A50600F97231 /* HMACSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF4611993A50600F97231 /* HMACSignature.m */; };
+		76DA2E9D1AD7C8F000D76485 /* CTSBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA2E981AD7C8F000D76485 /* CTSBill.m */; };
+		76DA2E9E1AD7C8F000D76485 /* CTSCitrusCashRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA2E9A1AD7C8F000D76485 /* CTSCitrusCashRes.m */; };
+		76DA2E9F1AD7C8F000D76485 /* CTSPrepaidBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA2E9C1AD7C8F000D76485 /* CTSPrepaidBill.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -230,6 +233,12 @@
 		6BEDF370199382F500F97231 /* CTSPaymentLayerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPaymentLayerConstants.h; sourceTree = "<group>"; };
 		6BEDF4601993A50600F97231 /* HMACSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMACSignature.h; sourceTree = "<group>"; };
 		6BEDF4611993A50600F97231 /* HMACSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMACSignature.m; sourceTree = "<group>"; };
+		76DA2E971AD7C8F000D76485 /* CTSBill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSBill.h; sourceTree = "<group>"; };
+		76DA2E981AD7C8F000D76485 /* CTSBill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSBill.m; sourceTree = "<group>"; };
+		76DA2E991AD7C8F000D76485 /* CTSCitrusCashRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCitrusCashRes.h; sourceTree = "<group>"; };
+		76DA2E9A1AD7C8F000D76485 /* CTSCitrusCashRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCitrusCashRes.m; sourceTree = "<group>"; };
+		76DA2E9B1AD7C8F000D76485 /* CTSPrepaidBill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPrepaidBill.h; sourceTree = "<group>"; };
+		76DA2E9C1AD7C8F000D76485 /* CTSPrepaidBill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSPrepaidBill.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -595,6 +604,12 @@
 				37C96484198F723E0021DC0B /* CTSPaymentTransactionRes.m */,
 				37C96485198F723E0021DC0B /* CTSPgSettings.h */,
 				37C96486198F723E0021DC0B /* CTSPgSettings.m */,
+				76DA2E971AD7C8F000D76485 /* CTSBill.h */,
+				76DA2E981AD7C8F000D76485 /* CTSBill.m */,
+				76DA2E991AD7C8F000D76485 /* CTSCitrusCashRes.h */,
+				76DA2E9A1AD7C8F000D76485 /* CTSCitrusCashRes.m */,
+				76DA2E9B1AD7C8F000D76485 /* CTSPrepaidBill.h */,
+				76DA2E9C1AD7C8F000D76485 /* CTSPrepaidBill.m */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -735,6 +750,7 @@
 				37C9649C198F723E0021DC0B /* CTSElectronicCardUpdate.m in Sources */,
 				371B5D28198A5CCF0096451C /* CTSRestPluginBase.m in Sources */,
 				371B5D4A198A5D110096451C /* NSArray+JSONModel.m in Sources */,
+				76DA2E9D1AD7C8F000D76485 /* CTSBill.m in Sources */,
 				37C964A6198F723E0021DC0B /* CTSNetbankingOption.m in Sources */,
 				37EF1CD31A91D6E400D496F0 /* CTSProfileContactNewRes.m in Sources */,
 				37C96492198F723E0021DC0B /* CTSPaymentMode.m in Sources */,
@@ -748,9 +764,11 @@
 				37C9649F198F723E0021DC0B /* CTSPaymentOption.m in Sources */,
 				37851BFC1978F2DD00AE3AD0 /* CTSUtility.m in Sources */,
 				371B5D24198A5CCF0096451C /* CTSRestCore.m in Sources */,
+				76DA2E9E1AD7C8F000D76485 /* CTSCitrusCashRes.m in Sources */,
 				371B5D27198A5CCF0096451C /* CTSRestObject.m in Sources */,
 				37851C021978F2DD00AE3AD0 /* NSObject+logProperties.m in Sources */,
 				37C96447198F6B350021DC0B /* CTSProfileLayer.m in Sources */,
+				76DA2E9F1AD7C8F000D76485 /* CTSPrepaidBill.m in Sources */,
 				37C96496198F723E0021DC0B /* CTSPaymentUpdate.m in Sources */,
 				37C964B2198F86960021DC0B /* CTSOauthTokenRes.m in Sources */,
 				6BEDF371199382F500F97231 /* CTSPaymentLayer.m in Sources */,

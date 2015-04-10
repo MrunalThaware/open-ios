@@ -42,6 +42,20 @@
     
     [self signIn];
     
+    
+//    [self getCookie];
+//    
+//    [self getBalance];
+//    
+//    [self loadMoneyInCitrusPayUsingCard];
+//    
+//    [self loadMoneyInCitrusPayUsingCardToken];
+//    
+//    [self loadMoneyInCitrusPayUsingNetbank];
+//    
+//    [self payUsingCitrusCash];
+
+    
 //    [self signUp];
     
 //    [self isUserCitrusMember];
@@ -164,21 +178,6 @@
                          LogTrace(@"userName %@ ", userName);
                          LogTrace(@"token %@ ", token);
                          [self logError:error];
-
-
-//                         [self getCookie];
-                         
-                         [self getBalance];
-                         
-//                         [self activatePrepaidUser];
-                         
-//                         [self loadMoneyInCitrusPayUsingCard];
-                         
-//                         [self loadMoneyInCitrusPayUsingCardToken];
-                         
-//                         [self loadMoneyInCitrusPayUsingNetbank];
-                         
-//                         [self payUsingCitrusCash];
 
 
                          //[self doUserDebitCardPayment];
