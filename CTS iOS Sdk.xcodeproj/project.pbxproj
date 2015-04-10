@@ -1404,8 +1404,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yadnesh Wankhede (9NQH2263XK)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jayamala Wankhede (D3TT3C58NE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jayamala Wankhede (D3TT3C58NE)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1589,6 +1589,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yadnesh Wankhede (9NQH2263XK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jayamala Wankhede (9G6MVBS9S7)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1613,7 +1614,7 @@
 					SystemConfiguration,
 				);
 				PRODUCT_NAME = "CTS iOS GUISdk";
-				PROVISIONING_PROFILE = "98ca9fc3-86ae-4ea8-8550-f7dd00f9e6ad";
+				PROVISIONING_PROFILE = "8f589018-f796-42e3-b0b5-18e0e73f8818";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1643,7 +1644,7 @@
 					SystemConfiguration,
 				);
 				PRODUCT_NAME = "CTS iOS GUISdk";
-				PROVISIONING_PROFILE = "98ca9fc3-86ae-4ea8-8550-f7dd00f9e6ad";
+				PROVISIONING_PROFILE = "8f589018-f796-42e3-b0b5-18e0e73f8818";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

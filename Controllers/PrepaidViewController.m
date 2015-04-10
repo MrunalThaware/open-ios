@@ -24,7 +24,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initializeLayers];
-    [self testCardSchemes];
     self.title = @"Citrus iOS SDK";
 //    [authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
 //        LogTrace(@" requestCitrusPaySignin ");
@@ -380,11 +379,4 @@
 //
 //}
 
-- (void)testCardSchemes {
-    for (NSString* cardNumber in TextCreditCards) {
-        LogTrace(@" card scheme %@ for card number %@",
-                 [CTSUtility fetchCardSchemeForCardNumber:cardNumber],
-                 cardNumber);
-    }
-}
 @end

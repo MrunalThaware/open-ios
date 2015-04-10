@@ -26,26 +26,25 @@
 
 
 
+//sandbox
+#define SignInId @"gogo-pre-wallet"
+#define SignInSecretKey @"e6f1b840c652d2ffc46530faaac8b771"
 
-//#define SignInId @"gogo-pre-wallet"
-//#define SignInSecretKey @"e6f1b840c652d2ffc46530faaac8b771"
-//
-//
-//
-////Production
-//#define SubscriptionId @"test-signup"
-//#define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
+
+
+#define SubscriptionId @"test-signup"
+#define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
 
 
 
 
 ////STG3
-#define SignInId @"gogo-signin"
-#define SignInSecretKey @"3fa4d9f78a466dcd41ca0bcfa869abcf"
-
-
-#define SubscriptionId @"gogo-signup"
-#define SubscriptionSecretKey @"d4321ce902ccd68f7ae1fd9603495f99"
+//#define SignInId @"gogo-signin"
+//#define SignInSecretKey @"3fa4d9f78a466dcd41ca0bcfa869abcf"
+//
+//
+//#define SubscriptionId @"gogo-signup"
+//#define SubscriptionSecretKey @"d4321ce902ccd68f7ae1fd9603495f99"
 
 
 
@@ -55,26 +54,14 @@
 //#define BaseUrl @"https://admin.citruspay.com"
 
 
-//#define SignInId @"citrus-consumer-portal-signin"
-//#define SignInSecretKey @"4c005be4b79fd36f4ed00f9a17f6c6e5"
-//
-////Production
-//#define SubscriptionId @"citrus-consumer-portal-signup"
-//#define SubscriptionSecretKey @"539621e6e41cd77800820f31fb2a35aa"
-
-
-//9S4YTSHSZPLQEYYUJAD0
-//
 ////URLS
-#define BillUrl @"http://192.168.2.214:8888/bill.php"
+#define BillUrl @"http://192.168.2.236:8888/bill.php"
 
 //#define BillUrl @"http://test.bhoomata.com/default.aspx"
-//#define BillUrl @"http://mobile.faasos.com/Service1.svc/genrateBill_v2"
 #define ReturnUrl @"http://192.168.0.5:8888/return.php"
-//#define ReturnUrl @"http://mob.tabcab.in/transaction_response.php"
 //#define BaseUrl @"https://sandboxadmin.citruspay.com"
 
-#define BaseUrl @"https://stg3admin.citruspay.com"
+//#define BaseUrl @"https://stg3admin.citruspay.com"
 
 
 
