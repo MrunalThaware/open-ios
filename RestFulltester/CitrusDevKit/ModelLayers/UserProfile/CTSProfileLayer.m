@@ -26,7 +26,8 @@ enum {
     ProfileUpdateMobileRequestId,
     ProfileGetNewContactReqId,
     ProfileGetBalanceReqId,
-    ProfileActivatePrepaidAccountReqId
+    ProfileActivatePrepaidAccountReqId,
+    ProfileActivatePrepaidAccountReqIdGetBalance
 };
 
 - (instancetype)init {
@@ -55,9 +56,11 @@ enum {
                  toSelector(handleGetNewProfileContact
                             :),
              toNSString(ProfileGetBalanceReqId):toSelector(handleProfileGetBanlance:),
-             toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:)
+             toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:),
+             toNSString(ProfileActivatePrepaidAccountReqIdGetBalance):toSelector(handleActivatePrepaidAccountWithGetBalance:)
              };
 }
+
 
 - (instancetype)initWithUrl:(NSString *)url
 {
@@ -364,15 +367,48 @@ enum {
 
 }
 
+//old implementation
+//-(void)handleProfileGetBanlance:(CTSRestCoreResponse*)response{
+//    NSError* error = response.error;
+//    JSONModelError* jsonError;
+//    CTSAmount* amount = nil;
+//    
+//    if(error == nil){
+//        amount = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
+//        
+//    }
+//    [self getBalanceHelper:amount error:error];
+//}
 
+//suggested by Mukesh via mail
 -(void)handleProfileGetBanlance:(CTSRestCoreResponse*)response{
+//    NSError* error = response.error;
+//    JSONModelError* jsonError;
+//    CTSAmount* amount = nil;
+//    
+//    if(error == nil){
+//        // Activate Prepaid Account if balance is -1
+//        CTSAmount *am = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
+//        if([am.value isEqualToString:@"-1"]){
+//            [self requestActivatePrepaidAccountWithResponse:^(CTSAmount *amount, NSError *error) {
+//                if (error ==  nil) {
+//                    [self getBalanceHelper:amount error:error];
+//                }
+//            }];
+//        }else{
+//            amount = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
+//            [self getBalanceHelper:amount error:error];
+//        }
+//    }
+}
+
+-(void)handleActivatePrepaidAccountWithGetBalance:(CTSRestCoreResponse*)response{
     NSError* error = response.error;
     JSONModelError* jsonError;
     CTSAmount* amount = nil;
     
     if(error == nil){
         amount = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
-        
     }
     [self getBalanceHelper:amount error:error];
 }
