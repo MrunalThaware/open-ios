@@ -56,7 +56,7 @@
 //    [self payUsingCitrusCash];
 
     
-//    [self signUp];
+  //  [self signUp];
     
 //    [self isUserCitrusMember];
     
@@ -103,7 +103,7 @@
 //    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"91970-296-4502"]);
 //    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"+91970-296-4502"]);
     
-    //[self validateOTP:@"ae2y"];
+   // [self validateOTP:@"oxpj"];
     
 //    NSLog(@" CTSUtility mobile validate %@ ",[CTSUtility mobileNumberToTenDigitIfValid:@"1702964502"]);
 
@@ -216,6 +216,15 @@
 //                             }
 //
 //                         }];
+                         
+                         
+                         [profileLayer requestGetBalance:^(CTSAmount *amount, NSError *error) {
+                             LogTrace(@"amount value %@",amount.value);
+                             LogTrace(@"amount currency %@",amount.currency);
+
+                         }];
+                         
+                         
                          
                      }];
 }

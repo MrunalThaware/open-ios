@@ -382,24 +382,25 @@ enum {
 
 //suggested by Mukesh via mail
 -(void)handleProfileGetBanlance:(CTSRestCoreResponse*)response{
-//    NSError* error = response.error;
-//    JSONModelError* jsonError;
-//    CTSAmount* amount = nil;
-//    
-//    if(error == nil){
-//        // Activate Prepaid Account if balance is -1
-//        CTSAmount *am = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
-//        if([am.value isEqualToString:@"-1"]){
-//            [self requestActivatePrepaidAccountWithResponse:^(CTSAmount *amount, NSError *error) {
-//                if (error ==  nil) {
-//                    [self getBalanceHelper:amount error:error];
-//                }
-//            }];
-//        }else{
-//            amount = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
-//            [self getBalanceHelper:amount error:error];
-//        }
-//    }
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSAmount* amount = nil;
+    
+    if(error == nil){
+        // Activate Prepaid Account if balance is -1
+        CTSAmount *am = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
+        if([am.value isEqualToString:@"-1"]){
+            [self requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
+                CTSAmount *amount = [[CTSAmount alloc] init];
+                amount.value = @"0";
+                amount.currency = @"INR";
+                [self getBalanceHelper:amount error:error];
+            }];
+        }else{
+            amount = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
+            [self getBalanceHelper:amount error:error];
+        }
+    }
 }
 
 -(void)handleActivatePrepaidAccountWithGetBalance:(CTSRestCoreResponse*)response{
