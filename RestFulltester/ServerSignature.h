@@ -12,8 +12,9 @@
 //#define SIGNATURE_URL @"http://um.citruspay.com/sign.php"
 //#define SIGNATURE_URL @"https://testbilladmin.citruspay.com/sign.php"
 
-#define SIGNATURE_URL  @"http://testbilladmin.citruspay.com/rio/sign.php"
+//#define SIGNATURE_URL  @"http://testbilladmin.citruspay.com/rio/sign.php"
 
+#define SIGNATURE_URL  @"http://testbilladmin.citruspay.com/rio/sign.php"
 //working staging
 //#define SIGNATURE_URL @"http://testbilladmin.citruspay.com/billpayadmin/sign.php"
 
