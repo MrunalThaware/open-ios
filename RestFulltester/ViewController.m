@@ -1030,27 +1030,6 @@ shouldStartLoadWithRequest:(NSURLRequest*)request
 }
 
 
-// get Prepaid Bill From Server
-+ (CTSBill*)getBillFromServer{
-    // Configure your request here.
-    NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:
-                                   [NSURL URLWithString:BillUrl]];
-    [urlReq setHTTPMethod:@"POST"];
-    [urlReq setHTTPBody:[NSJSONSerialization dataWithJSONObject: @{@"amount": @"10"} options:NSJSONWritingPrettyPrinted error:nil]];
-    NSError* error = nil;
-    NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
-                                                  returningResponse:nil
-                                                              error:&error];
-    NSString* billJson = [[NSString alloc] initWithData:signatureData
-                                               encoding:NSUTF8StringEncoding];
-    JSONModelError *jsonError;
-    CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
-                                                    error:&jsonError];
-    NSLog(@"billJson %@",billJson);
-    NSLog(@"signature %@ ", sampleBill);
-    return sampleBill;
-    
-}
 
 
 @end
