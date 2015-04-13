@@ -1400,7 +1400,7 @@ typedef enum {
         callback(verificationRes,error);
     }
     else{
-        [delegate auth:self didUserVerification:callback error:error];
+        [delegate auth:self didUserVerification:verificationRes error:error];
     }
 }
 
@@ -1411,6 +1411,7 @@ typedef enum {
         callback(verification,error);
     }
     else {
+        
         [delegate auth:self didCheckIsUserVerified:verification error:error];
     }
 }

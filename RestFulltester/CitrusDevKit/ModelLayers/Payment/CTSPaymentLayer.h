@@ -258,7 +258,10 @@ typedef void (^ASMakeCitruspayCallBackInternal)(CTSPaymentTransactionRes* paymen
  */
 - (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
                                withAddress:(CTSUserAddress*)userAddress
-                                      bill:(CTSBill *)bill
+                                    amount:(NSString*)amount
+                             withReturnUrl:(NSString*)returnUrl
+                             withSignature:(NSString*)signatureArg
+                                 withTxnId:(NSString*)merchantTxnIdArg
                       returnViewController:(UIViewController *)controller
                      withCompletionHandler:(ASCitruspayCallback)callback;
 

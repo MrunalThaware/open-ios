@@ -283,9 +283,15 @@
 
 - (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
                                withAddress:(CTSUserAddress*)userAddress
-                                      bill:(CTSBill *)bill
+                                    amount:(NSString*)amount
+                             withReturnUrl:(NSString*)returnUrl
+                             withSignature:(NSString*)signatureArg
+                                 withTxnId:(NSString*)merchantTxnIdArg
                       returnViewController:(UIViewController *)controller
                      withCompletionHandler:(ASCitruspayCallback)callback{
+    
+
+    
     
     [self addCallback:callback forRequestId:PaymentAsCitruspayReqId];
     
@@ -297,12 +303,7 @@
     //redirect it on web controller
     //from webcontroller keep detecting if verifypage has come if yes then reutrn for signin error
     //when webview controller returns with proper callback from ios get the reply back
-    if(![CTSUtility validateBill:bill]){
-        [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:WrongBill]];
-        return;
-        
-    }
-    if(controller == nil){
+        if(controller == nil){
         [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:NoViewController]];
         return;
         
@@ -310,7 +311,13 @@
     
     citrusCashBackViewController = controller;
     
-    [self requestChargeInternalCitrusCashWithContact:contactInfo withAddress:userAddress bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [self requestChargeInternalCitrusCashWithContact:contactInfo
+                                         withAddress:userAddress
+                                              amount:amount
+                                       withReturnUrl:returnUrl
+                                       withSignature:signatureArg
+                                           withTxnId:merchantTxnIdArg
+                               withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         NSLog(@"paymentInfo %@",paymentInfo);
         NSLog(@"error %@",error);
         [self handlePaymentResponse:paymentInfo error:error] ;
@@ -320,7 +327,10 @@
 
 - (void)requestChargeInternalCitrusCashWithContact:(CTSContactUpdate*)contactInfo
                                        withAddress:(CTSUserAddress*)userAddress
-                                              bill:(CTSBill *)bill
+                                            amount:(NSString*)amount
+                                     withReturnUrl:(NSString*)returnUrl
+                                     withSignature:(NSString*)signatureArg
+                                         withTxnId:(NSString*)merchantTxnIdArg
                              withCompletionHandler:(ASMakeCitruspayCallBackInternal)callback{
     [self addCallback:callback forRequestId:PaymentAsCitruspayInternalReqId];
     
@@ -331,11 +341,11 @@
     [self configureReqPayment:paymentCitrus
                       contact:contactInfo
                       address:userAddress
-                       amount:bill.amount.value
-                    returnUrl:bill.returnUrl
-                    signature:bill.requestSignature
-                        txnId:bill.merchantTxnId
-               merchantAccess:bill.merchantAccessKey];
+                       amount:amount
+                    returnUrl:returnUrl
+                    signature:signatureArg
+                        txnId:merchantTxnIdArg
+               merchantAccess:MerchantAccessKey];
     
     CTSRestCoreRequest* request =
     [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL

@@ -218,13 +218,16 @@
 //                         }];
                          
                          
-                         [profileLayer requestGetBalance:^(CTSAmount *amount, NSError *error) {
-                             LogTrace(@"amount value %@",amount.value);
-                             LogTrace(@"amount currency %@",amount.currency);
-
-                         }];
+//                         [profileLayer requestGetBalance:^(CTSAmount *amount, NSError *error) {
+//                             LogTrace(@"amount value %@",amount.value);
+//                             LogTrace(@"amount currency %@",amount.currency);
+//
+//                         }];
                          
                          
+                         //[self getCookie];
+                         [self payUsingCitrusCash];
+                        // [self loadMoneyInCitrusPayUsingCard];
                          
                      }];
 }
@@ -935,7 +938,7 @@ shouldStartLoadWithRequest:(NSURLRequest*)request
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     [creditCardInfo addCard:creditCard];
     
-    [paymentlayerinfo requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentlayerinfo requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1000" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
 }
@@ -974,9 +977,17 @@ shouldStartLoadWithRequest:(NSURLRequest*)request
 
 // pay Using Citrus Cash
 -(void)payUsingCitrusCash{
+        NSString* transactionId = [self createTXNId];
+    NSString* signature =
+    [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
     
-    CTSBill *bill = [ViewController getBillFromServer];
-    [paymentlayerinfo requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
+
+    [paymentlayerinfo requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo
+                                                  amount:@"1"
+                                           withReturnUrl:ReturnUrl
+                                           withSignature:signature
+                                               withTxnId:transactionId
+ returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
         NSLog(@"paymentInfo %@",paymentInfo);
         if(error){
             LogTrace(@"error %@",[error localizedDescription]);
