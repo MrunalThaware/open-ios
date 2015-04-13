@@ -59,7 +59,7 @@
 
 //#define BillUrl @"http://test.bhoomata.com/default.aspx"
 #define ReturnUrl @"http://192.168.0.5:8888/return.php"
-//#define BaseUrl @"https://sandboxadmin.citruspay.com"
+#define BaseUrl @"https://sandboxadmin.citruspay.com"
 
 //#define BaseUrl @"https://stg3admin.citruspay.com"
 
