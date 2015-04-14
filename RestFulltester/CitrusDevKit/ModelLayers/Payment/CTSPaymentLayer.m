@@ -784,7 +784,14 @@ enum {
     }
     else{
         //TODO: add the helper call
+        if(paymentInfo){
         [self makeCitrusPayHelper:nil error:[CTSError convertToError:paymentInfo]];
+        }
+        else {
+            [self makeCitrusPayHelper:nil error:error];
+
+        
+        }
     }
 }
 
@@ -792,7 +799,6 @@ enum {
 
 
 -(void)resetCitrusPay{
-    
     if( [citrusPayWebview isLoading]){
         [citrusPayWebview stopLoading];
     }

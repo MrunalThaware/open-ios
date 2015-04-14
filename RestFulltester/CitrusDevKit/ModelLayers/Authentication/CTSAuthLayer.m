@@ -341,6 +341,7 @@ static NSString * _subscriptionSecretKeyAlias;
      if refresh token has error then proceed for normal signup
      
      */
+
     
     [self addCallback:callBack forRequestId:SigninOauthTokenReqId];
     if([CTSUtility isEmail:userNameArg]){
@@ -409,6 +410,8 @@ static NSString * _subscriptionSecretKeyAlias;
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD : password,
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : username
                                  };
+    
+
     
     CTSRestCoreRequest* request =
     [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
@@ -585,7 +588,20 @@ static NSString * _subscriptionSecretKeyAlias;
 
 }
 
-
+-(BOOL)isCookieSetAlready{
+    BOOL isSet = NO;
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (cookie in [cookieJar cookies]) {
+       // NSLog(@"Cookie doamin %@", cookie.domain);
+        if ([cookie.domain rangeOfString:@"citrus" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+           // NSLog(@"string does not contain citrus");
+            isSet = YES;
+            break;
+        } 
+    }
+    return isSet;
+}
 
 #define IsMobile 1
 #define IsEmail 2
@@ -669,7 +685,8 @@ static NSString * _subscriptionSecretKeyAlias;
             completionHandler:(ASCitrusSigninCallBack)callBack{
     
     [self addCallback:callBack forRequestId:CitruPaySigniInReqId];
-    
+    NSLog(@"requestCitrusPaySignin THREAD %@", [NSThread currentThread]);
+
     //validate username
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_CITRUS_PAY_AUTH_COOKIE_PATH
@@ -1260,6 +1277,8 @@ typedef enum {
 
 
 -(void)handleCitrusPaySignin:(CTSRestCoreResponse *)response{
+    NSLog(@"handleCitrusPaySignin: THREAD %@", [NSThread currentThread]);
+    
     [self citrusPaySigninHelper:(NSError *)response.data];
 }
 
@@ -1417,6 +1436,10 @@ typedef enum {
 }
 
 -(void)citrusPaySigninHelper:(NSError *)error{
+    
+    NSLog(@"citrusPaySigninHelper: THREAD %@", [NSThread currentThread]);
+
+    
     ASCitrusSigninCallBack callback =
     [self retrieveAndRemoveCallbackForReqId:CitruPaySigniInReqId];
     if (callback != nil) {

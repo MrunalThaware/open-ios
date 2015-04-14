@@ -267,4 +267,7 @@ typedef void (^ASCitrusSigninCallBack)(NSError* error);
 -(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
             completionHandler:(ASCitrusSigninCallBack)callBack;
 
+
+-(BOOL)isCookieSetAlready;
+
 @end

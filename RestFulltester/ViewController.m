@@ -40,10 +40,35 @@
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
   
     
-    [self signIn];
+    //[self signIn];
+  //  NSLog(@"Before log in THREAD %@", [NSThread currentThread]);
+
+
+//    
+//    [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
+//       // dispatch_async(dispatch_get_main_queue(), ^{
+//        NSLog(@"after first login %@", [NSThread currentThread]);
+//
+//            NSLog(@"Dlog userName %@, token %@ ,error %@",userName,token,error);
+//            [authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
+//                  //  NSLog(@" error %@ ",error);
+//                [self payUsingCitrusCash];
+//
+//                NSLog(@"requestCitrusPaySignin:RESPONSE THREAD %@", [NSThread currentThread]);
+//
+//            }];
+//       // });
+//    }];
     
+    ;
+    NSLog(@"after complete login THREAD %@", [NSThread currentThread]);
+   // NSLog(@"Is cookie set already %d",   [authLayer isCookieSetAlready]);
+
+  
+
+    NSLog(@"call finished");
     
-//    [self getCookie];
+    [self getCookie];
 //    
 //    [self getBalance];
 //    
@@ -883,8 +908,12 @@ shouldStartLoadWithRequest:(NSURLRequest*)request
 
 // get Cookie
 -(void)getCookie {
+    NSLog(@"Is cookie set already %d",   [authLayer isCookieSetAlready]);
+
     [authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
         LogTrace(@"requestCitrusPaySignin");
+        NSLog(@"Is cookie set already %d",   [authLayer isCookieSetAlready]);
+
         if (error) {
             LogTrace(@"error %@",[error localizedDescription]);
         }

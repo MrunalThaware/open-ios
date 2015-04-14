@@ -55,6 +55,10 @@
 
 
 -(void)requestAsyncServerDelegation:(CTSRestCoreRequest *)restRequest{
+    
+    NSLog(@"requestAsyncServerDelegation THREAD %@", [NSThread currentThread]);
+
+    
     NSMutableURLRequest* request =
     [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
     
@@ -283,12 +287,16 @@ didReceiveResponse:(NSURLResponse *)response{
         restResponse.data = error;
         
     }
+    NSLog(@"didReceiveResponse THREAD %@", [NSThread currentThread]);
+
     [delegate restCore:self didReceiveResponse:restResponse];
     
 }
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSLog(@"connectionDidFinishLoading THREAD %@", [NSThread currentThread]);
+
     finished = TRUE;
 }
 
