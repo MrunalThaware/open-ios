@@ -139,7 +139,7 @@
 }
 
 
--(void)deleteCard{
+-(IBAction)deleteCard:(id)sender{
     
     //last foour digits of card and schme should be fetched from server via "requestPaymentInformationWithCompletionHandler"
     
