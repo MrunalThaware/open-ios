@@ -89,6 +89,8 @@ typedef enum CardValidationError {
 #define MLC_PROFILE_GET_BALANCE_PATH @"/service/v2/mycard"
 #define MLC_PROFILE_GET_BALANCE_TYPE GET
 
+#define MLC_PROFILE_DELETE_CARD_PATH @"/service/v2/profile/me/payment"
+#define MLC_PROFILE_DELETE_CARD_TYPE DELETE
 
 
 

@@ -26,7 +26,9 @@ typedef enum {
     WrongBill,
     NoViewController,
     ReturnUrlNotValid,
-    AmountNotValid
+    AmountNotValid,
+    DeleteCardNumberNotValid
+
 
     
 

@@ -15,8 +15,7 @@
 
   switch (code) {
     case UserNotSignedIn:
-      errorDescription = @"This proccess cannot be completed without signing "
-          @"in, Please signin";
+      errorDescription = @"This proccess cannot be completed without Signin/Bind ";
       break;
     case EmailNotValid:
       errorDescription =
@@ -64,6 +63,10 @@
       case ReturnUrlNotValid:
           errorDescription = @"Return url not valid";
           break;
+      case DeleteCardNumberNotValid:
+          errorDescription = @"Card number not valid, last four digits are expected";
+          break;
+          
       default:
           
           

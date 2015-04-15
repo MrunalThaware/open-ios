@@ -37,7 +37,8 @@
 
     
    // [self linkUser];
-   [self signIn];
+   //[self signIn];
+   // [self]
     //[self getPrepaidBill];
     //[self getCookie];
     //[self getbalance];
@@ -136,6 +137,19 @@
         }
     }];
 }
+
+
+-(void)deleteCard{
+    
+    //last foour digits of card and schme should be fetched from server via "requestPaymentInformationWithCompletionHandler"
+    
+   [proifleLayer requestDeleteCard:@"8001" scheme:@"visa" withCompletionHandler:^(NSError *error) {
+    NSLog(@"error %@",error);
+   }];
+
+
+}
+
 
 // Tokenized card payment.
 -(IBAction)tokenizedPayment:(id)sender{

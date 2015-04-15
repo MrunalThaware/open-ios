@@ -40,13 +40,13 @@
    //[self testCookie];
   //[self signUp];
   //[self testCardSchemes];
-  //[self doGuestPaymentCreditCard];
+  //[self doGuestPaymentCreditCard];//
   //[self doGuestPaymentDebitCard];
     //[authLayer requestResetPassword:@"yaddy@gmgmg.com" completionHandler:^(NSError *error) {
       //  [self logError:error];
         
     //}];
-  [self doGuestPaymentNetbanking];
+ // [self doGuestPaymentNetbanking];
     
 //    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
 //        LogTrace(@"userName %@",userName);

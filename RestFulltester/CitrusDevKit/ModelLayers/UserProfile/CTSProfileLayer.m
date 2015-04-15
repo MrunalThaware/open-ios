@@ -23,7 +23,8 @@ enum {
   ProfileGetPaymentReqId,
   ProfileUpdatePaymentReqId,
     ProfileGetBalanceReqId,
-    ProfileActivatePrepaidAccountReqId
+    ProfileActivatePrepaidAccountReqId,
+    ProfileDeleteCardReqId
 
 };
 
@@ -40,7 +41,9 @@ enum {
         toSelector(handleProfileUpdatePayment
                    :),
     toNSString(ProfileGetBalanceReqId):toSelector(handleProfileGetBanlance:),
-        toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:)
+        toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:),
+           toNSString(ProfileDeleteCardReqId):toSelector(handleDeleteCard:)
+
     
   };
 
@@ -204,7 +207,48 @@ enum {
 }
 
 
+-(void)requestDeleteCard:(NSString *)lastFourDigits scheme:(NSString *)scheme withCompletionHandler:(ASDeleteCardCallback)callback{
+    [self addCallback:callback forRequestId:ProfileDeleteCardReqId];
+
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self deleteCardHelper:oauthStatus.error];
+        return;
+    }
+    
+    //validate last four digits and scheme
+    
+    if(lastFourDigits.length != 4){
+        [self deleteCardHelper:[CTSError getErrorForCode:DeleteCardNumberNotValid]];
+        return;
+    }
+
+    
+    NSString* deleteCardPath = [NSString stringWithFormat:@"%@/%@:%@",MLC_PROFILE_DELETE_CARD_PATH,lastFourDigits,scheme];
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:deleteCardPath
+                                   requestId:ProfileDeleteCardReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:@""
+                                   httpMethod:DELETE];
+    
+    [restCore requestAsyncServer:request];
+    
+    
+    
+
+}
+
+
 #pragma mark - response handlers methods
+-(void)handleDeleteCard:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    [self deleteCardHelper:error];
+}
 
 - (void)handleReqProfileGetContact:(CTSRestCoreResponse*)response {
   NSError* error = response.error;
@@ -300,6 +344,17 @@ enum {
     [delegate profile:self didReceiveContactInfo:contact error:error];
   }
 }
+
+- (void)deleteCardHelper:(NSError*)error {
+    ASDeleteCardCallback callback =
+    [self retrieveAndRemoveCallbackForReqId:ProfileDeleteCardReqId];
+    if (callback != nil) {
+        callback(error);
+    } else {
+        [delegate profile:self didDeleteCardWithError:error];
+    }
+}
+
 
 - (void)updatePaymentInfoHelper:(NSError*)error {
   ASUpdatePaymentInfoCallBack callback =
