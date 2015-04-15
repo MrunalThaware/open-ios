@@ -233,7 +233,7 @@ enum {
                                    requestId:ProfileDeleteCardReqId
                                    headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
                                    parameters:nil
-                                   json:@""
+                                   json:nil
                                    httpMethod:DELETE];
     
     [restCore requestAsyncServer:request];
