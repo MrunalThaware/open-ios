@@ -252,22 +252,47 @@ enum {
 
 }
 
+#define IS_CALLED_ACTIVATION @"alreadyCalledActivationAccount"
 
 -(void)requestGetBalance:(ASGetBalanceCallBack)calback{
     [self addCallback:calback forRequestId:ProfileGetBalanceReqId];
     
-    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
+
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
-    
-    if (oauthStatus.error != nil) {
-        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
-        oauthToken = oauthStatus.oauthToken;
-    }
+
     
     if (oauthStatus.error != nil || oauthToken == nil) {
         [self getBalanceHelper:nil error:oauthStatus.error];
         
     }
+
+    
+    
+    //check if atviation is already done, else do the activation and go for get balance call
+    if([CTSUtility readFromDisk:IS_CALLED_ACTIVATION]){
+        [self proceedToGetBalance];
+    }
+    else{
+    [self requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
+        if(error){
+            [self getBalanceHelper:nil error:error];
+        }
+        else{
+            [self proceedToGetBalance];
+        }
+    }];
+    
+    }
+
+    
+}
+
+
+-(void)proceedToGetBalance{
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_PROFILE_GET_BALANCE_PATH
                                    requestId:ProfileGetBalanceReqId
@@ -277,7 +302,10 @@ enum {
                                    httpMethod:GET];
     
     [restCore requestAsyncServer:request];
+
+
 }
+
 
 
 -(void)requestActivatePrepaidAccount:(ASActivatePrepaidCallBack)callback{
@@ -287,7 +315,7 @@ enum {
     NSString* oauthToken = oauthStatus.oauthToken;
     
     if (oauthStatus.error != nil) {
-        [self getBalanceHelper:nil error:oauthStatus.error];
+        [self activatePrepaidHelper:NO error:oauthStatus.error];
     }
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
@@ -519,6 +547,11 @@ ASGetContactInfoNewCallback callback = [self retrieveAndRemoveCallbackForReqId:P
 
 
 -(void)activatePrepaidHelper:(BOOL )isActivated error:(NSError *)error{
+    
+    if(error == nil){
+        [CTSUtility saveToDisk:@"YES" as:IS_CALLED_ACTIVATION];
+    }
+    
     
     ASActivatePrepaidCallBack callback =
     [self retrieveAndRemoveCallbackForReqId:ProfileActivatePrepaidAccountReqId];

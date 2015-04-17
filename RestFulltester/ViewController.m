@@ -38,9 +38,13 @@
    //[self testCardSchemes];
    // [self regenerateOTP];
 //[paymentlayerinfo requestMerchantPgSettings:@"rio" withCompletionHandler:nil];
-  
+   // NSLog(@"Is cookie set already %d",   [authLayer isCookieSetAlready]);
+
+   // [authLayer signOut];
+//    NSLog(@"Is cookie set already %d",   [authLayer isCookieSetAlready]);
+
     
-    //[self signIn];
+    [self signIn];
   //  NSLog(@"Before log in THREAD %@", [NSThread currentThread]);
 
 
@@ -68,7 +72,7 @@
 
     NSLog(@"call finished");
     
-    [self getCookie];
+  //  [self getCookie];
 //    
 //    [self getBalance];
 //    
@@ -81,7 +85,7 @@
 //    [self payUsingCitrusCash];
 
     
-  //  [self signUp];
+    //[self signUp];
     
 //    [self isUserCitrusMember];
     
@@ -216,10 +220,10 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
                          //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
-//                         [profileLayer requestUpdateMobile:@"9867836292" allowUnverified:NO WithCompletionHandler:^(NSError *error) {
+//                         [profileLayer requestUpdateMobile:@"9930993582" allowUnverified:NO WithCompletionHandler:^(NSError *error) {
 //                            [self logError:error];
 //                        }];
-                         
+    
                          //[self isUserVerifedWithOauth];
 //                         
 //                         [profileLayer requestContactInfoNewWithCompletionHandler:^(CTSProfileContactNewRes *contactInfo2, NSError *error) {
@@ -243,15 +247,11 @@
 //                         }];
                          
                          
-//                         [profileLayer requestGetBalance:^(CTSAmount *amount, NSError *error) {
-//                             LogTrace(@"amount value %@",amount.value);
-//                             LogTrace(@"amount currency %@",amount.currency);
-//
-//                         }];
+
                          
-                         
+                         [self getBalance];
                          //[self getCookie];
-                         [self payUsingCitrusCash];
+                        // [self payUsingCitrusCash];
                         // [self loadMoneyInCitrusPayUsingCard];
                          
                      }];
@@ -276,18 +276,17 @@
                         [self logError:error];
                         
                         if(error){
-                            LogTrace(@"Error is signup");
+                            LogTrace(@"Error in signup");
                         }
                         else if (isSignedIn == NO){
                           LogTrace(@"signup success,signin failed");//take user to signin page
                         }
                         else if(isSignedIn ==YES){
+                            [self getBalance];
                             LogTrace(@"signup success,signin success");
                         }
                         
                         
-                        // [self signIn];
-                        //[self doUserCreditCardPayment];
                     }];
 }
 

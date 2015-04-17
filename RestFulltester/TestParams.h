@@ -34,10 +34,15 @@
 //#define TEST_PASSWORD @"Citrus@123"
 //#define TEST_MOBILE @"9811111111"
 
-
+//sandbox working
 #define TEST_EMAIL @"yaddyboySandbox@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
 #define TEST_MOBILE @"9702964502"
+
+//sandbox working
+//#define TEST_EMAIL @"GaurangSandbox@mailinator.com"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"9167291271"
 
 //#define TEST_EMAIL @"yaddyboy46@mailinator.com"
 //#define TEST_PASSWORD @"tester@123"

@@ -669,9 +669,21 @@ static NSString * _subscriptionSecretKeyAlias;
 
 - (BOOL)signOut {
     [CTSOauthManager resetOauthData];
+    [self deleteSigninCookie];
     return YES;
 }
 
+-(void)deleteSigninCookie{
+
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *cookie in [storage cookies]) {
+        
+        if ([cookie.domain rangeOfString:@"citrus" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            [storage deleteCookie:cookie];
+        }
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 - (BOOL)isAnyoneSignedIn {
     NSString* signInOauthToken = [CTSOauthManager readOauthTokenWithExpiryCheck];
     if (signInOauthToken == nil)
