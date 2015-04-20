@@ -283,7 +283,7 @@
 		371B5D38198A5D110096451C /* JSONModelLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONModelLib.h; sourceTree = "<group>"; };
 		371B5D50198A5D770096451C /* CTSRestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSRestError.h; sourceTree = "<group>"; };
 		371B5D51198A5D770096451C /* CTSRestError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSRestError.m; sourceTree = "<group>"; };
-		371C5FD0199B43D600522AD7 /* MerchantConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MerchantConstants.h; sourceTree = "<group>"; };
+		371C5FD0199B43D600522AD7 /* MerchantConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MerchantConstants.h; path = RestFulltester/CitrusDevKit/MerchantConstants.h; sourceTree = "<group>"; };
 		3723D1571948371B00C50FA5 /* TestParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestParams.h; sourceTree = "<group>"; };
 		372D83FE1AA5C71000C5EA52 /* CTSPrepaidBill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPrepaidBill.h; sourceTree = "<group>"; };
 		372D83FF1AA5C71000C5EA52 /* CTSPrepaidBill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSPrepaidBill.m; sourceTree = "<group>"; };
@@ -541,7 +541,6 @@
 				37851B431978F2DD00AE3AD0 /* Data */,
 				37851B8F1978F2DD00AE3AD0 /* ModelLayers */,
 				37C00CDB19935DF40057DB32 /* CitrusSdk.h */,
-				371C5FD0199B43D600522AD7 /* MerchantConstants.h */,
 			);
 			name = CitrusDevKit;
 			path = RestFulltester/CitrusDevKit;
@@ -625,6 +624,7 @@
 		37A7C6981922458F005D29D4 = {
 			isa = PBXGroup;
 			children = (
+				371C5FD0199B43D600522AD7 /* MerchantConstants.h */,
 				37851B421978F2DD00AE3AD0 /* CitrusDevKit */,
 				7692AAB919FF9B39004D56EC /* UIUtility */,
 				7692AA5519FF9B04004D56EC /* Controllers */,

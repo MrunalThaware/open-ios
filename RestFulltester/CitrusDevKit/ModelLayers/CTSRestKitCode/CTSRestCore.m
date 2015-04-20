@@ -259,7 +259,7 @@ NSRange statusCodeRangeForClass(CTSStatusCodeClass statusCodeClass) {
     NSLog(@"redirect request %@",request);
     NSLog(@"redirect redirectResponse %@",redirectResponse);
 
-    CTSRestCoreResponse *restResponse = nil;
+   // CTSRestCoreResponse *restResponse = nil;
 
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) redirectResponse;
     

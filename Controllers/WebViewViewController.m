@@ -87,7 +87,7 @@
     
     
     //for general payments
-    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
+  //  NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
 //    if(responseDict){
 //        //responseDict> contains all the information related to transaction
 //        [self transactionComplete:responseDict];
