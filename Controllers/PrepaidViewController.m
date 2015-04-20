@@ -170,13 +170,6 @@
     //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     
-
-    
-    creditCard.number = @"4293932013265972";
-    creditCard.expiryDate = @"12/20";
-    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
-    creditCard.ownerName = @"Yaddy Boy";
-    creditCard.cvv = @"137";
     
     
     [creditCardInfo addCard:creditCard];
