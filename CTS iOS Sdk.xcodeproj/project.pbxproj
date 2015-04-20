@@ -310,6 +310,7 @@
 		378D711C1A84939400A6FD36 /* CTSGetBalanceRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSGetBalanceRes.m; sourceTree = "<group>"; };
 		378D79D81A26FE9A00E373B2 /* ServerSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerSignature.h; sourceTree = "<group>"; };
 		378D79D91A26FE9A00E373B2 /* ServerSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerSignature.m; sourceTree = "<group>"; };
+		3798B1701AE51B880033DC29 /* MerchantConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MerchantConstants.h; path = RestFulltester/MerchantConstants.h; sourceTree = "<group>"; };
 		37A7C6A11922458F005D29D4 /* CTS iOS Sdk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CTS iOS Sdk.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A7C6A41922458F005D29D4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		37A7C6A61922458F005D29D4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -623,6 +624,7 @@
 		37A7C6981922458F005D29D4 = {
 			isa = PBXGroup;
 			children = (
+				3798B1701AE51B880033DC29 /* MerchantConstants.h */,
 				37851B421978F2DD00AE3AD0 /* CitrusDevKit */,
 				7692AAB919FF9B39004D56EC /* UIUtility */,
 				7692AA5519FF9B04004D56EC /* Controllers */,
