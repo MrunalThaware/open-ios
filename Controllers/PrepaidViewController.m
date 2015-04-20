@@ -169,13 +169,19 @@
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
     //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
-    [creditCardInfo addCard:creditCard];
     
 
     
+    creditCard.number = @"4293932013265972";
+    creditCard.expiryDate = @"12/20";
+    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
+    creditCard.ownerName = @"Yaddy Boy";
+    creditCard.cvv = @"137";
     
     
-    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [creditCardInfo addCard:creditCard];
+
+    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
     
