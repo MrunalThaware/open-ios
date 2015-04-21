@@ -162,7 +162,6 @@
     
 
 
-    [creditCardInfo addCard:creditCard];
     
     
     

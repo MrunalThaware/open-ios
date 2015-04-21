@@ -63,7 +63,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
     [indicator stopAnimating];
-//    
+    
     //for payment proccessing return url finish
     NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
     if(responseDict){
@@ -78,11 +78,11 @@
     //for load balance return url finish
     NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
     NSLog(@"loadMoneyResponse %@",loadMoneyResponse);
-//    if(loadMoneyResponse){
-//        LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
-//
-//        [self loadMoneyComplete:loadMoneyResponse];
-//    }
+    if(loadMoneyResponse){
+        LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
+
+        [self loadMoneyComplete:loadMoneyResponse];
+    }
     
     
     
