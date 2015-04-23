@@ -27,7 +27,8 @@ typedef enum {
     NoViewController,
     ReturnUrlNotValid,
     AmountNotValid,
-    PrepaidBillFetchFailed
+    PrepaidBillFetchFailed,
+    NoOrMoreInstruments
 
     
 

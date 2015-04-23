@@ -149,7 +149,6 @@
 
 // Card payment debit/credit
 -(IBAction)cardPayment:(id)sender{
-    CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update card for card payment.
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
     creditCard.number = TEST_CREDIT_CARD_NUMBER;
@@ -158,14 +157,12 @@
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
     //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
-    [creditCardInfo addCard:creditCard];
-    
-
 
     
     
     
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
+    [paymentInfo addCard:creditCard];
 
     [paymentInfo addCard:creditCard];
 

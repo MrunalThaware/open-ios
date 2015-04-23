@@ -66,6 +66,9 @@
           break;
       case PrepaidBillFetchFailed:
           errorDescription = @"Couldn't fetch prepaid bill";
+      case NoOrMoreInstruments:
+          errorDescription = @"Zero or More than one payment instruments";
+          
           break;
           
       default:

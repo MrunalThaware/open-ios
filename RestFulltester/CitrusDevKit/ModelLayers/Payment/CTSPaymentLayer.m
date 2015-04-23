@@ -277,6 +277,14 @@
 
     [self addCallback:callback forRequestId:PaymentAsGuestReqId];
     
+    if([paymentInfo.paymentOptions count] != 1){
+        [self makeGuestPaymentHelper:nil
+                               error:[CTSError getErrorForCode:NoOrMoreInstruments]];
+        return;
+
+    }
+    
+    
     CTSErrorCode error = [paymentInfo validate];
     LogTrace(@"validation error %d ", error);
     
