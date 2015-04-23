@@ -429,15 +429,15 @@ didCheckIsUserCitrusMember:(BOOL)isMember
     CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     
     // credit card
-//    CTSElectronicCardUpdate* creditCard =
-//    [[CTSElectronicCardUpdate alloc] initCreditCard];
-//    creditCard.number = TEST_CREDIT_CARD_NUMBER;
-//    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-//    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
-//    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-//    creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-//    [paymentInfo addCard:creditCard];
-//    
+    CTSElectronicCardUpdate* creditCard =
+    [[CTSElectronicCardUpdate alloc] initCreditCard];
+    creditCard.number = TEST_CREDIT_CARD_NUMBER;
+    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
+    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
+    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
+    creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+    [paymentInfo addCard:creditCard];
+//
 //    //  // debit card
 //    CTSElectronicCardUpdate* debitCard =
 //    [[CTSElectronicCardUpdate alloc] initDebitCard];
@@ -450,7 +450,7 @@ didCheckIsUserCitrusMember:(BOOL)isMember
     //
     //  // netbaking
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
-    netBank.name = TEST_NETBAK_OWNER_NAME;
+    netBank.name = @"";
     netBank.bank = @"Punjab National Bank";
     paymentInfo.defaultOption = @"";
     [paymentInfo addNetBanking:netBank];
