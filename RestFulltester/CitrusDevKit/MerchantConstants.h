@@ -15,8 +15,8 @@
 #ifdef SANDBOX_MODE
 // for sandbox envirement
 #define VanityUrl @"nativeSDK"
-#define SignInId @"gogo-pre-wallet"
-#define SignInSecretKey @"e6f1b840c652d2ffc46530faaac8b771"
+#define SignInId @"citrus-cube-mobile-app"
+#define SignInSecretKey @"bd63aa06f797f73966f4bcaa4bba00fe"
 #define SubscriptionId @"test-signup"
 #define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
 #define ReturnUrl @"http://clients.vxtindia.net/citrus/"
@@ -39,8 +39,8 @@
 #else 
 // for production envirement
 #define VanityUrl @"rio"
-#define SignInId @"citrus-native-mobile-app-v1"
-#define SignInSecretKey @"83df0e4db17fa7b206f4c36d3f19d6c1"
+#define SignInId @"citrus-cube-mobile-app"
+#define SignInSecretKey @"bd63aa06f797f73966f4bcaa4bba00fe"
 #define SubscriptionId @"citrus-native-mobile-subscription"
 #define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
 #define ReturnUrl @"http://clients.vxtindia.net/citrus/"
