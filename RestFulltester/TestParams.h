@@ -35,9 +35,14 @@
 //#define TEST_MOBILE @"9811111111"
 
 //sandbox working
-#define TEST_EMAIL @"yaddyboySandbox@mailinator.com"
+//#define TEST_EMAIL @"yaddyboySandbox@mailinator.com"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"9702964502"
+
+
+#define TEST_EMAIL @"yadnesh.wankhede@citruspay.com"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9702964502"
+#define TEST_MOBILE @"7710044930"
 
 //sandbox working
 //#define TEST_EMAIL @"GaurangSandbox@mailinator.com"
@@ -94,6 +99,9 @@
 #define TEST_CREDIT_CARD_CVV @"018"
 
 #define TEST_NETBAK_CODE @"CID002"
+//#define TEST_NETBAK_OWNER_NAME @"Yadnesh Wankhede"
+//#define TEST_NETBAK_NAME @"Axis Bank"
+
 #define TEST_NETBAK_OWNER_NAME @"Yadnesh Wankhede"
 #define TEST_NETBAK_NAME @"Axis Bank"
 

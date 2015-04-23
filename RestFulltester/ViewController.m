@@ -91,8 +91,6 @@
     
     
 //    [self requestResetPassword];
-
-    
   //[self testCardSchemes];
   //[self doGuestPaymentCreditCard];
   //[self doGuestPaymentDebitCard];
@@ -224,12 +222,12 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
-//                         [self updatePaymentInfo];
+                         [self updatePaymentInfo];
 //                         [self updateContactInformation];
                          //[self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
-                         //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
+                       //  [profileLayer requestPaymentInformationWithCompletionHandler:nil];
 //                         [profileLayer requestUpdateMobile:@"9930993582" allowUnverified:NO WithCompletionHandler:^(NSError *error) {
 //                            [self logError:error];
 //                        }];
@@ -257,9 +255,8 @@
 //                         }];
                          
                          
-                         [self getBalance];
-                         
-                         [self bindUser];
+                        //[self getBalance];
+                         //[self bindUser];
                          //[self getCookie];
                         // [self payUsingCitrusCash];
                         // [self loadMoneyInCitrusPayUsingCard];
@@ -345,7 +342,6 @@
             LogTrace(@" status %d",verificationRes.status);//status 0 when this username is not used(can be used for mobile and email), else 1
             LogTrace(@" response Message %@ ",verificationRes.respMsg);
             LogTrace(@" user name type %@ ",verificationRes.userType);
-            
             
         }
         
@@ -433,30 +429,30 @@ didCheckIsUserCitrusMember:(BOOL)isMember
     CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     
     // credit card
-    CTSElectronicCardUpdate* creditCard =
-    [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = TEST_CREDIT_CARD_NUMBER;
-    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
-    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-    creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
-    [paymentInfo addCard:creditCard];
-    
-    //  // debit card
-    CTSElectronicCardUpdate* debitCard =
-    [[CTSElectronicCardUpdate alloc] initDebitCard];
-    debitCard.number = TEST_DEBIT_CARD_NUMBER;
-    debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
-    debitCard.scheme = TEST_DEBIT_SCHEME;
-    debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
-    debitCard.name = TEST_DEBIT_CARD_BANK_NAME;
-    [paymentInfo addCard:debitCard];
+//    CTSElectronicCardUpdate* creditCard =
+//    [[CTSElectronicCardUpdate alloc] initCreditCard];
+//    creditCard.number = TEST_CREDIT_CARD_NUMBER;
+//    creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
+//    creditCard.scheme = TEST_CREDIT_CARD_SCHEME;
+//    creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
+//    creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
+//    [paymentInfo addCard:creditCard];
+//    
+//    //  // debit card
+//    CTSElectronicCardUpdate* debitCard =
+//    [[CTSElectronicCardUpdate alloc] initDebitCard];
+//    debitCard.number = TEST_DEBIT_CARD_NUMBER;
+//    debitCard.expiryDate = TEST_DEBIT_EXPIRY_DATE;
+//    debitCard.scheme = TEST_DEBIT_SCHEME;
+//    debitCard.ownerName = TEST_DEBIT_OWNER_NAME;
+//    debitCard.name = TEST_DEBIT_CARD_BANK_NAME;
+//    [paymentInfo addCard:debitCard];
     //
     //  // netbaking
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
     netBank.name = TEST_NETBAK_OWNER_NAME;
-    netBank.bank = TEST_NETBAK_NAME;
-    
+    netBank.bank = @"Punjab National Bank";
+    paymentInfo.defaultOption = @"";
     [paymentInfo addNetBanking:netBank];
     
     // send it to server
