@@ -99,6 +99,8 @@ didCheckIsUserCitrusMember:(BOOL)isMember
 @optional
 - (void)auth:(CTSAuthLayer*)layer didCitrusSigninInerror:(NSError *)error;
 
+@optional
+- (void)auth:(CTSAuthLayer*)layer didBindUserError:(NSError *)error;
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -139,6 +141,9 @@ typedef void (^ASUSerVerificationCallback)(CTSUserVerificationRes *verificationR
 typedef void (^ASIsUserVerified)(CTSUserVerificationRes *verificationRes,NSError* error);
 
 typedef void (^ASCitrusSigninCallBack)(NSError* error);
+
+typedef void (^ASBindCallBack)(NSError* error);
+
 
 
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
@@ -267,6 +272,8 @@ typedef void (^ASCitrusSigninCallBack)(NSError* error);
 -(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
             completionHandler:(ASCitrusSigninCallBack)callBack;
 
+//pass the email to get prepaid access token for already signed in user
+-(void)requestBindSigninUsername:(NSString *)email completionHandler:(ASBindCallBack)callback;
 
 -(BOOL)isCookieSetAlready;
 

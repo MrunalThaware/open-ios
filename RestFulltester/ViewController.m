@@ -85,7 +85,7 @@
 //    [self payUsingCitrusCash];
 
     
-    //[self signUp];
+  //  [self signUp];
     
 //    [self isUserCitrusMember];
     
@@ -132,7 +132,7 @@
 //    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"91970-296-4502"]);
 //    NSLog(@" CTSUtility mobile validate %d ",[CTSUtility validateMobile:@"+91970-296-4502"]);
     
-   // [self validateOTP:@"oxpj"];
+    //[self validateOTP:@"iubm"];
     
 //    NSLog(@" CTSUtility mobile validate %@ ",[CTSUtility mobileNumberToTenDigitIfValid:@"1702964502"]);
 
@@ -197,6 +197,16 @@
 
 #pragma mark - AuthLayer Sample implementation
 
+
+-(void)bindUser{
+    [authLayer requestBindSigninUsername:TEST_EMAIL completionHandler:^(NSError *error) {
+        [self logError:error];
+        [self getBalance];
+
+    }];
+    
+}
+
 - (void)signIn {
     
   [authLayer requestSigninWithUsername:TEST_EMAIL
@@ -247,9 +257,9 @@
 //                         }];
                          
                          
-
-                         
                          [self getBalance];
+                         
+                         [self bindUser];
                          //[self getCookie];
                         // [self payUsingCitrusCash];
                         // [self loadMoneyInCitrusPayUsingCard];

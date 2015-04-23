@@ -34,6 +34,40 @@ static NSString * _subscriptionSecretKeyAlias;
 
 #pragma mark - public methods
 
+
+
+-(void)requestBindSigninUsername:(NSString *)email completionHandler:(ASBindCallBack)callback{
+    
+    [self addCallback:callback forRequestId:BindSigninRequestId];
+
+    
+    if (![CTSUtility validateEmail:email]) {
+        [self bindUserHelperUsernameError:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    
+    
+    NSDictionary* parameters = @{
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : @"citrus-cube-mobile-app",
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : @"bd63aa06f797f73966f4bcaa4bba00fe",
+                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : @"username",
+                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : email
+                                 };
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+                                   requestId:BindSigninRequestId
+                                     headers:nil
+                                  parameters:parameters
+                                        json:nil
+                                  httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+    
+    
+}
+
+
 - (void)requestResetPassword:(NSString*)userNameArg
            completionHandler:(ASResetPasswordCallback)callBack;
 {
@@ -898,7 +932,8 @@ typedef enum {
     OTPRegenerationRequestId,
     ISMobileVerifiedRequestId,
     isUserVerifiedRequestId,
-    CitruPaySigniInReqId
+    CitruPaySigniInReqId,
+    BindSigninRequestId
 }AuthRequestId;
 
 
@@ -931,14 +966,12 @@ typedef enum {
              toNSString(OTPVerificationRequestId) : toSelector(handleOTPVerfication
                                                                :),
              toNSString(OTPRegenerationRequestId):toSelector(handleOTPRegeneration:),
-             
              toNSString(ISMobileVerifiedRequestId): toSelector(handleIsMobileVerified:),
              toNSString(IsUserAlreadyRegisteredReqId):toSelector(handleIsAlreadyRegistered:),
              toNSString(UserVerificationReqId):toSelector(handleUserVerification:),
              toNSString(isUserVerifiedRequestId):toSelector(handleIsUserVerified:),
-             
-             toNSString(CitruPaySigniInReqId) : toSelector(handleCitrusPaySignin:)
-
+             toNSString(CitruPaySigniInReqId) : toSelector(handleCitrusPaySignin:),
+             toNSString(BindSigninRequestId) : toSelector(handleBindSignIn:)
              };
     
     
@@ -1294,7 +1327,26 @@ typedef enum {
     [self citrusPaySigninHelper:(NSError *)response.data];
 }
 
-
+-(void)handleBindSignIn:(CTSRestCoreResponse *)response{
+    
+    //if no error
+    //save singin token
+    
+    //call helper for binduser
+    
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    // signup flow
+    if (error == nil) {
+        CTSOauthTokenRes* resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+        [resultObject logProperties];
+        [CTSOauthManager saveOauthData:resultObject];
+    }
+    [self bindUserHelperUsernameError:error];
+    
+}
 
 #pragma mark - helper methods
 - (void)signinHelperUsername:(NSString*)username
@@ -1461,6 +1513,15 @@ typedef enum {
     }
 }
 
+- (void)bindUserHelperUsernameError:(NSError*)error {
+    ASBindCallBack callback =
+    [self retrieveAndRemoveCallbackForReqId:BindSigninRequestId];
+    if (callback != nil) {
+        callback(error);
+    } else {
+        [delegate auth:self didBindUserError:error];
+    }
+}
 
 - (void)resetSignupCredentials {
     userNameSignup = @"";
