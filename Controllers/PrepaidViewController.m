@@ -164,17 +164,7 @@
     }];
 }
 
--(void)cashOutToBank{
-    
-    CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
-    bankAccount.owner = @"Yadnesh Wankhede";
-    bankAccount.branch = @"HSBC0000123";
-    bankAccount.number = @"123456789987654";
-    [paymentLayer requestCashoutToBank:bankAccount amount:@"5" completionHandler:^(CTSCashoutToBankRes *cashoutRes, NSError *error) {
-        [cashoutRes logProperties];
-        [error logProperties];
-    }];
-}
+
 
 -(void)fetchCashoutBankAccount{
     [proifleLayer requestCashoutBankAccountCompletionHandler:^(CTSCashoutBankAccountResp *bankAccount, NSError *error) {
@@ -189,6 +179,18 @@
     }];
 }
 
+
+-(void)cashOutToBank{
+    
+    CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
+    bankAccount.owner = @"Yadnesh Wankhede";
+    bankAccount.branch = @"HSBC0000123";
+    bankAccount.number = @"123456789987654";
+    [paymentLayer requestCashoutToBank:bankAccount amount:@"5" completionHandler:^(CTSCashoutToBankRes *cashoutRes, NSError *error) {
+        [cashoutRes logProperties];
+        [error logProperties];
+    }];
+}
 
 -(IBAction)getBalance:(id)sender{
     [proifleLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
