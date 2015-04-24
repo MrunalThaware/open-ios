@@ -30,6 +30,7 @@
 #import "NSObject+logProperties.h"
 #import "MerchantConstants.h"
 #import "CTSUserAddress.h"
+#import "CTSCashoutToBankRes.h"
 //#import "WebViewViewController.h"
 //#import "UIUtility.h"
 @interface CTSPaymentLayer ()
@@ -440,13 +441,6 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
             [self loadMoneyHelper:nil error:[CTSError getErrorForCode:PrepaidBillFetchFailed]];
         }
     }];
-    
-    
-    
-    
-    
-    
-    
 
     
 }
@@ -496,7 +490,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 
     if(amount == nil){
         [self getPrepaidBillHelper:nil error:[CTSError
-                                              getErrorForCode:ReturnUrlNotValid]];
+                                              getErrorForCode:AmountNotValid]];
     
     }
 
@@ -516,6 +510,48 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 
 }
 
+-(void)requestCashoutToBank:(CTSCashoutBankAccount *)bankAccount amount:(NSString *)amount completionHandler:(ASCashoutToBankCallBack)callback{
+
+    [self addCallback:callback forRequestId:PaymentCashoutToBankReqId];
+    
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self cashoutToBankHelper:nil error:oauthStatus.error];
+        return;
+    }
+    
+    if(bankAccount == nil){
+        [self cashoutToBankHelper:nil error:[CTSError
+                                             getErrorForCode:BankAccountNotValid]];
+
+    }
+    
+    if(amount == nil){
+        [self getPrepaidBillHelper:nil error:[CTSError
+                                              getErrorForCode:AmountNotValid]];
+        
+    }
+    
+    NSDictionary *params = @{MLC_CASHOUT_QUERY_AMOUNT:amount,
+                             MLC_CASHOUT_QUERY_CURRENCY:MLC_CASHOUT_QUERY_CURRENCY_INR,
+                             MLC_CASHOUT_QUERY_ACCOUNT:bankAccount.number,
+                             MLC_CASHOUT_QUERY_IFSC:bankAccount.branch,
+                             MLC_CASHOUT_QUERY_OWNER:bankAccount.owner
+                             };
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_CASHOUT_PATH
+                                   requestId:PaymentCashoutToBankReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:params
+                                   json:nil
+                                   httpMethod:POST];
+    [restCore requestAsyncServer:request];
+
+}
 
 
 
@@ -535,8 +571,8 @@ enum {
     PaymentAsCitruspayInternalReqId,
     PaymentAsCitruspayReqId,
     PaymentGetPrepaidBillReqId,
-    PaymentLoadMoneyCitrusPayReqId
-
+    PaymentLoadMoneyCitrusPayReqId,
+   PaymentCashoutToBankReqId,
 };
 - (instancetype)init {
     finished = YES;
@@ -559,7 +595,10 @@ enum {
     toNSString(PaymentGetPrepaidBillReqId) : toSelector(handleGetPrepaidBill
                                                      :),
     toNSString(PaymentLoadMoneyCitrusPayReqId) : toSelector(handleLoadMoneyCitrusPay
-                                                        :)
+                                                        :),
+    toNSString(PaymentCashoutToBankReqId) : toSelector(handleCashoutToBank
+                                                            :)
+    
     
     
   };
@@ -741,7 +780,21 @@ enum {
   [self getMerchantPgSettingsHelper:pgSettings error:error];
 }
 
-#pragma mark -helper methods
+- (void)handleCashoutToBank:(CTSRestCoreResponse*)response {
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSCashoutToBankRes* cashoutBankRes = nil;
+    if (error == nil) {
+        cashoutBankRes = [[CTSCashoutToBankRes alloc] initWithString:response.responseString
+                                                     error:&jsonError];
+    }
+    [self cashoutToBankHelper:cashoutBankRes error:error];
+}
+
+
+
+
+#pragma mark - helper methods
 - (void)makeUserPaymentHelper:(CTSPaymentTransactionRes*)payment
                         error:(NSError*)error {
   ASMakeUserPaymentCallBack callback = [self
@@ -827,6 +880,17 @@ enum {
   } else {
     [delegate payment:self didRequestMerchantPgSettings:pgSettings error:error];
   }
+}
+
+
+-(void)cashoutToBankHelper:(CTSCashoutToBankRes *)cashoutToBankRes error:(NSError *)error{
+    ASCashoutToBankCallBack callback = [self retrieveAndRemoveCallbackForReqId:PaymentCashoutToBankReqId];
+    if (callback != nil) {
+        callback(cashoutToBankRes, error);
+    } else {
+        [delegate payment:self didCashoutToBank:cashoutToBankRes error:error ];
+    }
+    
 }
 
 -(void)getPrepaidBillHelper:(CTSPrepaidBill*)bill

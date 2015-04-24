@@ -28,7 +28,8 @@ typedef enum {
     ReturnUrlNotValid,
     AmountNotValid,
     PrepaidBillFetchFailed,
-    NoOrMoreInstruments
+    NoOrMoreInstruments,
+    BankAccountNotValid
 
     
 

@@ -32,6 +32,9 @@
 		375791901AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918F1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m */; };
 		375791911AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918F1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m */; };
 		375791921AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918F1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m */; };
+		375791951AEA599900D61A2F /* CTSCashoutToBankRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */; };
+		375791961AEA599900D61A2F /* CTSCashoutToBankRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */; };
+		375791971AEA599900D61A2F /* CTSCashoutToBankRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */; };
 		375F30F3195BF24500F86149 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 375F30F2195BF24500F86149 /* .gitignore */; };
 		37851BF41978F2DD00AE3AD0 /* CTSAuthLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B921978F2DD00AE3AD0 /* CTSAuthLayer.m */; };
 		37851BF61978F2DD00AE3AD0 /* CTSError.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B961978F2DD00AE3AD0 /* CTSError.m */; };
@@ -302,6 +305,8 @@
 		3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCashoutBankAccount.m; sourceTree = "<group>"; };
 		3757918E1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCashoutBankAccountResp.h; sourceTree = "<group>"; };
 		3757918F1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCashoutBankAccountResp.m; sourceTree = "<group>"; };
+		375791931AEA599900D61A2F /* CTSCashoutToBankRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCashoutToBankRes.h; sourceTree = "<group>"; };
+		375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCashoutToBankRes.m; sourceTree = "<group>"; };
 		375F30F2195BF24500F86149 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		37851B911978F2DD00AE3AD0 /* CTSAuthLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSAuthLayer.h; sourceTree = "<group>"; };
 		37851B921978F2DD00AE3AD0 /* CTSAuthLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSAuthLayer.m; sourceTree = "<group>"; };
@@ -763,6 +768,8 @@
 				3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */,
 				3757918E1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.h */,
 				3757918F1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m */,
+				375791931AEA599900D61A2F /* CTSCashoutToBankRes.h */,
+				375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -1169,6 +1176,7 @@
 				37C9649F198F723E0021DC0B /* CTSPaymentOption.m in Sources */,
 				378D711E1A8493D300A6FD36 /* CTSGetBalanceRes.m in Sources */,
 				37851BFC1978F2DD00AE3AD0 /* CTSUtility.m in Sources */,
+				375791961AEA599900D61A2F /* CTSCashoutToBankRes.m in Sources */,
 				371B5D24198A5CCF0096451C /* CTSRestCore.m in Sources */,
 				371B5D27198A5CCF0096451C /* CTSRestObject.m in Sources */,
 				37851C021978F2DD00AE3AD0 /* NSObject+logProperties.m in Sources */,
@@ -1248,6 +1256,7 @@
 				37D6E6851AB01E1A008C28C4 /* CTSRestObject.m in Sources */,
 				37D6E6861AB01E1A008C28C4 /* NSObject+logProperties.m in Sources */,
 				37D6E6871AB01E1A008C28C4 /* CTSProfileLayer.m in Sources */,
+				375791971AEA599900D61A2F /* CTSCashoutToBankRes.m in Sources */,
 				3757918D1AEA3B2000D61A2F /* CTSCashoutBankAccount.m in Sources */,
 				37D6E6881AB01E1A008C28C4 /* CTSPaymentUpdate.m in Sources */,
 				37D6E6891AB01E1A008C28C4 /* CTSOauthTokenRes.m in Sources */,
@@ -1325,6 +1334,7 @@
 				7692AB0D19FFA247004D56EC /* CTSRestObject.m in Sources */,
 				7692AB0E19FFA247004D56EC /* NSObject+logProperties.m in Sources */,
 				7692AB0F19FFA247004D56EC /* CTSProfileLayer.m in Sources */,
+				375791951AEA599900D61A2F /* CTSCashoutToBankRes.m in Sources */,
 				3757918B1AEA3B2000D61A2F /* CTSCashoutBankAccount.m in Sources */,
 				7692AB1019FFA247004D56EC /* CTSPaymentUpdate.m in Sources */,
 				7692AB1119FFA247004D56EC /* CTSOauthTokenRes.m in Sources */,

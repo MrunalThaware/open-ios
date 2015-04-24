@@ -145,6 +145,14 @@
 
 
 
+#pragma - mark MLC_CASHOUT
 
+#define MLC_CASHOUT_PATH @"/service/v2/prepayment/cashout"
+#define MLC_CASHOUT_QUERY_AMOUNT @"amount"
+#define MLC_CASHOUT_QUERY_CURRENCY @"currency"
+#define MLC_CASHOUT_QUERY_ACCOUNT @"account"
+#define MLC_CASHOUT_QUERY_IFSC @"ifsc"
+#define MLC_CASHOUT_QUERY_OWNER @"owner"
+#define MLC_CASHOUT_QUERY_CURRENCY_INR @"INR"
 
 #endif

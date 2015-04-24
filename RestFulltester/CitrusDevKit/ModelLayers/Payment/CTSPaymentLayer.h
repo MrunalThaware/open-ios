@@ -24,6 +24,9 @@
 #import "CTSBill.h"
 #import "CitrusCashRes.h"
 #import "CTSPrepaidBill.h"
+#import "CTSCashoutBankAccount.h"
+#import "CTSCashoutBankAccountResp.h"
+#import "CTSCashoutToBankRes.h"
 
 
 
@@ -90,6 +93,12 @@ didGetPrepaidBill:(CTSPrepaidBill*)bill
 didLoadMoney:(CTSPaymentTransactionRes*)paymentInfo
           error:(NSError*)error;
 
+
+@optional
+- (void)payment:(CTSPaymentLayer*)layer
+didCashoutToBank:(CTSCashoutToBankRes *)cashoutToBankRes
+          error:(NSError*)error;
+
 @end
 @interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol,UIWebViewDelegate> {
     UIViewController *citrusCashBackViewController;
@@ -128,6 +137,10 @@ typedef void (^ASGetPrepaidBill)(CTSPrepaidBill* prepaidBill,
 
 typedef void (^ASLoadMoneyCallBack)(CTSPaymentTransactionRes* paymentInfo,
                                           NSError* error);
+
+typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
+                                    NSError* error);
+
 /**
  * called when client request to make payment through credit card/debit card
 
@@ -242,4 +255,11 @@ typedef void (^ASLoadMoneyCallBack)(CTSPaymentTransactionRes* paymentInfo,
                                         amount:( NSString *)amount
                                      returnUrl:(NSString *)returnUrl
                          withCompletionHandler:(ASLoadMoneyCallBack)callback;
+
+
+
+-(void)requestCashoutToBank:(CTSCashoutBankAccount *)bankAccount amount:(NSString *)amount completionHandler:(ASCashoutToBankCallBack)callback;
+
+
+
 @end

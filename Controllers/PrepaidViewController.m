@@ -134,7 +134,9 @@
     [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
         LogTrace(@"userName %@",userName);
         LogTrace(@"error %@",error);
+        [self cashOutToBank];
         if (error) {
+            
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
         else{
@@ -160,9 +162,19 @@
             [UIUtility toastMessageOnScreen:@"Succesfully stored bank account"];
         }
     }];
-    
 }
 
+-(void)cashOutToBank{
+    
+    CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
+    bankAccount.owner = @"Yadnesh Wankhede";
+    bankAccount.branch = @"HSBC0000123";
+    bankAccount.number = @"123456789987654";
+    [paymentLayer requestCashoutToBank:bankAccount amount:@"5" completionHandler:^(CTSCashoutToBankRes *cashoutRes, NSError *error) {
+        [cashoutRes logProperties];
+        [error logProperties];
+    }];
+}
 
 -(void)fetchCashoutBankAccount{
     [proifleLayer requestCashoutBankAccountCompletionHandler:^(CTSCashoutBankAccountResp *bankAccount, NSError *error) {
