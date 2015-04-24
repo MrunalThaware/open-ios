@@ -266,27 +266,50 @@ enum {
         [self getBalanceHelper:nil error:oauthStatus.error];
         
     }
+    [self requestActivatePrepaidAccountGetBalance:^(CTSAmount *amount, NSError *error) {
+        [self getBalanceHelper:amount error:error];
 
-    
-    
-    //check if atviation is already done, else do the activation and go for get balance call
-    if([CTSUtility readFromDisk:IS_CALLED_ACTIVATION]){
-        [self proceedToGetBalance];
-    }
-    else{
-    [self requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
-        if(error){
-            [self getBalanceHelper:nil error:error];
-        }
-        else{
-            [self proceedToGetBalance];
-        }
     }];
     
-    }
-
     
 }
+
+
+//-(void)requestGetBalance:(ASGetBalanceCallBack)calback{
+//    [self addCallback:calback forRequestId:ProfileGetBalanceReqId];
+//    
+//    
+//    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+//    NSString* oauthToken = oauthStatus.oauthToken;
+//    
+//    
+//    if (oauthStatus.error != nil || oauthToken == nil) {
+//        [self getBalanceHelper:nil error:oauthStatus.error];
+//        
+//    }
+//    
+//    
+//    
+//    //check if atviation is already done, else do the activation and go for get balance call
+//    if([CTSUtility readFromDisk:IS_CALLED_ACTIVATION]){
+//        [self proceedToGetBalance];
+//    }
+//    else{
+//        [self requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
+//            if(error){
+//                [self getBalanceHelper:nil error:error];
+//            }
+//            else{
+//                [self proceedToGetBalance];
+//            }
+//        }];
+//        
+//    }
+//    
+//    
+//}
+
+
 
 
 -(void)proceedToGetBalance{
@@ -328,6 +351,29 @@ enum {
     
     [restCore requestAsyncServer:request];
 }
+
+
+-(void)requestActivatePrepaidAccountGetBalance:(ASGetBalanceCallBack)callback{
+    [self addCallback:callback forRequestId:ProfileActivatePrepaidAccountReqIdGetBalance];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self activatePrepaidHelper:NO error:oauthStatus.error];
+    }
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_GET_BALANCE_ACTIVATE_PATH
+                                   requestId:ProfileActivatePrepaidAccountReqIdGetBalance
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:nil
+                                   httpMethod:GET];
+    
+    [restCore requestAsyncServer:request];
+}
+
 
 
 #pragma mark - response handlers methods
@@ -395,6 +441,8 @@ enum {
 
 }
 
+
+
 //old implementation
 //-(void)handleProfileGetBanlance:(CTSRestCoreResponse*)response{
 //    NSError* error = response.error;
@@ -439,7 +487,7 @@ enum {
     if(error == nil){
         amount = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
     }
-    [self getBalanceHelper:amount error:error];
+    [self activatePrepaidGetBalanceHelper:amount error:error];
 }
 
 
@@ -542,6 +590,20 @@ ASGetContactInfoNewCallback callback = [self retrieveAndRemoveCallbackForReqId:P
         
     } else {
         [delegate profile:self didGetBalance:amount error:error];
+    }
+}
+
+-(void)activatePrepaidGetBalanceHelper:(CTSAmount *)amount error:(NSError *)error{
+    
+    if(error == nil){
+        [CTSUtility saveToDisk:@"YES" as:IS_CALLED_ACTIVATION];
+    }
+    
+    
+    ASGetBalanceCallBack callback =
+    [self retrieveAndRemoveCallbackForReqId:ProfileActivatePrepaidAccountReqIdGetBalance];
+    if (callback != nil) {
+        callback(amount, error);
     }
 }
 

@@ -222,7 +222,7 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
-                         [self updatePaymentInfo];
+                      //   [self updatePaymentInfo];
 //                         [self updateContactInformation];
                          //[self doUserCreditCardPayment];
                          //[self doUserNetbankingPayment];
@@ -255,7 +255,7 @@
 //                         }];
                          
                          
-                        //[self getBalance];
+                        [self getBalance];
                          //[self bindUser];
                          //[self getCookie];
                         // [self payUsingCitrusCash];
