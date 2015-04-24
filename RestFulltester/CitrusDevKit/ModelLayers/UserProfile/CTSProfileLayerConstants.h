@@ -93,6 +93,11 @@ typedef enum CardValidationError {
 #define MLC_PROFILE_GET_BALANCE_ACTIVATE_TYPE GET
 
 
+#pragma - mark Cashout Bank Account
+#define  CURRENCY @"INR"
+#define MLC_PROFILE_CASHOUT_BANK_ACCOUNT_PATH @"/service/v2/profile/me/prepaid"
 
+
+#define MLC_PROFILE_CASHOUT_BANK_ACCOUNT_UPDATE_TYPE GET
 
 #endif

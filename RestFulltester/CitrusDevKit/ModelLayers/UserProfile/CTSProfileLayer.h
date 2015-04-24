@@ -14,6 +14,8 @@
 #import "CTSRestCoreResponse.h"
 #import "CTSRestPluginBase.h"
 #import "CTSProfileLayerConstants.h"
+#import "CTSCashoutBankAccountResp.h"
+#import "CTSCashoutBankAccount.h"
 @class CTSProfileLayer;
 @protocol CTSProfileProtocol
 /**
@@ -59,6 +61,15 @@
   didGetBalance:(CTSAmount *)amount
                error:(NSError*)error;
 
+
+@optional
+- (void)profile:(CTSProfileLayer*)profile
+  didAddCashoutAccount:(NSError*)error;
+
+
+@optional
+- (void)profile:(CTSProfileLayer*)profile
+didReceiveCashoutAccount:(CTSCashoutBankAccountResp *)cashoutAccount  error:(NSError*)error;
 @end
 
 /**
@@ -79,6 +90,9 @@ typedef void (^ASUpdatePaymentInfoCallBack)(NSError* error);
 typedef void (^ASUpdateContactInfoCallBack)(NSError* error);
 typedef void (^ASGetBalanceCallBack)(CTSAmount *amount, NSError* error);
 typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
+typedef void (^ASUpdateCashoutBankAccountCallback)( NSError* error);
+typedef void (^ASGetCashoutBankAccountCallback)(CTSCashoutBankAccountResp *bankAccount, NSError* error);
+
 
 
 
@@ -89,6 +103,8 @@ typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
  */
 - (void)updateContactInformation:(CTSContactUpdate*)contactInfo
            withCompletionHandler:(ASUpdateContactInfoCallBack)callback;
+
+
 
 /**
  *  update payment related information
@@ -113,6 +129,11 @@ typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
 
 -(void)requetGetBalance:(ASGetBalanceCallBack)calback;
 
-
 -(void)requestActivatePrepaidAccount:(ASActivatePrepaidCallBack)callback;
+
+- (void)requestUpdateCashoutBankAccount:(CTSCashoutBankAccount*)bankAccount
+           withCompletionHandler:(ASUpdateCashoutBankAccountCallback)callback;
+
+
+-(void)requestCashoutBankAccountCompletionHandler:(ASGetCashoutBankAccountCallback)callback;
 @end

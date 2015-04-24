@@ -144,6 +144,40 @@
     }];
 }
 
+
+-(void)saveCashoutBankAccount{
+    CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
+    bankAccount.owner = @"Yadnesh Wankhede";
+    bankAccount.branch = @"HSBC0000123";
+    bankAccount.number = @"123456789987654";
+    
+    
+    [proifleLayer requestUpdateCashoutBankAccount:bankAccount withCompletionHandler:^(NSError *error) {
+        if (error) {
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:@"Succesfully stored bank account"];
+        }
+    }];
+    
+}
+
+
+-(void)fetchCashoutBankAccount{
+    [proifleLayer requestCashoutBankAccountCompletionHandler:^(CTSCashoutBankAccountResp *bankAccount, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else {
+            
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@\n number: %@\n ifsc: %@",bankAccount.cashoutAccount.owner,bankAccount.cashoutAccount.number,bankAccount.cashoutAccount.branch]];
+            
+        }
+    }];
+}
+
+
 -(IBAction)getBalance:(id)sender{
     [proifleLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
         LogTrace(@" value %@ ",amount.value);

@@ -23,7 +23,9 @@ enum {
   ProfileGetPaymentReqId,
   ProfileUpdatePaymentReqId,
     ProfileGetBalanceReqId,
-    ProfileActivatePrepaidAccountReqId
+    ProfileActivatePrepaidAccountReqId,
+    ProfileUpdateCashoutBankAccountReqId,
+    ProfileGetCashoutBankAccountReqId
 
 };
 
@@ -40,7 +42,9 @@ enum {
         toSelector(handleProfileUpdatePayment
                    :),
     toNSString(ProfileGetBalanceReqId):toSelector(handleProfileGetBanlance:),
-        toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:)
+        toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:),
+    toNSString(ProfileUpdateCashoutBankAccountReqId):toSelector(handleUpdateCashoutAccount:),
+    toNSString(ProfileGetCashoutBankAccountReqId):toSelector(handleGetCashoutBankAccount:)
     
   };
 
@@ -225,6 +229,67 @@ enum {
 }
 
 
+
+
+- (void)requestUpdateCashoutBankAccount:(CTSCashoutBankAccount*)bankAccount
+                  withCompletionHandler:(ASUpdateCashoutBankAccountCallback)callback{
+    
+    [self addCallback:callback forRequestId:ProfileUpdateCashoutBankAccountReqId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self updateCashoutbankAccountHelper:oauthStatus.error];
+    }
+
+    CTSCashoutBankAccountResp* bankAccountData = [[CTSCashoutBankAccountResp alloc] init];
+    bankAccountData.currency = CURRENCY;
+    bankAccountData.type = @"prepaid";
+    bankAccountData.cashoutAccount = bankAccount;
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_CASHOUT_BANK_ACCOUNT_PATH
+                                   requestId:ProfileUpdateCashoutBankAccountReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:[bankAccountData toJSONString]
+                                   httpMethod:PUT];
+    
+    [restCore requestAsyncServer:request];
+    
+
+}
+
+
+-(void)requestCashoutBankAccountCompletionHandler:(ASGetCashoutBankAccountCallback)callback{
+    [self addCallback:callback forRequestId:ProfileGetCashoutBankAccountReqId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self updateCashoutbankAccountHelper:oauthStatus.error];
+    }
+
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_CASHOUT_BANK_ACCOUNT_PATH
+                                   requestId:ProfileGetCashoutBankAccountReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:nil
+                                   httpMethod:GET];
+    
+    [restCore requestAsyncServer:request];
+
+
+}
+
+
+
+
+
 #pragma mark - response handlers methods
 
 - (void)handleReqProfileGetContact:(CTSRestCoreResponse*)response {
@@ -279,6 +344,7 @@ enum {
 }
 
 
+
 -(void)handleActivatePrepaidAccount:(CTSRestCoreResponse *)response{
     NSError* error = response.error;
     JSONModelError* jsonError;
@@ -294,6 +360,23 @@ enum {
         isActivated = YES;
     }
     [self activatePrepaidHelper:isActivated error:error];
+}
+
+
+-(void)handleUpdateCashoutAccount:(CTSRestCoreResponse*)response{
+    [self updateCashoutbankAccountHelper:response.error];
+
+}
+
+-(void)handleGetCashoutBankAccount:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSCashoutBankAccountResp* cashoutAccount = nil;
+    if(error == nil){
+        cashoutAccount = [[CTSCashoutBankAccountResp alloc] initWithString:response.responseString error:&jsonError];
+    }
+    [self getCashoutAccountHelper:cashoutAccount error:error];
+
 }
 
 
@@ -347,7 +430,6 @@ enum {
 
 -(void)getBalanceHelper:(CTSAmount *)amount error:(NSError *)error{
 
-    
     ASGetBalanceCallBack callback =
     [self retrieveAndRemoveCallbackForReqId:ProfileGetBalanceReqId];
     if (callback != nil) {
@@ -356,7 +438,6 @@ enum {
     } else {
         [delegate profile:self didGetBalance:amount error:error];
     }
-  
 }
 
 
@@ -369,6 +450,33 @@ enum {
         callback(isActivated, error);
     }
     
+}
+
+
+
+- (void)updateCashoutbankAccountHelper:(NSError*)error {
+    ASUpdateCashoutBankAccountCallback callback =
+    [self retrieveAndRemoveCallbackForReqId:ProfileUpdateCashoutBankAccountReqId];
+    
+    if (callback != nil) {
+        callback(error);
+        
+    } else {
+        [delegate profile:self didAddCashoutAccount:error];
+    }
+}
+
+
+- (void)getCashoutAccountHelper:(CTSCashoutBankAccountResp *)cashoutBankResponse error:(NSError *)error{
+    ASGetCashoutBankAccountCallback callback =
+    [self retrieveAndRemoveCallbackForReqId:ProfileGetCashoutBankAccountReqId];
+    
+    if (callback != nil) {
+        callback(cashoutBankResponse,error);
+        
+    } else {
+        [delegate profile:self didReceiveCashoutAccount:cashoutBankResponse error:error];
+    }
 }
 
 @end

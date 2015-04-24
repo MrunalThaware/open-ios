@@ -223,9 +223,6 @@ typedef void (^ASLoadMoneyCallBack)(CTSPaymentTransactionRes* paymentInfo,
 
 
 
-
-
-
 /**
  *  request card pament options(visa,master,debit) and netbanking settngs for
  *the merchant
