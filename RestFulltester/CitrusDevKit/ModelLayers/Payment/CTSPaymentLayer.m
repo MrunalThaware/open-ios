@@ -60,7 +60,7 @@
   paymentRequest.returnUrl = returnUrl;
   paymentRequest.paymentToken =
       [[paymentInfo.paymentOptions objectAtIndex:0] fetchPaymentToken];
-
+    contact.email = contact.email.lowercaseString;
   paymentRequest.userDetails =
       [[CTSUserDetails alloc] initWith:contact address:address];
 
@@ -373,9 +373,9 @@
                                       bill:(CTSBill *)bill
                      withCompletionHandler:(ASMakeCitruspayCallBackInternal)callback{
     [self addCallback:callback forRequestId:PaymentAsCitruspayInternalReqId];
+    NSString *email = contactInfo.email.lowercaseString;
 
-
-    CTSPaymentDetailUpdate *paymentCitrus = [[CTSPaymentDetailUpdate alloc] initCitrusPayWithEmail:contactInfo.email];
+    CTSPaymentDetailUpdate *paymentCitrus = [[CTSPaymentDetailUpdate alloc] initCitrusPayWithEmail:email];
 
     
     

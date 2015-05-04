@@ -55,7 +55,7 @@
 
 
 ////URLS
-#define BillUrl @"http://192.168.1.103:8888/bill.php"
+#define BillUrl @"http://192.168.2.246:8888/bill.php"
 
 //#define BillUrl @"http://test.bhoomata.com/default.aspx"
 #define ReturnUrl @"http://192.168.1.103:8888/return.php"

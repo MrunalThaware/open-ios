@@ -31,6 +31,7 @@
 - (void)requestResetPassword:(NSString*)userNameArg
            completionHandler:(ASResetPasswordCallback)callBack;
 {
+    
   [self addCallback:callBack forRequestId:RequestForPasswordResetReqId];
 
   OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
@@ -44,11 +45,12 @@
     [self resetPasswordHelper:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
+    userNameArg = userNameArg.lowercaseString;
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_REQUEST_CHANGE_PWD_REQ_PATH
          requestId:RequestForPasswordResetReqId
            headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
-        parameters:@{MLC_REQUEST_CHANGE_PWD_QUERY_USERNAME : userNameArg}
+        parameters:@{MLC_REQUEST_CHANGE_PWD_QUERY_USERNAME : userNameArg.lowercaseString}
               json:nil
         httpMethod:POST];
 
@@ -69,12 +71,14 @@
     return;
   }
 
+    email = email.lowercaseString;
+
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_SIGNUP_REQ_PATH
          requestId:SignupStageOneReqId
            headers:[CTSUtility readSignupTokenAsHeader]
         parameters:@{
-          MLC_SIGNUP_QUERY_EMAIL : email,
+          MLC_SIGNUP_QUERY_EMAIL : email.lowercaseString,
           MLC_SIGNUP_QUERY_MOBILE : mobile
         } json:nil
         httpMethod:POST];
@@ -86,6 +90,10 @@
 
 - (void)requestInternalBindUserName:(NSString *)email mobile:(NSString *)mobile {
 
+    email = email.lowercaseString;
+
+    
+    
         CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_BIND_USER_REQ_PATH
                                    requestId:BindUserRequestId
@@ -121,6 +129,8 @@
                          error:[CTSError getErrorForCode:MobileNotValid]];
     return;
   }
+
+    email = email.lowercaseString;
 
   userNameSignup = email;
   mobileSignUp = mobile;
@@ -177,6 +187,8 @@
     return;
   }
 
+    userNameArg = userNameArg.lowercaseString;
+
   userNameSignIn = userNameArg;
     passwordSignin = password;
   NSDictionary* parameters = @{
@@ -200,6 +212,10 @@
 
 
 -(void)requestBindSigninUsername:(NSString *)email{
+    
+    email = email.lowercaseString;
+
+    
     NSDictionary* parameters = @{
                                  MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_CLIENT_ID,
                                  MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
@@ -223,6 +239,9 @@
 
 -(void)requestSetPassword:(NSString *)password userName:(NSString *)userName completionHandler:(ASSetPassword)callback{
 
+    userName = userName.lowercaseString;
+
+    
     [self addCallback:callback forRequestId:SetPasswordReqId];
     
     [self requestChangePasswordUserName:userName oldPassword:[self generateBigIntegerString:userName] newPassword:password completionHandler:^(NSError *error) {
@@ -270,6 +289,9 @@
     [self changePasswordHelper:oauthStatus.error];
   }
 
+    userName = userName.lowercaseString;
+
+    
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_CHANGE_PASSWORD_REQ_PATH
          requestId:ChangePasswordReqId
@@ -299,6 +321,9 @@
   if (oauthStatus.error != nil) {
     [self isUserCitrusMemberHelper:NO error:oauthStatus.error];
   }
+    
+    email = email.lowercaseString;
+
 
   CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
       initWithPath:MLC_IS_MEMBER_REQ_PATH
@@ -331,6 +356,9 @@
                                error:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }
+    
+    email = email.lowercaseString;
+
     userNameBind = email;
     mobileBind = mobile;
 
@@ -383,7 +411,10 @@
             completionHandler:(ASCitrusSigninCallBack)callBack{
 
     [self addCallback:callBack forRequestId:CitruPaySigniInReqId];
+    userName = userName.lowercaseString;
 
+    
+    
 //validate username
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_CITRUS_PAY_AUTH_COOKIE_PATH
@@ -431,7 +462,8 @@
         return;
     }
     
-    
+    email = email.lowercaseString;
+
     //
     __block NSString *blockEmail = email;
     
