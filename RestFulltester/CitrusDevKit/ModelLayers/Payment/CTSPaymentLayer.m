@@ -959,7 +959,7 @@ enum {
     [citrusCashBackViewController.view addSubview:citrusPayWebview];
     [citrusPayWebview loadRequest:[[NSURLRequest alloc]
                                initWithURL:[NSURL URLWithString:url]]];
-    citrusPayWebview.frame = CGRectMake(0, 0, citrusCashBackViewController.view.frame.size.width, citrusCashBackViewController.view.frame.size.height);
+   // citrusPayWebview.frame = CGRectMake(0, 0, citrusCashBackViewController.view.frame.size.width, citrusCashBackViewController.view.frame.size.height);
 
 //    while(finished) {
 //        NSLog(@" run loop");
