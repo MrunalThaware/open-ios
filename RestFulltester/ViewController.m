@@ -33,6 +33,9 @@
   [super viewDidLoad];
     
   [self initialize];
+   // NSLog(@"Is cookie set already %d",   [authLayer isCookieSetAlready]);
+
+    [self payUsingCitrusCash];
     
     //[self verifyUser];
    //[self testCardSchemes];
@@ -41,10 +44,9 @@
    // NSLog(@"Is cookie set already %d",   [authLayer isCookieSetAlready]);
 
    // [authLayer signOut];
-//    NSLog(@"Is cookie set already %d",   [authLayer isCookieSetAlready]);
-
+   // [self getCookie];
     
-    [self signIn];
+    //[self signIn];
   //  NSLog(@"Before log in THREAD %@", [NSThread currentThread]);
 
 
@@ -255,7 +257,7 @@
 //                         }];
                          
                          
-                        [self getBalance];
+                      //  [self getBalance];
                          //[self bindUser];
                          //[self getCookie];
                         // [self payUsingCitrusCash];

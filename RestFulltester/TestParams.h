@@ -40,9 +40,14 @@
 //#define TEST_MOBILE @"9702964502"
 
 
-#define TEST_EMAIL @"yadnesh.wankhede@citruspay.com"
-#define TEST_PASSWORD @"tester@123"
+//#define TEST_EMAIL @"yadnesh.wankhede@citruspay.com"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"7710044930"
+
+#define TEST_EMAIL @"anurag.theprophet@gmail.com"
+#define TEST_PASSWORD @"copperroad13"
 #define TEST_MOBILE @"7710044930"
+
 
 //sandbox working
 //#define TEST_EMAIL @"GaurangSandbox@mailinator.com"
