@@ -249,6 +249,9 @@
         case 504:
         errorDescription = @"Gateway Timeout";
         break;
+        case 1000:
+        errorDescription = @"Invalid password. Please enter correct password.";
+        break;
         default:
         errorDescription = @"Oops Something went wrong";
         

@@ -8,6 +8,7 @@
 
 #import "CTSRestCore.h"
 #import "NSObject+logProperties.h"
+#import "CTSAuthLayerConstants.h"
 
 @implementation CTSRestCore
 @synthesize baseUrl, delegate;
@@ -282,13 +283,17 @@ didReceiveResponse:(NSURLResponse *)response{
     }
     else{
         
-        NSError *error = [CTSError errorForStatusCode:httpResponse.statusCode];
+        NSError *error;
+        if([response.URL.absoluteString containsString:MLC_CITRUS_PAY_AUTH_COOKIE_PATH]){
+            error = [CTSError errorForStatusCode:1000];
+        }else {
+            error = [CTSError errorForStatusCode:httpResponse.statusCode];
+        }
+        
         restResponse.requestId = delegationRequestId;
         restResponse.data = error;
-        
-    }
-    NSLog(@"didReceiveResponse THREAD %@", [NSThread currentThread]);
 
+    }
     [delegate restCore:self didReceiveResponse:restResponse];
     
 }
