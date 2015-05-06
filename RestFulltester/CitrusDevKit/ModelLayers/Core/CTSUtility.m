@@ -584,12 +584,18 @@
 }
 
 +(BOOL)isVerifyPage:(NSString *)urlString{
-    BOOL isVerifyPage = NO;
-    if([urlString containsString:@"prepaid/pg/verify/"]){
+    BOOL isVerifyPage = [CTSUtility myContainsString:urlString];
+    
+    if(isVerifyPage){
         NSLog(@"not logged in");
         isVerifyPage = YES;
     }
     return isVerifyPage;
+}
+
++ (BOOL)myContainsString:(NSString*)other {
+    NSRange range = [other rangeOfString:@"prepaid/pg/verify/"];
+    return range.length != 0;
 }
 
 @end
