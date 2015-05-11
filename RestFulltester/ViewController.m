@@ -46,7 +46,7 @@
    // [authLayer signOut];
    // [self getCookie];
     
-   // [self signIn];
+    [self signIn];
   //  NSLog(@"Before log in THREAD %@", [NSThread currentThread]);
 
 
@@ -218,7 +218,7 @@
                          LogTrace(@"token %@ ", token);
                          [self logError:error];
 
-
+                         [self saveDefault];
                          //[self doUserDebitCardPayment];
                          //[self doGuestPaymentCard];
                          //[self doUserNetbankingPayment];
@@ -456,9 +456,44 @@ didCheckIsUserCitrusMember:(BOOL)isMember
     netBank.bank = @"YES Bank";
     [paymentInfo addNetBanking:netBank];
     
+
     // send it to server
     [profileLayer updatePaymentInformation:paymentInfo withCompletionHandler:nil];
 }
+
+
+
+-(void)saveDefault{
+    
+    //first get all the saved payment options
+    [profileLayer requestPaymentInformationWithCompletionHandler:^(CTSProfilePaymentRes *paymentInfo, NSError *error) {
+        if (error == nil) {
+            LogTrace(@" paymentInfo.type %@", paymentInfo.type);
+            LogTrace(@" paymentInfo.defaultOption %@", paymentInfo.defaultOption);
+            
+            
+            //get the name of the option that you want to set as default(server only populated this name)> here assuming that we want to set payment option at index 0 as default, this will usually come from UI
+            CTSPaymentOption *toBeDefaultOption = [paymentInfo.paymentOptions objectAtIndex:0];
+            NSString *name = toBeDefaultOption.name;
+            CTSPaymentDetailUpdate* paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
+            paymentInfo.defaultOption = name;
+            
+            //this call saves the option as default
+            [profileLayer updatePaymentInformation:paymentInfo withCompletionHandler:nil];
+            
+            
+        } else {
+            LogTrace(@"error received %@", error);
+        }
+        
+    }];
+    
+    
+}
+
+
+
+
 
 - (void)updateContactInformation {
     CTSContactUpdate* contactUpdate = [[CTSContactUpdate alloc] init];
