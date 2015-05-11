@@ -130,7 +130,7 @@
     return;
   }
 
-  long index = [self addDataToCacheAtAutoIndex:paymentInfo];
+  //long index = [self addDataToCacheAtAutoIndex:paymentInfo];
 
   CTSRestCoreRequest* request =
       [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL
@@ -139,7 +139,7 @@
                                     parameters:nil
                                           json:[paymentrequest toJSONString]
                                     httpMethod:POST
-                                     dataIndex:index];
+                                     dataIndex:-1];
 
   [restCore requestAsyncServer:request];
 }
@@ -578,20 +578,22 @@ enum {
   NSError* error = response.error;
   JSONModelError* jsonError;
   CTSPaymentTransactionRes* payment = nil;
-  if (response.indexData > -1) {
-    CTSPaymentDetailUpdate* paymentDetail =
-        [self fetchAndRemoveDataFromCache:response.indexData];
-    [paymentDetail logProperties];
-    __block CTSProfileLayer* profile = [[CTSProfileLayer alloc] init];
-    [profile updatePaymentInformation:paymentDetail
-                withCompletionHandler:^(NSError* error) {
-                    LogTrace(@" error %@ ", error);
-                }];
-
+//  if (response.indexData > -1) {
+//    CTSPaymentDetailUpdate* paymentDetail =
+//        [self fetchAndRemoveDataFromCache:response.indexData];
+//    [paymentDetail logProperties];
+//    __block CTSProfileLayer* profile = [[CTSProfileLayer alloc] init];
+//    [profile updatePaymentInformation:paymentDetail
+//                withCompletionHandler:^(NSError* error) {
+//                    LogTrace(@" error %@ ", error);
+//                }];
+//
+// 
+//  }
+    
     payment =
-        [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
-                                                   error:&jsonError];
-  }
+    [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
+                                               error:&jsonError];
   [self makeUserPaymentHelper:payment error:error];
 }
 

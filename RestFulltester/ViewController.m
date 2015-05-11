@@ -35,7 +35,7 @@
   [self initialize];
    // NSLog(@"Is cookie set already %d",   [authLayer isCookieSetAlready]);
 
-    [self payUsingCitrusCash];
+    //[self payUsingCitrusCash];
     
     //[self verifyUser];
    //[self testCardSchemes];
@@ -46,7 +46,7 @@
    // [authLayer signOut];
    // [self getCookie];
     
-    //[self signIn];
+   // [self signIn];
   //  NSLog(@"Before log in THREAD %@", [NSThread currentThread]);
 
 
@@ -224,12 +224,12 @@
                          //[self doUserNetbankingPayment];
                          //[self doTokenizedPaymentNetbanking];
                          //[self doUserDebitCardPayment];
-                      //   [self updatePaymentInfo];
+                       //  [self updatePaymentInfo];
 //                         [self updateContactInformation];
                          //[self doUserCreditCardPayment];
-                         //[self doUserNetbankingPayment];
+                       //  [self doUserNetbankingPayment];
                          //[self doTokenizedPaymentCreditCard];
-                       //  [profileLayer requestPaymentInformationWithCompletionHandler:nil];
+                         //[profileLayer requestPaymentInformationWithCompletionHandler:nil];
 //                         [profileLayer requestUpdateMobile:@"9930993582" allowUnverified:NO WithCompletionHandler:^(NSError *error) {
 //                            [self logError:error];
 //                        }];
@@ -521,9 +521,9 @@ didUpdatePaymentInfoError:(NSError*)error {
     CTSPaymentDetailUpdate* netBankingPaymentInfo =
     [[CTSPaymentDetailUpdate alloc] init];
     CTSNetBankingUpdate* netbank = [[CTSNetBankingUpdate alloc] init];
-    netbank.code = @"CID001";
+    netbank.code = @"CID016";
     //netbank.name = TEST_NETBAK_OWNER_NAME;
-    netbank.bank = TEST_NETBAK_NAME;
+    netbank.bank = @"Andhra Bank";
     [netBankingPaymentInfo addNetBanking:netbank];
     NSString* txnId = [self createTXNId];
     
