@@ -27,6 +27,7 @@
 #import "CTSCashoutBankAccount.h"
 #import "CTSCashoutBankAccountResp.h"
 #import "CTSCashoutToBankRes.h"
+#import "PaymentWebViewController.h"
 
 
 
@@ -103,6 +104,7 @@ didCashoutToBank:(CTSCashoutToBankRes *)cashoutToBankRes
 @interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol,UIWebViewDelegate> {
     UIViewController *citrusCashBackViewController;
     UIWebView *citrusPayWebview;
+    PaymentWebViewController *paymentWebViewController;
     BOOL finished;
 }
 @property(strong) NSString* merchantTxnId;
@@ -165,14 +167,14 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
  *  @param amount      payment amount
  */
 
-- (void)makeUserPayment:(CTSPaymentDetailUpdate*)paymentInfo
-              withContact:(CTSContactUpdate*)contactInfo
-              withAddress:(CTSUserAddress*)userAddress
-                   amount:(NSString*)amount
-            withReturnUrl:(NSString*)returnUrl
-            withSignature:(NSString*)signature
-                withTxnId:(NSString*)merchantTxnId
-    withCompletionHandler:(ASMakeUserPaymentCallBack)callback;
+//- (void)makeUserPayment:(CTSPaymentDetailUpdate*)paymentInfo
+//              withContact:(CTSContactUpdate*)contactInfo
+//              withAddress:(CTSUserAddress*)userAddress
+//                   amount:(NSString*)amount
+//            withReturnUrl:(NSString*)returnUrl
+//            withSignature:(NSString*)signature
+//                withTxnId:(NSString*)merchantTxnId
+//    withCompletionHandler:(ASMakeUserPaymentCallBack)callback;
 
 
 /**
@@ -182,20 +184,16 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
  *  @param contactInfo contact Information
  *  @param amount      payment amount
  */
-- (void)makeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
-                 withContact:(CTSContactUpdate*)contactInfo
-                 withAddress:(CTSUserAddress*)userAddress
-                      amount:(NSString*)amount
-               withReturnUrl:(NSString*)returnUrl
-               withSignature:(NSString*)signature
-                   withTxnId:(NSString*)merchantTxnId
-       withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
+//- (void)makeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
+//                 withContact:(CTSContactUpdate*)contactInfo
+//                 withAddress:(CTSUserAddress*)userAddress
+//                      amount:(NSString*)amount
+//               withReturnUrl:(NSString*)returnUrl
+//               withSignature:(NSString*)signature
+//                   withTxnId:(NSString*)merchantTxnId
+//       withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
 
-- (void)requestChargeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
-                 withContact:(CTSContactUpdate*)contactInfo
-                 withAddress:(CTSUserAddress*)userAddress
-                        bill:(CTSBill *)bill
-       withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
+
 
 /**
  *  called when client request to make payment as a guest user
@@ -206,20 +204,39 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
  *  @param isDoSignup  send YES if signup should be done simultaneously for this
  *user
  */
-- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
-                      withContact:(CTSContactUpdate*)contactInfo
-                           amount:(NSString*)amount
-                      withAddress:(CTSUserAddress*)userAddress
-                    withReturnUrl:(NSString*)returnUrl
-                    withSignature:(NSString*)signature
-                        withTxnId:(NSString*)merchantTxnId
-            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
+//- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
+//                      withContact:(CTSContactUpdate*)contactInfo
+//                           amount:(NSString*)amount
+//                      withAddress:(CTSUserAddress*)userAddress
+//                    withReturnUrl:(NSString*)returnUrl
+//                    withSignature:(NSString*)signature
+//                        withTxnId:(NSString*)merchantTxnId
+//            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
+
+
+- (void)requestChargeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
+                          withContact:(CTSContactUpdate*)contactInfo
+                          withAddress:(CTSUserAddress*)userAddress
+                                 bill:(CTSBill *)bill
+                withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback DEPRECATED_ATTRIBUTE;
+
 
 - (void)requestChargePayment:(CTSPaymentDetailUpdate*)paymentInfo
                       withContact:(CTSContactUpdate*)contactInfo
                       withAddress:(CTSUserAddress*)userAddress
                              bill:(CTSBill *)bill
-            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
+            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback DEPRECATED_ATTRIBUTE;
+
+- (void)requestLoadMoneyInCitrusPay:(CTSPaymentDetailUpdate *)paymentInfo
+                        withContact:(CTSContactUpdate*)contactInfo
+                        withAddress:(CTSUserAddress*)userAddress
+                             amount:( NSString *)amount
+                          returnUrl:(NSString *)returnUrl
+              withCompletionHandler:(ASLoadMoneyCallBack)callback DEPRECATED_ATTRIBUTE;
+
+
+
+
 
 - (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
                                withAddress:(CTSUserAddress*)userAddress
@@ -228,11 +245,37 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
                      withCompletionHandler:(ASCitruspayCallback)callback;
 
 
+- (void)requestChargeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
+                          withContact:(CTSContactUpdate*)contactInfo
+                          withAddress:(CTSUserAddress*)userAddress
+                                 bill:(CTSBill *)bill
+                 returnViewController:(UIViewController *)controller
+                withCompletionHandler:(ASCitruspayCallback)callback;
 
-- (void)requestChargeInternalCitrusCashWithContact:(CTSContactUpdate*)contactInfo
+
+- (void)requestChargePayment:(CTSPaymentDetailUpdate*)paymentInfo
+                 withContact:(CTSContactUpdate*)contactInfo
                  withAddress:(CTSUserAddress*)userAddress
                         bill:(CTSBill *)bill
-       withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
+        returnViewController:(UIViewController *)controller
+       withCompletionHandler:(ASCitruspayCallback)callback;
+
+
+
+- (void)requestLoadMoneyInCitrusPay:(CTSPaymentDetailUpdate *)paymentInfo
+                        withContact:(CTSContactUpdate*)contactInfo
+                        withAddress:(CTSUserAddress*)userAddress
+                             amount:( NSString *)amount
+                          returnUrl:(NSString *)returnUrl
+               returnViewController:(UIViewController *)controller
+              withCompletionHandler:(ASCitruspayCallback)callback;
+
+
+
+//- (void)requestChargeInternalCitrusCashWithContact:(CTSContactUpdate*)contactInfo
+//                 withAddress:(CTSUserAddress*)userAddress
+//                        bill:(CTSBill *)bill
+//       withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
 
 
 
@@ -248,14 +291,6 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
 
 
 -(void)requestGetPrepaidBillForAmount:(NSString *)amount returnUrl:(NSString *)returnUrl withCompletionHandler:(ASGetPrepaidBill)callback;
-
-- (void)requestLoadMoneyInCitrusPay:(CTSPaymentDetailUpdate *)paymentInfo
-                        withContact:(CTSContactUpdate*)contactInfo
-                                   withAddress:(CTSUserAddress*)userAddress
-                                        amount:( NSString *)amount
-                                     returnUrl:(NSString *)returnUrl
-                         withCompletionHandler:(ASLoadMoneyCallBack)callback;
-
 
 
 -(void)requestCashoutToBank:(CTSCashoutBankAccount *)bankAccount amount:(NSString *)amount completionHandler:(ASCashoutToBankCallBack)callback;
