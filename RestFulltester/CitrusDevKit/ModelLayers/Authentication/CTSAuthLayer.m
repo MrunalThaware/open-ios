@@ -395,6 +395,7 @@
 
 - (BOOL)signOut {
   [CTSOauthManager resetOauthData];
+  [CTSOauthManager resetBindSiginOauthData];
   return YES;
 }
 
