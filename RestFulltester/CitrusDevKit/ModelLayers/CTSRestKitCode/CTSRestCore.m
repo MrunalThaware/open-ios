@@ -290,7 +290,7 @@ didReceiveResponse:(NSURLResponse *)response{
     }
     else{
     
-        NSError *error = [CTSError errorForStatusCode:httpResponse.statusCode];
+        NSError *error = [CTSError errorForStatusCode:(int)httpResponse.statusCode];
         restResponse.requestId = delegationRequestId;
         restResponse.data = error;
     

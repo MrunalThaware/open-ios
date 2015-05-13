@@ -218,4 +218,5 @@ typedef void (^ASLinkUserCallBack)(CTSLinkUserRes *linkUserRes, NSError* error);
 
 -(NSString *)requestSignInOauthToken;
 
+
 @end

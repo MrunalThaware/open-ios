@@ -341,18 +341,22 @@
     //redirect it on web controller
     //from webcontroller keep detecting if verifypage has come if yes then reutrn for signin error
     //when webview controller returns with proper callback from ios get the reply back
-    if(![CTSUtility validateBill:bill]){
-        [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:WrongBill]];
-        return;
-    
-    }
+
     if(controller == nil){
         [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:NoViewController]];
         return;
     
     }
+    if(![CTSUtility isCookieSetAlready]){
+        [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:NoCookieFound]];
+        return;
     
-    
+    }
+    if(![CTSUtility validateBill:bill]){
+        [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:WrongBill]];
+        return;
+        
+    }
     citrusCashBackViewController = controller;
     
     
@@ -1013,7 +1017,40 @@ enum {
 }
 
 
+- (void)makeUserPayment:(CTSPaymentDetailUpdate*)paymentInfo
+            withContact:(CTSContactUpdate*)contactInfo
+            withAddress:(CTSUserAddress*)userAddress
+                 amount:(NSString*)amount
+          withReturnUrl:(NSString*)returnUrl
+          withSignature:(NSString*)signature
+              withTxnId:(NSString*)merchantTxnId
+  withCompletionHandler:(ASMakeUserPaymentCallBack)callback{}
 
+
+/**
+ *  called when client request to make a tokenized payment
+ *
+ *  @param paymentInfo Payment Information
+ *  @param contactInfo contact Information
+ *  @param amount      payment amount
+ */
+- (void)makeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
+                 withContact:(CTSContactUpdate*)contactInfo
+                 withAddress:(CTSUserAddress*)userAddress
+                      amount:(NSString*)amount
+               withReturnUrl:(NSString*)returnUrl
+               withSignature:(NSString*)signature
+                   withTxnId:(NSString*)merchantTxnId
+       withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback{}
+
+- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
+                      withContact:(CTSContactUpdate*)contactInfo
+                           amount:(NSString*)amount
+                      withAddress:(CTSUserAddress*)userAddress
+                    withReturnUrl:(NSString*)returnUrl
+                    withSignature:(NSString*)signature
+                        withTxnId:(NSString*)merchantTxnId
+            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback{}
 
 //-(void)transactionComplete:(NSDictionary *)responseDictionary{
 //    if([responseDictionary valueForKey:@"TxStatus"] != nil){

@@ -10,6 +10,7 @@
 
 @implementation CTSPaymentDetailUpdate
 @synthesize type, paymentOptions, password,defaultOption;
++(CTSPaymentDetailUpdate *)citrusPay{return nil;};
 - (instancetype)init {
     self = [super init];
     if (self) {

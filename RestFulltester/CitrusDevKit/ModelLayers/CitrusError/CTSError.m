@@ -78,6 +78,11 @@
           
           break;
           
+          case NoCookieFound:
+          errorDescription = @"Cookie not found, Please signin";
+          
+          break;
+          
       default:
           
           

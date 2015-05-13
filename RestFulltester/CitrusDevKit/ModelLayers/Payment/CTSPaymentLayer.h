@@ -172,7 +172,7 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
             withReturnUrl:(NSString*)returnUrl
             withSignature:(NSString*)signature
                 withTxnId:(NSString*)merchantTxnId
-    withCompletionHandler:(ASMakeUserPaymentCallBack)callback;
+    withCompletionHandler:(ASMakeUserPaymentCallBack)callback DEPRECATED_ATTRIBUTE;
 
 
 /**
@@ -189,7 +189,16 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
                withReturnUrl:(NSString*)returnUrl
                withSignature:(NSString*)signature
                    withTxnId:(NSString*)merchantTxnId
-       withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
+       withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback DEPRECATED_ATTRIBUTE;
+
+- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
+                      withContact:(CTSContactUpdate*)contactInfo
+                           amount:(NSString*)amount
+                      withAddress:(CTSUserAddress*)userAddress
+                    withReturnUrl:(NSString*)returnUrl
+                    withSignature:(NSString*)signature
+                        withTxnId:(NSString*)merchantTxnId
+            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback DEPRECATED_ATTRIBUTE;
 
 - (void)requestChargeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
                  withContact:(CTSContactUpdate*)contactInfo
@@ -206,14 +215,7 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
  *  @param isDoSignup  send YES if signup should be done simultaneously for this
  *user
  */
-- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
-                      withContact:(CTSContactUpdate*)contactInfo
-                           amount:(NSString*)amount
-                      withAddress:(CTSUserAddress*)userAddress
-                    withReturnUrl:(NSString*)returnUrl
-                    withSignature:(NSString*)signature
-                        withTxnId:(NSString*)merchantTxnId
-            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
+
 
 - (void)requestChargePayment:(CTSPaymentDetailUpdate*)paymentInfo
                       withContact:(CTSContactUpdate*)contactInfo

@@ -150,7 +150,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vNH-bv-Yvx">
-                            <rect key="frame" x="133" y="415" width="55" height="30"/>
+                            <rect key="frame" x="133" y="398" width="55" height="30"/>
                             <state key="normal" title="sign out">
                                 <color key="titleColor" red="1" green="0.032435513451926301" blue="0.074122327161476265" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>

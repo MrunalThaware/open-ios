@@ -44,4 +44,6 @@
 +(NSArray *)getLoadResponseIfSuccesfull:(NSURLRequest *)request;
 +(BOOL)string:(NSString *)source containsString:(NSString*)desti;
 +(void)deleteSigninCookie;
++(BOOL)isCookieSetAlready;
+
 @end

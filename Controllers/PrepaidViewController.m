@@ -235,9 +235,6 @@
 }
 
 
-
-
-
 -(IBAction)loadUsingCardToken:(id)sender{
 
     CTSPaymentDetailUpdate *tokenizedCardInfo = [[CTSPaymentDetailUpdate alloc] init];
@@ -260,7 +257,7 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update bank details for net banking payment.
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
-    netBank.code = @"CID002";TEST_NETBAK_CODE;
+    netBank.code = @"CID002";
     [paymentInfo addNetBanking:netBank];
     
     [paymentLayer requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"10" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
@@ -276,13 +273,11 @@
     [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
         NSLog(@"paymentInfo %@",paymentInfo);
         NSLog(@"error %@",error);
-        //[self handlePaymentResponse:paymentInfo error:error];
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }     
         else{
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[paymentInfo.responseDict valueForKey:@"TxStatus"] ]];
-        
         }
     }];
 }

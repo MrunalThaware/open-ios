@@ -20,7 +20,7 @@
 
 -(instancetype)initCitrusPayWithEmail:(NSString *)email;
 
-+(CTSPaymentDetailUpdate *)citrusPay;
++(CTSPaymentDetailUpdate *)citrusPay DEPRECATED_ATTRIBUTE;
 /**
  *  to add card to the object, internally stored in an array to send to
  *server,card is validated before they are added to the array

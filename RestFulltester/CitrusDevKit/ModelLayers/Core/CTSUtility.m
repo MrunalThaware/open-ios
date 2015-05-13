@@ -214,7 +214,7 @@
     [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents* components =
     [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
-    int currentyear = [components year];
+    int currentyear = (int)[components year];
     return normalized >= currentyear;
 }
 
@@ -577,6 +577,21 @@
         }
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)isCookieSetAlready{
+    BOOL isSet = NO;
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (cookie in [cookieJar cookies]) {
+        // NSLog(@"Cookie doamin %@", cookie.domain);
+        if ([cookie.domain rangeOfString:@"citrus" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            // NSLog(@"string does not contain citrus");
+            isSet = YES;
+            break;
+        }
+    }
+    return isSet;
 }
 
 
