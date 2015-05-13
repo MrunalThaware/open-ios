@@ -54,4 +54,6 @@
 
 + (void)resetBindSiginOauthData ;
 
++(void)resetSignupToken;
+
 @end

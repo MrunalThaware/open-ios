@@ -396,8 +396,13 @@
 - (BOOL)signOut {
   [CTSOauthManager resetOauthData];
   [CTSOauthManager resetBindSiginOauthData];
+  [CTSOauthManager resetSignupToken];
+  [CTSUtility deleteSigninCookie];
   return YES;
 }
+
+
+
 
 - (BOOL)isAnyoneSignedIn {
   NSString* signInOauthToken = [CTSOauthManager readOauthTokenWithExpiryCheck];

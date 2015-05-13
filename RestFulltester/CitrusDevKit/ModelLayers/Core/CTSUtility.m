@@ -567,6 +567,17 @@
     return isVerifyPage;
 }
 
++(void)deleteSigninCookie{
+    
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *cookie in [storage cookies]) {
+        
+        if ([cookie.domain rangeOfString:@"citrus" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            [storage deleteCookie:cookie];
+        }
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 
 @end

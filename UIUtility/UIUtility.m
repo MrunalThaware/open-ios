@@ -116,7 +116,7 @@ UIAlertView* alertView;
         UIAlertView *toast = [[UIAlertView alloc] initWithTitle:nil
                                                         message:string
                                                        delegate:nil
-                                              cancelButtonTitle:nil
+                                              cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil, nil];
         [toast show];
         

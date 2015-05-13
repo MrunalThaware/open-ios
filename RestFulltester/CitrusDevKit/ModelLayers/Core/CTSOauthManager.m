@@ -91,8 +91,6 @@
 }
 
 
-
-
 + (NSString*)readRefreshToken {
   CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readOauthData];
   NSLog(@" readRefreshToken %@ %@", oauthTokenRes, oauthTokenRes.refreshToken);
@@ -100,16 +98,12 @@
 }
 
 + (void)resetOauthData {
-  [[NSUserDefaults standardUserDefaults]
-      removeObjectForKey:MLC_OAUTH_OBJECT_KEY];
-  [[NSUserDefaults standardUserDefaults] synchronize];
+    [CTSUtility removeFromDisk:MLC_OAUTH_OBJECT_KEY];
 }
 
 
 + (void)resetBindSiginOauthData {
-    [[NSUserDefaults standardUserDefaults]
-     removeObjectForKey:MLC_OAUTH_BIND_SIGN_IN];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [CTSUtility removeFromDisk:MLC_OAUTH_BIND_SIGN_IN];
 }
 
 + (BOOL)hasOauthExpired {
@@ -186,6 +180,9 @@
   [CTSUtility saveToDisk:token as:MLC_SIGNUP_ACCESS_OAUTH_TOKEN];
 }
 
++(void)resetSignupToken{
+    [CTSUtility removeFromDisk:MLC_SIGNUP_ACCESS_OAUTH_TOKEN];
+}
 + (NSString*)readSignupToken {
   return [CTSUtility readFromDisk:MLC_SIGNUP_ACCESS_OAUTH_TOKEN];
 }

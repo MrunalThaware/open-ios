@@ -66,12 +66,13 @@
           break;
       case PrepaidBillFetchFailed:
           errorDescription = @"Couldn't fetch prepaid bill";
+          break;
       case NoOrMoreInstruments:
           errorDescription = @"Zero or More than one payment instruments";
           break;
       case AmountNotValid:
           errorDescription = @"Amount not valid";
-          
+          break;
       case BankAccountNotValid:
           errorDescription = @"Bank Account is not valid";
           

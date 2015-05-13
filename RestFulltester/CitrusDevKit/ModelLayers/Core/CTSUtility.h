@@ -43,4 +43,5 @@
 +(BOOL)isVerifyPage:(NSString *)urlString;
 +(NSArray *)getLoadResponseIfSuccesfull:(NSURLRequest *)request;
 +(BOOL)string:(NSString *)source containsString:(NSString*)desti;
++(void)deleteSigninCookie;
 @end

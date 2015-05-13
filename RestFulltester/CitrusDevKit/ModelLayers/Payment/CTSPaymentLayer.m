@@ -438,7 +438,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
         [restCore requestAsyncServer:request];
         }
         else {
-            [self loadMoneyHelper:nil error:[CTSError getErrorForCode:PrepaidBillFetchFailed]];
+            [self loadMoneyHelper:nil error:error];
         }
     }];
 
