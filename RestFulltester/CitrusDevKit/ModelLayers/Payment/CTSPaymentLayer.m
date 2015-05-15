@@ -420,6 +420,28 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     
     __block NSString *amountBlock = amount;
     
+    
+    if([paymentInfo.paymentOptions count] != 1){
+        [self loadMoneyHelper:nil
+                               error:[CTSError getErrorForCode:NoOrMoreInstruments]];
+        return;
+        
+    }
+    
+    
+    CTSErrorCode error = [paymentInfo validate];
+    
+    [paymentInfo dummyCVVAndExpiryIfMaestro];
+    
+    LogTrace(@"validation error %d ", error);
+    
+    if (error != NoError) {
+        [self loadMoneyHelper:nil
+                               error:[CTSError getErrorForCode:error]];
+        return;
+    }
+
+    
     [self requestGetPrepaidBillForAmount:amount returnUrl:returnUrl withCompletionHandler:^(CTSPrepaidBill *prepaidBill, NSError *error) {
        
         if(error == nil){

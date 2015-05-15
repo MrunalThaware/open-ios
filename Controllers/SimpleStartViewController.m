@@ -159,8 +159,6 @@
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
 
     
-    
-    
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     [paymentInfo addCard:creditCard];
 

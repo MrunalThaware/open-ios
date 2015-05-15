@@ -55,10 +55,14 @@
 
 
 ////URLS
-#define BillUrl @"http://192.168.2.246:8888/bill.php"
+#define BillUrl @"http://192.168.2.183:8888/bill.php"
+//#define BillUrl @"https://salty-plateau-1529.herokuapp.com/billGenerator.sandbox.php?amount=3.0"
+
+
+
 
 //#define BillUrl @"http://test.bhoomata.com/default.aspx"
-#define ReturnUrl @"http://192.168.1.103:8888/return.php"
+#define ReturnUrl @"http://192.168.2.183:8888/return.php"
 #define BaseUrl @"https://sandboxadmin.citruspay.com"
 
 //#define BaseUrl @"https://stg3admin.citruspay.com"
