@@ -151,7 +151,7 @@
 -(IBAction)cardPayment:(id)sender{
     // Update card for card payment.
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = TEST_CREDIT_CARD_NUMBER;
+    creditCard.number = @"6220180115700099647";
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
     creditCard.scheme = [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;

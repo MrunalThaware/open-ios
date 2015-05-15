@@ -263,7 +263,10 @@
         return UNKNOWN_CARD_TYPE;
         
     } else {
-        if ([CTSUtility hasPrefixArray:amex cardNumber:cardNumber]) {
+         if ([CTSUtility hasPrefixArray:MAESTRO cardNumber:cardNumber]) {
+            return @"MTRO";
+        }
+       else if ([CTSUtility hasPrefixArray:amex cardNumber:cardNumber]) {
             return @"AMEX";
         } else if ([CTSUtility hasPrefixArray:discover cardNumber:cardNumber]) {
             return @"DISCOVER";
@@ -273,9 +276,7 @@
             return @"DINERCLUB";
         } else if ([CTSUtility hasPrefixArray:VISA cardNumber:cardNumber]) {
             return @"VISA";
-        } else if ([CTSUtility hasPrefixArray:MAESTRO cardNumber:cardNumber]) {
-            return @"MTRO";
-        } else if ([CTSUtility hasPrefixArray:MASTER cardNumber:cardNumber]) {
+        }  else if ([CTSUtility hasPrefixArray:MASTER cardNumber:cardNumber]) {
             return @"MCRD";
         }
         return UNKNOWN_CARD_TYPE;
