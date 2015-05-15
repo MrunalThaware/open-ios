@@ -109,9 +109,9 @@
   CTSErrorCode error = NoError;
   if ([CTSUtility validateCardNumber:number] == NO) {
     error = CardNumberNotValid;
-  } else if ([CTSUtility validateExpiryDate:expiryDate] == NO) {
+  } else if ([CTSUtility isMaestero:number]== NO && [CTSUtility validateExpiryDate:expiryDate] == NO) {
     error = ExpiryDateNotValid;
-  } else if ([CTSUtility validateCVV:cvv cardNumber:number] == NO) {
+  } else if ([CTSUtility isMaestero:number]== NO &&[CTSUtility validateCVV:cvv cardNumber:number] == NO) {
     error = CvvNotValid;
   }
   return error;

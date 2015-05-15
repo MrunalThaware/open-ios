@@ -49,4 +49,7 @@
 - (void)clearNetbankCode;
 
 -(CTSErrorCode)validateTokenized;
+
+-(void)dummyCVVAndExpiryIfMaestro;
+
 @end

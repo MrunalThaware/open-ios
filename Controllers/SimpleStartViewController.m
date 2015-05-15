@@ -164,7 +164,6 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     [paymentInfo addCard:creditCard];
 
-    [paymentInfo addCard:creditCard];
 
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];

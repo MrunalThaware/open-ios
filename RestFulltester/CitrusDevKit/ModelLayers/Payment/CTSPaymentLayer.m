@@ -287,6 +287,9 @@
     
     
     CTSErrorCode error = [paymentInfo validate];
+    
+    [paymentInfo dummyCVVAndExpiryIfMaestro];
+    
     LogTrace(@"validation error %d ", error);
     
     if (error != NoError) {

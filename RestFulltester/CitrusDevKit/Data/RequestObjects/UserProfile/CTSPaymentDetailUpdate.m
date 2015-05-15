@@ -75,4 +75,22 @@
     }
 }
 
+-(void)dummyCVVAndExpiryIfMaestro{
+    for (CTSPaymentOption* payment in paymentOptions) {
+        
+        if(![payment.type isEqualToString:@"netbanking"] && [CTSUtility isMaestero:payment.number]){
+            if([payment.cvv isEqualToString:@""] || payment.cvv  == nil){
+            payment.cvv = @"123";
+            
+            }
+            if([payment.expiryDate isEqualToString:@""] || payment.expiryDate  == nil){
+                payment.expiryDate = @"11/2019";
+                
+            }
+        
+        }
+    }
+
+}
+
 @end

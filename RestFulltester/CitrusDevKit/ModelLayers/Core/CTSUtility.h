@@ -45,5 +45,6 @@
 +(BOOL)string:(NSString *)source containsString:(NSString*)desti;
 +(void)deleteSigninCookie;
 +(BOOL)isCookieSetAlready;
++(BOOL)isMaestero:(NSString *)number;
 
 @end

@@ -282,6 +282,14 @@
     }
 }
 
++(BOOL)isMaestero:(NSString *)number{
+    if([[CTSUtility fetchCardSchemeForCardNumber:number] isEqualToString:@"MTRO"]){
+        return YES;
+    }
+    return NO;
+}
+
+
 + (UIImage*)getSchmeTypeImage:(NSString*)cardNumber {
     // Card scheme validation
     if (cardNumber.length == 0) {
@@ -571,7 +579,6 @@
     
     NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     for (NSHTTPCookie *cookie in [storage cookies]) {
-        
         if ([cookie.domain rangeOfString:@"citrus" options:NSCaseInsensitiveSearch].location != NSNotFound) {
             [storage deleteCookie:cookie];
         }
