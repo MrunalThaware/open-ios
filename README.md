@@ -1,5 +1,5 @@
 
-# This Wiki Is Obsolete, Please Refer To [this](http://citruspay.com/DevelopersGuide/#/iossdk) For Lastest Guide .
+# This Wiki Is Obsolete, Please Refer To [This](http://citruspay.com/DevelopersGuide/#/iossdk) For Lastest Guide .
 
 
 
