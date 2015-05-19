@@ -46,5 +46,7 @@
 +(void)deleteSigninCookie;
 +(BOOL)isCookieSetAlready;
 +(BOOL)isMaestero:(NSString *)number;
-
++(NSString *)toStringBool:(BOOL)paramBool;
++(BOOL)convertToBool:(NSString *)boolStr;
++(BOOL)isEmail:(NSString *)string;
 @end

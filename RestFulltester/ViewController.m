@@ -34,8 +34,36 @@
   [super viewDidLoad];
   [self initialize];
    // [authLayer generateBigIntegerString:@"shardulLavekar@mailinator.com" ];
+//    [authLayer requestSignUpOauthTokenCompletionHandler:^(NSError *error) {
+//        [self logError:error];
+//    }];
     
-    [self testCardSchemes];
+    CTSUserDetails *user = [[CTSUserDetails alloc] init];
+    user.email = TEST_EMAIL;
+    user.mobileNo = TEST_MOBILE;
+    user.firstName = TEST_FIRST_NAME;
+    user.lastName = TEST_LAST_NAME;
+    
+//    [authLayer requestSignupUser:user password:TEST_PASSWORD mobileVerified:NO emailVerified:NO completionHandler:^(NSError *error) {
+//        [self logError:error];
+//    }];
+  
+    
+//    [authLayer requestOTPRegenerateMobile:TEST_MOBILE completionHandler:^(NSError *error) {
+//        [self logError:error];
+//    }];
+    
+//    [authLayer requestOTPVerificationMobile:TEST_MOBILE otp:@"OTP" completionHandler:^(BOOL isVerified, NSError *error) {
+//        if(error){
+//            [self logError:error];
+//        }
+//        else{
+//            NSLog(@"Mobile is now verified");
+//        }
+//    }];
+    
+    
+    // [self testCardSchemes];
   //[self signIn];
    //[self testCookie];
   //[self signUp];

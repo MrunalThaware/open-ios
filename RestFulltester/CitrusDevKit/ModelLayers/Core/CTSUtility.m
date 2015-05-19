@@ -8,6 +8,7 @@
 
 #import "CTSUtility.h"
 #import "CreditCard-Validator.h"
+#import "CTSError.h"
 
 #define ALPHABETICS @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
 #define NUMERICS @"0123456789"
@@ -123,13 +124,13 @@
     return [emailTest evaluateWithObject:candidate];
 }
 
-+ (BOOL)validateMobile:(NSString*)mobile {
-    BOOL error = NO;
-    if ([mobile length] == 10) {
-        error = YES;
-    }
-    return error;
-}
+//+ (BOOL)validateMobile:(NSString*)mobile {
+//    BOOL error = NO;
+//    if ([mobile length] == 10) {
+//        error = YES;
+//    }
+//    return error;
+//}
 
 + (BOOL)validateCVV:(NSString*)cvv cardNumber:(NSString*)cardNumber {
     if (cvv == nil)
@@ -602,5 +603,93 @@
     return isSet;
 }
 
++(NSString *)toStringBool:(BOOL)paramBool{
+    if(paramBool){
+        return @"true";
+    }
+    else{
+        return @"false";
+    }
+}
+
++(BOOL)convertToBool:(NSString *)boolStr{
+    if([boolStr caseInsensitiveCompare:@"true"]== NSOrderedSame){
+        return YES;
+    }
+    else{
+        return NO;
+    }
+}
+
++(BOOL)isEmail:(NSString *)string{
+    if([string rangeOfString:@"@"].location != NSNotFound){
+        return YES;
+    }
+    else{
+        return NO;
+    }
+    
+}
+
++(NSError *)verifiyEmailOrMobile:(NSString *)userName{
+    
+    NSError *error = nil;
+    
+    if([CTSUtility isEmail:userName]){
+        if (![CTSUtility validateEmail:userName]) {
+            error = [CTSError getErrorForCode:EmailNotValid];
+            
+        }
+    }else{
+        userName = [CTSUtility mobileNumberToTenDigitIfValid:userName];
+        if (!userName) {
+            error = [CTSError getErrorForCode:MobileNotValid];
+        }
+    }
+    return nil;
+}
+
+
++(NSString*)mobileNumberToTenDigitIfValid:(NSString *)number{
+    NSString *proccessedNumber = nil;
+    if([self validateMobile:number]){
+        proccessedNumber = [self mobileNumberToTenDigit:number];
+    }
+    return proccessedNumber;
+}
+
+
++ (BOOL)validateMobile:(NSString*)mobile {
+    //    BOOL error = NO;
+    //    if ([mobile length] == 10) {
+    //        error = YES;
+    //    }
+    //    return error;
+    
+    NSPredicate *regex = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^(?:0091|\\+91||91|0)[7-9][0-9]{9}$"];
+    return [regex evaluateWithObject:mobile];
+}
+
++ (NSString *)mobileNumberToTenDigit:(NSString*)mobile {
+    // remove hyphens
+    // first extra charecters
+    // return number
+    NSCharacterSet* myCharSet =
+    [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    NSCharacterSet *invertedValidCharSet = [myCharSet invertedSet];
+    
+    
+    NSArray* words = [mobile componentsSeparatedByCharactersInSet:invertedValidCharSet];
+    NSString* proccesedNumber = [words componentsJoinedByString:@""];
+    
+    
+    
+    int extraCount =  (int)[proccesedNumber length] - 10;
+    if(extraCount){
+        proccesedNumber = [proccesedNumber substringFromIndex:extraCount];
+    }
+    
+    return proccesedNumber;
+}
 
 @end

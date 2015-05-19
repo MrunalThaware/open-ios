@@ -86,6 +86,8 @@ typedef enum SignOutResponseState {
 #define MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID MLC_CLIENT_ID
 #define MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET MLC_CLIENT_SECRET
 #define MLC_SIGNIN_GRANT_TYPE @"password"
+#define MLC_SIGNIN_GRANT_TYPE_OTP @"onetimepass"
+
 #define MLC_OAUTH_TOKEN_SIGNIN_REQ_TYPE POST
 #define MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD @"password"
 #define MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME @"username"
@@ -141,6 +143,40 @@ typedef enum SignOutResponseState {
 #define MLC_LINK_USER_PASSWORD_ALREADY_SET_MESSAGE @"password is set already"
 #define MLC_LINK_USER_PASSWORD_ALREADY_SET_NOT_MESSAGE @"set user password"
 
+
+#pragma mark - MLC_SIGNUP_NEW
+#define MLC_SIGNUP_NEW_PATH @"/service/v2/identity/signup"
+#define MLC_MLC_SIGNUP_NEW_TYPE POST
+#define MLC_MLC_SIGNUP_NEW_QUERY_EMAIL @"email"
+#define MLC_MLC_SIGNUP_NEW_QUERY_MOBILE @"mobile"
+#define MLC_MLC_SIGNUP_NEW_QUERY_FIRSTNAME @"firstName"
+#define MLC_MLC_SIGNUP_NEW_QUERY_LASTNAME @"lastName"
+#define MLC_MLC_SIGNUP_NEW_QUERY_SOURCE_TYPE @"sourceType"
+#define MLC_MLC_SIGNUP_NEW_QUERY_MOBILE_VERIFIED @"markMobileVerified"
+#define MLC_MLC_SIGNUP_NEW_QUERY_EMAIL_VERIFIED @"markEmailVerified"
+#define MLC_MLC_SIGNUP_NEW_QUERY_PASSWORD @"password"
+
+
+#pragma mark - OTP_VERIFICATION
+#define MLC_OTP_VER_PATH @"/service/v2/user/verification/mobile"
+#define MLC_OTP_VER_TYPE POST
+#define MLC_OTP_VER_QUERY_OTP @"mobileOTP"
+#define MLC_OTP_VER_QUERY_MOBILE @"mobile"
+
+
+#pragma mark - OTP_REGENERATE
+#define MLC_OTP_REGENERATE_PATH @"/service/v2/user/verification/generate-otp"
+#define MLC_OTP_REGENERATE_TYPE POST
+#define MLC_OTP_REGENERATE_QUERY_MOBILE @"mobile"
+
+
+
+
+#pragma mark - OTP_SIGNIN
+#define MLC_OTP_SIGNIN_PATH @"/service/um/otp/generate"
+#define MLC_OTP_SIGNIN_QUERY_SOURCE @"source"
+#define MLC_OTP_SIGNIN_QUERY_OTP_TYPE @"otpType"
+#define MLC_OTP_SIGNIN_PATH_IDENTITY @"identity"
 
 
 typedef enum {

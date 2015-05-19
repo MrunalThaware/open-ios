@@ -14,6 +14,7 @@
 #import "CTSRestCoreResponse.h"
 #import "MerchantConstants.h"
 #import "CTSLinkUserRes.h"
+#import "CTSUserDetails.h"
 
 @class CTSAuthLayer;
 @protocol CTSAuthenticationProtocol
@@ -91,6 +92,18 @@
 
 @optional
 - (void)auth:(CTSAuthLayer*)layer didSetPasswordError:(NSError*)error;
+
+@optional
+- (void)auth:(CTSAuthLayer*)layer didSignup:(NSError*)error;
+
+@optional
+-(void)auth:(CTSAuthLayer *)layer didVerifyOTP:(BOOL)isVerified error:(NSError *)error;
+
+@optional
+-(void)auth:(CTSAuthLayer *)layer didRegenerateOTPWitherror:(NSError *)error;
+
+@optional
+-(void)auth:(CTSAuthLayer *)layer didGenerateOTPWithError:(NSError *)error;
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -127,6 +140,17 @@ typedef void (^ASCitrusSigninCallBack)(NSError* error);
 
 typedef void (^ASLinkUserCallBack)(CTSLinkUserRes *linkUserRes, NSError* error);
 
+typedef void (^ASAsyncSignUpOauthTokenCallBack)(NSError* error);
+
+typedef void (^ASSignupNewCallBack)(NSError* error);
+
+typedef void (^ASOtpVerificationCallback)(BOOL isVerified,NSError* error);
+
+typedef void (^ASOtpRegenerationCallback)(NSError* error);
+
+typedef void (^ASGenerateOtpCallBack)(NSError* error);
+
+
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
 
 
@@ -153,7 +177,7 @@ typedef void (^ASLinkUserCallBack)(CTSLinkUserRes *linkUserRes, NSError* error);
 - (void)requestSignUpWithEmail:(NSString*)email
                         mobile:(NSString*)mobile
                       password:(NSString*)password
-             completionHandler:(ASSignupCallBack)callBack;
+             completionHandler:(ASSignupCallBack)callBack DEPRECATED_ATTRIBUTE;
 
 /**
  *  in case of forget password,after recieving this server will send email to
@@ -218,5 +242,16 @@ typedef void (^ASLinkUserCallBack)(CTSLinkUserRes *linkUserRes, NSError* error);
 
 -(NSString *)requestSignInOauthToken;
 
+- (void)requestSignUpOauthTokenCompletionHandler:(ASAsyncSignUpOauthTokenCallBack)callback;
 
+-(void)requestSignupUser:(CTSUserDetails *)user password:(NSString *)pasword mobileVerified:(BOOL)isMarkMobileVerifed emailVerified:(BOOL)isMarkEmailVerified completionHandler:(ASSignupNewCallBack)callback;
+
+-(void)requestVerification:(NSString *)mobile code:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback;
+
+
+-(void)requestVerificationCodeRegenerate:(NSString *)mobile completionHandler:(ASOtpRegenerationCallback)callback;
+
+-(void)requestGenerateOTPFor:(NSString *)entity completionHandler:(ASGenerateOtpCallBack)callback;
+
+- (void)requestSigninWithUsername:(NSString*)userNameArg otp:(NSString*)password completionHandler:(ASSigninCallBack)callBack;
 @end

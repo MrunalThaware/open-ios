@@ -14,6 +14,8 @@
 #import "CTSError.h"
 #import "CTSOauthManager.h"
 #import "NSObject+logProperties.h"
+#import "CTSNewContactProfile.h"
+#import "CTSNewUserProfileReq.h"
 
 @implementation CTSProfileLayer
 @synthesize delegate;
@@ -25,7 +27,9 @@ enum {
     ProfileGetBalanceReqId,
     ProfileActivatePrepaidAccountReqId,
     ProfileUpdateCashoutBankAccountReqId,
-    ProfileGetCashoutBankAccountReqId
+    ProfileGetCashoutBankAccountReqId,
+    ProfileGetNewProfileReqId
+
 
 };
 
@@ -44,7 +48,8 @@ enum {
     toNSString(ProfileGetBalanceReqId):toSelector(handleProfileGetBanlance:),
         toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:),
     toNSString(ProfileUpdateCashoutBankAccountReqId):toSelector(handleUpdateCashoutAccount:),
-    toNSString(ProfileGetCashoutBankAccountReqId):toSelector(handleGetCashoutBankAccount:)
+    toNSString(ProfileGetCashoutBankAccountReqId):toSelector(handleGetCashoutBankAccount:),
+    toNSString(ProfileGetNewProfileReqId):toSelector(handleGetNewContactProfile:)
     
   };
 
@@ -286,7 +291,34 @@ enum {
 
 }
 
-
+-(void)requestMemberInfoMobile:(NSString *)mobile email:(NSString *)email withCompletionHandler:(ASNewContactProfileCallback)callback{
+    
+    [self addCallback:callback forRequestId:ProfileGetNewProfileReqId];
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self getNewContactProfileHelper:nil error:oauthStatus.error];
+    }
+    
+    CTSNewUserProfileReq  *profileReq = [[CTSNewUserProfileReq alloc] init];
+    profileReq.mobile = mobile;
+    profileReq.email = email;
+    
+    
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_NEW_CONTACT_PROFILE_GET_PATH
+                                   requestId:ProfileGetNewProfileReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:[profileReq toJSONString]
+                                   httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+    
+    
+}
 
 
 
@@ -379,6 +411,18 @@ enum {
 
 }
 
+-(void)handleGetNewContactProfile:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSNewContactProfile *profile = nil;
+    
+    if(error == nil){
+        profile = [[CTSNewContactProfile alloc] initWithString:response.responseString error:&jsonError];
+    }
+    
+    [self getNewContactProfileHelper:profile error:error];
+    
+}
 
 #pragma mark - helper methods
 
@@ -479,4 +523,14 @@ enum {
     }
 }
 
+
+-(void)getNewContactProfileHelper:(CTSNewContactProfile *)profile error:(NSError *)error{
+    ASNewContactProfileCallback callback = [self retrieveAndRemoveCallbackForReqId:ProfileGetNewProfileReqId];
+    if (callback != nil) {
+        callback(profile, error);
+        
+    } else {
+        [delegate profile:self didGetNewProfile:profile error:error];
+    }
+}
 @end
