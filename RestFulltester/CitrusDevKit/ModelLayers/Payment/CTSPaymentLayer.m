@@ -546,8 +546,27 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     
     [self requestChargePayment:paymentInfo withContact:contactInfo withAddress:userAddress bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         if(!error){
-        
-        
+            
+            BOOL hasSuccess =
+            ((paymentInfo != nil) && ([paymentInfo.pgRespCode integerValue] == 0) &&
+             (error == nil))
+            ? YES
+            : NO;
+            if(hasSuccess){
+                // Your code to handle success.
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (hasSuccess && error.code != ServerErrorWithCode) {
+                        [self loadPaymentWebview:paymentInfo.redirectUrl];
+                    }else{
+                        
+                        
+                        //            [self chargeNormalInnerWebviewHelper:nil error:convert response to error];
+
+                    }
+                });
+
+            
+            }
         }
         else {
             [self chargeNormalInnerWebviewHelper:nil error:error];
@@ -1127,8 +1146,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 -(void)loadPaymentWebview:(NSString *)url{
     paymentWebViewController = [[PaymentWebViewController alloc] init];
     paymentWebViewController.redirectURL = url;
-    
-    
+    [citrusCashBackViewController.navigationController pushViewController:paymentWebViewController animated:YES];
 }
 
 
