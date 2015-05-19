@@ -1,3 +1,8 @@
+
+# This Wiki Is Obsolete, Please Refer To [this](http://citruspay.com/DevelopersGuide/#/iossdk) For Lastest Guide .
+
+
+
 open-iOS
 ============
 # PG Prerequisites
