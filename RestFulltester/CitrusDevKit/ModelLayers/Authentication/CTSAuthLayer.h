@@ -15,7 +15,8 @@
 #import "MerchantConstants.h"
 #import "CTSLinkUserRes.h"
 #import "CTSUserDetails.h"
-
+#import "CTSLinkRes.h"
+#import "CTSResponse.h"
 @class CTSAuthLayer;
 @protocol CTSAuthenticationProtocol
 
@@ -104,6 +105,9 @@
 
 @optional
 -(void)auth:(CTSAuthLayer *)layer didGenerateOTPWithError:(NSError *)error;
+
+@optional
+-(void)auth:(CTSAuthLayer *)layer didLink:(CTSLinkRes *)linkRes error:(NSError *)error;
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -146,10 +150,11 @@ typedef void (^ASSignupNewCallBack)(NSError* error);
 
 typedef void (^ASOtpVerificationCallback)(BOOL isVerified,NSError* error);
 
-typedef void (^ASOtpRegenerationCallback)(NSError* error);
+typedef void (^ASOtpRegenerationCallback)(CTSResponse*response, NSError* error);
 
-typedef void (^ASGenerateOtpCallBack)(NSError* error);
+typedef void (^ASGenerateOtpCallBack)(CTSResponse*response, NSError* error);
 
+typedef void (^ASLinkCallback)(CTSLinkRes *linkRes, NSError* error);
 
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
 
@@ -253,5 +258,7 @@ typedef void (^ASGenerateOtpCallBack)(NSError* error);
 
 -(void)requestGenerateOTPFor:(NSString *)entity completionHandler:(ASGenerateOtpCallBack)callback;
 
-- (void)requestSigninWithUsername:(NSString*)userNameArg otp:(NSString*)password completionHandler:(ASSigninCallBack)callBack;
+- (void)requestSigninWithUsername:(NSString*)userNameArg otp:(NSString*)otp completionHandler:(ASSigninCallBack)callBack;
+
+-(void)requestLink:(CTSUserDetails *)user completionHandler:(ASLinkCallback )callback;
 @end

@@ -692,4 +692,11 @@
     return proccesedNumber;
 }
 
++(NSString *)toJson:(NSDictionary *)dict{
+    
+    NSError * err;
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
+   return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
+}
 @end

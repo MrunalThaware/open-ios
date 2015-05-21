@@ -49,4 +49,5 @@
 +(NSString *)toStringBool:(BOOL)paramBool;
 +(BOOL)convertToBool:(NSString *)boolStr;
 +(BOOL)isEmail:(NSString *)string;
++(NSString *)toJson:(NSDictionary *)dict;
 @end

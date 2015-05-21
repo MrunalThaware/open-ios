@@ -102,6 +102,12 @@
 		37C964AD198F723E0021DC0B /* GetProfileRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9648F198F723E0021DC0B /* GetProfileRes.m */; };
 		37C964B2198F86960021DC0B /* CTSOauthTokenRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C964AF198F86960021DC0B /* CTSOauthTokenRes.m */; };
 		37C964B3198F86960021DC0B /* CTSSignUpRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C964B1198F86960021DC0B /* CTSSignUpRes.m */; };
+		37C9CDEB1B0C7E51006C6F48 /* CTSLinkRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEA1B0C7E51006C6F48 /* CTSLinkRes.m */; };
+		37C9CDEC1B0C9516006C6F48 /* CTSLinkRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEA1B0C7E51006C6F48 /* CTSLinkRes.m */; };
+		37C9CDED1B0C9516006C6F48 /* CTSLinkRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEA1B0C7E51006C6F48 /* CTSLinkRes.m */; };
+		37C9CDF01B0DAC92006C6F48 /* CTSResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEF1B0DAC92006C6F48 /* CTSResponse.m */; };
+		37C9CDF11B0DAC92006C6F48 /* CTSResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEF1B0DAC92006C6F48 /* CTSResponse.m */; };
+		37C9CDF21B0DAC92006C6F48 /* CTSResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEF1B0DAC92006C6F48 /* CTSResponse.m */; };
 		37D6C213197D289300F357FD /* CTSOauthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D6C212197D289300F357FD /* CTSOauthManager.m */; };
 		37D6E6601AB01BAD008C28C4 /* PrepaidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D6E65E1AB01BAD008C28C4 /* PrepaidViewController.m */; };
 		37D6E6611AB01BAD008C28C4 /* PrepaidViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D6E65F1AB01BAD008C28C4 /* PrepaidViewController.xib */; };
@@ -433,6 +439,10 @@
 		37C964AF198F86960021DC0B /* CTSOauthTokenRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSOauthTokenRes.m; sourceTree = "<group>"; };
 		37C964B0198F86960021DC0B /* CTSSignUpRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSSignUpRes.h; sourceTree = "<group>"; };
 		37C964B1198F86960021DC0B /* CTSSignUpRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSSignUpRes.m; sourceTree = "<group>"; };
+		37C9CDE91B0C7E51006C6F48 /* CTSLinkRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSLinkRes.h; sourceTree = "<group>"; };
+		37C9CDEA1B0C7E51006C6F48 /* CTSLinkRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSLinkRes.m; sourceTree = "<group>"; };
+		37C9CDEE1B0DAC92006C6F48 /* CTSResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSResponse.h; sourceTree = "<group>"; };
+		37C9CDEF1B0DAC92006C6F48 /* CTSResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSResponse.m; sourceTree = "<group>"; };
 		37D6C210197CF8BD00F357FD /* CTSCoreProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCoreProtocol.h; sourceTree = "<group>"; };
 		37D6C211197D289300F357FD /* CTSOauthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSOauthManager.h; sourceTree = "<group>"; };
 		37D6C212197D289300F357FD /* CTSOauthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSOauthManager.m; sourceTree = "<group>"; };
@@ -823,6 +833,8 @@
 				37C96475198F723E0021DC0B /* Authentication */,
 				37C9647A198F723E0021DC0B /* Payment */,
 				37C96487198F723E0021DC0B /* UserProfile */,
+				37C9CDEE1B0DAC92006C6F48 /* CTSResponse.h */,
+				37C9CDEF1B0DAC92006C6F48 /* CTSResponse.m */,
 			);
 			path = ResponseObjects;
 			sourceTree = "<group>";
@@ -836,6 +848,8 @@
 				37C964B1198F86960021DC0B /* CTSSignUpRes.m */,
 				372D8C271A9DD0DA004680C2 /* CTSLinkUserRes.h */,
 				372D8C281A9DD0DA004680C2 /* CTSLinkUserRes.m */,
+				37C9CDE91B0C7E51006C6F48 /* CTSLinkRes.h */,
+				37C9CDEA1B0C7E51006C6F48 /* CTSLinkRes.m */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -1203,6 +1217,7 @@
 				3733269619B860190084D52D /* JSONValueTransformer.m in Sources */,
 				37C96493198F723E0021DC0B /* CTSPaymentNetbankingRequest.m in Sources */,
 				37C9649F198F723E0021DC0B /* CTSPaymentOption.m in Sources */,
+				37C9CDF11B0DAC92006C6F48 /* CTSResponse.m in Sources */,
 				378D711E1A8493D300A6FD36 /* CTSGetBalanceRes.m in Sources */,
 				37851BFC1978F2DD00AE3AD0 /* CTSUtility.m in Sources */,
 				375791961AEA599900D61A2F /* CTSCashoutToBankRes.m in Sources */,
@@ -1218,6 +1233,7 @@
 				7692AA9D19FF9B04004D56EC /* WebViewViewController.m in Sources */,
 				371B5D25198A5CCF0096451C /* CTSRestCoreRequest.m in Sources */,
 				37C9649D198F723E0021DC0B /* CTSNetBankingUpdate.m in Sources */,
+				37C9CDEC1B0C9516006C6F48 /* CTSLinkRes.m in Sources */,
 				37C964A8198F723E0021DC0B /* CTSPaymentTransactionRes.m in Sources */,
 				371536E01994998200EDF560 /* CTSTokenizedPaymentToken.m in Sources */,
 				3733269519B860190084D52D /* JSONKeyMapper.m in Sources */,
@@ -1258,6 +1274,7 @@
 				37D6E6681AB01E1A008C28C4 /* CTSError.m in Sources */,
 				37D6E6691AB01E1A008C28C4 /* CTSOauthManager.m in Sources */,
 				37D6E66A1AB01E1A008C28C4 /* PrepaidViewController.m in Sources */,
+				37C9CDF21B0DAC92006C6F48 /* CTSResponse.m in Sources */,
 				37D6E66B1AB01E1A008C28C4 /* ViewController.m in Sources */,
 				37D6E66C1AB01E1A008C28C4 /* CTSGetBalanceRes.m in Sources */,
 				37D6E66D1AB01E1A008C28C4 /* AppDelegate.m in Sources */,
@@ -1284,6 +1301,7 @@
 				37D6E6801AB01E1A008C28C4 /* CTSPaymentNetbankingRequest.m in Sources */,
 				37D6E6811AB01E1A008C28C4 /* CTSPaymentOption.m in Sources */,
 				37D6E6821AB01E1A008C28C4 /* CTSUtility.m in Sources */,
+				37C9CDED1B0C9516006C6F48 /* CTSLinkRes.m in Sources */,
 				37D6E6831AB01E1A008C28C4 /* CTSRestCore.m in Sources */,
 				370773761B0B626600B8BC82 /* CTSNewResponseDataProfile.m in Sources */,
 				37D6E6841AB01E1A008C28C4 /* ServerSignature.m in Sources */,
@@ -1340,6 +1358,7 @@
 				7692AAF019FFA247004D56EC /* CTSError.m in Sources */,
 				7692AAF119FFA247004D56EC /* CTSOauthManager.m in Sources */,
 				37D6E6601AB01BAD008C28C4 /* PrepaidViewController.m in Sources */,
+				37C9CDF01B0DAC92006C6F48 /* CTSResponse.m in Sources */,
 				7692AAF219FFA247004D56EC /* ViewController.m in Sources */,
 				378D711D1A84939400A6FD36 /* CTSGetBalanceRes.m in Sources */,
 				7692AAF319FFA247004D56EC /* AppDelegate.m in Sources */,
@@ -1366,6 +1385,7 @@
 				7692AB0819FFA247004D56EC /* CTSPaymentNetbankingRequest.m in Sources */,
 				7692AB0919FFA247004D56EC /* CTSPaymentOption.m in Sources */,
 				7692AB0B19FFA247004D56EC /* CTSUtility.m in Sources */,
+				37C9CDEB1B0C7E51006C6F48 /* CTSLinkRes.m in Sources */,
 				7692AB0C19FFA247004D56EC /* CTSRestCore.m in Sources */,
 				370773741B0B626600B8BC82 /* CTSNewResponseDataProfile.m in Sources */,
 				378D79DA1A26FE9A00E373B2 /* ServerSignature.m in Sources */,

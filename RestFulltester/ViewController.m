@@ -44,6 +44,37 @@
     user.firstName = TEST_FIRST_NAME;
     user.lastName = TEST_LAST_NAME;
     
+//    [authLayer requestLink:user completionHandler:^(CTSLinkRes *linkRes, NSError *error) {
+//        NSLog(@" linkRes %@ ",linkRes.message);
+//        [self logError:error];
+//    }];
+    
+//    [authLayer requestVerificationCodeRegenerate:TEST_MOBILE completionHandler:^(NSError *error) {
+//               [self logError:error];
+//
+//    }];
+
+    
+    //signin otp
+//[authLayer requestSigninWithUsername:TEST_MOBILE otp:@"025" completionHandler:^(NSString *userName, NSString *token, NSError *error) {
+//    NSLog(@" userName %@ ",userName);
+//    NSLog(@" token %@ ",token);
+//    [self logError:error];
+//}];
+    
+    
+//    [authLayer requestSigninWithUsername:TEST_MOBILE password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
+//        NSLog(@" userName %@ ",userName);
+//        NSLog(@" token %@ ",token);
+//        [self logError:error];
+//    }];
+    
+    
+//    [authLayer requestVerification:TEST_MOBILE code:@"kndj" completionHandler:^(BOOL isVerified, NSError *error) {
+//        [self logError:error];
+//    }];
+    
+    
 //    [authLayer requestSignupUser:user password:TEST_PASSWORD mobileVerified:NO emailVerified:NO completionHandler:^(NSError *error) {
 //        [self logError:error];
 //    }];
@@ -670,9 +701,10 @@
 -(void)logError:(NSError *)error{
 
     LogTrace(@" error %@  ",error);
+    LogTrace(@" error  localized des %@  ",[error localizedDescription]);
     CTSRestError *errorCTS = [[error userInfo] objectForKey:CITRUS_ERROR_DESCRIPTION_KEY];
     LogTrace(@" errorCTS type %@",errorCTS.type);
-    LogTrace(@" errorCTS description %@",errorCTS.description);
+    LogTrace(@" errorCTS description %@",errorCTS);
     LogTrace(@" errorCTS responseString %@",errorCTS.serverResponse);
 
 }

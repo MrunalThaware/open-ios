@@ -195,6 +195,11 @@
 //verify the user object
     [self addCallback:callback forRequestId:SignupNewReqId];
     
+    if(!pasword){
+    pasword = @"";
+    }
+    
+    
     [self requestSignUpOauthTokenCompletionHandler:^(NSError *error) {
         if(error == nil){
             NSDictionary *parameters = @{MLC_MLC_SIGNUP_NEW_QUERY_EMAIL:user.email,
@@ -258,7 +263,7 @@
    // mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
     
     if (!mobile) {
-        [self otpRegenerationHelperError:[CTSError getErrorForCode:MobileNotValid]];
+        [self otpRegenerationHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }
     
@@ -289,18 +294,23 @@
         otpType = @"email";
     }
     
+    
+    
+    
     NSDictionary* parameters = @{
                                  MLC_OTP_SIGNIN_QUERY_SOURCE:SignInId,
                                  MLC_OTP_SIGNIN_QUERY_OTP_TYPE:otpType,
                                  MLC_OTP_SIGNIN_PATH_IDENTITY:entity
                                  };
     
+
+    
     CTSRestCoreRequest* request =
     [[CTSRestCoreRequest alloc] initWithPath:MLC_OTP_SIGNIN_PATH
                                    requestId:GenerateOTPReqId
-                                     headers:nil
-                                  parameters:parameters
-                                        json:nil
+                                     headers:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
+                                  parameters:nil
+                                        json:[CTSUtility toJson:parameters]
                                   httpMethod:POST];
     
     [restCore requestAsyncServer:request];
@@ -351,7 +361,7 @@
 
 
 - (void)requestSigninWithUsername:(NSString*)userNameArg
-                         otp:(NSString*)password
+                         otp:(NSString*)otp
                 completionHandler:(ASSigninCallBack)callBack {
     /**
      *  flow sigin in
@@ -367,7 +377,7 @@
     
     userNameArg = userNameArg.lowercaseString;
     userNameSignIn = userNameArg;
-    passwordSignin = password;
+    passwordSignin = otp;
     
     
     
@@ -375,7 +385,7 @@
                                  MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
                                  MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
                                  MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_SIGNIN_GRANT_TYPE_OTP,
-                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD : password,
+                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD : otp,
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : userNameArg
                                  };
     
@@ -625,6 +635,125 @@
 }
 
 
+-(void)requestLink:(CTSUserDetails *)user completionHandler:(ASLinkCallback )callback{
+    //accept mobile and email.
+//    Get Member Info (present in cube and tiny own sdk)
+//    if Mobile Present
+//        > Ask For Send M-OTP(not yet present) > (user will receive the otp) > RESPONSE : SIGN_IN_WITH_OTP
+//        if Mobile not Present and email present
+//            > Ask For Send E-OTP > (user will receive the eotp) > RESPONSE: SIGN_IN_WITH_EOTP
+//            Both Absent
+//            >  RESPONSE: FRESH_SIGNUP >
+    
+    
+    
+//    
+//Inputs:
+//    
+//    email (mandatory)
+//    firstName (optional)
+//    lastName (optional)
+//    mobileNo (mandatory)
+//    
+//    
+//Output:
+//    
+//
+
+    
+    
+    [self addCallback:callback forRequestId:LinkReqId];
+    
+    //validations
+    
+    
+  CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc ] init];
+    [profileLayer requestMemberInfoMobile:user.mobileNo email:user.email withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
+        if(error){
+        //reply with failure
+            NSLog(@"++++++++++++++++++++ Member Info Fetch Failed ");
+            [self linkHelper:nil error:error];
+            
+        }else{
+            NSLog(@"++++++++++++++++++++ Member Info Fetched ");
+
+            if(profile.responseData.profileByMobile){
+                NSLog(@"++++++++++++++++++++ Mobile Found ");
+
+                //if Mob present    : (SDK invokes RequesMOtp) > User can now signin with motp or pwd
+
+                [self requestGenerateOTPFor:profile.responseData.profileByMobile.mobile completionHandler:^(CTSResponse *response, NSError *error) {
+                    NSLog(@"++++++++++++++++++++ Asked to send the M otp ");
+
+                    if(error){
+                        NSLog(@"++++++++++++++++++++ ERROR in  M otp ");
+
+                      [self linkHelper:nil error:error];
+                    }else{
+                        [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusMotpSigIn entity:profile.responseData.profileByMobile.mobile] error:nil];
+                    
+                    }
+                }];
+            }
+            else if(profile.responseData.profileByEmail){
+                //if Mob absent, Only Email present    : (SDK invokes RequesEOtp) > User can now signin with eotp or pwd
+                NSLog(@"++++++++++++++++++++ Email Found ");
+
+                [self requestGenerateOTPFor:profile.responseData.profileByEmail.email completionHandler:^(CTSResponse *response,NSError *error) {
+                    NSLog(@"++++++++++++++++++++ Asked to send the E otp ");
+
+                    if(error){
+                        NSLog(@"++++++++++++++++++++ ERROR in  E otp ");
+
+                        [self linkHelper:nil error:error];
+
+                    }else{
+                      [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusMotpSigIn entity:profile.responseData.profileByEmail.email] error:nil];
+                    }
+                }];
+            }
+            else{
+                //if Email Mobile Absent  : (SDK SignsUp the user) > User receives the Verification code > now app should proceed to verification call from SDK
+                NSLog(@"++++++++++++++++++++ Mobile Email Both Absent ");
+
+                
+                [self requestSignupUser:user password:nil mobileVerified:NO emailVerified:NO completionHandler:^(NSError *error) {
+                    NSLog(@"++++++++++++++++++++ Asked to Signup ");
+
+                    if(error){
+                        [self linkHelper:nil error:error];
+                    }
+                    else{
+                     [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusSignup entity:user.mobileNo] error:nil];
+                    }
+                }];
+            }
+        
+        
+        
+        
+        
+        
+        
+        }
+        
+        
+        
+    }];
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+}
+
+
+
 -(void)requestLinkUser:(NSString *)email mobile:(NSString *)mobile completionHandler:(ASLinkUserCallBack)callBack;
 {
     
@@ -689,6 +818,7 @@
 -(NSString *)requestSignInOauthToken{
     return [CTSOauthManager readOauthToken];
 }
+
 
 
 #pragma mark - pseudo password generator methods
@@ -834,7 +964,8 @@ enum {
     SignupNewReqId,
     OTPVerificationRequestId,
     OTPRegenerationRequestId,
-    GenerateOTPReqId
+    GenerateOTPReqId,
+    LinkReqId
 };
 - (instancetype)init {
     NSDictionary* dict = @{
@@ -872,9 +1003,7 @@ enum {
                                                                              :),
                            toNSString(OTPRegenerationRequestId):toSelector(handleOTPRegeneration:)
                            ,
-                           toNSString(GenerateOTPReqId):toSelector(handleOTPGeneration:)
-                           
-                           
+                           toNSString(GenerateOTPReqId):toSelector(handleOTPGeneration:),
                            };
     
     self =
@@ -1203,12 +1332,46 @@ enum {
 
 -(void)handleOTPRegeneration:(CTSRestCoreResponse*)response{
     NSError* error = response.error;
-    [self otpRegenerationHelperError:error];
+    JSONModelError* jsonError;
+    CTSResponse *genResponse;
+    if(!error){
+        genResponse =[[CTSResponse alloc] initWithString:response.responseString error:&jsonError];
+        
+        if(jsonError  == nil){
+            error = [CTSError convertCTSResToErrorIfNeeded:genResponse];
+        }
+        else {
+            error = jsonError;
+        }
+        if(error){
+            genResponse = nil;
+        }
+    }
+
+    [self otpRegenerationHelper:genResponse error:error];
 }
 
 -(void)handleOTPGeneration:(CTSRestCoreResponse*)response{
     NSError* error = response.error;
-    [self otpGenerateHelper:error];
+    JSONModelError* jsonError;
+    CTSResponse *genResponse;
+    if(!error){
+        genResponse =[[CTSResponse alloc] initWithString:response.responseString error:&jsonError];
+        if(jsonError  == nil){
+        error = [CTSError convertCTSResToErrorIfNeeded:genResponse];
+        }
+        else {
+            error = jsonError;
+        }
+        if(error){
+            genResponse = nil;
+        }
+    }
+    
+    
+    
+    
+    [self otpGenerateHelper:genResponse error:error];
 }
 
 
@@ -1372,10 +1535,10 @@ enum {
 }
 
 
--(void)otpRegenerationHelperError:(NSError *)error{
+-(void)otpRegenerationHelper:(CTSResponse *)response error:(NSError *)error{
     ASOtpRegenerationCallback callback = [self retrieveAndRemoveCallbackForReqId:OTPRegenerationRequestId];
     if(callback != nil){
-        callback(error);
+        callback(response,error);
     }
     else{
         [delegate auth:self didRegenerateOTPWitherror:error];
@@ -1383,10 +1546,10 @@ enum {
 }
 
 
--(void)otpGenerateHelper:(NSError *)error{
+-(void)otpGenerateHelper:(CTSResponse *)response error:(NSError *)error{
     ASGenerateOtpCallBack callback = [self retrieveAndRemoveCallbackForReqId:GenerateOTPReqId];
     if(callback != nil){
-        callback(error);
+        callback(response,error);
     }
     else{
         [delegate auth:self didGenerateOTPWithError:error];
@@ -1394,6 +1557,15 @@ enum {
 
 }
 
+-(void)linkHelper:(CTSLinkRes *)response error:(NSError *)error{
+    ASLinkCallback callback = [self retrieveAndRemoveCallbackForReqId:LinkReqId];
+    if(callback != nil){
+        callback(response,error);
+    }
+    else{
+        [delegate auth:self didLink:response error:error];
+    }
+}
 
 #pragma mark - housekeeping methods
 -(BOOL)isBadCredentials:(NSError *)error{

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CTSPaymentTransactionRes.h"
+#import "CTSResponse.h"
 
 typedef enum {
   NoError,
@@ -48,4 +49,5 @@ typedef enum {
 +(NSString *)getFakeJsonForCode:(CTSErrorCode)errorCode;
 +(NSError *)errorForStatusCode:(int)statusCode;
 +(NSError *)convertToError:(CTSPaymentTransactionRes *)ctsPaymentTxRes;
++(NSError *)convertCTSResToErrorIfNeeded:(CTSResponse *)response;
 @end

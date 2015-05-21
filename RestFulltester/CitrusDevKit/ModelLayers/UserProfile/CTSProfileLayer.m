@@ -419,6 +419,10 @@ enum {
     if(error == nil){
         profile = [[CTSNewContactProfile alloc] initWithString:response.responseString error:&jsonError];
     }
+    if(jsonError){
+        error = jsonError;
+    }
+    
     
     [self getNewContactProfileHelper:profile error:error];
     
