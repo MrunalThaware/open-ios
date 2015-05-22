@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WebViewViewController : UIViewController <UIWebViewDelegate>
+@interface RedirectWebViewController : UIViewController <UIWebViewDelegate>
 {
     NSString* redirectURL;
     UIActivityIndicatorView* indicator;

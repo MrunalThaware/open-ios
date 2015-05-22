@@ -49,23 +49,22 @@
                                 signature:(NSString*)signatureArg
                                     txnId:(NSString*)txnId
                            merchantAccess:(NSString *)merchantAccessKey
+                           withCustParams:(NSDictionary *)custParams
 {
   CTSPaymentRequest* paymentRequest = [[CTSPaymentRequest alloc] init];
-
   paymentRequest.amount = [self ctsAmountForAmount:amount];
   paymentRequest.merchantAccessKey = merchantAccessKey;
   paymentRequest.merchantTxnId = txnId;
   paymentRequest.notifyUrl = @"";
   paymentRequest.requestSignature = signatureArg;
   paymentRequest.returnUrl = returnUrl;
-  paymentRequest.paymentToken =
-      [[paymentInfo.paymentOptions objectAtIndex:0] fetchPaymentToken];
-    contact.email = contact.email.lowercaseString;
-  paymentRequest.userDetails =
-      [[CTSUserDetails alloc] initWith:contact address:address];
-
+  paymentRequest.paymentToken = [[paymentInfo.paymentOptions objectAtIndex:0] fetchPaymentToken];
+  contact.email = contact.email.lowercaseString;
+  paymentRequest.userDetails = [[CTSUserDetails alloc] initWith:contact address:address];
+  paymentRequest.customParameters = custParams;
   return paymentRequest;
 }
+
 
 - (CTSAmount*)ctsAmountForAmount:(NSString*)amount {
   CTSAmount* ctsAmount = [[CTSAmount alloc] init];
@@ -74,91 +73,12 @@
   return ctsAmount;
 }
 
-//- (void)makeUserPayment:(CTSPaymentDetailUpdate*)paymentInfo
-//              withContact:(CTSContactUpdate*)contactInfo
-//              withAddress:(CTSUserAddress*)userAddress
-//                   amount:(NSString*)amount
-//            withReturnUrl:(NSString*)returnUrl
-//            withSignature:(NSString*)signatureArg
-//                withTxnId:(NSString*)merchantTxnIdArg
-//    withCompletionHandler:(ASMakeUserPaymentCallBack)callback {
-//  [self addCallback:callback forRequestId:PaymentUsingSignedInCardBankReqId];
-//
-//  CTSPaymentRequest* paymentrequest =
-//      [self configureReqPayment:paymentInfo
-//                        contact:contactInfo
-//                        address:userAddress
-//                         amount:amount
-//                      returnUrl:returnUrl
-//                      signature:signatureArg
-//                          txnId:merchantTxnIdArg];
-//
-//  CTSErrorCode error = [paymentInfo validate];
-//
-//  LogTrace(@"validation error %d ", error);
-//
-//  if (error != NoError) {
-//    [self makeUserPaymentHelper:nil error:[CTSError getErrorForCode:error]];
-//    return;
-//  }
-//
-//  long index = [self addDataToCacheAtAutoIndex:paymentInfo];
-//
-//  CTSRestCoreRequest* request =
-//      [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL
-//                                     requestId:PaymentUsingSignedInCardBankReqId
-//                                       headers:nil
-//                                    parameters:nil
-//                                          json:[paymentrequest toJSONString]
-//                                    httpMethod:POST
-//                                     dataIndex:index];
-//
-//  [restCore requestAsyncServer:request];
-//}
-
-//- (void)makeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
-//                 withContact:(CTSContactUpdate*)contactInfo
-//                 withAddress:(CTSUserAddress*)userAddress
-//                      amount:(NSString*)amount
-//               withReturnUrl:(NSString*)returnUrl
-//               withSignature:(NSString*)signatureArg
-//                   withTxnId:(NSString*)merchantTxnIdArg
-//       withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback {
-//  [self addCallback:callback forRequestId:PaymentUsingtokenizedCardBankReqId];
-//
-//  CTSPaymentRequest* paymentrequest =
-//      [self configureReqPayment:paymentInfo
-//                        contact:contactInfo
-//                        address:userAddress
-//                         amount:amount
-//                      returnUrl:returnUrl
-//                      signature:signatureArg
-//                          txnId:merchantTxnIdArg];
-//
-//  CTSErrorCode error = [paymentInfo validateTokenized];
-//  LogTrace(@" validation error %d ", error);
-//
-//  if (error != NoError) {
-//    [self makeTokenizedPaymentHelper:nil
-//                               error:[CTSError getErrorForCode:error]];
-//    return;
-//  }
-//
-//  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-//      initWithPath:MLC_CITRUS_SERVER_URL
-//         requestId:PaymentUsingtokenizedCardBankReqId
-//           headers:nil
-//        parameters:nil
-//              json:[paymentrequest toJSONString]
-//        httpMethod:POST];
-//  [restCore requestAsyncServer:request];
-//}
-//
 
 - (void)requestChargeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
                  withContact:(CTSContactUpdate*)contactInfo
                  withAddress:(CTSUserAddress*)userAddress
                         bill:(CTSBill *)bill
+                       withCustParams:(NSDictionary *)custParams
        withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback{
 
     [self addCallback:callback forRequestId:PaymentUsingtokenizedCardBankReqId];
@@ -171,7 +91,8 @@
                     returnUrl:bill.returnUrl
                     signature:bill.requestSignature
                         txnId:bill.merchantTxnId
-     merchantAccess:bill.merchantAccessKey];
+     merchantAccess:bill.merchantAccessKey
+               withCustParams:custParams];
     
     CTSErrorCode error = [paymentInfo validateTokenized];
     LogTrace(@" validation error %d ", error);
@@ -199,81 +120,11 @@
 
 }
 
-
-//- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
-//                      withContact:(CTSContactUpdate*)contactInfo
-//                           amount:(NSString*)amount
-//                      withAddress:(CTSUserAddress*)userAddress
-//                    withReturnUrl:(NSString*)returnUrl
-//                    withSignature:(NSString*)signatureArg
-//                        withTxnId:(NSString*)merchantTxnIdArg
-//            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback {
-//  [self addCallback:callback forRequestId:PaymentAsGuestReqId];
-//
-//  CTSErrorCode error = [paymentInfo validate];
-//  LogTrace(@"validation error %d ", error);
-//
-//  if (error != NoError) {
-//    [self makeGuestPaymentHelper:nil
-//                               error:[CTSError getErrorForCode:error]];
-//    return;
-//  }
-//  CTSAuthLayer* authLayer = [[CTSAuthLayer alloc] init];
-//  __block CTSPaymentDetailUpdate* _paymentDetailUpdate = paymentInfo;
-//  __block NSString* email = contactInfo.email;
-//  __block NSString* mobile = contactInfo.mobile;
-//  __block NSString* password = contactInfo.password;
-//  dispatch_queue_t backgroundQueue =
-//      dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//
-//  dispatch_async(backgroundQueue, ^(void) {
-//      [authLayer
-//          requestSignUpWithEmail:email
-//                          mobile:mobile
-//                        password:password
-//               completionHandler:^(NSString* userName,
-//                                   NSString* token,
-//                                   NSError* error) {
-//                   if (error == nil) {
-//                     dispatch_queue_t backgroundQueueBlock =
-//                         dispatch_get_global_queue(
-//                             DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//
-//                     dispatch_async(backgroundQueueBlock, ^(void) {
-//                         CTSProfileLayer* profileLayer =
-//                             [[CTSProfileLayer alloc] init];
-//                         [profileLayer
-//                             updatePaymentInformation:_paymentDetailUpdate
-//                                withCompletionHandler:nil];
-//                         _paymentDetailUpdate = nil;
-//                     });
-//                   }
-//               }];
-//  });
-//
-//  CTSPaymentRequest* paymentrequest =
-//      [self configureReqPayment:paymentInfo
-//                        contact:contactInfo
-//                        address:userAddress
-//                         amount:amount
-//                      returnUrl:returnUrl
-//                      signature:signatureArg
-//                          txnId:merchantTxnIdArg];
-//
-//  CTSRestCoreRequest* request =
-//      [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL
-//                                     requestId:PaymentAsGuestReqId
-//                                       headers:nil
-//                                    parameters:nil
-//                                          json:[paymentrequest toJSONString]
-//                                    httpMethod:POST];
-//  [restCore requestAsyncServer:request];
-//}
-
 - (void)requestChargePayment:(CTSPaymentDetailUpdate*)paymentInfo
                       withContact:(CTSContactUpdate*)contactInfo
                       withAddress:(CTSUserAddress*)userAddress
                              bill:(CTSBill *)bill
+              withCustParams:(NSDictionary *)custParams
             withCompletionHandler:(ASMakeGuestPaymentCallBack)callback{
 
     [self addCallback:callback forRequestId:PaymentAsGuestReqId];
@@ -311,7 +162,8 @@
                     returnUrl:bill.returnUrl
                     signature:bill.requestSignature
                         txnId:bill.merchantTxnId
-                  merchantAccess:bill.merchantAccessKey];
+                  merchantAccess:bill.merchantAccessKey
+                    withCustParams:custParams];
     
     CTSRestCoreRequest* request =
     [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL
@@ -332,6 +184,7 @@
                                withAddress:(CTSUserAddress*)userAddress
                                       bill:(CTSBill *)bill
                       returnViewController:(UIViewController *)controller
+                            withCustParams:(NSDictionary *)custParams
                      withCompletionHandler:(ASCitruspayCallback)callback{
     
     [self addCallback:callback forRequestId:PaymentAsCitruspayReqId];
@@ -364,7 +217,7 @@
     
     
 
-    [self requestChargeInternalCitrusCashWithContact:contactInfo withAddress:userAddress bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [self requestChargeInternalCitrusCashWithContact:contactInfo withAddress:userAddress bill:bill withCustParams:custParams withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         NSLog(@"paymentInfo %@",paymentInfo);
         NSLog(@"error %@",error);
         [self handlePaymentResponse:paymentInfo error:error] ;
@@ -378,6 +231,7 @@
 - (void)requestChargeInternalCitrusCashWithContact:(CTSContactUpdate*)contactInfo
                                withAddress:(CTSUserAddress*)userAddress
                                       bill:(CTSBill *)bill
+                                    withCustParams:(NSDictionary *)custParams
                      withCompletionHandler:(ASMakeCitruspayCallBackInternal)callback{
     [self addCallback:callback forRequestId:PaymentAsCitruspayInternalReqId];
     NSString *email = contactInfo.email.lowercaseString;
@@ -394,7 +248,8 @@
                     returnUrl:bill.returnUrl
                     signature:bill.requestSignature
                         txnId:bill.merchantTxnId
-               merchantAccess:bill.merchantAccessKey];
+               merchantAccess:bill.merchantAccessKey
+                    withCustParams:custParams];
     
 
     
@@ -453,7 +308,8 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                         returnUrl:prepaidBill.returnUrl
                         signature:prepaidBill.signature
                             txnId:prepaidBill.merchantTransactionId
-                   merchantAccess:prepaidBill.merchantAccessKey];
+                   merchantAccess:prepaidBill.merchantAccessKey
+                            withCustParams:nil];
         
         paymentrequest.notifyUrl = prepaidBill.notifyUrl;
         

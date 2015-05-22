@@ -29,9 +29,6 @@
 		3757918B1AEA3B2000D61A2F /* CTSCashoutBankAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */; };
 		3757918C1AEA3B2000D61A2F /* CTSCashoutBankAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */; };
 		3757918D1AEA3B2000D61A2F /* CTSCashoutBankAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */; };
-		375791901AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918F1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m */; };
-		375791911AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918F1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m */; };
-		375791921AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918F1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m */; };
 		375791951AEA599900D61A2F /* CTSCashoutToBankRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */; };
 		375791961AEA599900D61A2F /* CTSCashoutToBankRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */; };
 		375791971AEA599900D61A2F /* CTSCashoutToBankRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */; };
@@ -134,7 +131,7 @@
 		37D6E68A1AB01E1A008C28C4 /* CTSPaymentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */; };
 		37D6E68B1AB01E1A008C28C4 /* CTSProfileContactRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96489198F723E0021DC0B /* CTSProfileContactRes.m */; };
 		37D6E68C1AB01E1A008C28C4 /* CTSPrepaidBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 372D83FF1AA5C71000C5EA52 /* CTSPrepaidBill.m */; };
-		37D6E68D1AB01E1A008C28C4 /* WebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AA7519FF9B04004D56EC /* WebViewViewController.m */; };
+		37D6E68D1AB01E1A008C28C4 /* RedirectWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AA7519FF9B04004D56EC /* RedirectWebViewController.m */; };
 		37D6E68E1AB01E1A008C28C4 /* CTSRestCoreRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D1D198A5CCF0096451C /* CTSRestCoreRequest.m */; };
 		37D6E68F1AB01E1A008C28C4 /* CTSNetBankingUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9646B198F723E0021DC0B /* CTSNetBankingUpdate.m */; };
 		37D6E6901AB01E1A008C28C4 /* CTSLinkUserRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 372D8C281A9DD0DA004680C2 /* CTSLinkUserRes.m */; };
@@ -164,23 +161,19 @@
 		37D6E6A91AB01E1A008C28C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A61922458F005D29D4 /* CoreGraphics.framework */; };
 		37D6E6AA1AB01E1A008C28C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A81922458F005D29D4 /* UIKit.framework */; };
 		37D6E6AB1AB01E1A008C28C4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A41922458F005D29D4 /* Foundation.framework */; };
-		37D6E6AD1AB01E1A008C28C4 /* WebViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7692AA7619FF9B04004D56EC /* WebViewViewController.xib */; };
+		37D6E6AD1AB01E1A008C28C4 /* RedirectWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7692AA7619FF9B04004D56EC /* RedirectWebViewController.xib */; };
 		37D6E6AE1AB01E1A008C28C4 /* SimpleStartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37AD31E51A1EFB01005AAC3D /* SimpleStartViewController.xib */; };
 		37D6E6AF1AB01E1A008C28C4 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 375F30F2195BF24500F86149 /* .gitignore */; };
 		37D6E6B01AB01E1A008C28C4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6BC1922458F005D29D4 /* Images.xcassets */; };
 		37D6E6B11AB01E1A008C28C4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6AD1922458F005D29D4 /* InfoPlist.strings */; };
 		37D6E6B21AB01E1A008C28C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6B61922458F005D29D4 /* Main.storyboard */; };
 		37D6E6B31AB01E1A008C28C4 /* PrepaidViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D6E65F1AB01BAD008C28C4 /* PrepaidViewController.xib */; };
-		37D6E6B41AB01E1A008C28C4 /* buttonbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 76419F581A4ACB400088F77E /* buttonbackground.png */; };
 		37E1F89A19C036EC00DC29AF /* CTSSignupState.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E1F89919C036EC00DC29AF /* CTSSignupState.m */; };
 		37EF1CD61A95ED9A00D496F0 /* CitrusCashRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EF1CD51A95ED9A00D496F0 /* CitrusCashRes.m */; };
 		37EF1CD71A95ED9A00D496F0 /* CitrusCashRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EF1CD51A95ED9A00D496F0 /* CitrusCashRes.m */; };
 		6BEDF371199382F500F97231 /* CTSPaymentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */; };
-		76419F591A4ACB400088F77E /* buttonbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 76419F581A4ACB400088F77E /* buttonbackground.png */; };
-		76419F5A1A4ACB400088F77E /* buttonbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 76419F581A4ACB400088F77E /* buttonbackground.png */; };
-		76419F5B1A4ACB400088F77E /* buttonbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 76419F581A4ACB400088F77E /* buttonbackground.png */; };
-		7692AA9D19FF9B04004D56EC /* WebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AA7519FF9B04004D56EC /* WebViewViewController.m */; };
-		7692AA9F19FF9B04004D56EC /* WebViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7692AA7619FF9B04004D56EC /* WebViewViewController.xib */; };
+		7692AA9D19FF9B04004D56EC /* RedirectWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AA7519FF9B04004D56EC /* RedirectWebViewController.m */; };
+		7692AA9F19FF9B04004D56EC /* RedirectWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7692AA7619FF9B04004D56EC /* RedirectWebViewController.xib */; };
 		7692AAE019FF9B39004D56EC /* UIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AABB19FF9B39004D56EC /* UIUtility.m */; };
 		7692AAEB19FFA247004D56EC /* CTSTokenizedCardPayment.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9645E198F723E0021DC0B /* CTSTokenizedCardPayment.m */; };
 		7692AAEC19FFA247004D56EC /* CTSPaymentToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9645A198F723E0021DC0B /* CTSPaymentToken.m */; };
@@ -218,7 +211,7 @@
 		7692AB1119FFA247004D56EC /* CTSOauthTokenRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C964AF198F86960021DC0B /* CTSOauthTokenRes.m */; };
 		7692AB1219FFA247004D56EC /* CTSPaymentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */; };
 		7692AB1319FFA247004D56EC /* CTSProfileContactRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96489198F723E0021DC0B /* CTSProfileContactRes.m */; };
-		7692AB1619FFA247004D56EC /* WebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AA7519FF9B04004D56EC /* WebViewViewController.m */; };
+		7692AB1619FFA247004D56EC /* RedirectWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AA7519FF9B04004D56EC /* RedirectWebViewController.m */; };
 		7692AB1819FFA247004D56EC /* CTSRestCoreRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D1D198A5CCF0096451C /* CTSRestCoreRequest.m */; };
 		7692AB1A19FFA247004D56EC /* CTSNetBankingUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9646B198F723E0021DC0B /* CTSNetBankingUpdate.m */; };
 		7692AB1B19FFA247004D56EC /* CTSPaymentTransactionRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96484198F723E0021DC0B /* CTSPaymentTransactionRes.m */; };
@@ -245,16 +238,19 @@
 		7692AB3519FFA247004D56EC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A61922458F005D29D4 /* CoreGraphics.framework */; };
 		7692AB3619FFA247004D56EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A81922458F005D29D4 /* UIKit.framework */; };
 		7692AB3719FFA247004D56EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A41922458F005D29D4 /* Foundation.framework */; };
-		7692AB3919FFA247004D56EC /* WebViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7692AA7619FF9B04004D56EC /* WebViewViewController.xib */; };
+		7692AB3919FFA247004D56EC /* RedirectWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7692AA7619FF9B04004D56EC /* RedirectWebViewController.xib */; };
 		7692AB4119FFA247004D56EC /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 375F30F2195BF24500F86149 /* .gitignore */; };
 		7692AB4519FFA247004D56EC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6BC1922458F005D29D4 /* Images.xcassets */; };
 		7692AB4A19FFA247004D56EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6AD1922458F005D29D4 /* InfoPlist.strings */; };
 		7692AB5319FFA247004D56EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6B61922458F005D29D4 /* Main.storyboard */; };
-		7692AB6E19FFACA6004D56EC /* CTS_iOS_GUISdk_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AB6D19FFACA6004D56EC /* CTS_iOS_GUISdk_Tests.m */; };
+		76C2C19B1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */; };
+		76C2C19C1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */; };
+		76C2C19E1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */; };
+		76C2C1B71B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C2C1B61B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7692AB6F19FFACA6004D56EC /* PBXContainerItemProxy */ = {
+		76C2C1B81B0F446200DA5DC7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 37A7C6991922458F005D29D4 /* Project object */;
 			proxyType = 1;
@@ -292,7 +288,7 @@
 		371B5D38198A5D110096451C /* JSONModelLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONModelLib.h; sourceTree = "<group>"; };
 		371B5D50198A5D770096451C /* CTSRestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSRestError.h; sourceTree = "<group>"; };
 		371B5D51198A5D770096451C /* CTSRestError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSRestError.m; sourceTree = "<group>"; };
-		3723D1571948371B00C50FA5 /* TestParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestParams.h; sourceTree = "<group>"; };
+		3723D1571948371B00C50FA5 /* TestParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestParams.h; path = ../RestFulltester/TestParams.h; sourceTree = "<group>"; };
 		372D83FE1AA5C71000C5EA52 /* CTSPrepaidBill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPrepaidBill.h; sourceTree = "<group>"; };
 		372D83FF1AA5C71000C5EA52 /* CTSPrepaidBill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSPrepaidBill.m; sourceTree = "<group>"; };
 		372D8C271A9DD0DA004680C2 /* CTSLinkUserRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSLinkUserRes.h; sourceTree = "<group>"; };
@@ -303,8 +299,6 @@
 		3733269419B860190084D52D /* JSONValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONValueTransformer.m; sourceTree = "<group>"; };
 		375791891AEA3B2000D61A2F /* CTSCashoutBankAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCashoutBankAccount.h; sourceTree = "<group>"; };
 		3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCashoutBankAccount.m; sourceTree = "<group>"; };
-		3757918E1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCashoutBankAccountResp.h; sourceTree = "<group>"; };
-		3757918F1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCashoutBankAccountResp.m; sourceTree = "<group>"; };
 		375791931AEA599900D61A2F /* CTSCashoutToBankRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCashoutToBankRes.h; sourceTree = "<group>"; };
 		375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCashoutToBankRes.m; sourceTree = "<group>"; };
 		375F30F2195BF24500F86149 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -430,17 +424,18 @@
 		6BEDF36E199382F500F97231 /* CTSPaymentLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPaymentLayer.h; sourceTree = "<group>"; };
 		6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSPaymentLayer.m; sourceTree = "<group>"; };
 		6BEDF370199382F500F97231 /* CTSPaymentLayerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPaymentLayerConstants.h; sourceTree = "<group>"; };
-		76419F581A4ACB400088F77E /* buttonbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonbackground.png; sourceTree = "<group>"; };
-		7692AA7419FF9B04004D56EC /* WebViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewViewController.h; sourceTree = "<group>"; };
-		7692AA7519FF9B04004D56EC /* WebViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewViewController.m; sourceTree = "<group>"; };
-		7692AA7619FF9B04004D56EC /* WebViewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewViewController.xib; sourceTree = "<group>"; };
+		7692AA7419FF9B04004D56EC /* RedirectWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedirectWebViewController.h; sourceTree = "<group>"; };
+		7692AA7519FF9B04004D56EC /* RedirectWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedirectWebViewController.m; sourceTree = "<group>"; };
+		7692AA7619FF9B04004D56EC /* RedirectWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RedirectWebViewController.xib; sourceTree = "<group>"; };
 		7692AABA19FF9B39004D56EC /* UIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIUtility.h; sourceTree = "<group>"; };
 		7692AABB19FF9B39004D56EC /* UIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIUtility.m; sourceTree = "<group>"; };
 		7692AB5B19FFA247004D56EC /* CTS iOS GUISdk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CTS iOS GUISdk.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7692AB6319FFAA26004D56EC /* CTS iOS GUISdk-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CTS iOS GUISdk-Info.plist"; sourceTree = "<group>"; };
-		7692AB6919FFACA6004D56EC /* CTS iOS GUISdk Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CTS iOS GUISdk Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7692AB6C19FFACA6004D56EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7692AB6D19FFACA6004D56EC /* CTS_iOS_GUISdk_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CTS_iOS_GUISdk_Tests.m; sourceTree = "<group>"; };
+		76C2C1991B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCashoutBankAccountResp.h; sourceTree = "<group>"; };
+		76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCashoutBankAccountResp.m; sourceTree = "<group>"; };
+		76C2C1B21B0F446200DA5DC7 /* CTS iOS GUISdk Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CTS iOS GUISdk Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		76C2C1B51B0F446200DA5DC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76C2C1B61B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CTS_iOS_GUISdk_Tests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -474,7 +469,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7692AB6619FFACA6004D56EC /* Frameworks */ = {
+		76C2C1AF1B0F446200DA5DC7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -645,7 +640,7 @@
 				7692AA5519FF9B04004D56EC /* Controllers */,
 				37A7C6AA1922458F005D29D4 /* CTSiOSSdk */,
 				37A7C6C91922458F005D29D4 /* RestFulltesterTests */,
-				7692AB6A19FFACA6004D56EC /* CTS iOS GUISdk Tests */,
+				76C2C1B31B0F446200DA5DC7 /* CTS iOS GUISdk Tests */,
 				37A7C6A31922458F005D29D4 /* Frameworks */,
 				37A7C6A21922458F005D29D4 /* Products */,
 				37D6E6BA1AB01E1A008C28C4 /* Prepaid SDK.plist */,
@@ -657,8 +652,8 @@
 			children = (
 				37A7C6A11922458F005D29D4 /* CTS iOS Sdk.app */,
 				7692AB5B19FFA247004D56EC /* CTS iOS GUISdk.app */,
-				7692AB6919FFACA6004D56EC /* CTS iOS GUISdk Tests.xctest */,
 				37D6E6B91AB01E1A008C28C4 /* Prepaid SDK.app */,
+				76C2C1B21B0F446200DA5DC7 /* CTS iOS GUISdk Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -683,7 +678,6 @@
 				37A7C6B41922458F005D29D4 /* AppDelegate.m */,
 				37A7C6BC1922458F005D29D4 /* Images.xcassets */,
 				37A7C6AB1922458F005D29D4 /* Supporting Files */,
-				3723D1571948371B00C50FA5 /* TestParams.h */,
 			);
 			name = CTSiOSSdk;
 			path = RestFulltester;
@@ -766,8 +760,6 @@
 				37C96462198F723E0021DC0B /* CTSUserDetails.m */,
 				375791891AEA3B2000D61A2F /* CTSCashoutBankAccount.h */,
 				3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */,
-				3757918E1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.h */,
-				3757918F1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m */,
 				375791931AEA599900D61A2F /* CTSCashoutToBankRes.h */,
 				375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */,
 			);
@@ -839,6 +831,8 @@
 				37EF1CD51A95ED9A00D496F0 /* CitrusCashRes.m */,
 				372D83FE1AA5C71000C5EA52 /* CTSPrepaidBill.h */,
 				372D83FF1AA5C71000C5EA52 /* CTSPrepaidBill.m */,
+				76C2C1991B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.h */,
+				76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -882,13 +876,13 @@
 		7692AA5519FF9B04004D56EC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				76419F581A4ACB400088F77E /* buttonbackground.png */,
+				3723D1571948371B00C50FA5 /* TestParams.h */,
 				37A7C6B61922458F005D29D4 /* Main.storyboard */,
 				37A7C6B91922458F005D29D4 /* ViewController.h */,
 				37A7C6BA1922458F005D29D4 /* ViewController.m */,
-				7692AA7419FF9B04004D56EC /* WebViewViewController.h */,
-				7692AA7519FF9B04004D56EC /* WebViewViewController.m */,
-				7692AA7619FF9B04004D56EC /* WebViewViewController.xib */,
+				7692AA7419FF9B04004D56EC /* RedirectWebViewController.h */,
+				7692AA7519FF9B04004D56EC /* RedirectWebViewController.m */,
+				7692AA7619FF9B04004D56EC /* RedirectWebViewController.xib */,
 				37AD31E31A1EFB01005AAC3D /* SimpleStartViewController.h */,
 				37AD31E41A1EFB01005AAC3D /* SimpleStartViewController.m */,
 				37AD31E51A1EFB01005AAC3D /* SimpleStartViewController.xib */,
@@ -908,19 +902,19 @@
 			path = UIUtility;
 			sourceTree = "<group>";
 		};
-		7692AB6A19FFACA6004D56EC /* CTS iOS GUISdk Tests */ = {
+		76C2C1B31B0F446200DA5DC7 /* CTS iOS GUISdk Tests */ = {
 			isa = PBXGroup;
 			children = (
-				7692AB6D19FFACA6004D56EC /* CTS_iOS_GUISdk_Tests.m */,
-				7692AB6B19FFACA6004D56EC /* Supporting Files */,
+				76C2C1B61B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m */,
+				76C2C1B41B0F446200DA5DC7 /* Supporting Files */,
 			);
 			path = "CTS iOS GUISdk Tests";
 			sourceTree = "<group>";
 		};
-		7692AB6B19FFACA6004D56EC /* Supporting Files */ = {
+		76C2C1B41B0F446200DA5DC7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7692AB6C19FFACA6004D56EC /* Info.plist */,
+				76C2C1B51B0F446200DA5DC7 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -982,22 +976,22 @@
 			productReference = 7692AB5B19FFA247004D56EC /* CTS iOS GUISdk.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7692AB6819FFACA6004D56EC /* CTS iOS GUISdk Tests */ = {
+		76C2C1B11B0F446200DA5DC7 /* CTS iOS GUISdk Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7692AB7119FFACA6004D56EC /* Build configuration list for PBXNativeTarget "CTS iOS GUISdk Tests" */;
+			buildConfigurationList = 76C2C1BA1B0F446200DA5DC7 /* Build configuration list for PBXNativeTarget "CTS iOS GUISdk Tests" */;
 			buildPhases = (
-				7692AB6519FFACA6004D56EC /* Sources */,
-				7692AB6619FFACA6004D56EC /* Frameworks */,
-				7692AB6719FFACA6004D56EC /* Resources */,
+				76C2C1AE1B0F446200DA5DC7 /* Sources */,
+				76C2C1AF1B0F446200DA5DC7 /* Frameworks */,
+				76C2C1B01B0F446200DA5DC7 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7692AB7019FFACA6004D56EC /* PBXTargetDependency */,
+				76C2C1B91B0F446200DA5DC7 /* PBXTargetDependency */,
 			);
 			name = "CTS iOS GUISdk Tests";
 			productName = "CTS iOS GUISdk Tests";
-			productReference = 7692AB6919FFACA6004D56EC /* CTS iOS GUISdk Tests.xctest */;
+			productReference = 76C2C1B21B0F446200DA5DC7 /* CTS iOS GUISdk Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1015,8 +1009,8 @@
 					7692AAE819FFA247004D56EC = {
 						DevelopmentTeam = BF75J23QJ2;
 					};
-					7692AB6819FFACA6004D56EC = {
-						CreatedOnToolsVersion = 6.0.1;
+					76C2C1B11B0F446200DA5DC7 = {
+						CreatedOnToolsVersion = 6.3;
 						TestTargetID = 7692AAE819FFA247004D56EC;
 					};
 				};
@@ -1036,8 +1030,8 @@
 			targets = (
 				7692AAE819FFA247004D56EC /* CTS iOS GUISdk */,
 				37A7C6A01922458F005D29D4 /* CTS iOS Sdk */,
-				7692AB6819FFACA6004D56EC /* CTS iOS GUISdk Tests */,
 				37D6E6621AB01E1A008C28C4 /* Prepaid SDK */,
+				76C2C1B11B0F446200DA5DC7 /* CTS iOS GUISdk Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -1047,8 +1041,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7692AA9F19FF9B04004D56EC /* WebViewViewController.xib in Resources */,
-				76419F5A1A4ACB400088F77E /* buttonbackground.png in Resources */,
+				7692AA9F19FF9B04004D56EC /* RedirectWebViewController.xib in Resources */,
 				375F30F3195BF24500F86149 /* .gitignore in Resources */,
 				37A7C6BD1922458F005D29D4 /* Images.xcassets in Resources */,
 				37A7C6AF1922458F005D29D4 /* InfoPlist.strings in Resources */,
@@ -1060,14 +1053,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37D6E6AD1AB01E1A008C28C4 /* WebViewViewController.xib in Resources */,
+				37D6E6AD1AB01E1A008C28C4 /* RedirectWebViewController.xib in Resources */,
 				37D6E6AE1AB01E1A008C28C4 /* SimpleStartViewController.xib in Resources */,
 				37D6E6AF1AB01E1A008C28C4 /* .gitignore in Resources */,
 				37D6E6B01AB01E1A008C28C4 /* Images.xcassets in Resources */,
 				37D6E6B11AB01E1A008C28C4 /* InfoPlist.strings in Resources */,
 				37D6E6B21AB01E1A008C28C4 /* Main.storyboard in Resources */,
 				37D6E6B31AB01E1A008C28C4 /* PrepaidViewController.xib in Resources */,
-				37D6E6B41AB01E1A008C28C4 /* buttonbackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1075,22 +1067,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7692AB3919FFA247004D56EC /* WebViewViewController.xib in Resources */,
+				7692AB3919FFA247004D56EC /* RedirectWebViewController.xib in Resources */,
 				37AD31E71A1EFB01005AAC3D /* SimpleStartViewController.xib in Resources */,
 				7692AB4119FFA247004D56EC /* .gitignore in Resources */,
 				7692AB4519FFA247004D56EC /* Images.xcassets in Resources */,
 				7692AB4A19FFA247004D56EC /* InfoPlist.strings in Resources */,
 				7692AB5319FFA247004D56EC /* Main.storyboard in Resources */,
 				37D6E6611AB01BAD008C28C4 /* PrepaidViewController.xib in Resources */,
-				76419F591A4ACB400088F77E /* buttonbackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7692AB6719FFACA6004D56EC /* Resources */ = {
+		76C2C1B01B0F446200DA5DC7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76419F5B1A4ACB400088F77E /* buttonbackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1186,7 +1176,7 @@
 				37C964B2198F86960021DC0B /* CTSOauthTokenRes.m in Sources */,
 				6BEDF371199382F500F97231 /* CTSPaymentLayer.m in Sources */,
 				37C964AA198F723E0021DC0B /* CTSProfileContactRes.m in Sources */,
-				7692AA9D19FF9B04004D56EC /* WebViewViewController.m in Sources */,
+				7692AA9D19FF9B04004D56EC /* RedirectWebViewController.m in Sources */,
 				371B5D25198A5CCF0096451C /* CTSRestCoreRequest.m in Sources */,
 				37C9649D198F723E0021DC0B /* CTSNetBankingUpdate.m in Sources */,
 				37C964A8198F723E0021DC0B /* CTSPaymentTransactionRes.m in Sources */,
@@ -1200,6 +1190,7 @@
 				37C9649B198F723E0021DC0B /* CTSContactUpdate.m in Sources */,
 				37C9649E198F723E0021DC0B /* CTSPaymentDetailUpdate.m in Sources */,
 				371B5D26198A5CCF0096451C /* CTSRestCoreResponse.m in Sources */,
+				76C2C19C1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m in Sources */,
 				37C96494198F723E0021DC0B /* CTSPaymentRequest.m in Sources */,
 				371B5D48198A5D110096451C /* JSONModelClassProperty.m in Sources */,
 				371B5D46198A5D110096451C /* JSONModel.m in Sources */,
@@ -1209,7 +1200,6 @@
 				37E1F89A19C036EC00DC29AF /* CTSSignupState.m in Sources */,
 				37C964A0198F723E0021DC0B /* CTSPrepaidUpdate.m in Sources */,
 				37C964A9198F723E0021DC0B /* CTSPgSettings.m in Sources */,
-				375791911AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m in Sources */,
 				37C964A7198F723E0021DC0B /* CTSPaymentRes.m in Sources */,
 				37C964AC198F723E0021DC0B /* CTSProfilePrepaidRes.m in Sources */,
 			);
@@ -1244,10 +1234,10 @@
 				37D6E67A1AB01E1A008C28C4 /* CTSCreditCardOption.m in Sources */,
 				37D6E67B1AB01E1A008C28C4 /* JSONModel+CoreData.m in Sources */,
 				37D6E67C1AB01E1A008C28C4 /* CTSObject.m in Sources */,
-				375791921AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m in Sources */,
 				37D6E67D1AB01E1A008C28C4 /* CreditCard-Validator.m in Sources */,
 				37D6E67E1AB01E1A008C28C4 /* CTSAuthLayer.m in Sources */,
 				37D6E67F1AB01E1A008C28C4 /* JSONValueTransformer.m in Sources */,
+				76C2C19E1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m in Sources */,
 				37D6E6801AB01E1A008C28C4 /* CTSPaymentNetbankingRequest.m in Sources */,
 				37D6E6811AB01E1A008C28C4 /* CTSPaymentOption.m in Sources */,
 				37D6E6821AB01E1A008C28C4 /* CTSUtility.m in Sources */,
@@ -1263,7 +1253,7 @@
 				37D6E68A1AB01E1A008C28C4 /* CTSPaymentLayer.m in Sources */,
 				37D6E68B1AB01E1A008C28C4 /* CTSProfileContactRes.m in Sources */,
 				37D6E68C1AB01E1A008C28C4 /* CTSPrepaidBill.m in Sources */,
-				37D6E68D1AB01E1A008C28C4 /* WebViewViewController.m in Sources */,
+				37D6E68D1AB01E1A008C28C4 /* RedirectWebViewController.m in Sources */,
 				37D6E68E1AB01E1A008C28C4 /* CTSRestCoreRequest.m in Sources */,
 				37D6E68F1AB01E1A008C28C4 /* CTSNetBankingUpdate.m in Sources */,
 				37D6E6901AB01E1A008C28C4 /* CTSLinkUserRes.m in Sources */,
@@ -1322,10 +1312,10 @@
 				7692AB0119FFA247004D56EC /* CTSCreditCardOption.m in Sources */,
 				7692AB0319FFA247004D56EC /* JSONModel+CoreData.m in Sources */,
 				7692AB0419FFA247004D56EC /* CTSObject.m in Sources */,
-				375791901AEA3BC300D61A2F /* CTSCashoutBankAccountResp.m in Sources */,
 				7692AB0519FFA247004D56EC /* CreditCard-Validator.m in Sources */,
 				7692AB0619FFA247004D56EC /* CTSAuthLayer.m in Sources */,
 				7692AB0719FFA247004D56EC /* JSONValueTransformer.m in Sources */,
+				76C2C19B1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m in Sources */,
 				7692AB0819FFA247004D56EC /* CTSPaymentNetbankingRequest.m in Sources */,
 				7692AB0919FFA247004D56EC /* CTSPaymentOption.m in Sources */,
 				7692AB0B19FFA247004D56EC /* CTSUtility.m in Sources */,
@@ -1341,7 +1331,7 @@
 				7692AB1219FFA247004D56EC /* CTSPaymentLayer.m in Sources */,
 				7692AB1319FFA247004D56EC /* CTSProfileContactRes.m in Sources */,
 				372D84001AA5C71000C5EA52 /* CTSPrepaidBill.m in Sources */,
-				7692AB1619FFA247004D56EC /* WebViewViewController.m in Sources */,
+				7692AB1619FFA247004D56EC /* RedirectWebViewController.m in Sources */,
 				7692AB1819FFA247004D56EC /* CTSRestCoreRequest.m in Sources */,
 				7692AB1A19FFA247004D56EC /* CTSNetBankingUpdate.m in Sources */,
 				372D8C291A9DD0DA004680C2 /* CTSLinkUserRes.m in Sources */,
@@ -1371,21 +1361,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7692AB6519FFACA6004D56EC /* Sources */ = {
+		76C2C1AE1B0F446200DA5DC7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7692AB6E19FFACA6004D56EC /* CTS_iOS_GUISdk_Tests.m in Sources */,
+				76C2C1B71B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7692AB7019FFACA6004D56EC /* PBXTargetDependency */ = {
+		76C2C1B91B0F446200DA5DC7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7692AAE819FFA247004D56EC /* CTS iOS GUISdk */;
-			targetProxy = 7692AB6F19FFACA6004D56EC /* PBXContainerItemProxy */;
+			targetProxy = 76C2C1B81B0F446200DA5DC7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1682,21 +1672,24 @@
 			};
 			name = Release;
 		};
-		7692AB7219FFACA6004D56EC /* Debug */ = {
+		76C2C1BB1B0F446200DA5DC7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "CTS iOS GUISdk Tests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1704,17 +1697,21 @@
 			};
 			name = Debug;
 		};
-		7692AB7319FFACA6004D56EC /* Release */ = {
+		76C2C1BC1B0F446200DA5DC7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "CTS iOS GUISdk Tests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1761,14 +1758,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7692AB7119FFACA6004D56EC /* Build configuration list for PBXNativeTarget "CTS iOS GUISdk Tests" */ = {
+		76C2C1BA1B0F446200DA5DC7 /* Build configuration list for PBXNativeTarget "CTS iOS GUISdk Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7692AB7219FFACA6004D56EC /* Debug */,
-				7692AB7319FFACA6004D56EC /* Release */,
+				76C2C1BB1B0F446200DA5DC7 /* Debug */,
+				76C2C1BC1B0F446200DA5DC7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

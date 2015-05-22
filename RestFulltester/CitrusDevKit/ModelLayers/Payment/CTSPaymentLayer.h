@@ -201,10 +201,11 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
             withCompletionHandler:(ASMakeGuestPaymentCallBack)callback DEPRECATED_ATTRIBUTE;
 
 - (void)requestChargeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
-                 withContact:(CTSContactUpdate*)contactInfo
-                 withAddress:(CTSUserAddress*)userAddress
-                        bill:(CTSBill *)bill
-       withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
+                          withContact:(CTSContactUpdate*)contactInfo
+                          withAddress:(CTSUserAddress*)userAddress
+                                 bill:(CTSBill *)bill
+                       withCustParams:(NSDictionary *)custParams
+                withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback;
 
 /**
  *  called when client request to make payment as a guest user
@@ -218,23 +219,24 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
 
 
 - (void)requestChargePayment:(CTSPaymentDetailUpdate*)paymentInfo
-                      withContact:(CTSContactUpdate*)contactInfo
-                      withAddress:(CTSUserAddress*)userAddress
-                             bill:(CTSBill *)bill
-            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
+                 withContact:(CTSContactUpdate*)contactInfo
+                 withAddress:(CTSUserAddress*)userAddress
+                        bill:(CTSBill *)bill
+              withCustParams:(NSDictionary *)custParams
+       withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
 
 - (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
                                withAddress:(CTSUserAddress*)userAddress
                                       bill:(CTSBill *)bill
                       returnViewController:(UIViewController *)controller
+                            withCustParams:(NSDictionary *)custParams
                      withCompletionHandler:(ASCitruspayCallback)callback;
 
-
-
 - (void)requestChargeInternalCitrusCashWithContact:(CTSContactUpdate*)contactInfo
-                 withAddress:(CTSUserAddress*)userAddress
-                        bill:(CTSBill *)bill
-       withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
+                                       withAddress:(CTSUserAddress*)userAddress
+                                              bill:(CTSBill *)bill
+                                    withCustParams:(NSDictionary *)custParams
+                             withCompletionHandler:(ASMakeCitruspayCallBackInternal)callback;
 
 
 

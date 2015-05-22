@@ -2,8 +2,8 @@
 //  CTS_iOS_GUISdk_Tests.m
 //  CTS iOS GUISdk Tests
 //
-//  Created by Mukesh Patil on 28/10/14.
-//  Copyright (c) 2014 Citrus. All rights reserved.
+//  Created by Mukesh Patil on 22/05/15.
+//  Copyright (c) 2015 Citrus. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

@@ -11,7 +11,7 @@
 #import "NSObject+logProperties.h"
 #import "ServerSignature.h"
 #import "UIUtility.h"
-#import "WebViewViewController.h"
+#import "RedirectWebViewController.h"
 
 @interface SimpleStartViewController ()
 
@@ -20,30 +20,15 @@
 @implementation SimpleStartViewController
 #define toErrorDescription(error) [error.userInfo objectForKey:NSLocalizedDescriptionKey]
 
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-    }
-    return self;
-}
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initializeLayers];
-    self.title = @"Citrus iOS SDK";
-
-
+    self.title = @"Citrus iOS Native SDK";
 }
 
+#pragma mark - initializers
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
+// Initialize the SDK layer viz CTSAuthLayer/CTSProfileLayer/CTSPaymentLayer
 -(void)initializeLayers{
     authLayer = [[CTSAuthLayer alloc] init];
     proifleLayer = [[CTSProfileLayer alloc] init];
@@ -62,6 +47,12 @@
     addressInfo.street1 = @"Golden Road";
     addressInfo.street2 = @"Pink City";
     addressInfo.zip = @"401209";
+    
+    customParams = @{@"USERDATA2":@"MOB_RC|9988776655",
+                     @"USERDATA10":@"test",
+                     @"USERDATA4":@"MOB_RC|test@gmail.com",
+                     @"USERDATA3":@"MOB_RC|4111XXXXXXXX1111",
+                     };
 }
 
 
@@ -142,7 +133,7 @@
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
     
     // Configure your request here.
-    [paymentLayer requestChargeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentLayer requestChargeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill  withCustParams:customParams withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
 }
@@ -155,23 +146,18 @@
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
     creditCard.scheme = [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
-
     
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     [paymentInfo addCard:creditCard];
-
 
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
     
     // Configure your request here.
-    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCustParams:customParams withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
-    
-
 }
 
 
@@ -187,21 +173,21 @@
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
     
     // Configure your request here.
-    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCustParams:customParams withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
 }
 
 
-
+// Load redirect URL to Web view
 - (void)loadRedirectUrl:(NSString*)redirectURL {
-    WebViewViewController* webViewViewController = [[WebViewViewController alloc] init];
+    RedirectWebViewController* webViewViewController = [[RedirectWebViewController alloc] init];
     webViewViewController.redirectURL = redirectURL;
     [UIUtility dismissLoadingAlertView:YES];
     [self.navigationController pushViewController:webViewViewController animated:YES];
 }
 
-
+// Handle payment response after any payment options call back
 -(void)handlePaymentResponse:(CTSPaymentTransactionRes *)paymentInfo error:(NSError *)error{
     
     BOOL hasSuccess =
@@ -220,7 +206,6 @@
                 [UIUtility didPresentErrorAlertView:error];
             }
         });
-        
     }
     else{
         // Your code to handle error.
@@ -235,7 +220,7 @@
 }
 
 
-
+// String parser
 -(NSString *)convertToString:(CTSPaymentOption *)option{
     
     NSMutableString *msgString = [[NSMutableString alloc] init];
@@ -270,11 +255,8 @@
     if(option.code){
         [msgString appendFormat:@"\n  code: %@",option.code];
     }
-    
     return msgString;
-    
 }
-
 
 
 /*
@@ -299,8 +281,5 @@
     NSLog(@"signature %@ ", sampleBill);
     return sampleBill;
 }
-
-
-
 
 @end

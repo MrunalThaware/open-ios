@@ -6,30 +6,19 @@
 //  Copyright (c) 2014 CitrusPay. All rights reserved.
 //
 
-#import "WebViewViewController.h"
+#import "RedirectWebViewController.h"
 #import "CTSUtility.h"
 #import "UIUtility.h"
-#import "SimpleStartViewController.h"
-#import "PrepaidViewController.h"
-#import "TestParams.h"
 
-@interface WebViewViewController ()
+@interface RedirectWebViewController ()
 
 @property(nonatomic,strong) UIWebView *webview;
 
 @end
 
-@implementation WebViewViewController
+@implementation RedirectWebViewController
 @synthesize redirectURL;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -119,12 +108,6 @@
 
 }
 
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 -(void)finishWebView{
     

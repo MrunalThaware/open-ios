@@ -11,7 +11,7 @@
 #import "NSObject+logProperties.h"
 #import "ServerSignature.h"
 #import "UIUtility.h"
-#import "WebViewViewController.h"
+#import "RedirectWebViewController.h"
 
 @interface PrepaidViewController ()
 
@@ -20,34 +20,15 @@
 @implementation PrepaidViewController
 #define toErrorDescription(error) [error.userInfo objectForKey:NSLocalizedDescriptionKey]
 
-#pragma mark - initializers
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initializeLayers];
-    self.title = @"Citrus iOS SDK";
-//    [authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
-//        LogTrace(@" requestCitrusPaySignin ");
-//        NSLog(@"%@", error);
-//    }];
-
-    //[PrepaidViewController getBillFromServer];
-    
-    // [self linkUser];
-    //[self signIn];
-    //[self getPrepaidBill];
-    //[self getCookie];
-    //[self getbalance];
-    //[authLayer signOut];
-    //[self loadMoneyIntoCitrusAccount];
-    
+    self.title = @"Citrus iOS Native SDK";
 }
 
+#pragma mark - initializers
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
+// Initialize the SDK layer viz CTSAuthLayer/CTSProfileLayer/CTSPaymentLayer
 -(void)initializeLayers{
     authLayer = [[CTSAuthLayer alloc] init];
     proifleLayer = [[CTSProfileLayer alloc] init];
@@ -66,35 +47,30 @@
     addressInfo.street1 = @"Golden Road";
     addressInfo.street2 = @"Pink City";
     addressInfo.zip = @"401209";
+    
+    customParams = @{@"USERDATA2":@"MOB_RC|9988776655",
+                     @"USERDATA10":@"test",
+                     @"USERDATA4":@"MOB_RC|test@gmail.com",
+                     @"USERDATA3":@"MOB_RC|4111XXXXXXXX1111",
+                     };
 }
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 
 #pragma mark - button handlers
 
+// check if anyone is SignedIn
 -(IBAction)isUserSignedIn:(id)sender{
     if([authLayer isAnyoneSignedIn]){
-                [UIUtility toastMessageOnScreen:@"user is signed in"];
-    
+        [UIUtility toastMessageOnScreen:@"user is signed in"];
+        
     }
     else{
-     [UIUtility toastMessageOnScreen:@"no one is logged in"];
+        [UIUtility toastMessageOnScreen:@"no one is logged in"];
     }
 }
 
+// Link user creates a Citrus Account of the user. It returns if the user password is already set or not.
 -(IBAction)linkUser:(id)sender{
-    
     [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
         if (error) {
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
@@ -105,8 +81,8 @@
     }];
 }
 
+// You can set user password if link user returns field “isPasswordAlreadySet” as NO, it means user is created and now needs to set his/her password
 -(IBAction)setPassword:(id)sender{
-    
     [authLayer requestSetPassword:TEST_PASSWORD userName:TEST_EMAIL completionHandler:^(NSError *error) {
         if (error) {
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
@@ -118,6 +94,7 @@
 
 }
 
+// Forgot password if the user forgets password.
 -(IBAction)forgotPassword:(id)sender{
     [authLayer requestResetPassword:TEST_EMAIL completionHandler:^(NSError *error) {
         if (error) {
@@ -129,35 +106,33 @@
     }];
 }
 
+// If Link user returns that the “isPasswordAlreadySet == YES”, show SignIn screen.
 -(IBAction)signin:(id)sender{
-    
     [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
         LogTrace(@"userName %@",userName);
         LogTrace(@"error %@",error);
         if (error) {
-            
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
         else{
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now logged in",userName]];
         }
-        
     }];
 }
 
+
+// Sign out loged in user
 -(IBAction)signOut:(id)sender{
     [authLayer signOut];
     [UIUtility toastMessageOnScreen:@"Only local tokens & Citrus cookies are cleared"];
 }
 
-
-
+// This is when we want to store bank account for cashout into users profile. At the max there can be only one account saved at a time, so if you want store new account just call this method with new details (previous one will get overridden).
 -(void)saveCashoutBankAccount{
     CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
     bankAccount.owner = @"Yadnesh Wankhede";
     bankAccount.branch = @"HSBC0000123";
     bankAccount.number = @"123456789987654";
-    
     
     [proifleLayer requestUpdateCashoutBankAccount:bankAccount withCompletionHandler:^(NSError *error) {
         if (error) {
@@ -169,24 +144,20 @@
     }];
 }
 
-
-
+// To get/fetch the cash-out account that’s was saved earlier.
 -(void)fetchCashoutBankAccount{
     [proifleLayer requestCashoutBankAccountCompletionHandler:^(CTSCashoutBankAccountResp *bankAccount, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
         else {
-            
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@\n number: %@\n ifsc: %@",bankAccount.cashoutAccount.owner,bankAccount.cashoutAccount.number,bankAccount.cashoutAccount.branch]];
-            
         }
     }];
 }
 
-
+// This is when user wants to withdraw money from his/her prepaid account into the bank account, so this needs bank account info to be sent to this method.
 -(void)cashOutToBank{
-    
     CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
     bankAccount.owner = @"Yadnesh Wankhede";
     bankAccount.branch = @"HSBC0000123";
@@ -197,6 +168,7 @@
     }];
 }
 
+// You can get user’s citrus cash balance after you have done Link User.
 -(IBAction)getBalance:(id)sender{
     [proifleLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
         LogTrace(@" value %@ ",amount.value);
@@ -210,9 +182,9 @@
     }];
 }
 
-
+// You can load/add money as per following way
 -(IBAction)loadUsingCard:(id)sender{
-    
+    // Credit card
     CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update card for card payment.
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
@@ -220,23 +192,18 @@
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
     creditCard.scheme = [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
-    
-    
     
     [creditCardInfo addCard:creditCard];
 
     [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
-    
-
 }
 
-
+// You can load/add money as per following way
 -(IBAction)loadUsingCardToken:(id)sender{
-
+    // Card token
     CTSPaymentDetailUpdate *tokenizedCardInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update card for tokenized payment.
     CTSElectronicCardUpdate *tokenizedCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
@@ -244,16 +211,14 @@
     tokenizedCard.token= TEST_TOKENIZED_CARD_TOKEN;
     [tokenizedCardInfo addCard:tokenizedCard];
     
-    
     [paymentLayer requestLoadMoneyInCitrusPay:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
-    
-
 }
 
+// You can load/add money as per following way
 -(IBAction)loadUsingNetbank:(id)sender{
-
+    // Net Banking
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update bank details for net banking payment.
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
@@ -263,14 +228,13 @@
     [paymentLayer requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"10" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
-    
-
 }
 
+// make payment using Citrus cash account
 -(IBAction)payUsingCitrusCash:(id)sender{
-    
+    // Get Bill
     CTSBill *bill = [PrepaidViewController getBillFromServer];
-    [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
+    [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill returnViewController:self withCustParams:customParams withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
         NSLog(@"paymentInfo %@",paymentInfo);
         NSLog(@"error %@",error);
         if(error){
@@ -282,8 +246,8 @@
     }];
 }
 
+// This API call fetches the payment options such as VISA, MASTER (in credit and debit  cards) and net banking options available to the merchant.
 -(void)requestPaymentModes{
-
     [paymentLayer requestMerchantPgSettings:VanityUrl withCompletionHandler:^(CTSPgSettings *pgSettings, NSError *error) {
         if(error){
         //handle error
@@ -302,14 +266,14 @@
                 LogTrace(@"bankName %@ ", [arr valueForKey:@"bankName"]);
                 LogTrace(@"issuerCode %@ ", [arr valueForKey:@"issuerCode"]);
             }
-
-        
         }
-        
     }];
-
 }
+
+
 #pragma mark - Payment Helpers
+
+// Handle payment response after any payment options call back
 -(void)handlePaymentResponse:(CTSPaymentTransactionRes *)paymentInfo error:(NSError *)error{
     
     BOOL hasSuccess =
@@ -342,8 +306,9 @@
     }
 }
 
+// Load redirect URL to Web view
 - (void)loadRedirectUrl:(NSString*)redirectURL {
-    WebViewViewController* webViewViewController = [[WebViewViewController alloc] init];
+    RedirectWebViewController* webViewViewController = [[RedirectWebViewController alloc] init];
     webViewViewController.redirectURL = redirectURL;
     [UIUtility dismissLoadingAlertView:YES];
     [self.navigationController pushViewController:webViewViewController animated:YES];
@@ -374,56 +339,5 @@
 
 }
 
-//
-//+ (CTSBill*)getBillFromServer{
-//    // Configure your request here.
-//    
-//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-//    
-//    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"INR", @"currency", @"1", @"value", nil];
-//    
-//    [dict setObject:dict1 forKey:@"amount"];
-//    [dict setObject:@"56OXQYRPH5WVR7YATIQD" forKey:@"merchantAccessKey"];
-//    [dict setObject:@"142710952686155" forKey:@"merchantTxnId"];
-//    [dict setObject:@"04aca6dec7450fddeae53e117dcf6430de5e499f" forKey:@"requestSignature"];
-//    [dict setObject:@"https://demo.faasos.com/onlinepay.aspx" forKey:@"returnUrl"];
-//    
-//    NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:
-//                                   [NSURL URLWithString:BillUrl]];
-//    [urlReq setHTTPMethod:@"POST"];
-//    [urlReq addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//
-//    [urlReq setHTTPBody:[NSJSONSerialization dataWithJSONObject: @{@"amount": @"1"} options:NSJSONWritingPrettyPrinted error:nil]];
-//    NSError* error = nil;
-//    NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
-//                                                  returningResponse:nil
-//                                                              error:&error];
-//    NSString* billJson = [[NSString alloc] initWithData:signatureData
-//                                               encoding:NSUTF8StringEncoding];
-//    JSONModelError *jsonError;
-//    CTSBill* sampleBill2 = [[CTSBill alloc] initWithDictionary:dict error:&jsonError];
-//    CTSBill *sampleBill = [[CTSBill alloc] initWithString:billJson error:&jsonError];
-//    
-//    NSDictionary *res = [NSJSONSerialization JSONObjectWithData:signatureData options:NSJSONWritingPrettyPrinted error:nil];
-//    NSDictionary *billDict = [res objectForKey:@"data"];
-//    
-//    
-//    [dict setObject:[billDict objectForKey:@"amount"] forKey:@"amount"];
-//    [dict setObject:[billDict objectForKey:@"merchantAccessKey"] forKey:@"merchantAccessKey"];
-//    [dict setObject:[billDict objectForKey:@"merchantTxnId"] forKey:@"merchantTxnId"];
-//    [dict setObject:[billDict objectForKey:@"requestSignature"] forKey:@"requestSignature"];
-//    [dict setObject:[billDict objectForKey:@"returnUrl"] forKey:@"returnUrl"];
-//    
-//     sampleBill2 = [[CTSBill alloc] initWithDictionary:dict error:&jsonError];
-//
-//    
-//    
-//    NSLog(@"billJson %@",billJson);
-//    NSLog(@"signature %@ ", sampleBill);
-//    NSLog(@"signature %@ ", sampleBill2);
-//   return sampleBill2;
-//    //return sampleBill;
-//
-//}
 
 @end

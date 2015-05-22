@@ -16,7 +16,6 @@
     CTSContactUpdate* contactInfo;
     CTSUserAddress* addressInfo;
     int seedState;
-
+    NSDictionary *customParams;
 }
-
 @end
