@@ -1024,9 +1024,8 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
     else{
         //TODO:DELEGATE CALLBACK
     }
-
-
 }
+
 - (void)chargeTokenInnerWebviewHelper:(CTSCitrusCashRes*)response error:(NSError *)error {
 
     ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:PaymentChargeInnerWeblTokenReqId];
@@ -1038,14 +1037,8 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
         //TODO:DELEGATE CALLBACK
     }
 
-
-
 }
 - (void)chargeLoadMoneyInnerWebviewHelper:(CTSRestCoreResponse*)response {}
-
-
-
-
 
 -(void)resetCitrusPay{
 
@@ -1144,11 +1137,43 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 
 
 -(void)loadPaymentWebview:(NSString *)url{
+    
+    
+    NSString *reqId = toNSString(PaymentAsGuestReqId);
+    
+    [self addObserver:self forKeyPath:@"paymentWebViewController.response" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+
     paymentWebViewController = [[PaymentWebViewController alloc] init];
     paymentWebViewController.redirectURL = url;
     [citrusCashBackViewController.navigationController pushViewController:paymentWebViewController animated:YES];
 }
 
-
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    int toIntReqId = [(__bridge NSString *)context intValue];
+    for(NSString *keys in change){
+        NSLog(@" key %@, Value %@",keys,[change valueForKey:keys]);
+    }
+    
+    
+    CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];
+    response.responseDict = [change valueForKey:@"new"];
+    
+    switch (toIntReqId) {
+        case PaymentChargeInnerWebNormalReqId:
+            [self chargeNormalInnerWebviewHelper:response error:nil];
+            break;
+        case PaymentChargeInnerWeblTokenReqId:
+           // <#statements#>
+            break;
+        case PaymentChargeInnerWebLoadMoneyReqId:
+           // <#statements#>
+            break;
+        default:
+            break;
+    }
+    
+    
+   
+}
 
 @end

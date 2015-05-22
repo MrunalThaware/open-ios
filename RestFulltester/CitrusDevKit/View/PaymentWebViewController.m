@@ -15,7 +15,7 @@
 
 @implementation PaymentWebViewController
 
-@synthesize redirectURL;
+@synthesize redirectURL,reqId,response;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -91,20 +91,23 @@
     return YES;
     
 }
+#define toNSString(cts) [NSString stringWithFormat:@"%d", cts]
 
 
 
--(void)transactionComplete:(NSDictionary *)responseDictionary{
+-(void)transactionComplete:(NSMutableDictionary *)responseDictionary{
     if([responseDictionary valueForKey:@"TxStatus"] != nil){
         [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[responseDictionary valueForKey:@"TxStatus"] ]];
     }
     else{
         [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n Response: %@",responseDictionary]];
-        
     }
     
     [self.navigationController popViewControllerAnimated:YES];
     [self finishWebView];
+    [responseDictionary setValue:toNSString(reqId) forKey:@"reqId"];
+    [self setValue:responseDictionary forKey:@"response"];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -121,6 +124,7 @@
     [self.webview removeFromSuperview];
     self.webview.delegate = nil;
     self.webview = nil;
+    self.reqId = -1;
 }
 
 @end

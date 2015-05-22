@@ -109,7 +109,7 @@
     
     switch (errorCode) {
         case InternetDown:
-            fakeErrorJson = @"{\"description\":\"could not connect to internet\",\"type\":\"server error\"}";
+            fakeErrorJson = @"{\"description\":\"could not connect to server\",\"type\":\"server error\"}";
             break;
 
         default:
