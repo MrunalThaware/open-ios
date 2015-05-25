@@ -571,10 +571,10 @@
 		37851B8F1978F2DD00AE3AD0 /* ModelLayers */ = {
 			isa = PBXGroup;
 			children = (
+				37851B901978F2DD00AE3AD0 /* Authentication */,
 				6BEDF36D199382F500F97231 /* Payment */,
 				37C96443198F6B350021DC0B /* UserProfile */,
 				371B5D18198A5CCF0096451C /* CTSRestKitCode */,
-				37851B901978F2DD00AE3AD0 /* Authentication */,
 				37851B941978F2DD00AE3AD0 /* CitrusError */,
 				37851B971978F2DD00AE3AD0 /* Core */,
 				37851BA21978F2DD00AE3AD0 /* External */,

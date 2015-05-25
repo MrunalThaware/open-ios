@@ -8,8 +8,6 @@
 
 #import "SimpleStartViewController.h"
 #import "TestParams.h"
-#import "NSObject+logProperties.h"
-#import "ServerSignature.h"
 #import "UIUtility.h"
 #import "RedirectWebViewController.h"
 

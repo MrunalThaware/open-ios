@@ -8,8 +8,6 @@
 
 #import "PrepaidViewController.h"
 #import "TestParams.h"
-#import "NSObject+logProperties.h"
-#import "ServerSignature.h"
 #import "UIUtility.h"
 #import "RedirectWebViewController.h"
 
@@ -127,47 +125,6 @@
     [UIUtility toastMessageOnScreen:@"Only local tokens & Citrus cookies are cleared"];
 }
 
-// This is when we want to store bank account for cashout into users profile. At the max there can be only one account saved at a time, so if you want store new account just call this method with new details (previous one will get overridden).
--(void)saveCashoutBankAccount{
-    CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
-    bankAccount.owner = @"Yadnesh Wankhede";
-    bankAccount.branch = @"HSBC0000123";
-    bankAccount.number = @"123456789987654";
-    
-    [proifleLayer requestUpdateCashoutBankAccount:bankAccount withCompletionHandler:^(NSError *error) {
-        if (error) {
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-        else{
-            [UIUtility toastMessageOnScreen:@"Succesfully stored bank account"];
-        }
-    }];
-}
-
-// To get/fetch the cash-out account that’s was saved earlier.
--(void)fetchCashoutBankAccount{
-    [proifleLayer requestCashoutBankAccountCompletionHandler:^(CTSCashoutBankAccountResp *bankAccount, NSError *error) {
-        if(error){
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-        else {
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@\n number: %@\n ifsc: %@",bankAccount.cashoutAccount.owner,bankAccount.cashoutAccount.number,bankAccount.cashoutAccount.branch]];
-        }
-    }];
-}
-
-// This is when user wants to withdraw money from his/her prepaid account into the bank account, so this needs bank account info to be sent to this method.
--(void)cashOutToBank{
-    CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
-    bankAccount.owner = @"Yadnesh Wankhede";
-    bankAccount.branch = @"HSBC0000123";
-    bankAccount.number = @"123456789987654";
-    [paymentLayer requestCashoutToBank:bankAccount amount:@"5" completionHandler:^(CTSCashoutToBankRes *cashoutRes, NSError *error) {
-        [cashoutRes logProperties];
-        [error logProperties];
-    }];
-}
-
 // You can get user’s citrus cash balance after you have done Link User.
 -(IBAction)getBalance:(id)sender{
     [proifleLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
@@ -266,6 +223,52 @@
                 LogTrace(@"bankName %@ ", [arr valueForKey:@"bankName"]);
                 LogTrace(@"issuerCode %@ ", [arr valueForKey:@"issuerCode"]);
             }
+        }
+    }];
+}
+
+// This is when we want to store bank account for cashout into users profile. At the max there can be only one account saved at a time, so if you want store new account just call this method with new details (previous one will get overridden).
+-(IBAction)saveCashoutBankAccount{
+    CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
+    bankAccount.owner = @"Yadnesh Wankhede";
+    bankAccount.branch = @"HSBC0000123";
+    bankAccount.number = @"123456789987654";
+    
+    [proifleLayer requestUpdateCashoutBankAccount:bankAccount withCompletionHandler:^(NSError *error) {
+        if (error) {
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:@"Succesfully stored bank account"];
+        }
+    }];
+}
+
+// To get/fetch the cash-out account that’s was saved earlier.
+-(IBAction)fetchCashoutBankAccount{
+    [proifleLayer requestCashoutBankAccountCompletionHandler:^(CTSCashoutBankAccountResp *bankAccount, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@\n number: %@\n ifsc: %@",bankAccount.cashoutAccount.owner,bankAccount.cashoutAccount.number,bankAccount.cashoutAccount.branch]];
+        }
+    }];
+}
+
+// This is when user wants to withdraw money from his/her prepaid account into the bank account, so this needs bank account info to be sent to this method.
+-(IBAction)cashOutToBank{
+    CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
+    bankAccount.owner = @"Yadnesh Wankhede";
+    bankAccount.branch = @"HSBC0000123";
+    bankAccount.number = @"123456789987654";
+    
+    [paymentLayer requestCashoutToBank:bankAccount amount:@"5" completionHandler:^(CTSCashoutToBankRes *cashoutRes, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"id:%@\n cutsomer:%@\n merchant:%@\n type:%@\n date:%@\n amount:%@\n status:%@\n reason:%@\n balance:%@\n ref:%@\n",cashoutRes.id, cashoutRes.cutsomer, cashoutRes.merchant, cashoutRes.type, cashoutRes.date, cashoutRes.amount, cashoutRes.status, cashoutRes.reason, cashoutRes.balance, cashoutRes.ref]];
         }
     }];
 }
