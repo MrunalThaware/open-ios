@@ -55,10 +55,10 @@
 
 
 ////URLS
-#define BillUrl @"http://192.168.2.51:8888/bill.php"
+#define BillUrl @"http://192.168.2.137:8888/bill.php"
 
 //#define BillUrl @"http://test.bhoomata.com/default.aspx"
-#define ReturnUrl @"http://192.168.2.51:8888/return.php"
+#define ReturnUrl @"http://192.168.2.137:8888/return.php"
 #define BaseUrl @"https://sandboxadmin.citruspay.com"
 
 //#define BaseUrl @"https://stg3admin.citruspay.com"

@@ -124,7 +124,7 @@
     [self.webview removeFromSuperview];
     self.webview.delegate = nil;
     self.webview = nil;
-    self.reqId = -1;
+   // self.reqId = -1;
 }
 
 @end

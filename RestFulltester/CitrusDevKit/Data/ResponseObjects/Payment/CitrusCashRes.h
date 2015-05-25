@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface CTSCitrusCashRes : NSObject
-@property(strong)NSDictionary *responseDict;
+@property(strong)NSMutableDictionary *responseDict;
 @end

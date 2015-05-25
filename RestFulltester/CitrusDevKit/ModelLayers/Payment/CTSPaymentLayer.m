@@ -523,7 +523,8 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 
 }
 
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 - (void)requestChargePayment:(CTSPaymentDetailUpdate*)paymentInfo
                  withContact:(CTSContactUpdate*)contactInfo
                  withAddress:(CTSUserAddress*)userAddress
@@ -556,7 +557,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                 // Your code to handle success.
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (hasSuccess && error.code != ServerErrorWithCode) {
-                        [self loadPaymentWebview:paymentInfo.redirectUrl];
+                        [self loadPaymentWebview:paymentInfo.redirectUrl reqId:PaymentChargeInnerWebNormalReqId];
                     }else{
                         
                         
@@ -573,11 +574,8 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
         }
     }];
     
-    
-
-
 }
-
+#pragma GCC diagnostic pop
 
 
 - (void)requestLoadMoneyInCitrusPay:(CTSPaymentDetailUpdate *)paymentInfo
@@ -1136,27 +1134,34 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 //}
 
 
--(void)loadPaymentWebview:(NSString *)url{
+-(void)loadPaymentWebview:(NSString *)url reqId:(int)reqId{
     
     
-    NSString *reqId = toNSString(PaymentAsGuestReqId);
+    //
     
-    [self addObserver:self forKeyPath:@"paymentWebViewController.response" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 
+    if(paymentWebViewController == nil){
     paymentWebViewController = [[PaymentWebViewController alloc] init];
+    }
+    [self addObserver:self forKeyPath:@"paymentWebViewController.response" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     paymentWebViewController.redirectURL = url;
+    paymentWebViewController.reqId = reqId;
     [citrusCashBackViewController.navigationController pushViewController:paymentWebViewController animated:YES];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    int toIntReqId = [(__bridge NSString *)context intValue];
+    
+    [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
+    
     for(NSString *keys in change){
         NSLog(@" key %@, Value %@",keys,[change valueForKey:keys]);
     }
     
     
     CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];
-    response.responseDict = [change valueForKey:@"new"];
+    response.responseDict =  [NSMutableDictionary dictionaryWithDictionary:[change valueForKey:@"new"]];
+    int toIntReqId = [CTSUtility extractReqId:response.responseDict] ;
+
     
     switch (toIntReqId) {
         case PaymentChargeInnerWebNormalReqId:
@@ -1171,9 +1176,8 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
         default:
             break;
     }
-    
-    
    
 }
+
 
 @end

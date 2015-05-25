@@ -570,4 +570,11 @@
 
 
 
++(int)extractReqId:(NSMutableDictionary *)response{
+    int reqId = [(NSString *)[response valueForKey:@"reqId"] intValue];
+    [response removeObjectForKey:@"reqId"];
+    return reqId;
+}
+
+
 @end
