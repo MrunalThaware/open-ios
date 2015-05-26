@@ -14,5 +14,4 @@
 @property(strong, nonatomic) NSString* token, *cvv;
 
 - (instancetype)initWithToken:(NSString*)tokenArg cvv:(NSString*)cvvArg;
-
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
+
 @interface CTSPaymentMode : JSONModel
 @property(strong) NSString<Optional>* cvv;
 @property(strong) NSString<Optional>* expiry;
@@ -17,5 +18,4 @@
 @property(strong) NSString<Optional>* type;
 @property(strong) NSString<Optional>* code;
 @property(strong) NSString<Optional>* tokenid;
-
 @end

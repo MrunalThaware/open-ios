@@ -26,9 +26,6 @@ typedef enum {
 } CTSPaymentType;
 
 @interface CTSPaymentOption : JSONModel
-//@property(nonatomic, strong) NSString* type, *cardName, *ownerName, *number,
-//    *bankName, *expiryDate, *scheme;
-
 @property(nonatomic, strong) NSString<Optional>* type;
 @property(nonatomic, strong) NSString<Optional>* name;
 @property(nonatomic, strong) NSString<Optional>* owner;

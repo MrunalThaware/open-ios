@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
+
 @interface CTSTokenizedPaymentToken : JSONModel
 @property(strong) NSString<Optional>* type;
 @property(strong) NSString<Optional>* id;

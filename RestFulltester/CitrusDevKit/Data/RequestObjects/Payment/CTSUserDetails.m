@@ -11,6 +11,7 @@
 
 @implementation CTSUserDetails
 @synthesize email, firstName, lastName, mobileNo, address;
+
 - (instancetype)initWith:(CTSContactUpdate*)contact
                  address:(CTSUserAddress*)addressArg {
   self = [super init];
@@ -23,5 +24,4 @@
   }
   return self;
 }
-
 @end

@@ -31,5 +31,4 @@
 - (id)fetchDataFromCache:(long)index;
 - (id)fetchAndRemoveDataFromCache:(long)index;
 -(long)addDataToCacheAtAutoIndex:(id)object;
-- (instancetype)initWithUrl:(NSString *)url;
 @end

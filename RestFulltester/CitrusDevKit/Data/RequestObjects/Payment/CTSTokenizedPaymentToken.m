@@ -12,5 +12,4 @@
 @synthesize type;
 @synthesize id;
 @synthesize cvv;
-
 @end

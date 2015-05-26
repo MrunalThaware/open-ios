@@ -14,6 +14,7 @@
 #import "UserLogging.h"
 
 @class CTSRestCore;
+
 @protocol CTSRestCoreDelegate
 - (void)restCore:(CTSRestCore*)restCore
     didReceiveResponse:(CTSRestCoreResponse*)response;
@@ -25,6 +26,7 @@
 }
 @property(strong, nonatomic) NSString* baseUrl;
 @property(weak) id<CTSRestCoreDelegate> delegate;
+
 - (instancetype)initWithBaseUrl:(NSString*)url;
 - (void)requestAsyncServer:(CTSRestCoreRequest*)restRequest;
 + (CTSRestCoreResponse*)requestSyncServer:(CTSRestCoreRequest*)restRequest

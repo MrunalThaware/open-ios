@@ -15,7 +15,6 @@
 @interface CTSUtility : NSObject
 + (NSString*)readFromDisk:(NSString*)key;
 + (void)saveToDisk:(id)data as:(NSString*)key;
-
 + (NSDictionary*)readSigninTokenAsHeader;
 + (NSDictionary*)readSignupTokenAsHeader;
 + (NSDictionary*)readOauthTokenAsHeader:(NSString*)oauthToken;

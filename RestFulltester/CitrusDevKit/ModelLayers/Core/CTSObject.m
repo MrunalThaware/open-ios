@@ -12,5 +12,4 @@
 - (CTSErrorCode)validate {
   return NoError;
 }
-
 @end

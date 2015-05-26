@@ -10,5 +10,4 @@
 
 @implementation CTSUserAddress
 @synthesize city, country, state, street1, street2, zip;
-
 @end

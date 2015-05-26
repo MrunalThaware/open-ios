@@ -39,7 +39,6 @@
 @synthesize merchantTxnId;
 @synthesize signature;
 @synthesize objectManager;
-@synthesize delegate;
 
 - (CTSPaymentRequest*)configureReqPayment:(CTSPaymentDetailUpdate*)paymentInfo
                                   contact:(CTSContactUpdate*)contact
@@ -123,14 +122,12 @@
 
   CTSErrorCode error = [paymentInfo validate];
 
-  LogTrace(@"validation error %d ", error);
+  LogDebug(@"validation error %d ", error);
 
   if (error != NoError) {
     [self makeUserPaymentHelper:nil error:[CTSError getErrorForCode:error]];
     return;
   }
-
-  //long index = [self addDataToCacheAtAutoIndex:paymentInfo];
 
   CTSRestCoreRequest* request =
       [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL
@@ -166,7 +163,7 @@
                           txnId:merchantTxnIdArg];
 
   CTSErrorCode error = [paymentInfo validateTokenized];
-  LogTrace(@" validation error %d ", error);
+  LogDebug(@" validation error %d ", error);
 
   if (error != NoError) {
     [self makeTokenizedPaymentHelper:nil
@@ -196,52 +193,13 @@
   [self addCallback:callback forRequestId:PaymentAsGuestReqId];
 
   CTSErrorCode error = [paymentInfo validate];
-  LogTrace(@"validation error %d ", error);
+  LogDebug(@"validation error %d ", error);
 
   if (error != NoError) {
     [self makeGuestPaymentHelper:nil
                                error:[CTSError getErrorForCode:error]];
     return;
   }
-//  CTSAuthLayer* authLayer = [[CTSAuthLayer alloc] init];
-//  __block CTSPaymentDetailUpdate* _paymentDetailUpdate = paymentInfo;
-//  __block NSString* email = contactInfo.email;
-//  __block NSString* mobile = contactInfo.mobile;
-//  __block NSString* password = contactInfo.password;
-//  __block NSString* firstName = contactInfo.firstName;
-//  __block NSString* lastName = contactInfo.lastName;
-//
-//    
-//  dispatch_queue_t backgroundQueue =
-//      dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//
-//  dispatch_async(backgroundQueue, ^(void) {
-//      [authLayer
-//          requestSignUpWithEmail:email
-//                          mobile:mobile
-//                        password:password
-//                      firstName:firstName
-//                        lastName:lastName
-//               completionHandler:^(NSString* userName,
-//                                   NSString* token,
-//                                   NSError* error) {
-//                   if (error == nil) {
-//                     dispatch_queue_t backgroundQueueBlock =
-//                         dispatch_get_global_queue(
-//                             DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//
-//                     dispatch_async(backgroundQueueBlock, ^(void) {
-//                         CTSProfileLayer* profileLayer =
-//                             [[CTSProfileLayer alloc] init];
-//                         [profileLayer
-//                             updatePaymentInformation:_paymentDetailUpdate
-//                                withCompletionHandler:nil];
-//                         _paymentDetailUpdate = nil;
-//                     });
-//                   }
-//               }];
-//  });
-
   CTSPaymentRequest* paymentrequest =
       [self configureReqPayment:paymentInfo
                         contact:contactInfo
@@ -263,23 +221,6 @@
   [restCore requestAsyncServer:request];
 }
 
-
-//- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
-//                      withContact:(CTSContactUpdate*)contactInfo
-//                           amount:(NSString*)amount
-//                      withAddress:(CTSUserAddress*)userAddress
-//                    withReturnUrl:(NSString*)returnUrl
-//                    withSignature:(NSString*)signature
-//                        withTxnId:(NSString*)merchantTxnId
-//            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback{
-//
-////    [self makePaymentUsingGuestFlow:paymentInfo withContact:contactInfo amount:amount withAddress:userAddress withReturnUrl:returnUrl withSignature:signature withTxnId:merchantTxnId withCustParams:nil withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-////        <#code#>
-////    }];
-//
-//
-//
-//}
 
 - (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
                                withAddress:(CTSUserAddress*)userAddress
@@ -318,8 +259,8 @@
                                        withSignature:signatureArg
                                            withTxnId:merchantTxnIdArg
                                withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        NSLog(@"paymentInfo %@",paymentInfo);
-        NSLog(@"error %@",error);
+        LogDebug(@"paymentInfo %@",paymentInfo);
+        LogDebug(@"error %@",error);
         [self handlePaymentResponse:paymentInfo error:error] ;
     }];
 }
@@ -479,34 +420,7 @@ enum {
 
 
 - (instancetype)init {
-  NSDictionary* dict = @{
-    toNSString(PaymentAsGuestReqId) : toSelector(handleReqPaymentAsGuest
-                                                 :),
-    toNSString(PaymentUsingtokenizedCardBankReqId) :
-        toSelector(handleReqPaymentUsingtokenizedCardBank
-                   :),
-    toNSString(PaymentUsingSignedInCardBankReqId) :
-        toSelector(handlePaymentUsingSignedInCardBank
-                   :),
-    toNSString(PaymentPgSettingsReqId) : toSelector(handleReqPaymentPgSettings
-                                        :),
-    toNSString(PaymentLoadMoneyCitrusPayReqId) : toSelector(handleLoadMoneyCitrusPay
-                                                            :),
-    toNSString(PaymentGetPrepaidBillReqId) : toSelector(handleGetPrepaidBill
-                                                        :),
-    toNSString(PaymentAsCitruspayReqId) : toSelector(handlePayementUsingCitruspay
-                                                     :),
-    toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
-                                                             :)
-  };
-  self = [super initWithRequestSelectorMapping:dict
-                                       baseUrl:CITRUS_PAYMENT_BASE_URL];
-  return self;
-}
-
-
--(NSDictionary *)getRegistrationDict{
-   return @{
+    NSDictionary* dict = @{
                            toNSString(PaymentAsGuestReqId) : toSelector(handleReqPaymentAsGuest
                                                                         :),
                            toNSString(PaymentUsingtokenizedCardBankReqId) :
@@ -526,9 +440,34 @@ enum {
                            toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
                                                                                     :)
                            };
+    self = [super initWithRequestSelectorMapping:dict
+                                         baseUrl:CITRUS_PAYMENT_BASE_URL];
+    return self;
 }
 
 
+-(NSDictionary *)getRegistrationDict{
+    return @{
+             toNSString(PaymentAsGuestReqId) : toSelector(handleReqPaymentAsGuest
+                                                          :),
+             toNSString(PaymentUsingtokenizedCardBankReqId) :
+                 toSelector(handleReqPaymentUsingtokenizedCardBank
+                            :),
+             toNSString(PaymentUsingSignedInCardBankReqId) :
+                 toSelector(handlePaymentUsingSignedInCardBank
+                            :),
+             toNSString(PaymentPgSettingsReqId) : toSelector(handleReqPaymentPgSettings
+                                                             :),
+             toNSString(PaymentLoadMoneyCitrusPayReqId) : toSelector(handleLoadMoneyCitrusPay
+                                                                     :),
+             toNSString(PaymentGetPrepaidBillReqId) : toSelector(handleGetPrepaidBill
+                                                                 :),
+             toNSString(PaymentAsCitruspayReqId) : toSelector(handlePayementUsingCitruspay
+                                                              :),
+             toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
+                                                                      :)
+             };
+}
 
 
 - (instancetype)initWithUrl:(NSString *)url
@@ -543,6 +482,7 @@ enum {
 }
 
 #pragma mark - response handlers methods
+
 - (void)handleReqPaymentAsGuest:(CTSRestCoreResponse*)response {
   NSError* error = response.error;
   JSONModelError* jsonError;
@@ -551,11 +491,7 @@ enum {
     payment =
         [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
                                                    error:&jsonError];
-
     [payment logProperties];
-    //    [delegate payment:self
-    //        didMakePaymentUsingGuestFlow:resultObject
-    //                               error:error];
   }
   [self makeGuestPaymentHelper:payment error:error];
 }
@@ -565,7 +501,7 @@ enum {
   JSONModelError* jsonError;
   CTSPaymentTransactionRes* payment = nil;
   if (error == nil) {
-    NSLog(@"error:%@", jsonError);
+    LogDebug(@"error:%@", jsonError);
     payment =
         [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
                                                    error:&jsonError];
@@ -578,19 +514,6 @@ enum {
   NSError* error = response.error;
   JSONModelError* jsonError;
   CTSPaymentTransactionRes* payment = nil;
-//  if (response.indexData > -1) {
-//    CTSPaymentDetailUpdate* paymentDetail =
-//        [self fetchAndRemoveDataFromCache:response.indexData];
-//    [paymentDetail logProperties];
-//    __block CTSProfileLayer* profile = [[CTSProfileLayer alloc] init];
-//    [profile updatePaymentInformation:paymentDetail
-//                withCompletionHandler:^(NSError* error) {
-//                    LogTrace(@" error %@ ", error);
-//                }];
-//
-// 
-//  }
-    
     payment =
     [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
                                                error:&jsonError];
@@ -609,14 +532,13 @@ enum {
   [self getMerchantPgSettingsHelper:pgSettings error:error];
 }
 
-
 -(void)handleLoadMoneyCitrusPay:(CTSRestCoreResponse *)response {
     
     NSError* error = response.error;
     JSONModelError* jsonError;
     CTSPaymentTransactionRes* payment = nil;
     if (error == nil) {
-        NSLog(@"error:%@", jsonError);
+        LogDebug(@"error:%@", jsonError);
         payment =
         [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
                                                    error:&jsonError];
@@ -654,7 +576,7 @@ enum {
     JSONModelError* jsonError;
     CTSPaymentTransactionRes* payment = nil;
     if (error == nil) {
-        NSLog(@"error:%@", jsonError);
+        LogDebug(@"error:%@", jsonError);
         payment =
         [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
                                                    error:&jsonError];
@@ -674,8 +596,6 @@ enum {
 
   if (callback != nil) {
     callback(payment, error);
-  } else {
-    [delegate payment:self didMakeUserPayment:payment error:error];
   }
 }
 
@@ -685,8 +605,6 @@ enum {
       retrieveAndRemoveCallbackForReqId:PaymentUsingtokenizedCardBankReqId];
   if (callback != nil) {
     callback(payment, error);
-  } else {
-    [delegate payment:self didMakeTokenizedPayment:payment error:error];
   }
 }
 
@@ -696,8 +614,6 @@ enum {
       [self retrieveAndRemoveCallbackForReqId:PaymentAsGuestReqId];
   if (callback != nil) {
     callback(payment, error);
-  } else {
-    [delegate payment:self didMakePaymentUsingGuestFlow:payment error:error];
   }
 }
 
@@ -710,10 +626,6 @@ enum {
     if (callback != nil) {
         callback(bill, error);
     }
-    else{
-        [delegate payment:self
-        didGetPrepaidBill:bill error:error];
-    }
     [self resetCitrusPay];
 }
 
@@ -724,8 +636,6 @@ enum {
     
     if (callback != nil) {
         callback(payment, error);
-    } else {
-        [delegate payment:self didLoadMoney:payment error:error];
     }
 }
 
@@ -736,8 +646,6 @@ enum {
       [self retrieveAndRemoveCallbackForReqId:PaymentPgSettingsReqId];
   if (callback != nil) {
     callback(pgSettings, error);
-  } else {
-    [delegate payment:self didRequestMerchantPgSettings:pgSettings error:error];
   }
 }
 
@@ -751,11 +659,6 @@ enum {
     if (callback != nil) {
         callback(paymentRes, error);
     }
-    else{
-        [delegate payment:self
-     didPaymentCitrusCash:paymentRes
-                    error:error];
-    }
     [self resetCitrusPay];
 }
 
@@ -765,8 +668,7 @@ enum {
     [self retrieveAndRemoveCallbackForReqId:PaymentAsCitruspayInternalReqId];
     if (callback != nil) {
         callback(payment, error);
-    } 
-    
+    }
 }
 
 
@@ -791,13 +693,9 @@ enum {
         }
         else {
             [self makeCitrusPayHelper:nil error:error];
-
-        
         }
     }
 }
-
-
 
 
 -(void)resetCitrusPay{
@@ -813,7 +711,7 @@ enum {
 #pragma mark -  CitrusPayWebView
 
 - (void)webViewDidStartLoad:(UIWebView*)webView {
-    NSLog(@"webViewDidStartLoad ");
+    LogDebug(@"webViewDidStartLoad ");
 }
 
 
@@ -829,7 +727,7 @@ enum {
 
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
-    NSLog(@"did finish loading");
+    LogDebug(@"did finish loading");
     NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
     if(responseDict){
         CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];
@@ -839,12 +737,11 @@ enum {
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    NSLog(@"request url %@",[request URL]);
-    
+    LogDebug(@"request url %@",[request URL]);
     
     NSArray* cookies =
     [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[request URL]];
-    NSLog(@"cookie array:%@", cookies);
+    LogDebug(@"cookie array:%@", cookies);
     if([CTSUtility isVerifyPage:[[request URL] absoluteString]]){
         [self makeCitrusPayHelper:nil
                             error:[CTSError getErrorForCode:UserNotSignedIn]];
@@ -859,8 +756,7 @@ enum {
         [self makeCitrusPayHelper:response error:nil];
     }
     
-    LogTrace(@"responseDict %@",responseDict);
-    
+    LogDebug(@"responseDict %@",responseDict);
     return YES;
 }
 

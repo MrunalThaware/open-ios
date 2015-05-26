@@ -18,62 +18,6 @@
 #import "CTSAmount.h"
 
 @class CTSProfileLayer;
-@protocol CTSProfileProtocol
-/**
- *  called when client requests for contact information
- *
- *  @param contactInfo nil in case of error
- *  @param error       nil when successful
- */
-@optional
-- (void)profile:(CTSProfileLayer*)profile
-    didReceiveContactInfo:(CTSProfileContactRes*)contactInfo
-                    error:(NSError*)error;
-/**
- *  called when client requests for payment information
- *
- *  @param contactInfo nil in case of error
- *  @param error       nil when succesful
- */
-@optional
-- (void)profile:(CTSProfileLayer*)profile
-    didReceivePaymentInformation:(CTSProfilePaymentRes*)contactInfo
-                           error:(NSError*)error;
-/**
- *  when contact information is updated to server
- *
- *  @param error error if happned
- */
-@optional
-- (void)profile:(CTSProfileLayer*)profile
-    didUpdateContactInfoError:(NSError*)error;
-
-/**
- *  when payment information is updated on server
- *
- *  @param error nil when successful
- */
-@optional
-- (void)profile:(CTSProfileLayer*)profile
-    didUpdatePaymentInfoError:(NSError*)error;
-
-@optional
-- (void)profile:(CTSProfileLayer*)profile
-didUpdateMobileError:(NSError*)error;
-
-
-
-@optional
-- (void)profile:(CTSProfileLayer*)profile
-didReceiveNewContactInfo:(CTSProfileContactNewRes*)contactInfo
-          error:(NSError*)error;
-
-@optional
-- (void)profile:(CTSProfileLayer*)profile
-  didGetBalance:(CTSAmount *)amount
-          error:(NSError*)error;
-
-@end
 
 /**
  *  user profile related services
@@ -82,8 +26,6 @@ didReceiveNewContactInfo:(CTSProfileContactNewRes*)contactInfo
 }
 
 - (instancetype)initWithUrl:(NSString *)url;
-
-@property(weak) id<CTSProfileProtocol> delegate;
 
 typedef void (^ASGetContactInfoCallBack)(CTSProfileContactRes* contactInfo,
                                          NSError* error);

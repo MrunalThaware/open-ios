@@ -9,68 +9,10 @@
 #ifndef RestFulltester_TestParams_h
 #define RestFulltester_TestParams_h
 // TestParams.h should be populated according to your needs
-//
-//#define TEST_EMAIL @"mangesh.kadam999999@gmail.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9702964502"
 
-//works on prod
-//#define TEST_EMAIL @"mitalee.yadav@gmail.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9930993582"
-
-
-//#define TEST_EMAIL @"vinod@leftshift.io"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9999999222"
-
-
-//my sandbox one
-//#define TEST_EMAIL @"yadnesh.wankhede@citruspay.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9702964502"
-
-//#define TEST_EMAIL @"mangesh.kadam1122@citruspay.com"
-//#define TEST_PASSWORD @"Citrus@123"
-//#define TEST_MOBILE @"9811111111"
-
-//sandbox working
 #define TEST_EMAIL @"yaddyboySandbox@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9702964502"
-
-
-//#define TEST_EMAIL @"yadnesh.wankhede@citruspay.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"7710044930"
-
-//#define TEST_EMAIL @"anurag.theprophet@gmail.com"
-//#define TEST_PASSWORD @"copperroad1"
-//#define TEST_MOBILE @"7710044930"
-
-
-//sandbox working
-//#define TEST_EMAIL @"GaurangSandbox@mailinator.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9167291271"
-
-//#define TEST_EMAIL @"yaddyboy46@mailinator.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9702964502"
-
-//#define TEST_EMAIL @"hhhhhhhhhh@gmail.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9811111111"
-
-//#define TEST_EMAIL @"abc12345@gmail.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9822222211"
-
-
-
-//#define TEST_EMAIL @"bijaldesai0907@gmail.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9822222222"
+#define TEST_MOBILE @"7710044930"
 
 #define TEST_OTP @"ad0x"
 
@@ -104,9 +46,6 @@
 #define TEST_CREDIT_CARD_CVV @"018"
 
 #define TEST_NETBAK_CODE @"CID002"
-//#define TEST_NETBAK_OWNER_NAME @"Yadnesh Wankhede"
-//#define TEST_NETBAK_NAME @"Axis Bank"
-
 #define TEST_NETBAK_OWNER_NAME @"Yadnesh Wankhede"
 #define TEST_NETBAK_NAME @"Axis Bank"
 

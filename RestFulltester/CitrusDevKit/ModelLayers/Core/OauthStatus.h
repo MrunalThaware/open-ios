@@ -11,5 +11,4 @@
 @interface OauthStatus : NSObject
 @property(strong) NSString* oauthToken;
 @property(strong) NSError* error;
-
 @end

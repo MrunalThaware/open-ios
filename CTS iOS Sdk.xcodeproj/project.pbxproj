@@ -38,7 +38,6 @@
 		37A7C6B11922458F005D29D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6B01922458F005D29D4 /* main.m */; };
 		37A7C6B51922458F005D29D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6B41922458F005D29D4 /* AppDelegate.m */; };
 		37A7C6B81922458F005D29D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6B61922458F005D29D4 /* Main.storyboard */; };
-		37A7C6BB1922458F005D29D4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6BA1922458F005D29D4 /* ViewController.m */; };
 		37A7C6BD1922458F005D29D4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6BC1922458F005D29D4 /* Images.xcassets */; };
 		37A7C6DC19224B64005D29D4 /* Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6DB19224B64005D29D4 /* Networking.m */; };
 		37B74D80199CAD7D00D7CC2C /* OauthStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B74D7F199CAD7D00D7CC2C /* OauthStatus.m */; };
@@ -76,7 +75,11 @@
 		37E1F89A19C036EC00DC29AF /* CTSSignupState.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E1F89919C036EC00DC29AF /* CTSSignupState.m */; };
 		37EF1CD31A91D6E400D496F0 /* CTSProfileContactNewRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EF1CD21A91D6E400D496F0 /* CTSProfileContactNewRes.m */; };
 		6BEDF371199382F500F97231 /* CTSPaymentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */; };
-		6BEDF4621993A50600F97231 /* HMACSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF4611993A50600F97231 /* HMACSignature.m */; };
+		7699BD0B1B05B8DA0038C129 /* SampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7699BD071B05B8DA0038C129 /* SampleViewController.m */; };
+		7699BD0C1B05B8DA0038C129 /* SampleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7699BD081B05B8DA0038C129 /* SampleViewController.xib */; };
+		7699BD0D1B05B8DA0038C129 /* RedirectWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7699BD0A1B05B8DA0038C129 /* RedirectWebViewController.m */; };
+		7699BD111B05B9810038C129 /* UIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7699BD101B05B9810038C129 /* UIUtility.m */; };
+		76D23C1B1B09FA1F00732E17 /* CTSMobileVerifiactionRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D23C1A1B09FA1F00732E17 /* CTSMobileVerifiactionRes.m */; };
 		76DA2E9D1AD7C8F000D76485 /* CTSBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA2E981AD7C8F000D76485 /* CTSBill.m */; };
 		76DA2E9E1AD7C8F000D76485 /* CTSCitrusCashRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA2E9A1AD7C8F000D76485 /* CTSCitrusCashRes.m */; };
 		76DA2E9F1AD7C8F000D76485 /* CTSPrepaidBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA2E9C1AD7C8F000D76485 /* CTSPrepaidBill.m */; };
@@ -146,8 +149,6 @@
 		37A7C6B31922458F005D29D4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		37A7C6B41922458F005D29D4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		37A7C6B71922458F005D29D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		37A7C6B91922458F005D29D4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		37A7C6BA1922458F005D29D4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		37A7C6BC1922458F005D29D4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		37A7C6C31922458F005D29D4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		37A7C6CB1922458F005D29D4 /* CTS iOS SdkTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CTS iOS SdkTests-Info.plist"; sourceTree = "<group>"; };
@@ -231,8 +232,15 @@
 		6BEDF36E199382F500F97231 /* CTSPaymentLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPaymentLayer.h; sourceTree = "<group>"; };
 		6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSPaymentLayer.m; sourceTree = "<group>"; };
 		6BEDF370199382F500F97231 /* CTSPaymentLayerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPaymentLayerConstants.h; sourceTree = "<group>"; };
-		6BEDF4601993A50600F97231 /* HMACSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMACSignature.h; sourceTree = "<group>"; };
-		6BEDF4611993A50600F97231 /* HMACSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMACSignature.m; sourceTree = "<group>"; };
+		7699BD061B05B8DA0038C129 /* SampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleViewController.h; sourceTree = "<group>"; };
+		7699BD071B05B8DA0038C129 /* SampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleViewController.m; sourceTree = "<group>"; };
+		7699BD081B05B8DA0038C129 /* SampleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SampleViewController.xib; sourceTree = "<group>"; };
+		7699BD091B05B8DA0038C129 /* RedirectWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedirectWebViewController.h; sourceTree = "<group>"; };
+		7699BD0A1B05B8DA0038C129 /* RedirectWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedirectWebViewController.m; sourceTree = "<group>"; };
+		7699BD0F1B05B9810038C129 /* UIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIUtility.h; sourceTree = "<group>"; };
+		7699BD101B05B9810038C129 /* UIUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIUtility.m; sourceTree = "<group>"; };
+		76D23C191B09FA1F00732E17 /* CTSMobileVerifiactionRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSMobileVerifiactionRes.h; sourceTree = "<group>"; };
+		76D23C1A1B09FA1F00732E17 /* CTSMobileVerifiactionRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSMobileVerifiactionRes.m; sourceTree = "<group>"; };
 		76DA2E971AD7C8F000D76485 /* CTSBill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSBill.h; sourceTree = "<group>"; };
 		76DA2E981AD7C8F000D76485 /* CTSBill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSBill.m; sourceTree = "<group>"; };
 		76DA2E991AD7C8F000D76485 /* CTSCitrusCashRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCitrusCashRes.h; sourceTree = "<group>"; };
@@ -324,10 +332,10 @@
 		37851B421978F2DD00AE3AD0 /* CitrusDevKit */ = {
 			isa = PBXGroup;
 			children = (
+				371C5FD0199B43D600522AD7 /* MerchantConstants.h */,
+				37C00CDB19935DF40057DB32 /* CitrusSdk.h */,
 				37851B431978F2DD00AE3AD0 /* Data */,
 				37851B8F1978F2DD00AE3AD0 /* ModelLayers */,
-				37C00CDB19935DF40057DB32 /* CitrusSdk.h */,
-				371C5FD0199B43D600522AD7 /* MerchantConstants.h */,
 			);
 			path = CitrusDevKit;
 			sourceTree = "<group>";
@@ -347,10 +355,10 @@
 		37851B8F1978F2DD00AE3AD0 /* ModelLayers */ = {
 			isa = PBXGroup;
 			children = (
+				37851B901978F2DD00AE3AD0 /* Authentication */,
 				6BEDF36D199382F500F97231 /* Payment */,
 				37C96443198F6B350021DC0B /* UserProfile */,
 				371B5D18198A5CCF0096451C /* CTSRestKitCode */,
-				37851B901978F2DD00AE3AD0 /* Authentication */,
 				37851B941978F2DD00AE3AD0 /* CitrusError */,
 				37851B971978F2DD00AE3AD0 /* Core */,
 				37851BA21978F2DD00AE3AD0 /* External */,
@@ -439,20 +447,22 @@
 		37A7C6AA1922458F005D29D4 /* CTSiOSSdk */ = {
 			isa = PBXGroup;
 			children = (
-				6BEDF4601993A50600F97231 /* HMACSignature.h */,
-				6BEDF4611993A50600F97231 /* HMACSignature.m */,
 				37851B421978F2DD00AE3AD0 /* CitrusDevKit */,
 				37A7C6D919224ACC005D29D4 /* constants */,
 				37A7C6B31922458F005D29D4 /* AppDelegate.h */,
 				37A7C6B41922458F005D29D4 /* AppDelegate.m */,
 				37A7C6B61922458F005D29D4 /* Main.storyboard */,
-				37A7C6B91922458F005D29D4 /* ViewController.h */,
-				37A7C6BA1922458F005D29D4 /* ViewController.m */,
-				37A7C6BC1922458F005D29D4 /* Images.xcassets */,
-				37A7C6AB1922458F005D29D4 /* Supporting Files */,
+				7699BD061B05B8DA0038C129 /* SampleViewController.h */,
+				7699BD071B05B8DA0038C129 /* SampleViewController.m */,
+				7699BD081B05B8DA0038C129 /* SampleViewController.xib */,
+				7699BD091B05B8DA0038C129 /* RedirectWebViewController.h */,
+				7699BD0A1B05B8DA0038C129 /* RedirectWebViewController.m */,
 				3723D1571948371B00C50FA5 /* TestParams.h */,
 				376E4EC719B5A13F00739B00 /* ServerSignature.h */,
 				376E4EC819B5A13F00739B00 /* ServerSignature.m */,
+				7699BD0E1B05B9810038C129 /* UIUtility */,
+				37A7C6BC1922458F005D29D4 /* Images.xcassets */,
+				37A7C6AB1922458F005D29D4 /* Supporting Files */,
 			);
 			name = CTSiOSSdk;
 			path = RestFulltester;
@@ -585,6 +595,8 @@
 				37C964B1198F86960021DC0B /* CTSSignUpRes.m */,
 				3751E6051A15BCFA004458F3 /* CTSUserVerificationRes.h */,
 				3751E6061A15BCFA004458F3 /* CTSUserVerificationRes.m */,
+				76D23C191B09FA1F00732E17 /* CTSMobileVerifiactionRes.h */,
+				76D23C1A1B09FA1F00732E17 /* CTSMobileVerifiactionRes.m */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -650,6 +662,15 @@
 			path = Payment;
 			sourceTree = "<group>";
 		};
+		7699BD0E1B05B9810038C129 /* UIUtility */ = {
+			isa = PBXGroup;
+			children = (
+				7699BD0F1B05B9810038C129 /* UIUtility.h */,
+				7699BD101B05B9810038C129 /* UIUtility.m */,
+			);
+			path = UIUtility;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -707,6 +728,7 @@
 				37A7C6BD1922458F005D29D4 /* Images.xcassets in Resources */,
 				37A7C6AF1922458F005D29D4 /* InfoPlist.strings in Resources */,
 				37A7C6B81922458F005D29D4 /* Main.storyboard in Resources */,
+				7699BD0C1B05B8DA0038C129 /* SampleViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -739,9 +761,9 @@
 				37851BF61978F2DD00AE3AD0 /* CTSError.m in Sources */,
 				37D6C213197D289300F357FD /* CTSOauthManager.m in Sources */,
 				3751E6071A15BCFA004458F3 /* CTSUserVerificationRes.m in Sources */,
-				37A7C6BB1922458F005D29D4 /* ViewController.m in Sources */,
 				37A7C6B51922458F005D29D4 /* AppDelegate.m in Sources */,
 				37C96490198F723E0021DC0B /* CTSAmount.m in Sources */,
+				7699BD0D1B05B8DA0038C129 /* RedirectWebViewController.m in Sources */,
 				371B5D49198A5D110096451C /* JSONModelError.m in Sources */,
 				37C964AB198F723E0021DC0B /* CTSProfilePaymentRes.m in Sources */,
 				37C964A5198F723E0021DC0B /* CTSDebitCardOption.m in Sources */,
@@ -753,6 +775,7 @@
 				76DA2E9D1AD7C8F000D76485 /* CTSBill.m in Sources */,
 				37C964A6198F723E0021DC0B /* CTSNetbankingOption.m in Sources */,
 				37EF1CD31A91D6E400D496F0 /* CTSProfileContactNewRes.m in Sources */,
+				76D23C1B1B09FA1F00732E17 /* CTSMobileVerifiactionRes.m in Sources */,
 				37C96492198F723E0021DC0B /* CTSPaymentMode.m in Sources */,
 				37C964A4198F723E0021DC0B /* CTSCreditCardOption.m in Sources */,
 				371B5D45198A5D110096451C /* JSONModel+CoreData.m in Sources */,
@@ -761,6 +784,7 @@
 				37851BF41978F2DD00AE3AD0 /* CTSAuthLayer.m in Sources */,
 				3733269619B860190084D52D /* JSONValueTransformer.m in Sources */,
 				37C96493198F723E0021DC0B /* CTSPaymentNetbankingRequest.m in Sources */,
+				7699BD111B05B9810038C129 /* UIUtility.m in Sources */,
 				37C9649F198F723E0021DC0B /* CTSPaymentOption.m in Sources */,
 				37851BFC1978F2DD00AE3AD0 /* CTSUtility.m in Sources */,
 				371B5D24198A5CCF0096451C /* CTSRestCore.m in Sources */,
@@ -768,6 +792,7 @@
 				371B5D27198A5CCF0096451C /* CTSRestObject.m in Sources */,
 				37851C021978F2DD00AE3AD0 /* NSObject+logProperties.m in Sources */,
 				37C96447198F6B350021DC0B /* CTSProfileLayer.m in Sources */,
+				7699BD0B1B05B8DA0038C129 /* SampleViewController.m in Sources */,
 				76DA2E9F1AD7C8F000D76485 /* CTSPrepaidBill.m in Sources */,
 				37C96496198F723E0021DC0B /* CTSPaymentUpdate.m in Sources */,
 				37C964B2198F86960021DC0B /* CTSOauthTokenRes.m in Sources */,
@@ -788,7 +813,6 @@
 				371B5D26198A5CCF0096451C /* CTSRestCoreResponse.m in Sources */,
 				37C96494198F723E0021DC0B /* CTSPaymentRequest.m in Sources */,
 				371B5D48198A5D110096451C /* JSONModelClassProperty.m in Sources */,
-				6BEDF4621993A50600F97231 /* HMACSignature.m in Sources */,
 				371B5D46198A5D110096451C /* JSONModel.m in Sources */,
 				37A7C6DC19224B64005D29D4 /* Networking.m in Sources */,
 				371B5D52198A5D770096451C /* CTSRestError.m in Sources */,
@@ -918,7 +942,6 @@
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					"$(inherited)",
 					"SANDBOX_MODE=1",
 				);
 				INFOPLIST_FILE = "RestFulltester/CTS iOS Sdk-Info.plist";

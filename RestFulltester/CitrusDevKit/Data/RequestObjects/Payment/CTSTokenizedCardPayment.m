@@ -11,5 +11,4 @@
 @implementation CTSTokenizedCardPayment
 @synthesize merchantAccessKey, merchantTxnId, notifyUrl, returnUrl,
     requestSignature, amount, userDetails, merchant, merchantKey, paymentToken;
-
 @end

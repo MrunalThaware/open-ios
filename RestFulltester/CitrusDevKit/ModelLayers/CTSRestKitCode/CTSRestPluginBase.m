@@ -14,6 +14,7 @@
 
 @implementation CTSRestPluginBase
 @synthesize requestBlockCallbackMap;
+
 - (instancetype)initWithRequestSelectorMapping:(NSDictionary*)mapping
                                        baseUrl:(NSString*)baseUrl {
   self = [super init];
@@ -45,7 +46,7 @@
       response = [self addJsonErrorToResponse:response];
     }
 
-    [self performSelector:sel withObject:response];
+      [self performSelector:sel onThread:[NSThread currentThread] withObject:response waitUntilDone:YES];
   } else {
     @throw [[NSException alloc]
         initWithName:@"No Selector Found"
@@ -62,9 +63,6 @@
   error = [[CTSRestError alloc] initWithString:response.responseString
                                          error:&jsonError];
   [error logProperties];
-    
-    
-    
     
   if (error != nil) {
     if (error.type != nil) {
@@ -95,9 +93,6 @@
         newDes =[[serverError userInfo] valueForKey:NSLocalizedDescriptionKey];
     }
     
-//  NSString  *tempNewDes = [[CTSError sharedManager] dumbConversion:error.type];
-    
-    NSLog(@"newDes %@",newDes);
     NSInteger errorCode = [serverError code];
     NSInteger tempErrorCode = [CTSError getSDKExceptionCode:error.type ];
     if(tempErrorCode != UNKNOWN_EXCEPTION){

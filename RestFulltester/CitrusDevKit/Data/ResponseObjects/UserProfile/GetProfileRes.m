@@ -9,10 +9,4 @@
 #import "GetProfileRes.h"
 
 @implementation GetProfileRes
-//@synthesize mobileMoneyId, scheme, token, expiryDate, name, owner, bank,
-// accountNumber, type, impsRegisteredMobile;
-
-//- (NSString*)description {
-//  [self logProperties];
-//}
 @end

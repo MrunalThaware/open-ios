@@ -16,21 +16,10 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedMyManager = [[self alloc] init];
-        [sharedMyManager initDict];
-             });
+    });
     return sharedMyManager;
 }
 
--(void)initDict{
-//    dumbDict =  @{
-//                  @"com.citruspay.directory.exception.CitrusUserAlreadyExistsException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
-//                  @"com.citruspay.common.subscription.util.UserAlreadyExistsException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
-//                  @"com.citruspay.directory.exception.CitrusUserNotFoundException":@"Your mobile number was not found for OTP verification.",
-//                  @"com.citruspay.common.subscription.util.UserNotFoundException":@"The Email ID/Mobile Number entered by you already exists. Please use a different Email ID/Mobile Number.",
-//                  @"com.citruspay.common.verificationservice.exception.ExpiredOTPException":@"OTP entered by you is expired. Please regenerate a new OTP for verification.",
-//                  @"com.citruspay.common.verificationservice.exception.InvalidOTPException":@"The OTP Entered by you is invalid. Please enter the correct OTP.",
-//                  @"javax.security.auth.login.CredentialException":@"Invalid current password. Please make sure your current password is correct."};
-}
 
 
 + (NSError*)getErrorForCode:(CTSErrorCode)code {
@@ -124,12 +113,6 @@
                            userInfo:userInfo];
 }
 
-//+ (NSError*)getSDKErrorWithType:(NSString*)type
-//                          withInfo:(NSDictionary*)information {
-//    
-//    return [CTSError getSDKErrorForCode:[self getSDKExceptionCode:type]];
-//}
-
 +(SDKExceptionCode)getSDKExceptionCode:(NSString*)errorType{
     
     if ([errorType isEqualToString:USER_EXIST_MESSAGE]){
@@ -213,20 +196,7 @@
     }
     
     return errorDes;
-    
 }
-
-
-
-//-(NSString *)dumbConversion:(NSString*)errorDes{
-//
-//    for(NSString *from in [dumbDict allKeys]){
-//        if ([[errorDes uppercaseString] isEqualToString:[from uppercaseString]]) {
-//            return [dumbDict valueForKey:from];
-//        }
-//    }
-//    return nil;
-//}
 
 
 +(NSError *)errorForStatusCode:(int)statusCode{

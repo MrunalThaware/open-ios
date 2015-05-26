@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
+
 @interface CTSUserAddress : JSONModel
 @property(strong) NSString<Optional>* city;
 @property(strong) NSString<Optional>* country;
@@ -15,5 +16,4 @@
 @property(strong) NSString<Optional>* street1;
 @property(strong) NSString<Optional>* street2;
 @property(strong) NSString<Optional>* zip;
-
 @end

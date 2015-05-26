@@ -9,7 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSObject (logProperties)
-
 - (void) logProperties;
-
 @end

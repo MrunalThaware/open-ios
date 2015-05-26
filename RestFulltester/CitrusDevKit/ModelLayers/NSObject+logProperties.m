@@ -14,7 +14,7 @@
 
 @implementation NSObject (logProperties)
 - (void)logProperties {
-  LogTrace(@"----------------------------------------------- Properties for "
+  LogDebug(@"----------------------------------------------- Properties for "
            @"object %@",
            self);
 
@@ -26,10 +26,10 @@
       objc_property_t property = propertyArray[i];
       NSString* name =
           [[NSString alloc] initWithUTF8String:property_getName(property)];
-      LogTrace(@"Property %@ Value: %@", name, [self valueForKey:name]);
+      LogDebug(@"Property %@ Value: %@", name, [self valueForKey:name]);
     }
     free(propertyArray);
   }
-  LogTrace(@"-----------------------------------------------");
+  LogDebug(@"-----------------------------------------------");
 }
 @end

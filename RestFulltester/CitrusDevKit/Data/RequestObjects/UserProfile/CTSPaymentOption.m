@@ -7,34 +7,6 @@
 //
 
 #import "CTSPaymentOption.h"
-/**
- *  internal class should not be used by consumer
- */
-//@implementation CTSPaymentOption
-//@synthesize type, cardName, ownerName, number, expiryDate, scheme, bankName;
-//
-//- (instancetype)initWithCard:(CTSElectronicCardUpdate*)card {
-//  self = [super init];
-//  if (self) {
-//    type = card.type;
-//    cardName = card.name;
-//    ownerName = card.ownerName;
-//    number = card.number;
-//    expiryDate = card.expiryDate;
-//    scheme = card.scheme;
-//  }
-//  return self;
-//}
-//
-//- (instancetype)initWithNetBanking:(CTSNetBankingUpdate*)bankDetails {
-//  self = [super init];
-//  if (self) {
-//    type = bankDetails.type;
-//    bankName = bankDetails.name;
-//  }
-//  return self;
-//}
-//@end
 
 @implementation CTSPaymentOption
 @synthesize type, name, owner, number, expiryDate, scheme, bank, token, mmid,
@@ -51,7 +23,6 @@
         cvv = MLC_CITRUS_PAY_CVV;
     }
     return self;
-    
 }
 
 - (instancetype)initWithCard:(CTSElectronicCardUpdate*)eCard {
@@ -103,6 +74,7 @@
   }
   return error;
 }
+
 - (CTSErrorCode)validateCard {
   CTSErrorCode error = NoError;
   if ([CTSUtility validateCardNumber:number] == NO) {

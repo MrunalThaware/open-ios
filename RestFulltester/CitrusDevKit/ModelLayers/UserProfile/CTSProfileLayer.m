@@ -17,7 +17,7 @@
 #import "CTSAuthLayer.h"
 
 @implementation CTSProfileLayer
-@synthesize delegate;
+
 enum {
     ProfileGetContactReqId,
     ProfileUpdateContactReqId,
@@ -37,6 +37,7 @@ enum {
 
   return self;
 }
+
 -(NSDictionary *)getRegistrationDict{
     return @{
              toNSString(ProfileGetContactReqId) : toSelector(handleReqProfileGetContact
@@ -74,6 +75,7 @@ enum {
 }
 
 #pragma mark - class methods
+
 - (void)updateContactInformation:(CTSContactUpdate*)contactInfo
            withCompletionHandler:(ASUpdateContactInfoCallBack)callback {
   [self addCallback:callback forRequestId:ProfileUpdateContactReqId];
@@ -188,8 +190,6 @@ enum {
 (ASUpdateMobileNumberCallback)callback;{
     [self addCallback:callback forRequestId:ProfileUpdateMobileRequestId];
     
-    
-
     OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
@@ -198,19 +198,18 @@ enum {
         return;
     }
     
-
-      CTSUserVerificationRes *verificationResponse = [CTSAuthLayer requestSyncIsUserAlreadyRegisteredMobileOrEmail:mobileNumber];
-        if(allowUnverified == NO &&( verificationResponse.error  || verificationResponse.respCode == 202 || verificationResponse.respCode == 203)){
-            [self updateMobileHelper:[CTSError getErrorForCode:MobileAlreadyExits]];
-            return;
-        }
-        else if(allowUnverified == YES &&( verificationResponse.error  ||  verificationResponse.respCode == 203)){
-            [self updateMobileHelper:[CTSError getErrorForCode:MobileAlreadyExits]];
-            return;
+    CTSUserVerificationRes *verificationResponse = [CTSAuthLayer requestSyncIsUserAlreadyRegisteredMobileOrEmail:mobileNumber];
+    if(allowUnverified == NO &&( verificationResponse.error  || verificationResponse.respCode == 202 || verificationResponse.respCode == 203)){
+        [self updateMobileHelper:[CTSError getErrorForCode:MobileAlreadyExits]];
+        return;
+    }
+    else if(allowUnverified == YES &&( verificationResponse.error  ||  verificationResponse.respCode == 203)){
+        [self updateMobileHelper:[CTSError getErrorForCode:MobileAlreadyExits]];
+        return;
         
-        }
+    }
     
- 
+    
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_PROFILE_UPDATE_MOBILE_PATH
                                    requestId:ProfileUpdateMobileRequestId
@@ -220,9 +219,6 @@ enum {
                                    httpMethod:POST];
     
     [restCore requestAsyncServer:request];
-
-
-
 }
 
 
@@ -270,46 +266,7 @@ enum {
         [self getBalanceHelper:amount error:error];
 
     }];
-    
-    
 }
-
-
-//-(void)requestGetBalance:(ASGetBalanceCallBack)calback{
-//    [self addCallback:calback forRequestId:ProfileGetBalanceReqId];
-//    
-//    
-//    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
-//    NSString* oauthToken = oauthStatus.oauthToken;
-//    
-//    
-//    if (oauthStatus.error != nil || oauthToken == nil) {
-//        [self getBalanceHelper:nil error:oauthStatus.error];
-//        
-//    }
-//    
-//    
-//    
-//    //check if atviation is already done, else do the activation and go for get balance call
-//    if([CTSUtility readFromDisk:IS_CALLED_ACTIVATION]){
-//        [self proceedToGetBalance];
-//    }
-//    else{
-//        [self requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
-//            if(error){
-//                [self getBalanceHelper:nil error:error];
-//            }
-//            else{
-//                [self proceedToGetBalance];
-//            }
-//        }];
-//        
-//    }
-//    
-//    
-//}
-
-
 
 
 -(void)proceedToGetBalance{
@@ -325,8 +282,6 @@ enum {
                                    httpMethod:GET];
     
     [restCore requestAsyncServer:request];
-
-
 }
 
 
@@ -379,17 +334,16 @@ enum {
 #pragma mark - response handlers methods
 
 - (void)handleReqProfileGetContact:(CTSRestCoreResponse*)response {
-  NSError* error = response.error;
-  JSONModelError* jsonError;
-  CTSProfileContactRes* contact = nil;
-  if (error == nil) {
-    contact =
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSProfileContactRes* contact = nil;
+    if (error == nil) {
+        contact =
         [[CTSProfileContactRes alloc] initWithString:response.responseString
                                                error:&jsonError];
-    [contact logProperties];
-  }
-
-  [self getContactInfoHelper:contact error:error];
+        [contact logProperties];
+    }
+    [self getContactInfoHelper:contact error:error];
 }
 
 - (void)handleProfileUpdateContact:(CTSRestCoreResponse*)response {
@@ -405,7 +359,7 @@ enum {
     paymentDetails =
         [[CTSProfilePaymentRes alloc] initWithString:response.responseString
                                                error:&jsonError];
-    LogTrace(@"jsonError %@", jsonError);
+    LogDebug(@"jsonError %@", jsonError);
   }
   [self getPaymentInfoHelper:paymentDetails error:error];
 }
@@ -431,7 +385,7 @@ enum {
         contactInfo.emailDate = [NSDate dateWithTimeIntervalSince1970:[contactInfo.emailVerifiedDate longValue]];
         contactInfo.mobileDate = [NSDate dateWithTimeIntervalSince1970:[contactInfo.mobileVerifiedDate longValue]];
 
-        LogTrace(@"jsonError %@", jsonError);
+        LogDebug(@"jsonError %@", jsonError);
     }
     
     if(jsonError){
@@ -441,20 +395,6 @@ enum {
 
 }
 
-
-
-//old implementation
-//-(void)handleProfileGetBanlance:(CTSRestCoreResponse*)response{
-//    NSError* error = response.error;
-//    JSONModelError* jsonError;
-//    CTSAmount* amount = nil;
-//    
-//    if(error == nil){
-//        amount = [[CTSAmount alloc] initWithString:response.responseString error:&jsonError];
-//        
-//    }
-//    [self getBalanceHelper:amount error:error];
-//}
 
 //suggested by Mukesh via mail
 -(void)handleProfileGetBanlance:(CTSRestCoreResponse*)response{
@@ -517,8 +457,6 @@ enum {
 
   if (callback != nil) {
     callback(error);
-  } else {
-    [delegate profile:self didUpdateContactInfoError:error];
   }
 }
 
@@ -529,8 +467,6 @@ enum {
 
   if (callback != nil) {
     callback(contact, error);
-  } else {
-    [delegate profile:self didReceiveContactInfo:contact error:error];
   }
 }
 
@@ -541,21 +477,16 @@ enum {
   if (callback != nil) {
     callback(error);
 
-  } else {
-    [delegate profile:self didUpdatePaymentInfoError:error];
   }
 }
 
 - (void)getPaymentInfoHelper:(CTSProfilePaymentRes*)payment
                        error:(NSError*)error {
-  ASGetPaymentInfoCallBack callback =
-      [self retrieveAndRemoveCallbackForReqId:ProfileGetPaymentReqId];
-  if (callback != nil) {
-    callback(payment, error);
-
-  } else {
-    [delegate profile:self didReceivePaymentInformation:payment error:error];
-  }
+    ASGetPaymentInfoCallBack callback =
+    [self retrieveAndRemoveCallbackForReqId:ProfileGetPaymentReqId];
+    if (callback != nil) {
+        callback(payment, error);
+    }
 }
 
 
@@ -563,22 +494,15 @@ enum {
     ASUpdateContactInfoCallBack callback = [self retrieveAndRemoveCallbackForReqId:ProfileUpdateMobileRequestId];
     if (callback != nil) {
         callback(error);
-    } else {
-        [delegate profile:self didUpdateMobileError:error];
     }
-
 }
 
 -(void)getNewProfileHelper:(CTSProfileContactNewRes *)userProfile error:(NSError *)error{
-ASGetContactInfoNewCallback callback = [self retrieveAndRemoveCallbackForReqId:ProfileGetNewContactReqId];
+    ASGetContactInfoNewCallback callback = [self retrieveAndRemoveCallbackForReqId:ProfileGetNewContactReqId];
     
     if(callback != nil){
         callback(userProfile,error);
-        }
-    else {
-        [delegate profile:self didReceiveNewContactInfo:userProfile error:error];
-        }
-    
+    }
 }
 
 
@@ -587,9 +511,6 @@ ASGetContactInfoNewCallback callback = [self retrieveAndRemoveCallbackForReqId:P
     [self retrieveAndRemoveCallbackForReqId:ProfileGetBalanceReqId];
     if (callback != nil) {
         callback(amount, error);
-        
-    } else {
-        [delegate profile:self didGetBalance:amount error:error];
     }
 }
 
@@ -598,7 +519,6 @@ ASGetContactInfoNewCallback callback = [self retrieveAndRemoveCallbackForReqId:P
     if(error == nil){
         [CTSUtility saveToDisk:@"YES" as:IS_CALLED_ACTIVATION];
     }
-    
     
     ASGetBalanceCallBack callback =
     [self retrieveAndRemoveCallbackForReqId:ProfileActivatePrepaidAccountReqIdGetBalance];

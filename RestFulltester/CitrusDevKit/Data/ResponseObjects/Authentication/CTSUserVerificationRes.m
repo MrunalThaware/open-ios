@@ -8,10 +8,9 @@
 
 #import "CTSUserVerificationRes.h"
 #import "CTSError.h"
+
 @implementation CTSUserVerificationRes
 -(NSError *)convertToError{
     return [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:UserExits userInfo:@{NSLocalizedDescriptionKey:_respMsg}];
 }
-
-
 @end

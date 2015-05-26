@@ -8,6 +8,7 @@
 
 #import "JSONModel.h"
 #import "CTSAmount.h"
+
 @interface CTSPrepaidBill : JSONModel
 @property(nonatomic,strong) NSString *merchantTransactionId;
 @property(nonatomic,strong) NSString *merchant;
@@ -18,5 +19,4 @@
 @property(nonatomic,strong) NSString *returnUrl;
 @property(nonatomic,strong) NSString *notifyUrl;
 @property(nonatomic,strong) CTSAmount *amount;
-
 @end

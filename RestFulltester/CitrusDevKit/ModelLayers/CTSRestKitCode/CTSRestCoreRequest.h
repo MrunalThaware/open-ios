@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RestLayerConstants.h"
+
 @interface CTSRestCoreRequest : NSObject
 @property(strong) NSString* requestJson, *urlPath;
 @property(strong) NSMutableDictionary* parameters, *headers;
@@ -29,5 +30,4 @@
                         json:(NSString*)json
                   httpMethod:(HTTPMethod)method
                    dataIndex:(long)index;
-
 @end

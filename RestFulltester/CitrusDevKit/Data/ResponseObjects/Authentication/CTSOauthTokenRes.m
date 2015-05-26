@@ -12,6 +12,7 @@
 @implementation CTSOauthTokenRes
 @synthesize accessToken, tokenType, tokenExpiryTime, scope, refreshToken,
     tokenSaveDate;
+
 - (NSString*)description {
   return [NSString
       stringWithFormat:
@@ -48,9 +49,6 @@
   return self;
 }
 
-//+ (JSONKeyMapper*)keyMapper {
-//  return [JSONKeyMapper mapperFromUnderscoreCaseToCamelCase];
-//}
 
 + (JSONKeyMapper*)keyMapper {
   return [[JSONKeyMapper alloc] initWithDictionary:@{

@@ -10,9 +10,7 @@
 #ifndef RestFulltester_CTSAuthLayerConstants_h
 #define RestFulltester_CTSAuthLayerConstants_h
 #define CITRUS_AUTH_BASE_URL CITRUS_BASE_URL
-//#define CITRUS_AUTH_BASE_URL @"http://localhost:8080"
 
-//#define CITRUS_BASE_URL @"https://stgadmin.citruspay.com/service/v2/"
 
 // MLC: model layer constants
 
@@ -126,6 +124,7 @@ typedef enum SignOutResponseState {
 
 
 #pragma mark - OTP_REGENERATE
+
 #define MLC_OTP_REGENERATE_PATH @"/service/v2/user/verification/generate-otp"
 #define MLC_OTP_REGENERATE_TYPE POST
 #define MLC_OTP_REGENERATE_QUERY_MOBILE @"mobile"
@@ -135,6 +134,18 @@ typedef enum SignOutResponseState {
 #define MLC_IS_MOBILE_VERIFIED_PATH @"/service/v2/user/verification/mobile-verified"
 #define MLC_IS_MOBILE_VERIFIED_TYPE POST
 #define MLC_IS_MOBILE_VERIFIED_QUERY_MOBILE @"mobile"
+
+#pragma mark - SEND_MOBILE_VERIFICATION_CODE
+
+#define MLC_SEND_MOBILE_VERIFICATION_CODE_PATH @"/service/um/mobileverification/sendCode"
+#define MLC_SEND_MOBILE_VERIFICATION_CODE_TYPE POST
+#define MLC_SEND_MOBILE_VERIFICATION_CODE_QUERY_MOBILE @"mobile"
+
+#pragma mark - VERIFYING_MOBLIE_NUMBER
+
+#define MLC_VERIFYING_MOBLIE_NUMBER_PATH @"/service/um/mobileverification/verifyCode"
+#define MLC_VERIFYING_MOBLIE_NUMBER_TYPE POST
+#define MLC_VERIFYING_MOBLIE_NUMBER_QUERY_MOBILE @"verificationCode"
 
 #pragma mark - USER_EXIST
 #define MLC_IS_USER_EXIST_PATH @"/service/v2/user/verification/user-verified"

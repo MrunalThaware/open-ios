@@ -10,6 +10,7 @@
 
 @implementation CTSNetBankingUpdate
 @synthesize type, name, bank, code, issuerCode, token;
+
 - (instancetype)init {
   self = [super init];
   if (self) {
@@ -17,5 +18,4 @@
   }
   return self;
 }
-
 @end

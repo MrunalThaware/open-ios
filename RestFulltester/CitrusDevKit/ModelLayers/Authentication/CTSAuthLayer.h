@@ -14,94 +14,9 @@
 #import "CTSRestCoreResponse.h"
 #import "MerchantConstants.h"
 #import "CTSUserVerificationRes.h"
+#import "CTSMobileVerifiactionRes.h"
 
 @class CTSAuthLayer;
-@protocol CTSAuthenticationProtocol
-
-/**
- *  reports sign in respose
- *
- *  @param isSuccessful  status
- *  @param userName     username that was used for signin
- *  @param token : oauth token if signin followed by signup is successful is
- *successful,nil otherwise.
- *  @param error        error,nil in case of success.
- */
-@optional
-- (void)auth:(CTSAuthLayer*)layer
-didSigninUsername:(NSString*)userName
-  oauthToken:(NSString*)token
-       error:(NSError*)error;
-
-/**
- *  reports sign up reply
- *
- *  @param isSuccessful
- *  @param token : oauth token if signin is successful,nil otherwise
- *  @param error
- */
-@optional
-- (void)auth:(CTSAuthLayer*)layer
-didSignupUsername:(NSString*)userName
-  oauthToken:(NSString*)token
-  isSignedIn:(BOOL)isSignedIn
-       error:(NSError*)error;
-
-/**
- *  reports change password reply
- *
- *  @param layer
- *  @param error
- */
-@optional
-- (void)auth:(CTSAuthLayer*)layer didChangePasswordError:(NSError*)error;
-
-/**
- *  reports is user Citrus member
- *
- *  @param layer
- *  @param isMember Bool that reports membership status
- *  @param error
- */
-@optional
-- (void)auth:(CTSAuthLayer*)layer
-didCheckIsUserCitrusMember:(BOOL)isMember
-       error:(NSError*)error;
-
-/**
- *  reports password reset
- *
- *  @param layer
- *  @param error
- */
-@optional
-- (void)auth:(CTSAuthLayer*)layer didRequestForResetPassword:(NSError*)error;
-
-@optional
--(void)auth:(CTSAuthLayer *)layer didVerifyOTP:(BOOL)isVerified error:(NSError *)error;
-
-@optional
--(void)auth:(CTSAuthLayer *)layer didRegenerateOTPWitherror:(NSError *)error;
-
-@optional
--(void)auth:(CTSAuthLayer *)layer didCheckIsMobileVerified:(BOOL )isVerified error:(NSError *)error;
-
-@optional
--(void)auth:(CTSAuthLayer *)layer didCheckIsUserAlreadyRegistered:(CTSUserVerificationRes *)verificationRes error:(NSError *)error;
-
-@optional
--(void)auth:(CTSAuthLayer *)layer didUserVerification:(CTSUserVerificationRes *)verificationRes error:(NSError *)error;
-
-
-@optional
--(void)auth:(CTSAuthLayer *)layer didCheckIsUserVerified:(CTSUserVerificationRes *)verificationRes error:(NSError *)error;
-
-@optional
-- (void)auth:(CTSAuthLayer*)layer didCitrusSigninInerror:(NSError *)error;
-
-@optional
-- (void)auth:(CTSAuthLayer*)layer didBindUserError:(NSError *)error;
-@end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
     int seedState;
@@ -144,9 +59,7 @@ typedef void (^ASCitrusSigninCallBack)(NSError* error);
 
 typedef void (^ASBindCallBack)(NSError* error);
 
-
-
-@property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
+typedef void (^ASMobileVerifiactionCallback)(CTSMobileVerifiactionRes *mobileVerifiactionRes, NSError* error);
 
 // 260315 Dynamic Oauth keys
 @property (strong, nonatomic) NSString *signInId;
@@ -272,9 +185,35 @@ typedef void (^ASBindCallBack)(NSError* error);
 -(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
             completionHandler:(ASCitrusSigninCallBack)callBack;
 
-//pass the email to get prepaid access token for already signed in user
+/**
+ @brief              Bind the user to Citrus pay.
+ @param userName     Set Citrus pay username.
+ @param callback     Set success/failure callBack.
+ @details            Using this method user can authorize to use Citrus pay services.
+ */
 -(void)requestBindSigninUsername:(NSString *)email completionHandler:(ASBindCallBack)callback;
 
+/**
+ @brief              Set Cookie for pay using citrus cash.
+ @details            Using this method user dont need to sign on pay using Citrus cash payment mode.
+ */
 -(BOOL)isCookieSetAlready;
 
+/**
+ @brief            For send mobile verification Code.
+ @param mobile     Set linked mobile number.
+ @param callback   Set success/failure callBack.
+ @details          Use this method For send mobile verification Code.
+                   Use same for regenerate mobile verification Code again
+                   You can use same method for update mobile number also
+ */
+- (void)sendMobileVerificationCode:(NSString*)mobile completionHandler:(ASMobileVerifiactionCallback)callback;
+
+/**
+ @brief                   For verifying mobile number .
+ @param verificationCode  Use sent mobile verification code.
+ @param callback          Set success/failure callBack.
+ @details                 Use this method For verifying mobile number .
+ */
+- (void)verifyingMobileNumber:(NSString*)verificationCode completionHandler:(ASMobileVerifiactionCallback)callback;
 @end

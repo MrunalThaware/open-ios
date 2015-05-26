@@ -10,6 +10,7 @@
 
 @implementation CTSSignUpRes
 @synthesize userName;
+
 - (instancetype)initWithUserName:(NSString*)userNameArg {
   self = [super init];
   if (self) {

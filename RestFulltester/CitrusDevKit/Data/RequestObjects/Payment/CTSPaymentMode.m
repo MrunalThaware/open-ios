@@ -10,5 +10,4 @@
 
 @implementation CTSPaymentMode
 @synthesize cvv, expiry, holder, number, scheme, type, code, tokenid;
-
 @end

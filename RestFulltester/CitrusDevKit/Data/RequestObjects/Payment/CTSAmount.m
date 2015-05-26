@@ -10,5 +10,4 @@
 
 @implementation CTSAmount
 @synthesize currency, value;
-
 @end

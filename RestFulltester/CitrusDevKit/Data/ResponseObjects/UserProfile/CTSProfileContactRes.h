@@ -12,5 +12,4 @@
 @interface CTSProfileContactRes : JSONModel
 @property(nonatomic, strong) NSString* type, *firstName, *lastName, *email,
     *mobile;
-
 @end

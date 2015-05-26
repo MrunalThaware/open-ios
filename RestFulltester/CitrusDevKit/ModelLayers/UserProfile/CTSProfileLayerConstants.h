@@ -8,8 +8,6 @@
 #ifndef RestFulltester_CTSProfileLayerConstants_h
 #define RestFulltester_CTSProfileLayerConstants_h
 
-//
-
 #define CITRUS_PROFILE_BASE_URL CITRUS_BASE_URL
 
 #pragma - mark MLC_PROFILE_CARD_VALIDATION

@@ -7,6 +7,7 @@
 //
 
 #import "ServerSignature.h"
+#import "UserLogging.h"
 
 @implementation ServerSignature
 + (NSString*)getSignatureFromServerTxnId:(NSString*)txnId
@@ -28,7 +29,7 @@
                                                               error:&error];
     NSString* signature = [[NSString alloc] initWithData:signatureData
                                                 encoding:NSUTF8StringEncoding];
-    NSLog(@"signature %@ ", signature);
+    LogDebug(@"signature %@ ", signature);
     return signature;
 }
 

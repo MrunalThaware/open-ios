@@ -8,8 +8,6 @@
 
 #import "CTSProfileContactNewRes.h"
 
-
-
 @implementation CTSProfileContactNewRes
 
 @end

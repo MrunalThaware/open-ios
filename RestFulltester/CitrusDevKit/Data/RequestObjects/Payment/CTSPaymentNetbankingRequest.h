@@ -11,6 +11,7 @@
 #import "CTSUserDetails.h"
 #import "CTSPaymentToken.h"
 #import "JSONModel.h"
+
 @interface CTSPaymentNetbankingRequest : JSONModel
 @property(nonatomic, strong) CTSAmount* amount;
 @property(strong) NSString<Optional>* merchantAccesskey;

@@ -17,5 +17,4 @@
 @property(strong, nonatomic) NSString* code;
 @property(strong, nonatomic) NSString* token;
 @property(strong, nonatomic) NSString* issuerCode;
-
 @end

@@ -9,5 +9,5 @@
 #import "CTSPrepaidBill.h"
 
 @implementation CTSPrepaidBill
-
+@synthesize description;
 @end

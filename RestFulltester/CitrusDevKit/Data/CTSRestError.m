@@ -10,6 +10,7 @@
 
 @implementation CTSRestError
 @synthesize errorDescription, type, error, serverResponse, description;
+
 + (JSONKeyMapper*)keyMapper {
   return [JSONKeyMapper mapperFromUnderscoreCaseToCamelCase];
 }

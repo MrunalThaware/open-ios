@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
 #import "CTSAmount.h"
+
 @interface CTSBill : JSONModel
 @property(nonatomic)NSString *merchantTxnId;
 @property(nonatomic)CTSAmount *amount;
 @property(nonatomic)NSString *requestSignature;
 @property(nonatomic)NSString *merchantAccessKey;
 @property(nonatomic)NSString *returnUrl;
-
 @end

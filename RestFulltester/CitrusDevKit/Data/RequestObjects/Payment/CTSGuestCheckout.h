@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
+
 @interface CTSGuestCheckout : JSONModel
 @property(nonatomic, strong) NSString* returnUrl;
 @property(strong) NSString<Optional>* expiryYear;
@@ -27,5 +28,4 @@
 @property(strong)NSString<Optional>*addressZip;
 @property(strong)NSString<Optional>*expiryMonth;
 @property(strong)NSString<Optional>*mobile, *cardNumber;
-
 @end

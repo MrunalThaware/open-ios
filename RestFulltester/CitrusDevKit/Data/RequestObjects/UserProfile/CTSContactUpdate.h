@@ -17,5 +17,4 @@
 @property(nonatomic, strong) NSString<Optional>* email;
 @property(nonatomic, strong) NSString<Optional>* mobile;
 @property(nonatomic, strong) NSString<Optional>* password;
-
 @end

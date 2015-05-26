@@ -23,7 +23,6 @@
 }
 
 // request to server
-//
 - (void)requestAsyncServer:(CTSRestCoreRequest*)restRequest {
   NSMutableURLRequest* request =
       [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
@@ -35,9 +34,8 @@
 
   __block id<CTSRestCoreDelegate> blockDelegate = delegate;
   __block long dataIndex = restRequest.index;
-  LogTrace(@"URL > %@ ", request);
-  LogTrace(@"restRequest JSON> %@", restRequest.requestJson);
-  // LogTrace(@"allHeaderFields %@", [request allHeaderFields]);
+  LogDebug(@"URL > %@ ", request);
+  LogDebug(@"restRequest JSON> %@", restRequest.requestJson);
 
   [NSURLConnection
       sendAsynchronousRequest:request
@@ -57,17 +55,14 @@
 
 -(void)requestAsyncServerDelegation:(CTSRestCoreRequest *)restRequest{
     
-    NSLog(@"requestAsyncServerDelegation THREAD %@", [NSThread currentThread]);
-
-    
     NSMutableURLRequest* request =
     [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
     
     delegationRequestId = restRequest.requestId;
     
-    LogTrace(@"URL > %@ ", request);
-    LogTrace(@"restRequest JSON> %@", restRequest.requestJson);
-
+    LogDebug(@"URL > %@ ", request);
+    LogDebug(@"restRequest JSON> %@", restRequest.requestJson);
+    
     
     NSURLConnection *urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [urlConn start];
@@ -110,7 +105,7 @@
 + (NSMutableURLRequest*)requestByAddingHeaders:(NSMutableURLRequest*)request
                                        headers:(NSDictionary*)headers {
   for (NSString* key in [headers allKeys]) {
-    LogTrace(@" setting header %@, for key %@", [headers valueForKey:key], key);
+    LogDebug(@" setting header %@, for key %@", [headers valueForKey:key], key);
     [request addValue:[headers valueForKey:key] forHTTPHeaderField:key];
   }
   return request;
@@ -208,6 +203,7 @@ NSRange statusCodeRangeForClass(CTSStatusCodeClass statusCodeClass) {
   request = [self requestByAddingParameters:request
                                  parameters:restRequest.parameters];
 
+    
   if (restRequest.requestJson != nil) {
     if (restRequest.headers == nil)
       restRequest.headers = [[NSMutableDictionary alloc] init];
@@ -227,7 +223,7 @@ NSRange statusCodeRangeForClass(CTSStatusCodeClass statusCodeClass) {
   CTSRestCoreResponse* restResponse = [[CTSRestCoreResponse alloc] init];
   NSError* error = nil;
   NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-  LogTrace(@"allHeaderFields %@", [httpResponse allHeaderFields]);
+  LogDebug(@"allHeaderFields %@", [httpResponse allHeaderFields]);
   int statusCode = (int)[httpResponse statusCode];
   if (![self isHttpSucces:statusCode]) {
     error = [CTSError getServerErrorWithCode:statusCode withInfo:nil];
@@ -247,12 +243,10 @@ NSRange statusCodeRangeForClass(CTSStatusCodeClass statusCodeClass) {
              redirectResponse: (NSURLResponse *) redirectResponse
 {
     
-    NSLog(@"connection %@",connection);
+    LogDebug(@"connection %@",connection);
     
-    NSLog(@"redirect request %@",request);
-    NSLog(@"redirect redirectResponse %@",redirectResponse);
-    
-    CTSRestCoreResponse *restResponse = nil;
+    LogDebug(@"redirect request %@",request);
+    LogDebug(@"redirect redirectResponse %@",redirectResponse);
     
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) redirectResponse;
     
@@ -267,7 +261,7 @@ NSRange statusCodeRangeForClass(CTSStatusCodeClass statusCodeClass) {
 - (void)connection:(NSURLConnection *)connection
 didReceiveResponse:(NSURLResponse *)response{
     
-    NSLog(@"didReceiveResponse response %@",response);
+    LogDebug(@"didReceiveResponse response %@",response);
     CTSRestCoreResponse *restResponse = [[CTSRestCoreResponse alloc] init];
     restResponse.requestId = delegationRequestId;
     
@@ -287,7 +281,7 @@ didReceiveResponse:(NSURLResponse *)response{
         if([response.URL.absoluteString containsString:MLC_CITRUS_PAY_AUTH_COOKIE_PATH]){
             error = [CTSError errorForStatusCode:1000];
         }else {
-            error = [CTSError errorForStatusCode:httpResponse.statusCode];
+            error = [CTSError errorForStatusCode:(int)httpResponse.statusCode];
         }
         
         restResponse.requestId = delegationRequestId;
@@ -300,8 +294,6 @@ didReceiveResponse:(NSURLResponse *)response{
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSLog(@"connectionDidFinishLoading THREAD %@", [NSThread currentThread]);
-
     finished = TRUE;
 }
 

@@ -24,7 +24,6 @@
 #endif
 
 @implementation CTSAuthLayer
-@synthesize delegate;
 
 // 260315 Dynamic Oauth keys
 static NSString * _signInIdAlias;
@@ -33,8 +32,6 @@ static NSString * _subscriptionIdAlias;
 static NSString * _subscriptionSecretKeyAlias;
 
 #pragma mark - public methods
-
-
 
 -(void)requestBindSigninUsername:(NSString *)email completionHandler:(ASBindCallBack)callback{
     
@@ -63,8 +60,6 @@ static NSString * _subscriptionSecretKeyAlias;
                                   httpMethod:POST];
     
     [restCore requestAsyncServer:request];
-    
-    
 }
 
 
@@ -139,21 +134,6 @@ static NSString * _subscriptionSecretKeyAlias;
     }
     
     
-    
-//    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-//                                   initWithPath:MLC_SIGNUP_REQ_PATH
-//                                   requestId:SignupStageOneReqId
-//                                   headers:[CTSUtility readSignupTokenAsHeader]
-//                                   parameters:@{
-//                                                MLC_SIGNUP_QUERY_EMAIL : email,
-//                                                MLC_SIGNUP_QUERY_MOBILE : mobile,
-//                                                MLC_SIGNUP_QUERY_FIRSTNAME:firstName,
-//                                                MLC_SIGNUP_QUERY_LASTNAME:lastName,
-//                                                MLC_SIGNUP_QUERY_PASSWORD:passwordSignUp
-//                                                } json:nil
-//                                   httpMethod:POST];
-    
-    
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_SIGNUP_REQ_PATH
                                    requestId:SignupStageOneReqId
@@ -198,24 +178,6 @@ static NSString * _subscriptionSecretKeyAlias;
         return;
     }
     
-//    CTSUserVerificationRes *verificationResponse = [self requestSyncIsUserAlreadyRegisteredMobileOrEmail:email];
-//    if(verificationResponse.error  || verificationResponse.respCode != 201){
-//        [self signupHelperUsername:email
-//                             oauth:[CTSOauthManager readOauthToken]
-//                        isSignedIn:NO
-//                             error:[verificationResponse convertToError]];
-//        return;
-//    }
-//    
-//    
-//    verificationResponse = [self requestSyncIsUserAlreadyRegisteredMobileOrEmail:mobile];
-//    if(verificationResponse.error  || verificationResponse.respCode != 201){
-//        [self signupHelperUsername:mobile
-//                             oauth:[CTSOauthManager readOauthToken]
-//                        isSignedIn:NO
-//                             error:[verificationResponse convertToError]];
-//        return;
-//    }
     userNameSignup = email;
     mobileSignUp = mobile;
     firstNameSignup =firstName;
@@ -255,8 +217,6 @@ static NSString * _subscriptionSecretKeyAlias;
                                   httpMethod:POST];
     
     [restCore requestAsyncServer:request];
-    
-    
 }
 
 
@@ -282,7 +242,6 @@ static NSString * _subscriptionSecretKeyAlias;
                                   httpMethod:MLC_OTP_REGENERATE_TYPE];
     
     [restCore requestAsyncServer:request];
-    
 }
 
 - (void)requestIsMobileVerified:(NSString*)mobile
@@ -311,12 +270,74 @@ static NSString * _subscriptionSecretKeyAlias;
                                   httpMethod:MLC_IS_MOBILE_VERIFIED_TYPE];
     
     [restCore requestAsyncServer:request];
-    
-    
 }
 
+
+// For send mobile verification Code
+// Use same for regenerate mobile verification Code again
+// You can use same method for update mobile number also
+- (void)sendMobileVerificationCode:(NSString*)mobile completionHandler:(ASMobileVerifiactionCallback)callback{
+    [self addCallback:callback forRequestId:MobileVerificationReqId];
+    
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    
+    if (!mobile) {
+        [self userMobileVerificationHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self userMobileVerificationHelper:nil error:oauthStatus.error];
+        return;
+    }
+    
+    NSString *jsonString =[NSString stringWithFormat:@"{\"%@\":\"%@\"}",MLC_SEND_MOBILE_VERIFICATION_CODE_QUERY_MOBILE, mobile];
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_SEND_MOBILE_VERIFICATION_CODE_PATH
+                                   requestId:MobileVerificationReqId
+                                     headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                  parameters:nil
+                                        json:jsonString
+                                  httpMethod:MLC_SEND_MOBILE_VERIFICATION_CODE_TYPE];
+    [restCore requestAsyncServer:request];
+}
+
+
+- (void)verifyingMobileNumber:(NSString*)verificationCode completionHandler:(ASMobileVerifiactionCallback)callback{
+    [self addCallback:callback forRequestId:MobileVerificationReqId];
+    
+    if (verificationCode.length != 4) {
+        [self userMobileVerificationHelper:nil error:[CTSError getErrorForCode:InvalidParameter]];
+        return;
+    }
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self userMobileVerificationHelper:nil error:oauthStatus.error];
+        return;
+    }
+    
+    NSString *jsonString =[NSString stringWithFormat:@"{\"%@\":\"%@\"}",MLC_VERIFYING_MOBLIE_NUMBER_QUERY_MOBILE, verificationCode];
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_VERIFYING_MOBLIE_NUMBER_PATH
+                                   requestId:MobileVerificationReqId
+                                     headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                  parameters:nil
+                                        json:jsonString
+                                  httpMethod:MLC_VERIFYING_MOBLIE_NUMBER_TYPE];
+    [restCore requestAsyncServer:request];
+}
+
+
+
 - (void)requestSignUpOauthToken {
-    ENTRY_LOG
     wasSignupCalled = YES;
     
     // 260315 Dynamic Oauth keys
@@ -341,19 +362,9 @@ static NSString * _subscriptionSecretKeyAlias;
                                    headers:nil
                                    parameters:parameters
                                    json:nil
-                                   httpMethod:POST];
-
-//    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-//                                   initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
-//                                   requestId:SignupOauthTokenReqId
-//                                   headers:nil
-//                                   parameters:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
-//                                   json:nil
-//                                   httpMethod:POST];
-    
+                                   httpMethod:POST];    
     [restCore requestAsyncServer:request];
     
-    EXIT_LOG
 }
 
 // 260315 Dynamic Oauth keys
@@ -375,7 +386,6 @@ static NSString * _subscriptionSecretKeyAlias;
      if refresh token has error then proceed for normal signup
      
      */
-
     
     [self addCallback:callBack forRequestId:SigninOauthTokenReqId];
     if([CTSUtility isEmail:userNameArg]){
@@ -410,19 +420,11 @@ static NSString * _subscriptionSecretKeyAlias;
                 return;
             }
         }];
-}
-    
+    }
 }
 
 -(void)proceedToSiginUserName:(NSString *)username password:(NSString *)password{
     userNameSignIn = username;
-//    NSDictionary* parameters = @{
-//                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
-//                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
-//                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_SIGNIN_GRANT_TYPE,
-//                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD : password,
-//                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : username
-//                                 };
 
     // 260315 Dynamic Oauth keys
     if (!_signInId) {
@@ -456,7 +458,6 @@ static NSString * _subscriptionSecretKeyAlias;
                                   httpMethod:POST];
     
     [restCore requestAsyncServer:request];
-
 }
 
 // 260315 Dynamic Oauth keys
@@ -471,7 +472,6 @@ static NSString * _subscriptionSecretKeyAlias;
 
 - (void)usePassword:(NSString*)password
      hashedUsername:(NSString*)hashedUsername {
-    ENTRY_LOG
     
     NSString* oauthToken = [CTSOauthManager readOauthTokenWithExpiryCheck];
     if (oauthToken == nil) {
@@ -492,14 +492,12 @@ static NSString * _subscriptionSecretKeyAlias;
                                    httpMethod:PUT];
     
     [restCore requestAsyncServer:request];
-    EXIT_LOG
 }
 
 - (void)requestChangePasswordUserName:(NSString*)userName
                           oldPassword:(NSString*)oldPassword
                           newPassword:(NSString*)newPassword
                     completionHandler:(ASChangePassword)callback {
-    ENTRY_LOG
     [self addCallback:callback forRequestId:ChangePasswordReqId];
     
     
@@ -535,7 +533,6 @@ static NSString * _subscriptionSecretKeyAlias;
                                    httpMethod:PUT];
     
     [restCore requestAsyncServer:request];
-    EXIT_LOG
 }
 
 - (void)requestIsUserCitrusMemberUsername:(NSString*)email
@@ -562,9 +559,6 @@ static NSString * _subscriptionSecretKeyAlias;
         }
         
     }
-    
-    
-    
     
     OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
     
@@ -603,9 +597,7 @@ static NSString * _subscriptionSecretKeyAlias;
             [self userVerificationHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
             return;
         }
-        
     }
-
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_IS_USER_EXIST_PATH
@@ -615,11 +607,7 @@ static NSString * _subscriptionSecretKeyAlias;
                                                 MLC_IS_USER_EXIST_QUERY_USER : userName
                                                 } json:nil
                                    httpMethod:MLC_IS_USER_EXIST_TYPE];
-    
-    
     [restCore requestAsyncServer:request];
-
-
 }
 
 -(BOOL)isCookieSetAlready{
@@ -627,9 +615,7 @@ static NSString * _subscriptionSecretKeyAlias;
     NSHTTPCookie *cookie;
     NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     for (cookie in [cookieJar cookies]) {
-       // NSLog(@"Cookie doamin %@", cookie.domain);
         if ([cookie.domain rangeOfString:@"citrus" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-           // NSLog(@"string does not contain citrus");
             isSet = YES;
             break;
         } 
@@ -676,7 +662,6 @@ static NSString * _subscriptionSecretKeyAlias;
     
     
     [restCore requestAsyncServer:request];
-    
 }
 
 
@@ -693,8 +678,6 @@ static NSString * _subscriptionSecretKeyAlias;
     
     
     CTSRestCoreResponse *response = [CTSRestCore requestSyncServer:request withBaseUrl:CITRUS_BASE_URL];
-    
-    
     return  [self convertToUserVerification:response ];
 }
 
@@ -718,6 +701,7 @@ static NSString * _subscriptionSecretKeyAlias;
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 - (BOOL)isAnyoneSignedIn {
     NSString* signInOauthToken = [CTSOauthManager readOauthTokenWithExpiryCheck];
     if (signInOauthToken == nil)
@@ -731,7 +715,6 @@ static NSString * _subscriptionSecretKeyAlias;
             completionHandler:(ASCitrusSigninCallBack)callBack{
     
     [self addCallback:callBack forRequestId:CitruPaySigniInReqId];
-    NSLog(@"requestCitrusPaySignin THREAD %@", [NSThread currentThread]);
 
     //validate username
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
@@ -774,9 +757,6 @@ static NSString * _subscriptionSecretKeyAlias;
         return;
     }
     
-    
-
-    
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_USER_VERIFIED_OAUTH_PATH
                                    requestId:isUserVerifiedRequestId
@@ -785,11 +765,7 @@ static NSString * _subscriptionSecretKeyAlias;
                                                 MLC_USER_VERIFIED_OAUTH_QUERY_USER : userName
                                                 } json:nil
                                    httpMethod:MLC_USER_VERIFIED_OAUTH_TYPE];
-    
-    
     [restCore requestAsyncServer:request];
-
-    
 }
 
 
@@ -872,6 +848,7 @@ static NSData* digest(NSData* data,
     }
     return destination;
 }
+
 - (int)genrateSeed:(NSString*)data {
     NSMutableArray* array = [[NSMutableArray alloc] init];
     NSData* hashed = [self md5:data];
@@ -890,7 +867,7 @@ static NSData* digest(NSData* data,
                                 from:(unsigned int)[array count] - 3
                                   to:(unsigned int)[array count]];
     NSData* arrayData = [NSKeyedArchiver archivedDataWithRootObject:val];
-    NSLog(@"%@", arrayData);
+    LogDebug(@"%@", arrayData);
     int x = 0;
     for (int i = 0; i < [val count]; i++) {
         int z = [[val objectAtIndex:(val.count - 1 - i)] intValue];
@@ -899,10 +876,11 @@ static NSData* digest(NSData* data,
         }
         z = z << (8 * i);
         x = x + z;
-        NSLog(@"%d", x);
+        LogDebug(@"%d", x);
     }
     return x;
 }
+
 - (NSString*)generateBigIntegerString:(NSString*)email {
     int ran = [self genrateSeed:email];
     
@@ -912,7 +890,7 @@ static NSData* digest(NSData* data,
         // Add something from the key?? Your format here.
         [large_CSV_String appendFormat:@"%c", [self nextLetter]];
     }
-    NSLog(@"random password:%@", large_CSV_String);
+    LogDebug(@"random password:%@", large_CSV_String);
     return large_CSV_String;
 }
 
@@ -933,9 +911,9 @@ typedef enum {
     ISMobileVerifiedRequestId,
     isUserVerifiedRequestId,
     CitruPaySigniInReqId,
-    BindSigninRequestId
+    BindSigninRequestId,
+    MobileVerificationReqId
 }AuthRequestId;
-
 
 
 - (instancetype)init {
@@ -971,10 +949,9 @@ typedef enum {
              toNSString(UserVerificationReqId):toSelector(handleUserVerification:),
              toNSString(isUserVerifiedRequestId):toSelector(handleIsUserVerified:),
              toNSString(CitruPaySigniInReqId) : toSelector(handleCitrusPaySignin:),
-             toNSString(BindSigninRequestId) : toSelector(handleBindSignIn:)
+             toNSString(BindSigninRequestId) : toSelector(handleBindSignIn:),
+             toNSString(MobileVerificationReqId):toSelector(handleMobileVerification:),
              };
-    
-    
 }
 
 - (instancetype)initWithUrl:(NSString *)url
@@ -1022,7 +999,6 @@ typedef enum {
     
     _subscriptionIdAlias = _subscriptionId;
     _subscriptionSecretKeyAlias = _subscriptionSecretKey;
-    
 }
 
 
@@ -1051,10 +1027,6 @@ typedef enum {
 }
 
 
-
-
-
-
 - (void)handleReqSigninOauthToken:(CTSRestCoreResponse*)response {
     NSError* error = response.error;
     JSONModelError* jsonError;
@@ -1073,77 +1045,11 @@ typedef enum {
                                    error:error];
 }
 
-//- (void)handleReqSigninOauthToken:(CTSRestCoreResponse*)response {
-//    NSError* error = response.error;
-//    JSONModelError* jsonError;
-//    // signup flow
-//    if (error == nil) {
-//        CTSOauthTokenRes* resultObject =
-//        [[CTSOauthTokenRes alloc] initWithString:response.responseString
-//                                           error:&jsonError];
-//        [resultObject logProperties];
-//        [CTSOauthManager saveOauthData:resultObject];
-//        if (wasSignupCalled == YES) {
-//            // in case of sign up flow
-//            
-//            [self usePassword:passwordSignUp
-//               hashedUsername:[self generateBigIntegerString:userNameSignup]];
-//            wasSignupCalled = NO;
-//        } else {
-//            // in case of sign in flow
-//            
-//            [self signinHelperUsername:userNameSignIn
-//                                 oauth:[CTSOauthManager readOauthToken]
-//                                 error:error];
-//        }
-//    } else {
-//        if (wasSignupCalled == YES) {
-//            // in case of sign up flow
-//            [self signupHelperUsername:userNameSignup
-//                                 oauth:[CTSOauthManager readOauthToken]
-//                            isSignedIn:NO
-//                                 error:error];
-//        } else {
-//            // in case of sign in flow
-//            
-//            [self signinHelperUsername:userNameSignIn
-//                                 oauth:[CTSOauthManager readOauthToken]
-//                                 error:error];
-//        }
-//    }
-//}
 
 - (void)handleReqSignupStageOneComplete:(CTSRestCoreResponse*)response {
     NSError* error = response.error;
     
     // change password
-    //[self usePassword:TEST_PASSWORD for:SET_FIRSTTIME_PASSWORD];
-    
-    // get singn in oauth token for password use use hashed email
-    // use it for sending the change password so that the password is set(for
-    // old password use username)
-    
-    // always use this acess token
-    
-    //  if (error == nil) {
-    //    // signup flow - now sign in
-    //
-    //    [self
-    //        requestSigninWithUsername:userNameSignup
-    //                         password:[self generateBigIntegerString:userNameSignup]
-    //                completionHandler:nil];
-    //
-    //    //    [self requestSigninWithUsername:userNameSignup
-    //    //                           password:passwordSignUp
-    //    //                  completionHandler:nil];
-    //
-    //  } else {
-    //    [self signupHelperUsername:userNameSignup
-    //                         oauth:[CTSOauthManager readOauthToken]
-    //                         error:error];
-    //  }
-    
-    
     if(error != nil){
     
         [self signupHelperUsername:userNameSignup
@@ -1170,12 +1076,10 @@ typedef enum {
     }];
     
     }
-    
-
 }
 
 - (void)handleReqUsePassword:(CTSRestCoreResponse*)response {
-    LogTrace(@"password changed ");
+    LogDebug(@"password changed ");
     
     [self signupHelperUsername:userNameSignup
                          oauth:[CTSOauthManager readOauthToken]
@@ -1184,7 +1088,7 @@ typedef enum {
 }
 
 - (void)handleReqRequestForPasswordReset:(CTSRestCoreResponse*)response {
-    LogTrace(@"password change requested");
+    LogDebug(@"password change requested");
     
     
     
@@ -1224,7 +1128,6 @@ typedef enum {
     else{
         [self otpVerificationHelper:NO error:error];
     }
-    
 }
 
 -(void)handleOTPRegeneration:(CTSRestCoreResponse*)response{
@@ -1240,14 +1143,11 @@ typedef enum {
     else{
         [self isMobileVerifiedHelper:NO error:error];
     }
-    
 }
 
 -(void)handleIsUserVerified:(CTSRestCoreResponse *)response{
 
-    NSLog(@"response %@",response.responseString);
-    
-    
+    LogDebug(@"response %@",response.responseString);
     
     NSError* error = response.error;
     JSONModelError* jsonError;
@@ -1263,14 +1163,7 @@ typedef enum {
     }
 
     [self isUserVerifedHelper:resultObject error:error];
-    
 }
-
-
-
-
-
-
 
 
 +(CTSUserVerificationRes * )convertToUserVerification:(CTSRestCoreResponse *)response {
@@ -1305,24 +1198,37 @@ typedef enum {
         error = [CTSError getErrorForCode:unknownError];
     }
     
-    
-
-    
     [self userVerificationHelper:resultObject error:error];
-
-    
 }
+
+
+-(void)handleMobileVerification:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSMobileVerifiactionRes* resultObject = nil;
+    if(error == nil){
+        resultObject =
+        [[CTSMobileVerifiactionRes alloc] initWithString:response.responseString
+                                                 error:&jsonError];
+    }
+    
+    if(jsonError){
+        error = [CTSError getErrorForCode:unknownError];
+    }
+    
+    [self userMobileVerificationHelper:resultObject error:error];
+}
+
 
 -(void)handleIsAlreadyRegistered:(CTSRestCoreResponse *)response{
     CTSUserVerificationRes *veriRes = [CTSAuthLayer convertToUserVerification:response];
     NSError* error = response.error;
     [self isAlreadyRegisteredHelper:veriRes error:error];
-    
 }
 
 
 -(void)handleCitrusPaySignin:(CTSRestCoreResponse *)response{
-    NSLog(@"handleCitrusPaySignin: THREAD %@", [NSThread currentThread]);
+    LogDebug(@"handleCitrusPaySignin: THREAD %@", [NSThread currentThread]);
     
     [self citrusPaySigninHelper:(NSError *)response.data];
 }
@@ -1345,7 +1251,6 @@ typedef enum {
         [CTSOauthManager saveOauthData:resultObject];
     }
     [self bindUserHelperUsernameError:error];
-    
 }
 
 #pragma mark - helper methods
@@ -1361,11 +1266,6 @@ typedef enum {
     
     if (callBack != nil) {
         callBack(username, token, error);
-    } else {
-        [delegate auth:self
-     didSigninUsername:username
-            oauthToken:token
-                 error:error];
     }
 }
 
@@ -1387,14 +1287,7 @@ typedef enum {
     
     if (callBack != nil) {
         callBack(username, token, isSignedIn,error);
-    } else {
-        [delegate auth:self
-     didSignupUsername:username
-            oauthToken:token
-            isSignedIn:(BOOL)isSignedIn
-                 error:error];
     }
-    
     [self resetSignupCredentials];
 }
 
@@ -1404,8 +1297,6 @@ typedef enum {
     
     if (callback != nil) {
         callback(error);
-    } else {
-        [delegate auth:self didChangePasswordError:error];
     }
 }
 
@@ -1414,8 +1305,6 @@ typedef enum {
     [self retrieveAndRemoveCallbackForReqId:IsUserCitrusMemberReqId];
     if (callback != nil) {
         callback(isMember, error);
-    } else {
-        [delegate auth:self didCheckIsUserCitrusMember:isMember error:error];
     }
 }
 
@@ -1424,8 +1313,6 @@ typedef enum {
     [self retrieveAndRemoveCallbackForReqId:RequestForPasswordResetReqId];
     if (callback != nil) {
         callback(error);
-    } else {
-        [delegate auth:self didRequestForResetPassword:error];
     }
 }
 
@@ -1435,10 +1322,6 @@ typedef enum {
     if(callback != nil){
         callback(isVerified,error);
     }
-    else{
-        [delegate auth:self didVerifyOTP:isVerified error:error];
-    }
-    
 }
 
 
@@ -1447,20 +1330,13 @@ typedef enum {
     if(callback != nil){
         callback(error);
     }
-    else{
-        [delegate auth:self didRegenerateOTPWitherror:error];
-    }
-}
+ }
 
 -(void)isMobileVerifiedHelper:(BOOL)isVerified error:(NSError *)error{
     ASIsMobileVerifiedCallback callback = [self retrieveAndRemoveCallbackForReqId:ISMobileVerifiedRequestId];
     if(callback != nil){
         callback(isVerified,error);
     }
-    else{
-        [delegate auth:self didCheckIsMobileVerified:isVerified error:error];
-    }
-    
 }
 
 -(void)isAlreadyRegisteredHelper:(CTSUserVerificationRes *)userVerification error:(NSError *)error{
@@ -1469,21 +1345,19 @@ typedef enum {
     if(callback != nil){
         callback(userVerification,error);
     }
-    else{
-        [delegate auth:self didCheckIsUserAlreadyRegistered:userVerification error:error];
-    }
-    
-    
 }
 
 -(void)userVerificationHelper:(CTSUserVerificationRes *)verificationRes error:(NSError *)error{
-
     ASUSerVerificationCallback callback = [self retrieveAndRemoveCallbackForReqId:UserVerificationReqId];
     if(callback != nil){
         callback(verificationRes,error);
     }
-    else{
-        [delegate auth:self didUserVerification:verificationRes error:error];
+}
+
+-(void)userMobileVerificationHelper:(CTSMobileVerifiactionRes *)mobileVerifiactionRes error:(NSError *)error{
+    ASMobileVerifiactionCallback callback = [self retrieveAndRemoveCallbackForReqId:MobileVerificationReqId];
+    if(callback != nil){
+        callback(mobileVerifiactionRes,error);
     }
 }
 
@@ -1493,23 +1367,14 @@ typedef enum {
     if(callback !=nil){
         callback(verification,error);
     }
-    else {
-        
-        [delegate auth:self didCheckIsUserVerified:verification error:error];
-    }
 }
 
 -(void)citrusPaySigninHelper:(NSError *)error{
-    
-    NSLog(@"citrusPaySigninHelper: THREAD %@", [NSThread currentThread]);
-
     
     ASCitrusSigninCallBack callback =
     [self retrieveAndRemoveCallbackForReqId:CitruPaySigniInReqId];
     if (callback != nil) {
         callback(error);
-    } else {
-        [delegate auth:self didCitrusSigninInerror:error];
     }
 }
 
@@ -1518,9 +1383,7 @@ typedef enum {
     [self retrieveAndRemoveCallbackForReqId:BindSigninRequestId];
     if (callback != nil) {
         callback(error);
-    } else {
-        [delegate auth:self didBindUserError:error];
-    }
+    } 
 }
 
 - (void)resetSignupCredentials {
@@ -1568,8 +1431,6 @@ typedef enum {
     return [NSError errorWithDomain:CITRUS_ERROR_DOMAIN
                                          code:[error code]
                                      userInfo:userInfo];
-
-
 }
 
 

@@ -28,78 +28,14 @@
 @class CTSAuthLayer;
 @class CTSAuthenticationProtocol;
 @class CTSPaymentLayer;
-@protocol CTSPaymentProtocol<NSObject>
-@optional
-- (void)payment:(CTSPaymentLayer*)layer
-    didMakeUserPayment:(CTSPaymentTransactionRes*)paymentInfo
-                 error:(NSError*)error;
 
-/**
- *  Guest payment callback
- *
- *  @param layer
- *  @param paymentInfo
- *  @param error
- */
-@optional
-- (void)payment:(CTSPaymentLayer*)layer
-    didMakePaymentUsingGuestFlow:(CTSPaymentTransactionRes*)paymentInfo
-                           error:(NSError*)error;
-
-/**
- *  response for tokenized payment
- *
- *  @param layer
- *  @param paymentInfo
- *  @param error
- */
-@optional
-- (void)payment:(CTSPaymentLayer*)layer
-    didMakeTokenizedPayment:(CTSPaymentTransactionRes*)paymentInfo
-                      error:(NSError*)error;
-
-/**
- *  pg setting are recived for merchant
- *
- *  @param pgSetting pegsetting,nil in case of error
- *  @param error     ctserror
- */
-@optional
-- (void)payment:(CTSPaymentLayer*)layer
-    didRequestMerchantPgSettings:(CTSPgSettings*)pgSettings
-                           error:(NSError*)error;
-
-@optional
-- (void)payment:(CTSPaymentLayer*)layer
-didGetPrepaidBill:(CTSPrepaidBill*)bill
-          error:(NSError*)error;
-
-@optional
-- (void)payment:(CTSPaymentLayer*)layer
-   didLoadMoney:(CTSPaymentTransactionRes*)paymentInfo
-          error:(NSError*)error;
-
-/**
- *  pg setting are recived for merchant
- *
- *  @param pgSetting pegsetting,nil in case of error
- *  @param error     ctserror
- */
-@optional
-- (void)payment:(CTSPaymentLayer*)layer
-didPaymentCitrusCash:(CTSCitrusCashRes*)pgSettings
-          error:(NSError*)error;
-
-
-@end
-@interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol, UIWebViewDelegate> {
+@interface CTSPaymentLayer : CTSRestPluginBase<UIWebViewDelegate> {
     UIViewController *citrusCashBackViewController;
     UIWebView *citrusPayWebview;
 }
 @property(strong) NSString* merchantTxnId;
 @property(strong) NSString* signature;
 @property(nonatomic, strong) RKObjectManager* objectManager;
-@property(weak) id<CTSPaymentProtocol> delegate;
 
 typedef void (^ASMakeUserPaymentCallBack)(CTSPaymentTransactionRes* paymentInfo,
                                           NSError* error);
@@ -127,20 +63,6 @@ typedef void (^ASMakeCitruspayCallBackInternal)(CTSPaymentTransactionRes* paymen
                                                 NSError* error);
 
 - (instancetype)initWithUrl:(NSString *)url;
-/**
- * called when client request to make payment through credit card/debit card
-
- *
- *  @param paymentInfo Payment Information
- *  @param contactInfo contact Information
- *  @param amount      payment amount
- */
-/*- (void)makePaymentByCard:(CTSPaymentDetailUpdate*)paymentInfo
- withContact:(CTSContactUpdate*)contactInfo
- amount:(NSString*)amount
- withSignature:(NSString*)signature
- withTxnId:(NSString*)merchantTxnId;
- */
 
 /**
  *  to make signed user's payment for netbanking/credit/debit card depending on
@@ -196,26 +118,6 @@ typedef void (^ASMakeCitruspayCallBackInternal)(CTSPaymentTransactionRes* paymen
                         withTxnId:(NSString*)merchantTxnId
                    withCustParams:(NSDictionary *)custParams
             withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
-
-
-
-/**
- *  called when client request to make payment as a guest user
- *
- *  @param paymentInfo Payment Information
- *  @param contactInfo contact Information
- *  @param amount      payment amount
- *  @param isDoSignup  send YES if signup should be done simultaneously for this
- *user
- */
-//- (void)makePaymentUsingGuestFlow:(CTSPaymentDetailUpdate*)paymentInfo
-//                      withContact:(CTSContactUpdate*)contactInfo
-//                           amount:(NSString*)amount
-//                      withAddress:(CTSUserAddress*)userAddress
-//                    withReturnUrl:(NSString*)returnUrl
-//                    withSignature:(NSString*)signature
-//                        withTxnId:(NSString*)merchantTxnId
-//            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback;
 
 /**
  *  request card pament options(visa,master,debit) and netbanking settngs for

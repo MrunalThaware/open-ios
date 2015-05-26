@@ -16,5 +16,4 @@
 @synthesize description;
 @synthesize signature;
 @synthesize redirectUrl;
-
 @end

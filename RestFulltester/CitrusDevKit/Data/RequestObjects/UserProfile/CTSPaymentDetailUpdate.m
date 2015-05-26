@@ -10,6 +10,7 @@
 
 @implementation CTSPaymentDetailUpdate
 @synthesize type, paymentOptions, password,defaultOption;
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -20,7 +21,6 @@
     }
     return self;
 }
-
 
 -(instancetype)initCitrusPayWithEmail:(NSString *)email{
     self = [[CTSPaymentDetailUpdate alloc] init];
@@ -38,6 +38,7 @@
      addObject:[[CTSPaymentOption alloc] initWithNetBanking:netBankDetail]];
     return YES;
 }
+
 - (CTSErrorCode)validate {
     CTSErrorCode error = NoError;
     for (CTSPaymentOption* payment in paymentOptions) {

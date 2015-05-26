@@ -19,6 +19,4 @@
 @property(nonatomic, strong) NSString* bank;
 @property(nonatomic, strong) NSString* accountNumber;
 @property(nonatomic, strong) NSString* impsRegisteredMobile;
-
-
 @end

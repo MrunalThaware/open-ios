@@ -10,5 +10,4 @@
 
 @interface CTSPaymentUpdate : NSObject
 @property(nonatomic, strong) NSString* currency, *redirect, *amount, *returnUrl;
-
 @end

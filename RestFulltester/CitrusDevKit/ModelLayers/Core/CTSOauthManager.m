@@ -16,6 +16,7 @@
 #import "CTSAuthLayer.h"
 
 @implementation CTSOauthManager
+
 - (instancetype)init {
   self = [super init];
   if (self) {
@@ -65,7 +66,7 @@
 }
 + (NSString*)readRefreshToken {
   CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readOauthData];
-  NSLog(@" readRefreshToken %@ %@", oauthTokenRes, oauthTokenRes.refreshToken);
+  LogDebug(@" readRefreshToken %@ %@", oauthTokenRes, oauthTokenRes.refreshToken);
   return oauthTokenRes.refreshToken;
 }
 
@@ -152,13 +153,6 @@
 }
 
 + (CTSOauthTokenRes*)refreshOauthToken {
-//  NSDictionary* parameters = @{
-//    MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_REFRESH_CLIENT_ID,
-//    MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
-//    MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN,
-//    MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN : [CTSOauthManager readRefreshToken]
-//  };
-
     // 260315 Dynamic Oauth keys
     NSString *signInId = [CTSAuthLayer getDynamicSignInId];
     if (!signInId) {
@@ -226,14 +220,6 @@
                                    json:nil
                                    httpMethod:POST];
 
-//  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-//      initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
-//         requestId:-1
-//           headers:nil
-//        parameters:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
-//              json:nil
-//        httpMethod:POST];
-
   CTSRestCoreResponse* response =
       [CTSRestCore requestSyncServer:request withBaseUrl:CITRUS_BASE_URL];
   NSError* error = response.error;
@@ -244,7 +230,7 @@
     resultObject =
         [[CTSOauthTokenRes alloc] initWithString:response.responseString
                                            error:&jsonError];
-    LogTrace(@"jsonError %@ ", jsonError);
+    LogDebug(@"jsonError %@ ", jsonError);
     [CTSOauthManager saveSignupToken:resultObject.accessToken];
   }
   return resultObject;
@@ -308,7 +294,7 @@
 
 +(NSString *)readBindSignInRefreshToken{
     CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readBindSignInOauthData];
-    NSLog(@" readRefreshToken %@ %@", oauthTokenRes, oauthTokenRes.refreshToken);
+    LogDebug(@" readRefreshToken %@ %@", oauthTokenRes, oauthTokenRes.refreshToken);
     return oauthTokenRes.refreshToken;
     
 }

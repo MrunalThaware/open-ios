@@ -10,5 +10,4 @@
 
 @implementation CTSNetbankingOption
 @synthesize bankName, issuerCode;
-
 @end

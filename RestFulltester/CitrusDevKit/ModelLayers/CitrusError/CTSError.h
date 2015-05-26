@@ -84,18 +84,13 @@ typedef enum {
 
 @interface CTSError : NSObject
 {
-//    NSDictionary *dumbDict;
 }
 // Follwoing methods are for internal use only
 + (NSError*)getErrorForCode:(CTSErrorCode)code;
 + (NSError*)getServerErrorWithCode:(int)errorCode
                           withInfo:(NSDictionary*)information;
-//-(NSString *)dumbConversion:(NSString*)error;
 + (id)sharedManager ;
-//+ (NSError*)getSDKErrorWithType:(NSString*)type
-//                       withInfo:(NSDictionary*)information;
 +(NSString *)userNameSpecificDes:(NSString*)userName;
-//+(SDKExceptionCode)getSDKExceptionCode:(NSString*)errorType;
 + (NSString*)getSDKDescriptionForCode:(SDKExceptionCode)code;
 +(SDKExceptionCode)getSDKExceptionCode:(NSString*)errorType;
 +(NSError *)errorForStatusCode:(int)statusCode;

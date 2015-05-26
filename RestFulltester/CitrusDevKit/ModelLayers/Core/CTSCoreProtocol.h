@@ -22,5 +22,4 @@ typedef enum {
  *  @param networkStatus Enum defining various network states
  */
 - (void)networkStatusChanged:(CTSNetworkStatus)networkStatus;
-
 @end

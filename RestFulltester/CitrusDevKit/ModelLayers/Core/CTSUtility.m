@@ -58,7 +58,7 @@
 }
 
 + (NSString*)readFromDisk:(NSString*)key {
-    LogTrace(@"Key %@ value %@",
+    LogDebug(@"Key %@ value %@",
              key,
              [[NSUserDefaults standardUserDefaults] valueForKey:key]);
     return [[NSUserDefaults standardUserDefaults] valueForKey:key];
@@ -70,7 +70,7 @@
 }
 
 + (void)removeFromDisk:(NSString*)key {
-    LogTrace(@"removing key %@", key);
+    LogDebug(@"removing key %@", key);
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -99,20 +99,6 @@
              };
 }
 
-//+ (BOOL)validateEmail:(NSString*)candidate {
-//  NSString* emailRegex =
-//      @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
-//      @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
-//      @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
-//      @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
-//      @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
-//      @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
-//      @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-//  NSPredicate* emailTest =
-//      [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", emailRegex];
-//
-//  return [emailTest evaluateWithObject:candidate];
-//}
 
 + (BOOL)validateEmail:(NSString*)candidate {
     NSString* emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
@@ -129,18 +115,10 @@
     else{
         return NO;
     }
-    
 }
 
 
-
 + (BOOL)validateMobile:(NSString*)mobile {
-//    BOOL error = NO;
-//    if ([mobile length] == 10) {
-//        error = YES;
-//    }
-//    return error;
-
     NSPredicate *regex = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^(?:0091|\\+91||91|0)[7-9][0-9]{9}$"];
     return [regex evaluateWithObject:mobile];
 }
@@ -261,7 +239,7 @@
     [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents* components =
     [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
-    int currentyear = [components year];
+    NSInteger currentyear = [components year];
     return normalized >= currentyear;
 }
 
@@ -366,7 +344,7 @@
     // contains the HTTP body as in an HTTP POST request.
     NSString* dataString =
     [[NSString alloc] initWithData:postData encoding:NSASCIIStringEncoding];
-    LogTrace(@"dataString %@ ", dataString);
+    LogDebug(@"dataString %@ ", dataString);
     
     NSMutableDictionary* responseDictionary = nil;
     if ([dataString rangeOfString:@"TxStatus" options:NSCaseInsensitiveSearch]
@@ -374,16 +352,16 @@
         responseDictionary = [[NSMutableDictionary alloc] init];
         
         NSArray* separatedByAMP = [dataString componentsSeparatedByString:@"&"];
-        LogTrace(@"separated by & %@", separatedByAMP);
+        LogDebug(@"separated by & %@", separatedByAMP);
         
         for (NSString* string in separatedByAMP) {
             NSArray* separatedByEQ = [string componentsSeparatedByString:@"="];
-            LogTrace(@"separatedByEQ %@ ", separatedByEQ);
+            LogDebug(@"separatedByEQ %@ ", separatedByEQ);
             
             [responseDictionary setObject:[separatedByEQ objectAtIndex:1]
                                    forKey:[separatedByEQ objectAtIndex:0]];
         }
-        LogTrace(@" final dictionary %@ ", responseDictionary);
+        LogDebug(@" final dictionary %@ ", responseDictionary);
     }
     return responseDictionary;
 }
@@ -568,7 +546,7 @@
 + (NSDictionary*)getResponseIfTransactionIsComplete:(UIWebView *)webview {
     // contains the HTTP body as in an HTTP POST request.
     NSString *iosResponse = [webview stringByEvaluatingJavaScriptFromString:@"postResponseiOS();"];
-    NSLog(@"iosResponse %@",iosResponse);
+    LogDebug(@"iosResponse %@",iosResponse);
     if(iosResponse == nil ){
         return nil;
     }
@@ -577,8 +555,8 @@
         NSDictionary *dictionary =  [NSJSONSerialization JSONObjectWithData: [iosResponse dataUsingEncoding:NSUTF8StringEncoding]
                                                                     options: NSJSONReadingMutableContainers
                                                                       error: &error];
-        NSLog(@" dictionary %@ ",dictionary);
-        NSLog(@" error %@ ",error);
+        LogDebug(@" dictionary %@ ",dictionary);
+        LogDebug(@" error %@ ",error);
         return dictionary;
     }
 }
@@ -587,7 +565,7 @@
     BOOL isVerifyPage = [CTSUtility myContainsString:urlString];
     
     if(isVerifyPage){
-        NSLog(@"not logged in");
+        LogDebug(@"not logged in");
         isVerifyPage = YES;
     }
     return isVerifyPage;
