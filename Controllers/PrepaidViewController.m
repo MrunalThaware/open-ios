@@ -134,7 +134,6 @@
     [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
         LogTrace(@"userName %@",userName);
         LogTrace(@"error %@",error);
-        [self cashOutToBank];
         if (error) {
             
             [UIUtility toastMessageOnScreen:[error localizedDescription]];

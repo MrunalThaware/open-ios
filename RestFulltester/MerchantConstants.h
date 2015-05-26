@@ -25,24 +25,24 @@
 
 
 //sandbox
-//#define SignInId @"gogo-pre-wallet"
-//#define SignInSecretKey @"e6f1b840c652d2ffc46530faaac8b771"
-//
-//
-//
-//#define SubscriptionId @"test-signup"
-//#define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
+#define SignInId @"gogo-pre-wallet"
+#define SignInSecretKey @"e6f1b840c652d2ffc46530faaac8b771"
+
+
+
+#define SubscriptionId @"test-signup"
+#define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
 
 
 
 
 ////STG3
-#define SignInId @"gogo-signin"
-#define SignInSecretKey @"3fa4d9f78a466dcd41ca0bcfa869abcf"
-
-
-#define SubscriptionId @"gogo-signup"
-#define SubscriptionSecretKey @"d4321ce902ccd68f7ae1fd9603495f99"
+//#define SignInId @"gogo-signin"
+//#define SignInSecretKey @"3fa4d9f78a466dcd41ca0bcfa869abcf"
+//
+//
+//#define SubscriptionId @"gogo-signup"
+//#define SubscriptionSecretKey @"d4321ce902ccd68f7ae1fd9603495f99"
 
 
 
@@ -57,8 +57,8 @@
 
 //#define BillUrl @"http://test.bhoomata.com/default.aspx"
 #define ReturnUrl @"http://192.168.1.100:8888/return.php"
-#define BaseUrl @"https://stg3admin.citruspay.com"
-//#define BaseUrl @"https://sandboxadmin.citruspay.com"
+//#define BaseUrl @"https://stg3admin.citruspay.com"
+#define BaseUrl @"https://sandboxadmin.citruspay.com"
 
 //#define BaseUrl @"https://stg3admin.citruspay.com"
 
