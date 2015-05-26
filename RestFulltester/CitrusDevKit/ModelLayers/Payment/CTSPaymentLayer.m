@@ -549,15 +549,13 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                 // Your code to handle success.
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (hasSuccess && error.code != ServerErrorWithCode) {
-                        [self loadPaymentWebview:paymentInfo.redirectUrl reqId:PaymentChargeInnerWebNormalReqId returnUrl:bill.returnUrl];
+                        [self loadPaymentWebview:paymentInfo.redirectUrl reqId:PaymentChargeInnerWeblTokenReqId returnUrl:bill.returnUrl];
                     }else{
                         
                         [self chargeTokenInnerWebviewHelper:nil error:[CTSError convertToError:paymentInfo]];
                         
                     }
                 });
-                
-                
             }
         }
         else {
@@ -650,7 +648,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                 // Your code to handle success.
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (hasSuccess && error.code != ServerErrorWithCode) {
-                        [self loadPaymentWebview:paymentInfo.redirectUrl reqId:PaymentChargeInnerWebNormalReqId returnUrl:returnUrl];
+                        [self loadPaymentWebview:paymentInfo.redirectUrl reqId:PaymentChargeInnerWebLoadMoneyReqId returnUrl:returnUrl];
                     }else{
                         [self chargeLoadMoneyInnerWebviewHelper:nil error:[CTSError convertToError:paymentInfo]];
                     }
@@ -1243,7 +1241,6 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     
-    [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
     
     for(NSString *keys in change){
         NSLog(@"Checking key %@, Value %@",keys,[change valueForKey:keys]);
@@ -1254,7 +1251,10 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
     response.responseDict =  [NSMutableDictionary dictionaryWithDictionary:[change valueForKey:@"new"]];
     int toIntReqId = [CTSUtility extractReqId:response.responseDict];
     NSError *error = [CTSUtility extractError:response.responseDict];
+    
     [paymentWebViewController.navigationController popViewControllerAnimated:YES];
+    [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
+    paymentWebViewController=nil;
 
     switch (toIntReqId) {
         case PaymentChargeInnerWebNormalReqId:

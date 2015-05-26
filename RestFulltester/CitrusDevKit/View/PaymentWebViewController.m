@@ -75,6 +75,7 @@
     NSLog(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
     //
     //    //for load balance return url finish
+    NSLog(@"reqId %d",reqId);
     if(reqId == PaymentChargeInnerWebLoadMoneyReqId){
         NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
         NSLog(@"loadMoneyResponse %@",loadMoneyResponse);

@@ -135,16 +135,27 @@
     // Update card for tokenized payment.
     CTSElectronicCardUpdate *tokenizedCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
      tokenizedCard.cvv= TEST_CREDIT_CARD_CVV;
-     tokenizedCard.token= TEST_TOKENIZED_CARD_TOKEN;
+     tokenizedCard.token= @"f00bbc754c00db104cfb9c6adb3fd31c";
     [tokenizedCardInfo addCard:tokenizedCard];
     
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
     
     // Configure your request here.
-    [paymentLayer requestChargeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        [self handlePaymentResponse:paymentInfo error:error];
+//    [paymentLayer requestChargeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+//        [self handlePaymentResponse:paymentInfo error:error];
+//    }];
+    
+    
+    [paymentLayer requestChargeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:error.localizedDescription];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Payment Status %@",[citrusCashResponse.responseDict valueForKey:@"TxStatus"] ]];
+        }
     }];
+    
 }
 
 // Card payment debit/credit
@@ -157,9 +168,7 @@
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
     //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
-    
-    
-    
+
     
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     [paymentInfo addCard:creditCard];
@@ -167,11 +176,7 @@
     
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
-    
-    // Configure your request here.
-    //    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-    //        [self handlePaymentResponse:paymentInfo error:error];
-    //    }];
+
     
     [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         
@@ -190,15 +195,21 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update bank details for net banking payment.
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
-    netBank.code = TEST_NETBAK_CODE;
+    netBank.code = @"CID002";
     [paymentInfo addNetBanking:netBank];
     
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
     
-    // Configure your request here.
-    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        [self handlePaymentResponse:paymentInfo error:error];
+
+    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:error.localizedDescription];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Payment Status %@",[citrusCashResponse.responseDict valueForKey:@"TxStatus"] ]];
+        }
+
     }];
 }
 

@@ -171,9 +171,7 @@
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
         else {
-            
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@\n number: %@\n ifsc: %@",bankAccount.cashoutAccount.owner,bankAccount.cashoutAccount.number,bankAccount.cashoutAccount.branch]];
-            
         }
     }];
 }
@@ -217,22 +215,17 @@
     //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     
-    
-    
     [creditCardInfo addCard:creditCard];
 
-    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        [self handlePaymentResponse:paymentInfo error:error];
-    }];
     
-//[paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
-//    if(error){
-//        [UIUtility toastMessageOnScreen:error.localizedDescription];
-//    }
-//    else {
-//        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Load Money Status %@",[citrusCashResponse.responseDict valueForKey:LoadMoneyResponeKey]]];
-//    }
-//}];
+[paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+    if(error){
+        [UIUtility toastMessageOnScreen:error.localizedDescription];
+    }
+    else {
+        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Load Money Status %@",[citrusCashResponse.responseDict valueForKey:LoadMoneyResponeKey]]];
+    }
+}];
 }
 
 
@@ -247,13 +240,16 @@
     tokenizedCard.cvv= TEST_CREDIT_CARD_CVV;
     tokenizedCard.token= TEST_TOKENIZED_CARD_TOKEN;
     [tokenizedCardInfo addCard:tokenizedCard];
-    
-    
-    [paymentLayer requestLoadMoneyInCitrusPay:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        [self handlePaymentResponse:paymentInfo error:error];
-    }];
-    
 
+    
+    [paymentLayer requestLoadMoneyInCitrusPay:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:error.localizedDescription];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Load Money Status %@",[citrusCashResponse.responseDict valueForKey:LoadMoneyResponeKey]]];
+        }
+    }];
 }
 
 -(IBAction)loadUsingNetbank:(id)sender{
@@ -261,14 +257,17 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update bank details for net banking payment.
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
-    netBank.code = @"CID002";TEST_NETBAK_CODE;
+    netBank.code = TEST_NETBAK_CODE;
     [paymentInfo addNetBanking:netBank];
-    
-    [paymentLayer requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"10" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        [self handlePaymentResponse:paymentInfo error:error];
-    }];
-    
 
+    [paymentLayer requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:error.localizedDescription];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Load Money Status %@",[citrusCashResponse.responseDict valueForKey:LoadMoneyResponeKey]]];
+        }
+    }];
 }
 
 -(IBAction)payUsingCitrusCash:(id)sender{
