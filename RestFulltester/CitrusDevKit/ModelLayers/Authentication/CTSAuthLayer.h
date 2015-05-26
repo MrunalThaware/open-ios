@@ -108,6 +108,10 @@
 
 @optional
 -(void)auth:(CTSAuthLayer *)layer didLink:(CTSLinkRes *)linkRes error:(NSError *)error;
+
+
+@optional
+-(void)auth:(CTSAuthLayer *)layer didSignInWithOtpError:(NSError *)error;
 @end
 
 @interface CTSAuthLayer : CTSRestPluginBase {
@@ -155,6 +159,11 @@ typedef void (^ASOtpRegenerationCallback)(CTSResponse*response, NSError* error);
 typedef void (^ASGenerateOtpCallBack)(CTSResponse*response, NSError* error);
 
 typedef void (^ASLinkCallback)(CTSLinkRes *linkRes, NSError* error);
+
+typedef void (^ASBindSignIn)(NSError* error);
+
+typedef void (^ASOtpSigninCallBack)(NSError* error);
+
 
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
 
@@ -226,6 +235,10 @@ typedef void (^ASLinkCallback)(CTSLinkRes *linkRes, NSError* error);
 -(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
             completionHandler:(ASCitrusSigninCallBack)callBack;
 
+
+
+-(void)requestBindSignin:(NSString *)userName completionHandler:(ASBindSignIn)callback;
+
 /**
  *  signout
  *
@@ -253,12 +266,11 @@ typedef void (^ASLinkCallback)(CTSLinkRes *linkRes, NSError* error);
 
 -(void)requestVerification:(NSString *)mobile code:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback;
 
-
 -(void)requestVerificationCodeRegenerate:(NSString *)mobile completionHandler:(ASOtpRegenerationCallback)callback;
 
 -(void)requestGenerateOTPFor:(NSString *)entity completionHandler:(ASGenerateOtpCallBack)callback;
 
-- (void)requestSigninWithUsername:(NSString*)userNameArg otp:(NSString*)otp completionHandler:(ASSigninCallBack)callBack;
+-(void)requestSigninWithUsername:(NSString*)userNameArg otp:(NSString*)otp completionHandler:(ASOtpSigninCallBack)callBack;
 
 -(void)requestLink:(CTSUserDetails *)user completionHandler:(ASLinkCallback )callback;
 @end

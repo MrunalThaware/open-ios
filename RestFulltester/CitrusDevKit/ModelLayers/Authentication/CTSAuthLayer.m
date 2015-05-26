@@ -362,7 +362,7 @@
 
 - (void)requestSigninWithUsername:(NSString*)userNameArg
                          otp:(NSString*)otp
-                completionHandler:(ASSigninCallBack)callBack {
+                completionHandler:(ASOtpSigninCallBack)callBack {
     /**
      *  flow sigin in
      check oauth expiry time if oauth token is expired call for refresh token and
@@ -371,8 +371,7 @@
      
      */
     
-    [self addCallback:callBack forRequestId:SigninOauthTokenReqId];
-    
+    [self addCallback:callBack forRequestId:OtpSignInReqId];
     
     
     userNameArg = userNameArg.lowercaseString;
@@ -391,7 +390,7 @@
     
     CTSRestCoreRequest* request =
     [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
-                                   requestId:SigninOauthTokenReqId
+                                   requestId:OtpSignInReqId
                                      headers:nil
                                   parameters:parameters
                                         json:nil
@@ -404,6 +403,34 @@
 
 
 
+
+
+
+-(void)requestBindSignin:(NSString *)userName completionHandler:(ASBindSignIn)callback{
+    [self addCallback:callback forRequestId:BindSigninAsyncReqId];
+
+    userName = userName.lowercaseString;
+    
+    
+    NSDictionary* parameters = @{
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_CLIENT_ID,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
+                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_BIND_SIGNIN_GRANT_TYPE,
+                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : userName
+                                 };
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+                                   requestId:BindSigninAsyncReqId
+                                     headers:nil
+                                  parameters:parameters
+                                        json:nil
+                                  httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+    
+
+}
 
 
 -(void)requestBindSigninUsername:(NSString *)email{
@@ -637,29 +664,29 @@
 
 -(void)requestLink:(CTSUserDetails *)user completionHandler:(ASLinkCallback )callback{
     //accept mobile and email.
-//    Get Member Info (present in cube and tiny own sdk)
-//    if Mobile Present
-//        > Ask For Send M-OTP(not yet present) > (user will receive the otp) > RESPONSE : SIGN_IN_WITH_OTP
-//        if Mobile not Present and email present
-//            > Ask For Send E-OTP > (user will receive the eotp) > RESPONSE: SIGN_IN_WITH_EOTP
-//            Both Absent
-//            >  RESPONSE: FRESH_SIGNUP >
+    //    Get Member Info (present in cube and tiny own sdk)
+    //    if Mobile Present
+    //        > Ask For Send M-OTP(not yet present) > (user will receive the otp) > RESPONSE : SIGN_IN_WITH_OTP
+    //        if Mobile not Present and email present
+    //            > Ask For Send E-OTP > (user will receive the eotp) > RESPONSE: SIGN_IN_WITH_EOTP
+    //            Both Absent
+    //            >  RESPONSE: FRESH_SIGNUP >
     
     
     
-//    
-//Inputs:
-//    
-//    email (mandatory)
-//    firstName (optional)
-//    lastName (optional)
-//    mobileNo (mandatory)
-//    
-//    
-//Output:
-//    
-//
-
+    //
+    //Inputs:
+    //
+    //    email (mandatory)
+    //    firstName (optional)
+    //    lastName (optional)
+    //    mobileNo (mandatory)
+    //
+    //
+    //Output:
+    //
+    //
+    
     
     
     [self addCallback:callback forRequestId:LinkReqId];
@@ -667,89 +694,75 @@
     //validations
     
     
-  CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc ] init];
+    CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc ] init];
     [profileLayer requestMemberInfoMobile:user.mobileNo email:user.email withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
         if(error){
-        //reply with failure
+            //reply with failure
             NSLog(@"++++++++++++++++++++ Member Info Fetch Failed ");
             [self linkHelper:nil error:error];
             
         }else{
             NSLog(@"++++++++++++++++++++ Member Info Fetched ");
-
+            
             if(profile.responseData.profileByMobile){
                 NSLog(@"++++++++++++++++++++ Mobile Found ");
-
+                
                 //if Mob present    : (SDK invokes RequesMOtp) > User can now signin with motp or pwd
-
+                
                 [self requestGenerateOTPFor:profile.responseData.profileByMobile.mobile completionHandler:^(CTSResponse *response, NSError *error) {
                     NSLog(@"++++++++++++++++++++ Asked to send the M otp ");
-
+                    
                     if(error){
                         NSLog(@"++++++++++++++++++++ ERROR in  M otp ");
-
-                      [self linkHelper:nil error:error];
+                        
+                        [self linkHelper:nil error:error];
                     }else{
-                        [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusMotpSigIn entity:profile.responseData.profileByMobile.mobile] error:nil];
-                    
+                        //do link for wallet access
+                        [self requestBindSignin:user.mobileNo completionHandler:^(NSError *error) {
+                            [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusMotpSigIn entity:profile.responseData.profileByMobile.mobile] error:nil];
+                        }];
                     }
                 }];
             }
             else if(profile.responseData.profileByEmail){
                 //if Mob absent, Only Email present    : (SDK invokes RequesEOtp) > User can now signin with eotp or pwd
                 NSLog(@"++++++++++++++++++++ Email Found ");
-
+                
                 [self requestGenerateOTPFor:profile.responseData.profileByEmail.email completionHandler:^(CTSResponse *response,NSError *error) {
                     NSLog(@"++++++++++++++++++++ Asked to send the E otp ");
-
+                    
                     if(error){
                         NSLog(@"++++++++++++++++++++ ERROR in  E otp ");
-
                         [self linkHelper:nil error:error];
-
+                        
                     }else{
-                      [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusMotpSigIn entity:profile.responseData.profileByEmail.email] error:nil];
+                        //do link for wallet access
+                        [self requestBindSignin:user.mobileNo completionHandler:^(NSError *error) {
+                            [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusMotpSigIn entity:profile.responseData.profileByEmail.email] error:nil];
+                        }];
+
                     }
                 }];
             }
             else{
                 //if Email Mobile Absent  : (SDK SignsUp the user) > User receives the Verification code > now app should proceed to verification call from SDK
                 NSLog(@"++++++++++++++++++++ Mobile Email Both Absent ");
-
                 
                 [self requestSignupUser:user password:nil mobileVerified:NO emailVerified:NO completionHandler:^(NSError *error) {
                     NSLog(@"++++++++++++++++++++ Asked to Signup ");
-
                     if(error){
                         [self linkHelper:nil error:error];
                     }
                     else{
-                     [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusSignup entity:user.mobileNo] error:nil];
+                        //do link for wallet access
+                        [self requestBindSignin:user.mobileNo completionHandler:^(NSError *error) {
+                            [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusSignup entity:user.mobileNo] error:nil];
+                        }];
                     }
                 }];
             }
-        
-        
-        
-        
-        
-        
-        
         }
-        
-        
-        
     }];
-    
-    
-    
-    
-    
-    
-    
-    
-
-
 }
 
 
@@ -965,7 +978,9 @@ enum {
     OTPVerificationRequestId,
     OTPRegenerationRequestId,
     GenerateOTPReqId,
-    LinkReqId
+    LinkReqId,
+    BindSigninAsyncReqId,
+    OtpSignInReqId
 };
 - (instancetype)init {
     NSDictionary* dict = @{
@@ -1004,6 +1019,14 @@ enum {
                            toNSString(OTPRegenerationRequestId):toSelector(handleOTPRegeneration:)
                            ,
                            toNSString(GenerateOTPReqId):toSelector(handleOTPGeneration:),
+                           
+                           toNSString(BindSigninAsyncReqId):toSelector(handleBindSignInAsync
+                                                                       :),
+                           toNSString(OtpSignInReqId):toSelector(handleOtpSignIn
+                                                                       :)
+
+                           
+
                            };
     
     self =
@@ -1081,6 +1104,23 @@ enum {
          }
     [self bindUserHelperUsername:userNameBind error:error];
     
+}
+
+-(void)handleBindSignInAsync:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+ 
+    if(error == nil){
+    
+        CTSOauthTokenRes* resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+        [resultObject logProperties];
+        [CTSOauthManager saveBindSignInOauth:resultObject];
+
+    
+    }
+    [self bindSigninAsyncHelperError:error];
 }
 
 
@@ -1200,6 +1240,25 @@ enum {
                                  error:error];
         }
     }
+}
+
+
+
+-(void)handleOtpSignIn:(CTSRestCoreResponse*)response{
+
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    // signup flow
+    if (error == nil) {
+        CTSOauthTokenRes* resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+        [resultObject logProperties];
+        [CTSOauthManager saveOauthData:resultObject];
+    }
+    
+    [self otpSignInHelperError:error];
+
 }
 
 
@@ -1478,6 +1537,14 @@ enum {
     [self resetBindData];
 }
 
+
+-(void)bindSigninAsyncHelperError:(NSError *)error{
+    ASBindSignIn callback = [self retrieveAndRemoveCallbackForReqId:BindSigninAsyncReqId];
+    callback(error);
+
+}
+
+
 -(void)citrusPaySigninHelper:(NSError *)error{
     ASCitrusSigninCallBack callback =
     [self retrieveAndRemoveCallbackForReqId:CitruPaySigniInReqId];
@@ -1566,6 +1633,19 @@ enum {
         [delegate auth:self didLink:response error:error];
     }
 }
+
+
+-(void)otpSignInHelperError:(NSError *)error{
+    ASOtpSigninCallBack callback = [self retrieveAndRemoveCallbackForReqId:OtpSignInReqId];
+    if(callback != nil){
+        callback(error);
+    }else {
+        [delegate auth:self didSignInWithOtpError:error];
+    }
+
+
+}
+
 
 #pragma mark - housekeeping methods
 -(BOOL)isBadCredentials:(NSError *)error{

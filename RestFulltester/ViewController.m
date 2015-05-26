@@ -54,14 +54,14 @@
 //
 //    }];
 
-    
+//    [authLayer requestBindSignin:TEST_MOBILE completionHandler:^(NSError *error) {
+//        [self logError:error];
+//     
+//    }];
     //signin otp
-//[authLayer requestSigninWithUsername:TEST_MOBILE otp:@"025" completionHandler:^(NSString *userName, NSString *token, NSError *error) {
-//    NSLog(@" userName %@ ",userName);
-//    NSLog(@" token %@ ",token);
+//[authLayer requestSigninWithUsername:TEST_MOBILE otp:@"228" completionHandler:^(NSError *error) {
 //    [self logError:error];
 //}];
-    
     
 //    [authLayer requestSigninWithUsername:TEST_MOBILE password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
 //        NSLog(@" userName %@ ",userName);
