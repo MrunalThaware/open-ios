@@ -44,4 +44,6 @@
 +(NSArray *)getLoadResponseIfSuccesfull:(NSURLRequest *)request;
 +(BOOL)string:(NSString *)source containsString:(NSString*)desti;
 +(int)extractReqId:(NSMutableDictionary *)response;
++(NSError *)extractError:(NSMutableDictionary *)response;
++(NSDictionary *)errorResponseIfReturnUrlDidntRespond:(NSString *)returnUrl webViewUrl:(NSString *)webviewUrl currentResponse:(NSDictionary *)responseDict;
 @end

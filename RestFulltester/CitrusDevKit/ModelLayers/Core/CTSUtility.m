@@ -8,6 +8,7 @@
 
 #import "CTSUtility.h"
 #import "CreditCard-Validator.h"
+#import "CTSError.h"
 
 #define ALPHABETICS @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
 #define NUMERICS @"0123456789"
@@ -568,13 +569,26 @@
     return isVerifyPage;
 }
 
++(NSDictionary *)errorResponseIfReturnUrlDidntRespond:(NSString *)returnUrl webViewUrl:(NSString *)webviewUrl currentResponse:(NSDictionary *)responseDict{
+    if( [CTSUtility string:returnUrl containsString:webviewUrl]){
+        NSLog(@"final Return URL completed loading found");
+        if(responseDict == nil){
+            NSError *error = [CTSError getErrorForCode:ReturnUrlCallbackNotValid];
+            responseDict = [NSDictionary dictionaryWithObject:error forKey:CITRUS_ERROR_DOMAIN];
+        }
+    }
+    return responseDict;
 
+}
 
 +(int)extractReqId:(NSMutableDictionary *)response{
     int reqId = [(NSString *)[response valueForKey:@"reqId"] intValue];
     [response removeObjectForKey:@"reqId"];
     return reqId;
 }
-
-
++(NSError *)extractError:(NSMutableDictionary *)response{
+    NSError * reqId = [response valueForKey:CITRUS_ERROR_DOMAIN];
+    [response removeObjectForKey:CITRUS_ERROR_DOMAIN];
+    return reqId;
+}
 @end

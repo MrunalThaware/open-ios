@@ -29,8 +29,23 @@
 #import "CTSCashoutToBankRes.h"
 #import "PaymentWebViewController.h"
 
-
-
+enum {
+    PaymentAsGuestReqId,
+    PaymentUsingtokenizedCardBankReqId,
+    PaymentUsingSignedInCardBankReqId,
+    PaymentPgSettingsReqId,
+    PaymentAsCitruspayInternalReqId,
+    PaymentAsCitruspayReqId,
+    PaymentGetPrepaidBillReqId,
+    PaymentLoadMoneyCitrusPayReqId,
+    PaymentCashoutToBankReqId,
+    PaymentChargeInnerWebNormalReqId,
+    PaymentChargeInnerWeblTokenReqId,
+    PaymentChargeInnerWebLoadMoneyReqId
+    
+    
+};
+#define LoadMoneyResponeKey @"loadMoneyResponseKey"
 @class CTSAuthLayer;
 @class CTSAuthenticationProtocol;
 @class CTSPaymentLayer;
@@ -102,11 +117,13 @@ didCashoutToBank:(CTSCashoutToBankRes *)cashoutToBankRes
 
 @end
 @interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol,UIWebViewDelegate> {
-    UIViewController *citrusCashBackViewController;
     UIWebView *citrusPayWebview;
     PaymentWebViewController *paymentWebViewController;
     BOOL finished;
+    NSString *cCashReturnUrl;
 }
+@property(strong,nonatomic)UIViewController *citrusCashBackViewController;
+
 @property(strong) NSString* merchantTxnId;
 @property(strong) NSString* signature;
 @property(weak) id<CTSPaymentProtocol> delegate;

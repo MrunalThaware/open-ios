@@ -12,7 +12,7 @@
 {
     UIActivityIndicatorView* indicator;
 }
-@property(nonatomic,strong) NSString *redirectURL;
+@property(nonatomic,strong) NSString *redirectURL,*returnUrl;
 @property(assign) int reqId;
 @property(nonatomic,strong) NSMutableDictionary *response;
 @end

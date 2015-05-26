@@ -74,9 +74,11 @@
           
       case BankAccountNotValid:
           errorDescription = @"Bank Account is not valid";
+          break;
+          case ReturnUrlCallbackNotValid:
+          errorDescription = @"CitrusPay Completed the Transaction, Merchant Server did Not Return Data from \"postiOSResponse()\"";
           
           break;
-          
       default:
           
           
@@ -161,6 +163,8 @@
     [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:(NSInteger)ctsPaymentTxRes.pgRespCode userInfo:userInfo];
 
 }
+
+
 
 
 @end

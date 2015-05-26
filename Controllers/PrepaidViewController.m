@@ -226,7 +226,14 @@
         [self handlePaymentResponse:paymentInfo error:error];
     }];
     
-
+//[paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+//    if(error){
+//        [UIUtility toastMessageOnScreen:error.localizedDescription];
+//    }
+//    else {
+//        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Load Money Status %@",[citrusCashResponse.responseDict valueForKey:LoadMoneyResponeKey]]];
+//    }
+//}];
 }
 
 
@@ -302,12 +309,8 @@
                 LogTrace(@"bankName %@ ", [arr valueForKey:@"bankName"]);
                 LogTrace(@"issuerCode %@ ", [arr valueForKey:@"issuerCode"]);
             }
-
-        
         }
-        
     }];
-
 }
 #pragma mark - Payment Helpers
 -(void)handlePaymentResponse:(CTSPaymentTransactionRes *)paymentInfo error:(NSError *)error{

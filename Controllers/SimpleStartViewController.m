@@ -157,32 +157,31 @@
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
     //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
-
+    
     
     
     
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     [paymentInfo addCard:creditCard];
-
-
+    
+    
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
     
     // Configure your request here.
-//    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-//        [self handlePaymentResponse:paymentInfo error:error];
-//    }];
+    //    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    //        [self handlePaymentResponse:paymentInfo error:error];
+    //    }];
     
-[paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
-    
-    
-    if(error){
-        [UIUtility toastMessageOnScreen:error.localizedDescription];
-    }
-    else {
-        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Payment Status %@",[citrusCashResponse.responseDict valueForKey:@"TxStatus"] ]];
-    }
-}];
+    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+        
+        if(error){
+            [UIUtility toastMessageOnScreen:error.localizedDescription];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Payment Status %@",[citrusCashResponse.responseDict valueForKey:@"TxStatus"] ]];
+        }
+    }];
 }
 
 
