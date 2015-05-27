@@ -49,6 +49,8 @@
                                 signature:(NSString*)signatureArg
                                     txnId:(NSString*)txnId
                            merchantAccess:(NSString *)merchantAccessKey
+                           withCustParams:(NSDictionary *)custParams
+
 {
   CTSPaymentRequest* paymentRequest = [[CTSPaymentRequest alloc] init];
 
@@ -60,6 +62,7 @@
   paymentRequest.returnUrl = returnUrl;
   paymentRequest.paymentToken =
       [[paymentInfo.paymentOptions objectAtIndex:0] fetchPaymentToken];
+    paymentRequest.customParameters = custParams;
     contact.email = contact.email.lowercaseString;
   paymentRequest.userDetails =
       [[CTSUserDetails alloc] initWith:contact address:address];
@@ -159,6 +162,7 @@
                  withContact:(CTSContactUpdate*)contactInfo
                  withAddress:(CTSUserAddress*)userAddress
                         bill:(CTSBill *)bill
+                         customParams:(NSDictionary *)custParams
        withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback{
 
     [self addCallback:callback forRequestId:PaymentUsingtokenizedCardBankReqId];
@@ -171,7 +175,8 @@
                     returnUrl:bill.returnUrl
                     signature:bill.requestSignature
                         txnId:bill.merchantTxnId
-     merchantAccess:bill.merchantAccessKey];
+     merchantAccess:bill.merchantAccessKey
+    withCustParams:custParams];
     
     CTSErrorCode error = [paymentInfo validateTokenized];
     LogTrace(@" validation error %d ", error);
@@ -274,6 +279,7 @@
                       withContact:(CTSContactUpdate*)contactInfo
                       withAddress:(CTSUserAddress*)userAddress
                              bill:(CTSBill *)bill
+                customParams:(NSDictionary *)custParams
             withCompletionHandler:(ASMakeGuestPaymentCallBack)callback{
 
     [self addCallback:callback forRequestId:PaymentAsGuestReqId];
@@ -306,7 +312,9 @@
                     returnUrl:bill.returnUrl
                     signature:bill.requestSignature
                         txnId:bill.merchantTxnId
-                  merchantAccess:bill.merchantAccessKey];
+                  merchantAccess:bill.merchantAccessKey
+     withCustParams:custParams
+     ];
     
     CTSRestCoreRequest* request =
     [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL
@@ -326,6 +334,7 @@
 - (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
                                withAddress:(CTSUserAddress*)userAddress
                                       bill:(CTSBill *)bill
+                              customParams:(NSDictionary *)custParams
                       returnViewController:(UIViewController *)controller
                      withCompletionHandler:(ASCitruspayCallback)callback{
     
@@ -355,7 +364,7 @@
     cCashReturnUrl = bill.returnUrl;
     
 
-    [self requestChargeInternalCitrusCashWithContact:contactInfo withAddress:userAddress bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [self requestChargeInternalCitrusCashWithContact:contactInfo withAddress:userAddress bill:bill customParams:custParams  withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         NSLog(@"paymentInfo %@",paymentInfo);
         NSLog(@"error %@",error);
         [self handlePaymentResponse:paymentInfo error:error] ;
@@ -370,6 +379,7 @@
 - (void)requestChargeInternalCitrusCashWithContact:(CTSContactUpdate*)contactInfo
                                withAddress:(CTSUserAddress*)userAddress
                                       bill:(CTSBill *)bill
+                                      customParams:(NSDictionary *)custParams
                      withCompletionHandler:(ASMakeCitruspayCallBackInternal)callback{
     [self addCallback:callback forRequestId:PaymentAsCitruspayInternalReqId];
     NSString *email = contactInfo.email.lowercaseString;
@@ -386,7 +396,8 @@
                     returnUrl:bill.returnUrl
                     signature:bill.requestSignature
                         txnId:bill.merchantTxnId
-               merchantAccess:bill.merchantAccessKey];
+               merchantAccess:bill.merchantAccessKey
+     withCustParams:custParams];
     
 
     
@@ -407,6 +418,7 @@
                                        withAddress:(CTSUserAddress*)userAddress
                                         amount:( NSString *)amount
                                      returnUrl:(NSString *)returnUrl
+                       customParams:(NSDictionary *)custParams
 withCompletionHandler:(ASLoadMoneyCallBack)callback{
     [self addCallback:callback forRequestId:PaymentLoadMoneyCitrusPayReqId];
     
@@ -423,7 +435,8 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                         returnUrl:prepaidBill.returnUrl
                         signature:prepaidBill.signature
                             txnId:prepaidBill.merchantTransactionId
-                   merchantAccess:prepaidBill.merchantAccessKey];
+                   merchantAccess:prepaidBill.merchantAccessKey
+         withCustParams:custParams];
         
         paymentrequest.notifyUrl = prepaidBill.notifyUrl;
         
@@ -516,6 +529,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                           withContact:(CTSContactUpdate*)contactInfo
                           withAddress:(CTSUserAddress*)userAddress
                                  bill:(CTSBill *)bill
+                         customParams:(NSDictionary *)custParams
                  returnViewController:(UIViewController *)controller
                 withCompletionHandler:(ASCitruspayCallback)callback{
     
@@ -537,7 +551,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     citrusCashBackViewController = controller;
 
     
-    [self requestChargeTokenizedPayment:paymentInfo withContact:contactInfo withAddress:userAddress bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [self requestChargeTokenizedPayment:paymentInfo withContact:contactInfo withAddress:userAddress bill:bill customParams:custParams withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         if(!error){
             
             BOOL hasSuccess =
@@ -576,6 +590,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                  withContact:(CTSContactUpdate*)contactInfo
                  withAddress:(CTSUserAddress*)userAddress
                         bill:(CTSBill *)bill
+                customParams:(NSDictionary *)custParams
         returnViewController:(UIViewController *)controller
        withCompletionHandler:(ASCitruspayCallback)callback{
     [self addCallback:callback forRequestId:PaymentChargeInnerWebNormalReqId];
@@ -592,7 +607,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     citrusCashBackViewController = controller;
     
     
-    [self requestChargePayment:paymentInfo withContact:contactInfo withAddress:userAddress bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [self requestChargePayment:paymentInfo withContact:contactInfo withAddress:userAddress bill:bill customParams:custParams withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         if(!error){
             
             BOOL hasSuccess =
@@ -628,6 +643,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                         withAddress:(CTSUserAddress*)userAddress
                              amount:( NSString *)amount
                           returnUrl:(NSString *)returnUrl
+                       customParams:(NSDictionary *)custParams
                returnViewController:(UIViewController *)controller
               withCompletionHandler:(ASCitruspayCallback)callback{
 
@@ -637,7 +653,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     
     citrusCashBackViewController = controller;
     
-    [self requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:userAddress amount:amount returnUrl:returnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [self requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:userAddress amount:amount returnUrl:returnUrl  customParams:custParams withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         if(!error){
             
             BOOL hasSuccess =
@@ -1227,9 +1243,11 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
     
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(paymentWebViewController == nil){
-            paymentWebViewController = [[PaymentWebViewController alloc] init];
+        if(paymentWebViewController != nil){
+            [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
+            [paymentWebViewController finishWebView];
         }
+        paymentWebViewController = [[PaymentWebViewController alloc] init];
         [self addObserver:self forKeyPath:@"paymentWebViewController.response" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
         paymentWebViewController.redirectURL = url;
         paymentWebViewController.reqId = reqId;
@@ -1255,7 +1273,9 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
     [paymentWebViewController.navigationController popViewControllerAnimated:YES];
     [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
     paymentWebViewController=nil;
-
+    if(error){
+        response = nil;
+    }
     switch (toIntReqId) {
         case PaymentChargeInnerWebNormalReqId:
             [self chargeNormalInnerWebviewHelper:response error:error];

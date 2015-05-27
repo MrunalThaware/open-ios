@@ -43,8 +43,7 @@
     indicator.frame = CGRectMake(160, 300, 30, 30);
     [self.view addSubview:self.webview];
     [self.webview addSubview:indicator];
-    
-    
+    transactionOver = NO;
     [self.webview loadRequest:[[NSURLRequest alloc]
                                initWithURL:[NSURL URLWithString:redirectURL]]];
 }
@@ -103,6 +102,7 @@
 
 
 -(void)transactionComplete:(NSMutableDictionary *)responseDictionary{
+    transactionOver = YES;
     responseDictionary = [NSMutableDictionary dictionaryWithDictionary:responseDictionary];
     [self finishWebView];
     [responseDictionary setValue:toNSString(reqId) forKey:@"reqId"];
@@ -124,6 +124,19 @@
     [self.webview removeFromSuperview];
     self.webview.delegate = nil;
     self.webview = nil;
-}
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
+    
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    NSLog(@" view will desappear ");
+    [super viewWillDisappear:animated];
+    [self finishWebView];
+    if(transactionOver == NO){
+        NSDictionary* responseDict = [CTSUtility errorResponseTransactionForcedClosedByUser];
+        if(responseDict){
+            [self transactionComplete:(NSMutableDictionary *)responseDict];
+        }
+    }
+}
 @end

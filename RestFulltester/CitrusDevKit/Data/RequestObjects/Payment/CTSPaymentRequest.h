@@ -20,5 +20,6 @@
 @property(strong) NSString<Optional>* returnUrl;
 @property(nonatomic, strong) CTSPaymentToken* paymentToken;
 @property(nonatomic, strong) CTSUserDetails* userDetails;
+@property(nonatomic, strong) NSDictionary<Optional>* customParameters;
 
 @end

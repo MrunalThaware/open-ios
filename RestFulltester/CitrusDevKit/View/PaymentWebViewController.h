@@ -11,8 +11,11 @@
 @interface PaymentWebViewController : UIViewController <UIWebViewDelegate>
 {
     UIActivityIndicatorView* indicator;
+    BOOL transactionOver;
+
 }
 @property(nonatomic,strong) NSString *redirectURL,*returnUrl;
 @property(assign) int reqId;
 @property(nonatomic,strong) NSMutableDictionary *response;
+-(void)finishWebView;
 @end

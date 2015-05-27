@@ -581,6 +581,14 @@
 
 }
 
+
+
++(NSDictionary *)errorResponseTransactionForcedClosedByUser{
+    NSError *error = [CTSError getErrorForCode:TransactionForcedClosed];
+    NSDictionary * responseDict = [NSDictionary dictionaryWithObject:error forKey:CITRUS_ERROR_DOMAIN];
+    return responseDict;
+}
+
 +(int)extractReqId:(NSMutableDictionary *)response{
     int reqId = [(NSString *)[response valueForKey:@"reqId"] intValue];
     [response removeObjectForKey:@"reqId"];

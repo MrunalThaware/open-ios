@@ -15,6 +15,8 @@
     CTSPaymentLayer *paymentLayer;
     CTSContactUpdate* contactInfo;
     CTSUserAddress* addressInfo;
+    NSDictionary *customParams;
+
 }
 
 @end

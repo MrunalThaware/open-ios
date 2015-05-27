@@ -46,4 +46,6 @@
 +(int)extractReqId:(NSMutableDictionary *)response;
 +(NSError *)extractError:(NSMutableDictionary *)response;
 +(NSDictionary *)errorResponseIfReturnUrlDidntRespond:(NSString *)returnUrl webViewUrl:(NSString *)webviewUrl currentResponse:(NSDictionary *)responseDict;
++(NSDictionary *)errorResponseTransactionForcedClosedByUser;
+
 @end

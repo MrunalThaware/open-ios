@@ -80,6 +80,10 @@
           errorDescription = @"CitrusPay Completed the Transaction, Merchant Server did Not Return Data from \"postiOSResponse()\"";
           
           break;
+          case TransactionForcedClosed:
+          errorDescription = @"Transaction was Forced to End";
+          
+          break;
       default:
           
           

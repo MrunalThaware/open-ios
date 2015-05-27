@@ -62,6 +62,14 @@
     addressInfo.street1 = @"Golden Road";
     addressInfo.street2 = @"Pink City";
     addressInfo.zip = @"401209";
+    
+    
+    
+    customParams = @{@"USERDATA2":@"MOB_RC|9988776655",
+                     @"USERDATA10":@"test",
+                     @"USERDATA4":@"MOB_RC|test@gmail.com",
+                     @"USERDATA3":@"MOB_RC|4111XXXXXXXX1111",
+                     };
 }
 
 
@@ -140,14 +148,8 @@
     
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
-    
-    // Configure your request here.
-//    [paymentLayer requestChargeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-//        [self handlePaymentResponse:paymentInfo error:error];
-//    }];
-    
-    
-    [paymentLayer requestChargeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+
+    [paymentLayer requestChargeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
         }
@@ -178,7 +180,7 @@
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
 
     
-    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
@@ -202,14 +204,13 @@
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
     
 
-    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
         }
         else {
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Payment Status %@",[citrusCashResponse.responseDict valueForKey:@"TxStatus"] ]];
         }
-
     }];
 }
 
