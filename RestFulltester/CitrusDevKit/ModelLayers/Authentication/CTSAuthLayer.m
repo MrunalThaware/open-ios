@@ -1257,7 +1257,14 @@ enum {
         [CTSOauthManager saveOauthData:resultObject];
     }
     
-    [self otpSignInHelperError:error];
+    
+    CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
+    [profileLayer requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
+        [self otpSignInHelperError:error];
+
+    }];
+    
+    
 
 }
 

@@ -95,15 +95,57 @@
 
 -(IBAction)linkUser:(id)sender{
     
-    [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
-        if (error) {
+//    [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+//        if (error) {
+//            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+//        }
+//        else{
+//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"User is now Linked, %@",linkUserRes.message]];
+//        }
+//    }];
+
+    [self linkAlternate];
+}
+
+
+-(void)linkAlternate{
+    
+    CTSUserDetails *user = [[CTSUserDetails alloc] init];
+    user.mobileNo = TEST_MOBILE;
+    user.email = TEST_EMAIL;
+    user.firstName = TEST_FIRST_NAME;
+    user.lastName = TEST_LAST_NAME;
+    
+    [authLayer requestLink:user completionHandler:^(CTSLinkRes *linkRes, NSError *error) {
+        if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
         else{
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"User is now Linked, %@",linkUserRes.message]];
+            switch (linkRes.linkUserStatus) {
+                case LinkUserStatusEotpSignIn:
+                    //User is Already a Citrus Member, OTP is Sent to Email, Please Login Using OTP,
+                    //User can also acess his Saved Cards and check Preaid Balance
+                    [UIUtility toastMessageOnScreen:linkRes.message];
+                    break;
+                case LinkUserStatusMotpSigIn:
+                    //User is Already a Citrus Member, OTP is Sent to Mobile, Please Login Using OTP,
+                    //User can also acess his Saved Cards and check Preaid Balance
+                    [UIUtility toastMessageOnScreen:linkRes.message];
+                    break;
+                case LinkUserStatusSignup:
+                    //User is now registered Please Go to Mobile Verification screen
+                    //User can also acess his Saved Cards and check Preaid Balance
+                    [UIUtility toastMessageOnScreen:linkRes.message];
+                    break;
+                default:
+                    break;
+            }
         }
     }];
 }
+
+
+
 
 -(IBAction)setPassword:(id)sender{
     
