@@ -125,6 +125,7 @@
     [UIUtility toastMessageOnScreen:@"Only local tokens & Citrus cookies are cleared"];
 }
 
+
 // You can get user’s citrus cash balance after you have done Link User.
 -(IBAction)getBalance:(id)sender{
     [proifleLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
@@ -153,9 +154,16 @@
     
     [creditCardInfo addCard:creditCard];
 
-    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        [self handlePaymentResponse:paymentInfo error:error];
-    }];
+
+    
+[paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl customParams:customParams  returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+    if(error){
+        [UIUtility toastMessageOnScreen:error.localizedDescription];
+    }
+    else {
+        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Load Money Status %@",[citrusCashResponse.responseDict valueForKey:LoadMoneyResponeKey]]];
+    }
+}];
 }
 
 // You can load/add money as per following way
@@ -167,9 +175,15 @@
     tokenizedCard.cvv= TEST_CREDIT_CARD_CVV;
     tokenizedCard.token= TEST_TOKENIZED_CARD_TOKEN;
     [tokenizedCardInfo addCard:tokenizedCard];
-    
-    [paymentLayer requestLoadMoneyInCitrusPay:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        [self handlePaymentResponse:paymentInfo error:error];
+
+
+    [paymentLayer requestLoadMoneyInCitrusPay:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl customParams:customParams  returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:error.localizedDescription];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Load Money Status %@",[citrusCashResponse.responseDict valueForKey:LoadMoneyResponeKey]]];
+        }
     }];
 }
 
@@ -179,11 +193,17 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update bank details for net banking payment.
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
-    netBank.code = @"CID002";
+
+    netBank.code = TEST_NETBAK_CODE;
     [paymentInfo addNetBanking:netBank];
-    
-    [paymentLayer requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"10" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        [self handlePaymentResponse:paymentInfo error:error];
+
+    [paymentLayer requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:error.localizedDescription];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Load Money Status %@",[citrusCashResponse.responseDict valueForKey:LoadMoneyResponeKey]]];
+        }
     }];
 }
 
@@ -191,7 +211,8 @@
 -(IBAction)payUsingCitrusCash:(id)sender{
     // Get Bill
     CTSBill *bill = [PrepaidViewController getBillFromServer];
-    [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill returnViewController:self withCustParams:customParams withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
+
+    [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
         NSLog(@"paymentInfo %@",paymentInfo);
         NSLog(@"error %@",error);
         if(error){
@@ -201,6 +222,7 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[paymentInfo.responseDict valueForKey:@"TxStatus"] ]];
         }
     }];
+ 
 }
 
 // This API call fetches the payment options such as VISA, MASTER (in credit and debit  cards) and net banking options available to the merchant.
@@ -254,6 +276,7 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@\n number: %@\n ifsc: %@",bankAccount.cashoutAccount.owner,bankAccount.cashoutAccount.number,bankAccount.cashoutAccount.branch]];
         }
     }];
+
 }
 
 // This is when user wants to withdraw money from his/her prepaid account into the bank account, so this needs bank account info to be sent to this method.

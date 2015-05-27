@@ -63,6 +63,18 @@
     return error;
 }
 
+-(BOOL)isTokenized{
+    BOOL isTokenized = NO;
+    for (CTSPaymentOption* payment in paymentOptions) {
+        if(payment.token != nil)
+            isTokenized = YES;
+        break;
+    }
+    return isTokenized;
+}
+
+
+
 - (void)clearCVV {
     for (CTSPaymentOption* payment in paymentOptions) {
         payment.cvv = nil;

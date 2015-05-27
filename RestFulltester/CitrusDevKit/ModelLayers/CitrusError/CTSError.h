@@ -10,17 +10,17 @@
 #import "CTSPaymentTransactionRes.h"
 
 typedef enum {
-  NoError,
-  UserNotSignedIn,
-  EmailNotValid,
-  MobileNotValid,
-  CvvNotValid,
-  CardNumberNotValid,
-  ExpiryDateNotValid,
-  ServerErrorWithCode,
-  InvalidParameter,
-  OauthTokenExpired,
-  CantFetchSignupToken,
+    NoError,
+    UserNotSignedIn,
+    EmailNotValid,
+    MobileNotValid,
+    CvvNotValid,
+    CardNumberNotValid,
+    ExpiryDateNotValid,
+    ServerErrorWithCode,
+    InvalidParameter,
+    OauthTokenExpired,
+    CantFetchSignupToken,
     TokenMissing,
     InternetDown,
     WrongBill,
@@ -30,10 +30,12 @@ typedef enum {
     PrepaidBillFetchFailed,
     NoOrMoreInstruments,
     BankAccountNotValid,
-    NoCookieFound
+    NoCookieFound,
+    ReturnUrlCallbackNotValid,
+    TransactionForcedClosed,
+    TransactionAlreadyInProgress
 
     
-
 } CTSErrorCode;
 
 #define CITRUS_ERROR_DOMAIN @"com.citrus.errorDomain"

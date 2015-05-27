@@ -46,5 +46,9 @@
 +(void)deleteSigninCookie;
 +(BOOL)isCookieSetAlready;
 +(BOOL)isMaestero:(NSString *)number;
++(int)extractReqId:(NSMutableDictionary *)response;
++(NSError *)extractError:(NSMutableDictionary *)response;
++(NSDictionary *)errorResponseIfReturnUrlDidntRespond:(NSString *)returnUrl webViewUrl:(NSString *)webviewUrl currentResponse:(NSDictionary *)responseDict;
++(NSDictionary *)errorResponseTransactionForcedClosedByUser;
 
 @end

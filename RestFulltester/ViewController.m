@@ -306,16 +306,16 @@
   [netBankingPaymentInfo addNetBanking:netbank];
   NSString* txnId = [self createTXNId];
 
-  [paymentlayerinfo
-            makeUserPayment:netBankingPaymentInfo
-                withContact:contactInfo
-                withAddress:addressInfo
-                     amount:@"1"
-              withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
-              withSignature:[ServerSignature getSignatureFromServerTxnId:txnId
-                                                                  amount:@"1"]
-                  withTxnId:txnId
-      withCompletionHandler:nil];
+//  [paymentlayerinfo
+//            makeUserPayment:netBankingPaymentInfo
+//                withContact:contactInfo
+//                withAddress:addressInfo
+//                     amount:@"1"
+//              withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
+//              withSignature:[ServerSignature getSignatureFromServerTxnId:txnId
+//                                                                  amount:@"1"]
+//                  withTxnId:txnId
+//      withCompletionHandler:nil];
 }
 - (void)doUserDebitCardPayment {
   CTSPaymentDetailUpdate* debitCardInfo = [[CTSPaymentDetailUpdate alloc] init];
@@ -330,16 +330,16 @@
   [debitCardInfo addCard:debitCard];
   NSString* txnId = [self createTXNId];
 
-  [paymentlayerinfo
-            makeUserPayment:debitCardInfo
-                withContact:contactInfo
-                withAddress:addressInfo
-                     amount:@"1"
-              withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
-              withSignature:[ServerSignature getSignatureFromServerTxnId:txnId
-                                                                  amount:@"1"]
-                  withTxnId:txnId
-      withCompletionHandler:nil];
+//  [paymentlayerinfo
+//            makeUserPayment:debitCardInfo
+//                withContact:contactInfo
+//                withAddress:addressInfo
+//                     amount:@"1"
+//              withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
+//              withSignature:[ServerSignature getSignatureFromServerTxnId:txnId
+//                                                                  amount:@"1"]
+//                  withTxnId:txnId
+//      withCompletionHandler:nil];
 }
 - (void)doUserCreditCardPayment {
   CTSPaymentDetailUpdate* creditCardInfo =
@@ -361,14 +361,14 @@
   NSString* signature =
       [ServerSignature getSignatureFromServerTxnId:transactionId amount:@"1"];
 
-  [paymentlayerinfo makeUserPayment:creditCardInfo
-                        withContact:contactInfo
-                        withAddress:addressInfo
-                             amount:@"1"
-                      withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
-                      withSignature:signature
-                          withTxnId:transactionId
-              withCompletionHandler:nil];
+//  [paymentlayerinfo makeUserPayment:creditCardInfo
+//                        withContact:contactInfo
+//                        withAddress:addressInfo
+//                             amount:@"1"
+//                      withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
+//                      withSignature:signature
+//                          withTxnId:transactionId
+//              withCompletionHandler:nil];
 }
 
 - (NSString*)createTXNId {
@@ -400,14 +400,14 @@
 
   [paymentInfo addCard:creditCard];
 
-  [paymentlayerinfo makePaymentUsingGuestFlow:paymentInfo
-                                  withContact:contactInfo
-                                       amount:@"1"
-                                  withAddress:addressInfo
-                                withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
-                                withSignature:signature
-                                    withTxnId:transactionId
-                        withCompletionHandler:nil];
+//  [paymentlayerinfo makePaymentUsingGuestFlow:paymentInfo
+//                                  withContact:contactInfo
+//                                       amount:@"1"
+//                                  withAddress:addressInfo
+//                                withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
+//                                withSignature:signature
+//                                    withTxnId:transactionId
+//                        withCompletionHandler:nil];
 }
 
 - (void)doGuestPaymentDebitCard {
@@ -428,14 +428,14 @@
 
   [paymentInfo addCard:debitCard];
 
-  [paymentlayerinfo makePaymentUsingGuestFlow:paymentInfo
-                                  withContact:contactInfo
-                                       amount:@"1"
-                                  withAddress:addressInfo
-                                withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
-                                withSignature:signature
-                                    withTxnId:transactionId
-                        withCompletionHandler:nil];
+//  [paymentlayerinfo makePaymentUsingGuestFlow:paymentInfo
+//                                  withContact:contactInfo
+//                                       amount:@"1"
+//                                  withAddress:addressInfo
+//                                withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
+//                                withSignature:signature
+//                                    withTxnId:transactionId
+//                        withCompletionHandler:nil];
 }
 
 - (void)doGuestPaymentNetbanking {
@@ -450,14 +450,14 @@
   netBank.code = TEST_NETBAK_CODE;
   [paymentInfo addNetBanking:netBank];
 
-  [paymentlayerinfo makePaymentUsingGuestFlow:paymentInfo
-                                  withContact:contactInfo
-                                       amount:@"1"
-                                  withAddress:addressInfo
-                                withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
-                                withSignature:signature
-                                    withTxnId:transactionId
-                        withCompletionHandler:nil];
+//  [paymentlayerinfo makePaymentUsingGuestFlow:paymentInfo
+//                                  withContact:contactInfo
+//                                       amount:@"1"
+//                                  withAddress:addressInfo
+//                                withReturnUrl:MLC_GUESTCHECKOUT_REDIRECTURL
+//                                withSignature:signature
+//                                    withTxnId:transactionId
+//                        withCompletionHandler:nil];
 }
 
 - (void)doTokenizedPaymentNetbanking {
@@ -471,14 +471,14 @@
   tokenizednetbank.token = @"29b296cb33e3087865f16de923144bed";
   [tokenizedNetbankingInfo addNetBanking:tokenizednetbank];
 
-  [paymentlayerinfo makeTokenizedPayment:tokenizedNetbankingInfo
-                             withContact:contactInfo
-                             withAddress:addressInfo
-                                  amount:@"1"
-                           withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
-                           withSignature:signature
-                               withTxnId:transactionId
-                   withCompletionHandler:nil];
+//  [paymentlayerinfo makeTokenizedPayment:tokenizedNetbankingInfo
+//                             withContact:contactInfo
+//                             withAddress:addressInfo
+//                                  amount:@"1"
+//                           withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
+//                           withSignature:signature
+//                               withTxnId:transactionId
+//                   withCompletionHandler:nil];
 }
 
 - (void)doTokenizedPaymentDebitCard {
@@ -519,14 +519,14 @@
   tokenizedCard.cvv = TEST_TOKENIZED_CARD_CVV;
   [tokenizedCardInfo addCard:tokenizedCard];
 
-    [paymentlayerinfo makeTokenizedPayment:tokenizedCardInfo
-                               withContact:contactInfo
-                               withAddress:addressInfo
-                                    amount:@"1"
-                             withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
-                             withSignature:signature
-                                 withTxnId:transactionId
-                     withCompletionHandler:nil];
+//    [paymentlayerinfo makeTokenizedPayment:tokenizedCardInfo
+//                               withContact:contactInfo
+//                               withAddress:addressInfo
+//                                    amount:@"1"
+//                             withReturnUrl:MLC_PAYMENT_REDIRECT_URLCOMPLETE
+//                             withSignature:signature
+//                                 withTxnId:transactionId
+//                     withCompletionHandler:nil];
 }
 
 #pragma mark - Payment layer delegates

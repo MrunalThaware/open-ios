@@ -40,12 +40,14 @@
 #define TEST_CREDIT_CARD_BANK_NAME @"ICICI (credit card)"
 #define TEST_CREDIT_CARD_CVV @"018"
 
-#define TEST_NETBAK_CODE @"CID033"
+#define TEST_NETBAK_CODE @"CID002"
 #define TEST_NETBAK_OWNER_NAME @"Yadnesh Wankhede"
 #define TEST_NETBAK_NAME @"Axis Bank"
 
 // sample value
-#define TEST_TOKENIZED_CARD_TOKEN @"1120b79f669e0ebb046ee91bedb78992"
+
+#define TEST_TOKENIZED_CARD_TOKEN @"f00bbc754c00db104cfb9c6adb3fd31c"
+
 #define TEST_TOKENIZED_CARD_CVV @"000"
 
 #define MLC_GUESTCHECKOUT_REDIRECTURL @"http://www.google.com"

@@ -75,17 +75,21 @@
           break;
       case BankAccountNotValid:
           errorDescription = @"Bank Account is not valid";
+          break;
+          case ReturnUrlCallbackNotValid:
+          errorDescription = @"CitrusPay Completed the Transaction, Merchant Server did Not Return Data from \"postiOSResponse()\"";
           
           break;
-          
+          case TransactionForcedClosed:
+          errorDescription = @"Transaction was Forced to End";
+          break;
           case NoCookieFound:
           errorDescription = @"Cookie not found, Please signin";
-          
           break;
-          
+          case TransactionAlreadyInProgress:
+          errorDescription = @"Transaction Already In Progress";
+          break;
       default:
-          
-          
       break;
   }
   NSDictionary* userInfo = @{NSLocalizedDescriptionKey : errorDescription};
@@ -115,7 +119,7 @@
     
     switch (errorCode) {
         case InternetDown:
-            fakeErrorJson = @"{\"description\":\"could not connect to internet\",\"type\":\"server error\"}";
+            fakeErrorJson = @"{\"description\":\"could not connect to server\",\"type\":\"server error\"}";
             break;
 
         default:
@@ -167,6 +171,8 @@
     [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:(NSInteger)ctsPaymentTxRes.pgRespCode userInfo:userInfo];
 
 }
+
+
 
 
 @end

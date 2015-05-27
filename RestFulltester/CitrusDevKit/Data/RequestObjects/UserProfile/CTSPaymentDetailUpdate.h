@@ -50,6 +50,8 @@
 
 -(CTSErrorCode)validateTokenized;
 
+-(BOOL)isTokenized;
+
 -(void)dummyCVVAndExpiryIfMaestro;
 
 @end
