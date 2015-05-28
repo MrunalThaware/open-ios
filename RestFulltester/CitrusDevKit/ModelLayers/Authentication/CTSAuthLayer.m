@@ -694,6 +694,20 @@
     //validations
     
     
+    if (![CTSUtility validateEmail:user.email]) {
+        [self linkHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    
+    if (![CTSUtility validateMobile:user.mobileNo]) {
+        [self linkHelper:nil
+                       error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+
+    
+    
+    
     CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc ] init];
     [profileLayer requestMemberInfoMobile:user.mobileNo email:user.email withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
         if(error){
@@ -737,7 +751,7 @@
                         
                     }else{
                         //do link for wallet access
-                        [self requestBindSignin:user.mobileNo completionHandler:^(NSError *error) {
+                        [self requestBindSignin:user.email completionHandler:^(NSError *error) {
                             [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusMotpSigIn entity:profile.responseData.profileByEmail.email] error:nil];
                         }];
 
@@ -755,7 +769,7 @@
                     }
                     else{
                         //do link for wallet access
-                        [self requestBindSignin:user.mobileNo completionHandler:^(NSError *error) {
+                        [self requestBindSignin:user.email completionHandler:^(NSError *error) {
                             [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusSignup entity:user.mobileNo] error:nil];
                         }];
                     }
@@ -1107,20 +1121,25 @@ enum {
 }
 
 -(void)handleBindSignInAsync:(CTSRestCoreResponse *)response{
-    NSError* error = response.error;
+    NSError* errorSignIn = response.error;
     JSONModelError* jsonError;
  
-    if(error == nil){
-    
+    if(errorSignIn == nil){
         CTSOauthTokenRes* resultObject =
         [[CTSOauthTokenRes alloc] initWithString:response.responseString
                                            error:&jsonError];
         [resultObject logProperties];
         [CTSOauthManager saveBindSignInOauth:resultObject];
-
-    
     }
-    [self bindSigninAsyncHelperError:error];
+    if(errorSignIn == nil){
+        CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
+        [profileLayer requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
+            [self bindSigninAsyncHelperError:errorSignIn];
+        }];
+    }
+    else{
+        [self bindSigninAsyncHelperError:errorSignIn];
+    }
 }
 
 
@@ -1245,27 +1264,25 @@ enum {
 
 
 -(void)handleOtpSignIn:(CTSRestCoreResponse*)response{
-
-    NSError* error = response.error;
+    __block NSError* errorSignIn = response.error;
     JSONModelError* jsonError;
     // signup flow
-    if (error == nil) {
+    if (errorSignIn == nil) {
         CTSOauthTokenRes* resultObject =
         [[CTSOauthTokenRes alloc] initWithString:response.responseString
                                            error:&jsonError];
         [resultObject logProperties];
         [CTSOauthManager saveOauthData:resultObject];
     }
-    
-    
-    CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
-    [profileLayer requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
-        [self otpSignInHelperError:error];
-
-    }];
-    
-    
-
+    if(errorSignIn == nil){
+        CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
+        [profileLayer requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
+            [self otpSignInHelperError:errorSignIn];
+        }];
+    }
+    else{
+        [self otpSignInHelperError:errorSignIn];
+    }
 }
 
 

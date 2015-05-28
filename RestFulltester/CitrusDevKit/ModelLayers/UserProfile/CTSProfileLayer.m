@@ -212,12 +212,20 @@ enum {
 
 -(void)requestActivatePrepaidAccount:(ASActivatePrepaidCallBack)callback{
     [self addCallback:callback forRequestId:ProfileActivatePrepaidAccountReqId];
-    
-    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+
+    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
+    
+    
     if (oauthStatus.error != nil) {
-        [self getBalanceHelper:nil error:oauthStatus.error];
+        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthToken = oauthStatus.oauthToken;
+    }
+    
+    
+    if (oauthStatus.error != nil || oauthToken == nil) {
+        [self activatePrepaidHelper:NO error:oauthStatus.error];
     }
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]

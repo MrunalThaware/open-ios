@@ -93,22 +93,21 @@
     }
 }
 
+//-(IBAction)linkUser:(id)sender{
+//    
+////    [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+////        if (error) {
+////            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+////        }
+////        else{
+////            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"User is now Linked, %@",linkUserRes.message]];
+////        }
+////    }];
+//
+//}
+
+
 -(IBAction)linkUser:(id)sender{
-    
-//    [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
-//        if (error) {
-//            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-//        }
-//        else{
-//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"User is now Linked, %@",linkUserRes.message]];
-//        }
-//    }];
-
-    [self linkAlternate];
-}
-
-
--(void)linkAlternate{
     
     CTSUserDetails *user = [[CTSUserDetails alloc] init];
     user.mobileNo = TEST_MOBILE;
@@ -124,22 +123,23 @@
             switch (linkRes.linkUserStatus) {
                 case LinkUserStatusEotpSignIn:
                     //User is Already a Citrus Member, OTP is Sent to Email, Please Login Using OTP,
-                    //User can also acess his Saved Cards and check Preaid Balance
+                    //User can also access his Saved Cards and check Preaid Balance now
                     [UIUtility toastMessageOnScreen:linkRes.message];
                     break;
                 case LinkUserStatusMotpSigIn:
                     //User is Already a Citrus Member, OTP is Sent to Mobile, Please Login Using OTP,
-                    //User can also acess his Saved Cards and check Preaid Balance
+                    //User can also access his Saved Cards and check Preaid Balance now
                     [UIUtility toastMessageOnScreen:linkRes.message];
                     break;
                 case LinkUserStatusSignup:
                     //User is now registered Please Go to Mobile Verification screen
-                    //User can also acess his Saved Cards and check Preaid Balance
+                    //User can also access his Saved Cards and check Preaid Balance now
                     [UIUtility toastMessageOnScreen:linkRes.message];
                     break;
                 default:
                     break;
             }
+
         }
     }];
 }
@@ -171,21 +171,23 @@
     }];
 }
 
+
+
 -(IBAction)signin:(id)sender{
-    
-    [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
+    NSString *userName = TEST_MOBILE;
+    [authLayer requestSigninWithUsername:userName otp:self.otp.text completionHandler:^(NSError *error) {
         LogTrace(@"userName %@",userName);
         LogTrace(@"error %@",error);
         if (error) {
-            
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
         else{
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now logged in",userName]];
         }
-        
     }];
+
 }
+
 
 -(IBAction)signOut:(id)sender{
     [authLayer signOut];
@@ -351,6 +353,35 @@
     }];
 
 }
+
+
+
+#pragma mark - Alternate Methods
+-(void)signinPassword:(id)sender{
+    
+    [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
+        LogTrace(@"userName %@",userName);
+        LogTrace(@"error %@",error);
+        if (error) {
+            
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now logged in",userName]];
+        }
+        
+    }];
+    
+    
+}
+
+
+
+
+
+
+
+
 #pragma mark - Payment Helpers
 -(void)handlePaymentResponse:(CTSPaymentTransactionRes *)paymentInfo error:(NSError *)error{
     
@@ -416,56 +447,15 @@
 
 }
 
-//
-//+ (CTSBill*)getBillFromServer{
-//    // Configure your request here.
-//    
-//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-//    
-//    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"INR", @"currency", @"1", @"value", nil];
-//    
-//    [dict setObject:dict1 forKey:@"amount"];
-//    [dict setObject:@"56OXQYRPH5WVR7YATIQD" forKey:@"merchantAccessKey"];
-//    [dict setObject:@"142710952686155" forKey:@"merchantTxnId"];
-//    [dict setObject:@"04aca6dec7450fddeae53e117dcf6430de5e499f" forKey:@"requestSignature"];
-//    [dict setObject:@"https://demo.faasos.com/onlinepay.aspx" forKey:@"returnUrl"];
-//    
-//    NSMutableURLRequest* urlReq = [[NSMutableURLRequest alloc] initWithURL:
-//                                   [NSURL URLWithString:BillUrl]];
-//    [urlReq setHTTPMethod:@"POST"];
-//    [urlReq addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//
-//    [urlReq setHTTPBody:[NSJSONSerialization dataWithJSONObject: @{@"amount": @"1"} options:NSJSONWritingPrettyPrinted error:nil]];
-//    NSError* error = nil;
-//    NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
-//                                                  returningResponse:nil
-//                                                              error:&error];
-//    NSString* billJson = [[NSString alloc] initWithData:signatureData
-//                                               encoding:NSUTF8StringEncoding];
-//    JSONModelError *jsonError;
-//    CTSBill* sampleBill2 = [[CTSBill alloc] initWithDictionary:dict error:&jsonError];
-//    CTSBill *sampleBill = [[CTSBill alloc] initWithString:billJson error:&jsonError];
-//    
-//    NSDictionary *res = [NSJSONSerialization JSONObjectWithData:signatureData options:NSJSONWritingPrettyPrinted error:nil];
-//    NSDictionary *billDict = [res objectForKey:@"data"];
-//    
-//    
-//    [dict setObject:[billDict objectForKey:@"amount"] forKey:@"amount"];
-//    [dict setObject:[billDict objectForKey:@"merchantAccessKey"] forKey:@"merchantAccessKey"];
-//    [dict setObject:[billDict objectForKey:@"merchantTxnId"] forKey:@"merchantTxnId"];
-//    [dict setObject:[billDict objectForKey:@"requestSignature"] forKey:@"requestSignature"];
-//    [dict setObject:[billDict objectForKey:@"returnUrl"] forKey:@"returnUrl"];
-//    
-//     sampleBill2 = [[CTSBill alloc] initWithDictionary:dict error:&jsonError];
-//
-//    
-//    
-//    NSLog(@"billJson %@",billJson);
-//    NSLog(@"signature %@ ", sampleBill);
-//    NSLog(@"signature %@ ", sampleBill2);
-//   return sampleBill2;
-//    //return sampleBill;
-//
-//}
-
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSLog(@"You entered %@",self.otp.text);
+    [self.otp resignFirstResponder];
+    return YES;
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    NSLog(@"You entered %@",self.otp.text);
+    [self.otp resignFirstResponder];
+}
 @end

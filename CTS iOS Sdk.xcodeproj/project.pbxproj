@@ -327,6 +327,7 @@
 		3733269219B860190084D52D /* JSONKeyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKeyMapper.m; sourceTree = "<group>"; };
 		3733269319B860190084D52D /* JSONValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONValueTransformer.h; sourceTree = "<group>"; };
 		3733269419B860190084D52D /* JSONValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONValueTransformer.m; sourceTree = "<group>"; };
+		374DB9BA1B16F30000A16B8C /* Version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		375791891AEA3B2000D61A2F /* CTSCashoutBankAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCashoutBankAccount.h; sourceTree = "<group>"; };
 		3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCashoutBankAccount.m; sourceTree = "<group>"; };
 		3757918E1AEA3BC300D61A2F /* CTSCashoutBankAccountResp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCashoutBankAccountResp.h; sourceTree = "<group>"; };
@@ -586,6 +587,7 @@
 				37851B431978F2DD00AE3AD0 /* Data */,
 				37851B8F1978F2DD00AE3AD0 /* ModelLayers */,
 				37C00CDB19935DF40057DB32 /* CitrusSdk.h */,
+				374DB9BA1B16F30000A16B8C /* Version.h */,
 			);
 			name = CitrusDevKit;
 			path = RestFulltester/CitrusDevKit;
