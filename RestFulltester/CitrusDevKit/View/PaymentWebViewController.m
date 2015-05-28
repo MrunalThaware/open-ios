@@ -11,13 +11,15 @@
 #import "UIUtility.h"
 #import "CTSError.h"
 #import "CTSPaymentLayer.h"
+
 @interface PaymentWebViewController ()
 @property(nonatomic,strong) UIWebView *webview;
 @end
 
 @implementation PaymentWebViewController
-
 @synthesize redirectURL,reqId,response;
+
+#define toNSString(cts) [NSString stringWithFormat:@"%d", cts]
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,6 +50,17 @@
                                initWithURL:[NSURL URLWithString:redirectURL]]];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    NSLog(@" view will desappear ");
+    [super viewWillDisappear:animated];
+    [self finishWebView];
+    if(transactionOver == NO){
+        NSDictionary* responseDict = [CTSUtility errorResponseTransactionForcedClosedByUser];
+        if(responseDict){
+            [self transactionComplete:(NSMutableDictionary *)responseDict];
+        }
+    }
+}
 
 #pragma mark - webview delegates
 
@@ -68,12 +81,12 @@
             [self transactionComplete:(NSMutableDictionary *)responseDict];
         }
     }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     NSLog(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
-    //
-    //    //for load balance return url finish
+    //  for load balance return url finish
     NSLog(@"reqId %d",reqId);
     if(reqId == PaymentChargeInnerWebLoadMoneyReqId){
         NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
@@ -84,22 +97,11 @@
             [self transactionComplete:(NSMutableDictionary *)loadMoneyResponseDict];
         }
     }
-    //
-    //
-    //
-    //    //for general payments
-    //    //  NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
-    //    //    if(responseDict){
-    //    //        //responseDict> contains all the information related to transaction
-    //    //        [self transactionComplete:responseDict];
-    //    //    }
-    //    
     return YES;
-    
 }
-#define toNSString(cts) [NSString stringWithFormat:@"%d", cts]
 
 
+#pragma mark - Payment handler
 
 -(void)transactionComplete:(NSMutableDictionary *)responseDictionary{
     transactionOver = YES;
@@ -107,17 +109,10 @@
     [self finishWebView];
     [responseDictionary setValue:toNSString(reqId) forKey:@"reqId"];
     [self setValue:responseDictionary forKey:@"response"];
-    
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 -(void)finishWebView{
-    
     if( [self.webview isLoading]){
         [self.webview stopLoading];
     }
@@ -125,18 +120,6 @@
     self.webview.delegate = nil;
     self.webview = nil;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
 
-    
-}
-- (void)viewWillDisappear:(BOOL)animated {
-    NSLog(@" view will desappear ");
-    [super viewWillDisappear:animated];
-    [self finishWebView];
-    if(transactionOver == NO){
-        NSDictionary* responseDict = [CTSUtility errorResponseTransactionForcedClosedByUser];
-        if(responseDict){
-            [self transactionComplete:(NSMutableDictionary *)responseDict];
-        }
-    }
-}
 @end

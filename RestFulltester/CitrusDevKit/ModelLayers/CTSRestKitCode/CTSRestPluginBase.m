@@ -45,7 +45,7 @@
       response = [self addJsonErrorToResponse:response];
     }
 
-    [self performSelector:sel withObject:response];
+      [self performSelector:sel onThread:[NSThread currentThread] withObject:response waitUntilDone:YES];
   } else {
     @throw [[NSException alloc]
         initWithName:@"No Selector Found"

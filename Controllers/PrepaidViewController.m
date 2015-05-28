@@ -9,7 +9,6 @@
 #import "PrepaidViewController.h"
 #import "TestParams.h"
 #import "UIUtility.h"
-#import "RedirectWebViewController.h"
 
 @interface PrepaidViewController ()
 
@@ -60,7 +59,6 @@
 -(IBAction)isUserSignedIn:(id)sender{
     if([authLayer isAnyoneSignedIn]){
         [UIUtility toastMessageOnScreen:@"user is signed in"];
-        
     }
     else{
         [UIUtility toastMessageOnScreen:@"no one is logged in"];
@@ -153,17 +151,15 @@
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     
     [creditCardInfo addCard:creditCard];
-
-
     
-[paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl customParams:customParams  returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
-    if(error){
-        [UIUtility toastMessageOnScreen:error.localizedDescription];
-    }
-    else {
-        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Load Money Status %@",[citrusCashResponse.responseDict valueForKey:LoadMoneyResponeKey]]];
-    }
-}];
+    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl customParams:customParams  returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:error.localizedDescription];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Load Money Status %@",[citrusCashResponse.responseDict valueForKey:LoadMoneyResponeKey]]];
+        }
+    }];
 }
 
 // You can load/add money as per following way
@@ -230,6 +226,7 @@
     [paymentLayer requestMerchantPgSettings:VanityUrl withCompletionHandler:^(CTSPgSettings *pgSettings, NSError *error) {
         if(error){
         //handle error
+            LogTrace(@"[error localizedDescription] %@ ", [error localizedDescription]);
         }
         else {
             LogTrace(@" pgSettings %@ ", pgSettings);
@@ -294,50 +291,6 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"id:%@\n cutsomer:%@\n merchant:%@\n type:%@\n date:%@\n amount:%@\n status:%@\n reason:%@\n balance:%@\n ref:%@\n",cashoutRes.id, cashoutRes.cutsomer, cashoutRes.merchant, cashoutRes.type, cashoutRes.date, cashoutRes.amount, cashoutRes.status, cashoutRes.reason, cashoutRes.balance, cashoutRes.ref]];
         }
     }];
-}
-
-
-#pragma mark - Payment Helpers
-
-// Handle payment response after any payment options call back
--(void)handlePaymentResponse:(CTSPaymentTransactionRes *)paymentInfo error:(NSError *)error{
-    
-    BOOL hasSuccess =
-    ((paymentInfo != nil) && ([paymentInfo.pgRespCode integerValue] == 0) &&
-     (error == nil))
-    ? YES
-    : NO;
-    if(hasSuccess){
-        // Your code to handle success.
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [UIUtility dismissLoadingAlertView:YES];
-            if (hasSuccess && error.code != ServerErrorWithCode) {
-                [UIUtility didPresentLoadingAlertView:@"Connecting to the PG" withActivity:YES];
-                [self loadRedirectUrl:paymentInfo.redirectUrl];
-            }else{
-                [UIUtility didPresentErrorAlertView:error];
-            }
-        });
-        
-    }
-    else{
-        // Your code to handle error.
-        NSString *errorToast;
-        if(error== nil){
-            errorToast = [NSString stringWithFormat:@" payment failed : %@",paymentInfo.txMsg] ;
-        }else{
-            errorToast = [NSString stringWithFormat:@" payment failed : %@",toErrorDescription(error)] ;
-        }
-        [UIUtility toastMessageOnScreen:errorToast];
-    }
-}
-
-// Load redirect URL to Web view
-- (void)loadRedirectUrl:(NSString*)redirectURL {
-    RedirectWebViewController* webViewViewController = [[RedirectWebViewController alloc] init];
-    webViewViewController.redirectURL = redirectURL;
-    [UIUtility dismissLoadingAlertView:YES];
-    [self.navigationController pushViewController:webViewViewController animated:YES];
 }
 
 

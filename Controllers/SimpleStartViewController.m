@@ -9,7 +9,6 @@
 #import "SimpleStartViewController.h"
 #import "TestParams.h"
 #import "UIUtility.h"
-#import "RedirectWebViewController.h"
 
 @interface SimpleStartViewController ()
 
@@ -155,12 +154,9 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     [paymentInfo addCard:creditCard];
     
-    
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
-
     
-
     [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
@@ -193,47 +189,6 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Payment Status %@",[citrusCashResponse.responseDict valueForKey:@"TxStatus"] ]];
         }
     }];
-}
-
-
-// Load redirect URL to Web view
-- (void)loadRedirectUrl:(NSString*)redirectURL {
-    RedirectWebViewController* webViewViewController = [[RedirectWebViewController alloc] init];
-    webViewViewController.redirectURL = redirectURL;
-    [UIUtility dismissLoadingAlertView:YES];
-    [self.navigationController pushViewController:webViewViewController animated:YES];
-}
-
-// Handle payment response after any payment options call back
--(void)handlePaymentResponse:(CTSPaymentTransactionRes *)paymentInfo error:(NSError *)error{
-    
-    BOOL hasSuccess =
-    ((paymentInfo != nil) && ([paymentInfo.pgRespCode integerValue] == 0) &&
-     (error == nil))
-    ? YES
-    : NO;
-    if(hasSuccess){
-        // Your code to handle success.
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [UIUtility dismissLoadingAlertView:YES];
-            if (hasSuccess && error.code != ServerErrorWithCode) {
-                [UIUtility didPresentLoadingAlertView:@"Connecting to the PG" withActivity:YES];
-                [self loadRedirectUrl:paymentInfo.redirectUrl];
-            }else{
-                [UIUtility didPresentErrorAlertView:error];
-            }
-        });
-    }
-    else{
-        // Your code to handle error.
-        NSString *errorToast;
-        if(error== nil){
-            errorToast = [NSString stringWithFormat:@" payment failed : %@",paymentInfo.txMsg] ;
-        }else{
-            errorToast = [NSString stringWithFormat:@" payment failed : %@",toErrorDescription(error)] ;
-        }
-        [UIUtility toastMessageOnScreen:errorToast];
-    }
 }
 
 

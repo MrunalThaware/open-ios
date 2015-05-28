@@ -1053,34 +1053,12 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
     [citrusCashBackViewController.view addSubview:citrusPayWebview];
     [citrusPayWebview loadRequest:[[NSURLRequest alloc]
                                initWithURL:[NSURL URLWithString:url]]];
-   // citrusPayWebview.frame = CGRectMake(0, 0, citrusCashBackViewController.view.frame.size.width, citrusCashBackViewController.view.frame.size.height);
-
-//    while(finished) {
-//        NSLog(@" run loop");
-//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-//    }
-    //[self loadRedirectUrl:url];
 }
 
-//- (void)loadRedirectUrl:(NSString*)redirectURL {
-//    WebViewViewController* webViewViewController = [[WebViewViewController alloc] init];
-//    webViewViewController.redirectURL = redirectURL;
-//    [UIUtility dismissLoadingAlertView:YES];
-//    [citrusCashBackViewController.navigationController pushViewController:webViewViewController animated:YES];
-//}
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
     NSLog(@"did finish loading");
-    //   // NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
-    //    if(responseDict){
-    //        CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];
-    //        response.responseDict = responseDict;
-    //       // [self makeCitrusPayHelper:response error:nil];
-    //       // finished = NO;
-    //    }
-    
-    
-    
+
     NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
     NSString *webviewUrl = [[[webView request] URL] absoluteString];
     NSLog(@"currentURL %@",webviewUrl);
@@ -1091,13 +1069,11 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
         response.responseDict = [NSMutableDictionary dictionaryWithDictionary:responseDict];
         NSError *error = [CTSUtility extractError:response.responseDict];
         [self makeCitrusPayHelper:response error:error];
-        
     }
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     NSLog(@"request url %@",[request URL]);
-    
     
     NSArray* cookies =
     [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[request URL]];
@@ -1107,17 +1083,6 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
                             error:[CTSError getErrorForCode:UserNotSignedIn]];
     
     }
-//    
-//    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
-//    
-//    if(responseDict){
-//        CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];
-//        response.responseDict = responseDict;
-//        [self makeCitrusPayHelper:response error:nil];
-//    }
-
- //   LogTrace(@"responseDict %@",responseDict);
-    
     return YES;
 }
 
@@ -1157,20 +1122,9 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
                         withTxnId:(NSString*)merchantTxnId
             withCompletionHandler:(ASMakeGuestPaymentCallBack)callback{}
 
-//-(void)transactionComplete:(NSDictionary *)responseDictionary{
-//    if([responseDictionary valueForKey:@"TxStatus"] != nil){
-//        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[responseDictionary valueForKey:@"TxStatus"] ]];
-//    }
-//    else{
-//        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n Response: %@",responseDictionary]];
-//    }
-//}
-
 
 -(void)loadPaymentWebview:(NSString *)url reqId:(int)reqId returnUrl:(NSString *)returnUrl{
-    
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
         if(paymentWebViewController != nil){
             [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
             [paymentWebViewController finishWebView];
@@ -1187,11 +1141,9 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     
-    
     for(NSString *keys in change){
         NSLog(@"Checking key %@, Value %@",keys,[change valueForKey:keys]);
     }
-    
     
     CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];
     response.responseDict =  [NSMutableDictionary dictionaryWithDictionary:[change valueForKey:@"new"]];
@@ -1218,7 +1170,6 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
         default:
             break;
     }
-   
 }
 
 
