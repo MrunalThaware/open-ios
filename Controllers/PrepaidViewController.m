@@ -252,6 +252,63 @@
     
 }
 
+// This is when we want to store bank account for cashout into users profile. At the max there can be only one account saved at a time, so if you want store new account just call this method with new details (previous one will get overridden).
+-(IBAction)saveCashoutBankAccount{
+    CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
+    bankAccount.owner = @"Yadnesh Wankhede";
+    bankAccount.branch = @"HSBC0000123";
+    bankAccount.number = @"123456789987654";
+    
+    [proifleLayer requestUpdateCashoutBankAccount:bankAccount withCompletionHandler:^(NSError *error) {
+        if (error) {
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:@"Succesfully stored bank account"];
+        }
+    }];
+    
+}
+
+
+// To get/fetch the cash-out account that’s was saved earlier.
+-(IBAction)fetchCashoutBankAccount{
+    [proifleLayer requestCashoutBankAccountCompletionHandler:^(CTSCashoutBankAccountResp *bankAccount, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@\n number: %@\n ifsc: %@",bankAccount.cashoutAccount.owner,bankAccount.cashoutAccount.number,bankAccount.cashoutAccount.branch]];
+        }
+    }];
+    
+}
+
+-(IBAction)verifyMobile{
+    [authLayer requestVerification:TEST_MOBILE code:self.verificationCode.text completionHandler:^(BOOL isVerified, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now Verified",TEST_MOBILE]];
+        }
+    }];
+
+}
+
+-(IBAction)regenerateMobileVerificationCode{
+    [authLayer requestVerificationCodeRegenerate:TEST_MOBILE completionHandler:^(CTSResponse *response, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:response.responseMessage];
+        }
+
+    }];
+}
+
+
 // This API call fetches the payment options such as VISA, MASTER (in credit and debit  cards) and net banking options available to the merchant.
 -(void)requestPaymentModes{
     [paymentLayer requestMerchantPgSettings:VanityUrl withCompletionHandler:^(CTSPgSettings *pgSettings, NSError *error) {
@@ -277,22 +334,23 @@
     }];
 }
 
-// This is when we want to store bank account for cashout into users profile. At the max there can be only one account saved at a time, so if you want store new account just call this method with new details (previous one will get overridden).
--(IBAction)saveCashoutBankAccount{
+
+
+// This is when user wants to withdraw money from his/her prepaid account into the bank account, so this needs bank account info to be sent to this method.
+-(IBAction)cashOutToBank{
     CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
     bankAccount.owner = @"Yadnesh Wankhede";
     bankAccount.branch = @"HSBC0000123";
     bankAccount.number = @"123456789987654";
     
-    [proifleLayer requestUpdateCashoutBankAccount:bankAccount withCompletionHandler:^(NSError *error) {
-        if (error) {
+    [paymentLayer requestCashoutToBank:bankAccount amount:@"5" completionHandler:^(CTSCashoutToBankRes *cashoutRes, NSError *error) {
+        if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
-        else{
-            [UIUtility toastMessageOnScreen:@"Succesfully stored bank account"];
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"id:%@\n cutsomer:%@\n merchant:%@\n type:%@\n date:%@\n amount:%@\n status:%@\n reason:%@\n balance:%@\n ref:%@\n",cashoutRes.id, cashoutRes.cutsomer, cashoutRes.merchant, cashoutRes.type, cashoutRes.date, cashoutRes.amount, cashoutRes.status, cashoutRes.reason, cashoutRes.balance, cashoutRes.ref]];
         }
     }];
-    
 }
 
 #pragma mark - Alternate Methods
@@ -313,38 +371,6 @@
 
 
 #pragma mark - Payment Helpers
-
-
-// To get/fetch the cash-out account that’s was saved earlier.
--(IBAction)fetchCashoutBankAccount{
-    [proifleLayer requestCashoutBankAccountCompletionHandler:^(CTSCashoutBankAccountResp *bankAccount, NSError *error) {
-        if(error){
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-        else {
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@\n number: %@\n ifsc: %@",bankAccount.cashoutAccount.owner,bankAccount.cashoutAccount.number,bankAccount.cashoutAccount.branch]];
-        }
-    }];
-    
-}
-
-// This is when user wants to withdraw money from his/her prepaid account into the bank account, so this needs bank account info to be sent to this method.
--(IBAction)cashOutToBank{
-    CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
-    bankAccount.owner = @"Yadnesh Wankhede";
-    bankAccount.branch = @"HSBC0000123";
-    bankAccount.number = @"123456789987654";
-    
-    [paymentLayer requestCashoutToBank:bankAccount amount:@"5" completionHandler:^(CTSCashoutToBankRes *cashoutRes, NSError *error) {
-        if(error){
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-        else {
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"id:%@\n cutsomer:%@\n merchant:%@\n type:%@\n date:%@\n amount:%@\n status:%@\n reason:%@\n balance:%@\n ref:%@\n",cashoutRes.id, cashoutRes.cutsomer, cashoutRes.merchant, cashoutRes.type, cashoutRes.date, cashoutRes.amount, cashoutRes.status, cashoutRes.reason, cashoutRes.balance, cashoutRes.ref]];
-        }
-    }];
-}
-
 
 /*
  You can modify this according to your needs.
@@ -375,11 +401,11 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     NSLog(@"You entered %@",self.otp.text);
-    [self.otp resignFirstResponder];
+    [textField resignFirstResponder];
     return YES;
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     NSLog(@"You entered %@",self.otp.text);
-    [self.otp resignFirstResponder];
+    [textField resignFirstResponder];
 }
 @end

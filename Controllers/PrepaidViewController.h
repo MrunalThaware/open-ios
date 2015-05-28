@@ -19,4 +19,6 @@
     NSDictionary *customParams;
 }
 @property (strong, nonatomic) IBOutlet UITextField *otp;
+@property (strong, nonatomic) IBOutlet UITextField *verificationCode;
+
 @end

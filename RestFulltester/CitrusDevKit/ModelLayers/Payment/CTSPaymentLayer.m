@@ -425,10 +425,10 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
         return;
     }
     
-    if(citrusCashBackViewController){
-        [self chargeTokenInnerWebviewHelper:nil error:[CTSError getErrorForCode:TransactionAlreadyInProgress]];
-        return;
-    }
+//    if(citrusCashBackViewController){
+//        [self chargeTokenInnerWebviewHelper:nil error:[CTSError getErrorForCode:TransactionAlreadyInProgress]];
+//        return;
+//    }
     
     citrusCashBackViewController = controller;
 
@@ -481,10 +481,10 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
         return;
     }
     
-    if(citrusCashBackViewController){
-        [self chargeNormalInnerWebviewHelper:nil error:[CTSError getErrorForCode:TransactionAlreadyInProgress]];
-        return;
-    }
+//    if(citrusCashBackViewController){
+//        [self chargeNormalInnerWebviewHelper:nil error:[CTSError getErrorForCode:TransactionAlreadyInProgress]];
+//        return;
+//    }
     
     
     
@@ -538,11 +538,11 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
         return;
     }
     
-    if(citrusCashBackViewController){
-    
-        [self chargeLoadMoneyInnerWebviewHelper:nil error:[CTSError getErrorForCode:TransactionAlreadyInProgress]];
-        return;
-    }
+//    if(citrusCashBackViewController){
+//    
+//        [self chargeLoadMoneyInnerWebviewHelper:nil error:[CTSError getErrorForCode:TransactionAlreadyInProgress]];
+//        return;
+//    }
 
     
     
