@@ -302,6 +302,24 @@ enum {
 -(void)requestMemberInfoMobile:(NSString *)mobile email:(NSString *)email withCompletionHandler:(ASNewContactProfileCallback)callback{
     
     [self addCallback:callback forRequestId:ProfileGetNewProfileReqId];
+    
+    
+    if (![CTSUtility validateEmail:email]) {
+        [self getNewContactProfileHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    
+    
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    if (![CTSUtility validateMobile:mobile]) {
+        [self getNewContactProfileHelper:nil
+                   error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
+    
+    
+    
     OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     

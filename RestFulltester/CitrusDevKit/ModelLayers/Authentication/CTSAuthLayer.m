@@ -192,11 +192,25 @@
 
 
 -(void)requestSignupUser:(CTSUserDetails *)user password:(NSString *)pasword mobileVerified:(BOOL)isMarkMobileVerifed emailVerified:(BOOL)isMarkEmailVerified completionHandler:(ASSignupNewCallBack)callback{
-//verify the user object
+    //verify the user object
     [self addCallback:callback forRequestId:SignupNewReqId];
     
     if(!pasword){
-    pasword = @"";
+        pasword = @"";
+    }
+    
+    
+    
+    
+    if ( [CTSUtility validateEmail:user.email] == NO) {
+        [self newSignupHelper:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    
+    user.mobileNo = [CTSUtility mobileNumberToTenDigitIfValid:user.mobileNo];
+    if (user.mobileNo == nil) {
+        [self newSignupHelper:[CTSError getErrorForCode:MobileNotValid]];
+        return;
     }
     
     
@@ -220,7 +234,7 @@
                                            json:nil
                                            httpMethod:POST];
             [restCore requestAsyncServer:request];
-
+            
         }
         else {
             [self newSignupHelper:error];
@@ -295,7 +309,19 @@
     }
     
     
+    if ( [CTSUtility isEmail:entity] == YES  && [CTSUtility validateEmail:entity] == NO) {
+        [self otpGenerateHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
     
+    if([otpType isEqualToString:@"mobile"]){
+        entity = [CTSUtility mobileNumberToTenDigitIfValid:entity];
+        if (  [CTSUtility isEmail:entity] == NO  &&  entity == nil) {
+            [self otpGenerateHelper:nil
+                              error:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
+    }
     
     NSDictionary* parameters = @{
                                  MLC_OTP_SIGNIN_QUERY_SOURCE:SignInId,
@@ -303,7 +329,7 @@
                                  MLC_OTP_SIGNIN_PATH_IDENTITY:entity
                                  };
     
-
+    
     
     CTSRestCoreRequest* request =
     [[CTSRestCoreRequest alloc] initWithPath:MLC_OTP_SIGNIN_PATH
@@ -408,9 +434,20 @@
 
 -(void)requestBindSignin:(NSString *)userName completionHandler:(ASBindSignIn)callback{
     [self addCallback:callback forRequestId:BindSigninAsyncReqId];
-
+    
     userName = userName.lowercaseString;
     
+    if ( [CTSUtility isEmail:userName] == YES  && [CTSUtility validateEmail:userName] == NO) {
+        [self bindSigninAsyncHelperError:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    else if( [CTSUtility isEmail:userName] == NO){
+        userName = [CTSUtility mobileNumberToTenDigitIfValid:userName];
+        if ( userName == nil) {
+            [self bindSigninAsyncHelperError:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
+    }
     
     NSDictionary* parameters = @{
                                  MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_CLIENT_ID,
@@ -429,7 +466,7 @@
     
     [restCore requestAsyncServer:request];
     
-
+    
 }
 
 
@@ -699,6 +736,8 @@
         return;
     }
     
+    
+    user.mobileNo = [CTSUtility mobileNumberToTenDigitIfValid:user.mobileNo];
     if (![CTSUtility validateMobile:user.mobileNo]) {
         [self linkHelper:nil
                        error:[CTSError getErrorForCode:MobileNotValid]];

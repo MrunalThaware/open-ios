@@ -50,4 +50,5 @@
 +(BOOL)convertToBool:(NSString *)boolStr;
 +(BOOL)isEmail:(NSString *)string;
 +(NSString *)toJson:(NSDictionary *)dict;
++(NSString*)mobileNumberToTenDigitIfValid:(NSString *)number;
 @end

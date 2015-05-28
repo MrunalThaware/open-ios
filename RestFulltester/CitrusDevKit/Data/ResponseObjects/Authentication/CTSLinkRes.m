@@ -25,7 +25,7 @@
                 break;
             case LinkUserStatusSignup:
                 _linkUserStatus = status;
-                _message = [NSString stringWithFormat:@" You Are Now Registered, Please Verify Your Mobile Number %@",entity];
+                _message = [NSString stringWithFormat:@" You are Now Registered, Please Verify Your Mobile Number %@",entity];
                 break;
             default:
                 break;
