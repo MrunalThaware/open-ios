@@ -16,6 +16,7 @@
 #import "CTSProfileLayerConstants.h"
 #import "CTSCashoutBankAccountResp.h"
 #import "CTSCashoutBankAccount.h"
+#import "CTSNewContactProfile.h"
 @class CTSProfileLayer;
 @protocol CTSProfileProtocol
 /**
@@ -70,7 +71,13 @@
 @optional
 - (void)profile:(CTSProfileLayer*)profile
 didReceiveCashoutAccount:(CTSCashoutBankAccountResp *)cashoutAccount  error:(NSError*)error;
+
+
+@optional
+- (void)profile:(CTSProfileLayer*)profile didGetNewProfile:(CTSNewContactProfile *)profile
+          error:(NSError*)error;
 @end
+
 
 /**
  *  user profile related services
@@ -92,6 +99,7 @@ typedef void (^ASGetBalanceCallBack)(CTSAmount *amount, NSError* error);
 typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
 typedef void (^ASUpdateCashoutBankAccountCallback)( NSError* error);
 typedef void (^ASGetCashoutBankAccountCallback)(CTSCashoutBankAccountResp *bankAccount, NSError* error);
+typedef void (^ASNewContactProfileCallback)(CTSNewContactProfile* profile, NSError*error);
 
 
 
@@ -133,7 +141,7 @@ typedef void (^ASGetCashoutBankAccountCallback)(CTSCashoutBankAccountResp *bankA
 
 - (void)requestUpdateCashoutBankAccount:(CTSCashoutBankAccount*)bankAccount
            withCompletionHandler:(ASUpdateCashoutBankAccountCallback)callback;
-
-
 -(void)requestCashoutBankAccountCompletionHandler:(ASGetCashoutBankAccountCallback)callback;
+-(void)requestMemberInfoMobile:(NSString *)mobile email:(NSString *)email withCompletionHandler:(ASNewContactProfileCallback)callback;
+
 @end

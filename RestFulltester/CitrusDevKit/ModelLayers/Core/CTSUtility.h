@@ -50,5 +50,9 @@
 +(NSError *)extractError:(NSMutableDictionary *)response;
 +(NSDictionary *)errorResponseIfReturnUrlDidntRespond:(NSString *)returnUrl webViewUrl:(NSString *)webviewUrl currentResponse:(NSDictionary *)responseDict;
 +(NSDictionary *)errorResponseTransactionForcedClosedByUser;
-
++(NSString *)toStringBool:(BOOL)paramBool;
++(BOOL)convertToBool:(NSString *)boolStr;
++(BOOL)isEmail:(NSString *)string;
++(NSString *)toJson:(NSDictionary *)dict;
++(NSString*)mobileNumberToTenDigitIfValid:(NSString *)number;
 @end

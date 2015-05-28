@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CitrusSdk.h"
 
-@interface PrepaidViewController : UIViewController{
+@interface PrepaidViewController : UIViewController <UITextFieldDelegate>{
     CTSAuthLayer *authLayer;
     CTSProfileLayer *proifleLayer;
     CTSPaymentLayer *paymentLayer;
@@ -18,4 +18,5 @@
     int seedState;
     NSDictionary *customParams;
 }
+@property (strong, nonatomic) IBOutlet UITextField *otp;
 @end

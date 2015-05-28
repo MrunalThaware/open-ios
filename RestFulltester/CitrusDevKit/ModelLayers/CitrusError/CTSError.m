@@ -171,6 +171,14 @@
     [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:(NSInteger)ctsPaymentTxRes.pgRespCode userInfo:userInfo];
 
 }
++(NSError *)convertCTSResToErrorIfNeeded:(CTSResponse *)response{
+    NSError *error = nil;
+    if([response isError]){
+        NSDictionary* userInfo = @{NSLocalizedDescriptionKey : response.responseMessage};
+        error =     [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:(NSInteger)[response errorCode] userInfo:userInfo];
+    }
+    return error;
+}
 
 
 

@@ -986,7 +986,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 }
 
 - (void)chargeNormalInnerWebviewHelper:(CTSCitrusCashRes*)response error:(NSError *)error {
-
+    [self resetCitrusPay];
 ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:PaymentChargeInnerWebNormalReqId];
         if (callback != nil) {
         callback(response, error);
@@ -997,6 +997,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 }
 
 - (void)chargeTokenInnerWebviewHelper:(CTSCitrusCashRes*)response error:(NSError *)error {
+    [self resetCitrusPay];
 
     ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:PaymentChargeInnerWeblTokenReqId];
     
@@ -1009,6 +1010,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 
 }
 - (void)chargeLoadMoneyInnerWebviewHelper:(CTSCitrusCashRes*)response  error:(NSError *)error{
+    [self resetCitrusPay];
 
 
     ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:PaymentChargeInnerWebLoadMoneyReqId];

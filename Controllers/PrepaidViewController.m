@@ -66,29 +66,58 @@
 }
 
 // Link user creates a Citrus Account of the user. It returns if the user password is already set or not.
+
+//-(IBAction)linkUser:(id)sender{
+//
+////    [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+////        if (error) {
+////            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+////        }
+////        else{
+////            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"User is now Linked, %@",linkUserRes.message]];
+////        }
+////    }];
+//
+//}
+
+
 -(IBAction)linkUser:(id)sender{
-    [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
-        if (error) {
+    
+    CTSUserDetails *user = [[CTSUserDetails alloc] init];
+    user.mobileNo = TEST_MOBILE;
+    user.email = TEST_EMAIL;
+    user.firstName = TEST_FIRST_NAME;
+    user.lastName = TEST_LAST_NAME;
+    
+    [authLayer requestLink:user completionHandler:^(CTSLinkRes *linkRes, NSError *error) {
+        if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
         else{
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"User is now Linked, %@",linkUserRes.message]];
+            switch (linkRes.linkUserStatus) {
+                case LinkUserStatusEotpSignIn:
+                    //User is Already a Citrus Member, OTP is Sent to Email, Please Login Using OTP,
+                    //User can also access his Saved Cards and check Preaid Balance now
+                    [UIUtility toastMessageOnScreen:linkRes.message];
+                    break;
+                case LinkUserStatusMotpSigIn:
+                    //User is Already a Citrus Member, OTP is Sent to Mobile, Please Login Using OTP,
+                    //User can also access his Saved Cards and check Preaid Balance now
+                    [UIUtility toastMessageOnScreen:linkRes.message];
+                    break;
+                case LinkUserStatusSignup:
+                    //User is now registered Please Go to Mobile Verification screen
+                    //User can also access his Saved Cards and check Preaid Balance now
+                    [UIUtility toastMessageOnScreen:linkRes.message];
+                    break;
+                default:
+                    break;
+            }
+            
         }
     }];
 }
 
-// You can set user password if link user returns field “isPasswordAlreadySet” as NO, it means user is created and now needs to set his/her password
--(IBAction)setPassword:(id)sender{
-    [authLayer requestSetPassword:TEST_PASSWORD userName:TEST_EMAIL completionHandler:^(NSError *error) {
-        if (error) {
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-        else{
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Password is now set"]];
-        }
-    }];
-
-}
 
 // Forgot password if the user forgets password.
 -(IBAction)forgotPassword:(id)sender{
@@ -102,9 +131,11 @@
     }];
 }
 
-// If Link user returns that the “isPasswordAlreadySet == YES”, show SignIn screen.
+
+
 -(IBAction)signin:(id)sender{
-    [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
+    NSString *userName = TEST_MOBILE;
+    [authLayer requestSigninWithUsername:userName otp:self.otp.text completionHandler:^(NSError *error) {
         LogTrace(@"userName %@",userName);
         LogTrace(@"error %@",error);
         if (error) {
@@ -114,10 +145,10 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now logged in",userName]];
         }
     }];
+    
 }
 
 
-// Sign out loged in user
 -(IBAction)signOut:(id)sender{
     [authLayer signOut];
     [UIUtility toastMessageOnScreen:@"Only local tokens & Citrus cookies are cleared"];
@@ -171,8 +202,8 @@
     tokenizedCard.cvv= TEST_CREDIT_CARD_CVV;
     tokenizedCard.token= TEST_TOKENIZED_CARD_TOKEN;
     [tokenizedCardInfo addCard:tokenizedCard];
-
-
+    
+    
     [paymentLayer requestLoadMoneyInCitrusPay:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl customParams:customParams  returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
@@ -189,10 +220,10 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update bank details for net banking payment.
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
-
+    
     netBank.code = TEST_NETBAK_CODE;
     [paymentInfo addNetBanking:netBank];
-
+    
     [paymentLayer requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
@@ -207,25 +238,25 @@
 -(IBAction)payUsingCitrusCash:(id)sender{
     // Get Bill
     CTSBill *bill = [PrepaidViewController getBillFromServer];
-
+    
     [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
         NSLog(@"paymentInfo %@",paymentInfo);
         NSLog(@"error %@",error);
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }     
+        }
         else{
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[paymentInfo.responseDict valueForKey:@"TxStatus"] ]];
         }
     }];
- 
+    
 }
 
 // This API call fetches the payment options such as VISA, MASTER (in credit and debit  cards) and net banking options available to the merchant.
 -(void)requestPaymentModes{
     [paymentLayer requestMerchantPgSettings:VanityUrl withCompletionHandler:^(CTSPgSettings *pgSettings, NSError *error) {
         if(error){
-        //handle error
+            //handle error
             LogTrace(@"[error localizedDescription] %@ ", [error localizedDescription]);
         }
         else {
@@ -261,7 +292,28 @@
             [UIUtility toastMessageOnScreen:@"Succesfully stored bank account"];
         }
     }];
+    
 }
+
+#pragma mark - Alternate Methods
+-(void)signinPassword:(id)sender{
+    
+    [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
+        LogTrace(@"userName %@",userName);
+        LogTrace(@"error %@",error);
+        if (error) {
+            
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now logged in",userName]];
+        }
+    }];
+}
+
+
+#pragma mark - Payment Helpers
+
 
 // To get/fetch the cash-out account that’s was saved earlier.
 -(IBAction)fetchCashoutBankAccount{
@@ -273,7 +325,7 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@\n number: %@\n ifsc: %@",bankAccount.cashoutAccount.owner,bankAccount.cashoutAccount.number,bankAccount.cashoutAccount.branch]];
         }
     }];
-
+    
 }
 
 // This is when user wants to withdraw money from his/her prepaid account into the bank account, so this needs bank account info to be sent to this method.
@@ -315,8 +367,19 @@
     NSLog(@"billJson %@",billJson);
     NSLog(@"signature %@ ", sampleBill);
     return sampleBill;
-
+    
 }
 
 
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSLog(@"You entered %@",self.otp.text);
+    [self.otp resignFirstResponder];
+    return YES;
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    NSLog(@"You entered %@",self.otp.text);
+    [self.otp resignFirstResponder];
+}
 @end

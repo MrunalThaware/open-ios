@@ -149,6 +149,11 @@
   [self requestSignUpOauthToken];
 }
 
+
+
+
+
+
 - (void)requestSignUpOauthToken {
   ENTRY_LOG
   wasSignupCalled = YES;
@@ -166,6 +171,179 @@
   EXIT_LOG
 }
 
+- (void)requestSignUpOauthTokenCompletionHandler:(ASAsyncSignUpOauthTokenCallBack)callback {
+    ENTRY_LOG
+    
+    [self addCallback:callback forRequestId:SignupOauthAsynTokenReqId];
+    
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+                                   requestId:SignupOauthAsynTokenReqId
+                                   headers:nil
+                                   parameters:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
+                                   json:nil
+                                   httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+    
+    EXIT_LOG
+}
+
+
+-(void)requestSignupUser:(CTSUserDetails *)user password:(NSString *)pasword mobileVerified:(BOOL)isMarkMobileVerifed emailVerified:(BOOL)isMarkEmailVerified completionHandler:(ASSignupNewCallBack)callback{
+    //verify the user object
+    [self addCallback:callback forRequestId:SignupNewReqId];
+    
+    if(!pasword){
+        pasword = @"";
+    }
+    
+    
+    
+    
+    if ( [CTSUtility validateEmail:user.email] == NO) {
+        [self newSignupHelper:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    
+    user.mobileNo = [CTSUtility mobileNumberToTenDigitIfValid:user.mobileNo];
+    if (user.mobileNo == nil) {
+        [self newSignupHelper:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
+    
+    [self requestSignUpOauthTokenCompletionHandler:^(NSError *error) {
+        if(error == nil){
+            NSDictionary *parameters = @{MLC_MLC_SIGNUP_NEW_QUERY_EMAIL:user.email,
+                                         MLC_MLC_SIGNUP_NEW_QUERY_MOBILE:user.mobileNo,
+                                         MLC_MLC_SIGNUP_NEW_QUERY_FIRSTNAME:user.firstName,
+                                         MLC_MLC_SIGNUP_NEW_QUERY_LASTNAME:user.lastName,
+                                         MLC_MLC_SIGNUP_NEW_QUERY_SOURCE_TYPE:SignInId,
+                                         MLC_MLC_SIGNUP_NEW_QUERY_PASSWORD:pasword,
+                                         MLC_MLC_SIGNUP_NEW_QUERY_MOBILE_VERIFIED:[CTSUtility toStringBool:isMarkMobileVerifed],
+                                         MLC_MLC_SIGNUP_NEW_QUERY_EMAIL_VERIFIED:[CTSUtility toStringBool:isMarkEmailVerified]
+                                         };
+            
+            CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                           initWithPath:MLC_SIGNUP_NEW_PATH
+                                           requestId:SignupNewReqId
+                                           headers:[CTSUtility readSignupTokenAsHeader]
+                                           parameters:parameters
+                                           json:nil
+                                           httpMethod:POST];
+            [restCore requestAsyncServer:request];
+            
+        }
+        else {
+            [self newSignupHelper:error];
+        }
+    }];
+}
+
+
+-(void)requestVerification:(NSString *)mobile code:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback{
+    [self addCallback:callback forRequestId:OTPVerificationRequestId];
+    
+    
+   // username = [CTSUtility mobileNumberToTenDigitIfValid:username];
+    if (!mobile) {
+        [self otpVerificationHelper:NO error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
+    NSDictionary* parameters = @{
+                                 MLC_OTP_VER_QUERY_OTP : otp,
+                                 MLC_OTP_VER_QUERY_MOBILE : mobile
+                                 };
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_OTP_VER_PATH
+                                   requestId:OTPVerificationRequestId
+                                     headers:nil
+                                  parameters:parameters
+                                        json:nil
+                                  httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+    
+    
+}
+
+
+-(void)requestVerificationCodeRegenerate:(NSString *)mobile completionHandler:(ASOtpRegenerationCallback)callback{
+    [self addCallback:callback forRequestId:OTPRegenerationRequestId];
+   // mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    
+    if (!mobile) {
+        [self otpRegenerationHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
+    NSDictionary* parameters = @{
+                                 MLC_OTP_REGENERATE_QUERY_MOBILE : mobile
+                                 };
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_OTP_REGENERATE_PATH
+                                   requestId:OTPRegenerationRequestId
+                                     headers:nil
+                                  parameters:parameters
+                                        json:nil
+                                  httpMethod:MLC_OTP_REGENERATE_TYPE];
+    
+    [restCore requestAsyncServer:request];
+    
+}
+
+
+
+-(void)requestGenerateOTPFor:(NSString *)entity completionHandler:(ASGenerateOtpCallBack)callback{
+    [self addCallback:callback forRequestId:GenerateOTPReqId];
+    
+    NSString *otpType = @"mobile";
+    
+    if([CTSUtility isEmail:entity]){
+        otpType = @"email";
+    }
+    
+    
+    if ( [CTSUtility isEmail:entity] == YES  && [CTSUtility validateEmail:entity] == NO) {
+        [self otpGenerateHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    
+    if([otpType isEqualToString:@"mobile"]){
+        entity = [CTSUtility mobileNumberToTenDigitIfValid:entity];
+        if (  [CTSUtility isEmail:entity] == NO  &&  entity == nil) {
+            [self otpGenerateHelper:nil
+                              error:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
+    }
+    
+    NSDictionary* parameters = @{
+                                 MLC_OTP_SIGNIN_QUERY_SOURCE:SignInId,
+                                 MLC_OTP_SIGNIN_QUERY_OTP_TYPE:otpType,
+                                 MLC_OTP_SIGNIN_PATH_IDENTITY:entity
+                                 };
+    
+    
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_OTP_SIGNIN_PATH
+                                   requestId:GenerateOTPReqId
+                                     headers:MLC_OAUTH_TOKEN_SIGNUP_QUERY_MAPPING
+                                  parameters:nil
+                                        json:[CTSUtility toJson:parameters]
+                                  httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+    
+    
+}
+
 
 - (void)requestSigninWithUsername:(NSString*)userNameArg
                          password:(NSString*)password
@@ -180,17 +358,14 @@
 
   [self addCallback:callBack forRequestId:SigninOauthTokenReqId];
 
-  if (![CTSUtility validateEmail:userNameArg]) {
-    [self signinHelperUsername:userNameArg
-                         oauth:nil
-                         error:[CTSError getErrorForCode:EmailNotValid]];
-    return;
-  }
+
 
     userNameArg = userNameArg.lowercaseString;
-
-  userNameSignIn = userNameArg;
+    userNameSignIn = userNameArg;
     passwordSignin = password;
+
+    
+    
   NSDictionary* parameters = @{
     MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
     MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
@@ -208,6 +383,90 @@
                                     httpMethod:POST];
 
   [restCore requestAsyncServer:request];
+}
+
+
+- (void)requestSigninWithUsername:(NSString*)userNameArg
+                         otp:(NSString*)otp
+                completionHandler:(ASOtpSigninCallBack)callBack {
+    /**
+     *  flow sigin in
+     check oauth expiry time if oauth token is expired call for refresh token and
+     send refresh token
+     if refresh token has error then proceed for normal signup
+     
+     */
+    
+    [self addCallback:callBack forRequestId:OtpSignInReqId];
+    
+    
+    userNameArg = userNameArg.lowercaseString;
+    userNameSignIn = userNameArg;
+    passwordSignin = otp;
+    
+    
+    
+    NSDictionary* parameters = @{
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
+                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_SIGNIN_GRANT_TYPE_OTP,
+                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD : otp,
+                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : userNameArg
+                                 };
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+                                   requestId:OtpSignInReqId
+                                     headers:nil
+                                  parameters:parameters
+                                        json:nil
+                                  httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+}
+
+
+
+
+
+
+
+
+-(void)requestBindSignin:(NSString *)userName completionHandler:(ASBindSignIn)callback{
+    [self addCallback:callback forRequestId:BindSigninAsyncReqId];
+    
+    userName = userName.lowercaseString;
+    
+    if ( [CTSUtility isEmail:userName] == YES  && [CTSUtility validateEmail:userName] == NO) {
+        [self bindSigninAsyncHelperError:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    else if( [CTSUtility isEmail:userName] == NO){
+        userName = [CTSUtility mobileNumberToTenDigitIfValid:userName];
+        if ( userName == nil) {
+            [self bindSigninAsyncHelperError:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
+    }
+    
+    NSDictionary* parameters = @{
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_CLIENT_ID,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
+                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_BIND_SIGNIN_GRANT_TYPE,
+                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : userName
+                                 };
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+                                   requestId:BindSigninAsyncReqId
+                                     headers:nil
+                                  parameters:parameters
+                                        json:nil
+                                  httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+    
+    
 }
 
 
@@ -440,6 +699,127 @@
 }
 
 
+-(void)requestLink:(CTSUserDetails *)user completionHandler:(ASLinkCallback )callback{
+    //accept mobile and email.
+    //    Get Member Info (present in cube and tiny own sdk)
+    //    if Mobile Present
+    //        > Ask For Send M-OTP(not yet present) > (user will receive the otp) > RESPONSE : SIGN_IN_WITH_OTP
+    //        if Mobile not Present and email present
+    //            > Ask For Send E-OTP > (user will receive the eotp) > RESPONSE: SIGN_IN_WITH_EOTP
+    //            Both Absent
+    //            >  RESPONSE: FRESH_SIGNUP >
+    
+    
+    
+    //
+    //Inputs:
+    //
+    //    email (mandatory)
+    //    firstName (optional)
+    //    lastName (optional)
+    //    mobileNo (mandatory)
+    //
+    //
+    //Output:
+    //
+    //
+    
+    
+    
+    [self addCallback:callback forRequestId:LinkReqId];
+    
+    //validations
+    
+    
+    if (![CTSUtility validateEmail:user.email]) {
+        [self linkHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    
+    
+    user.mobileNo = [CTSUtility mobileNumberToTenDigitIfValid:user.mobileNo];
+    if (![CTSUtility validateMobile:user.mobileNo]) {
+        [self linkHelper:nil
+                       error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+
+    
+    
+    
+    CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc ] init];
+    [profileLayer requestMemberInfoMobile:user.mobileNo email:user.email withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
+        if(error){
+            //reply with failure
+            NSLog(@"++++++++++++++++++++ Member Info Fetch Failed ");
+            [self linkHelper:nil error:error];
+            
+        }else{
+            NSLog(@"++++++++++++++++++++ Member Info Fetched ");
+            
+            if(profile.responseData.profileByMobile){
+                NSLog(@"++++++++++++++++++++ Mobile Found ");
+                
+                //if Mob present    : (SDK invokes RequesMOtp) > User can now signin with motp or pwd
+                
+                [self requestGenerateOTPFor:profile.responseData.profileByMobile.mobile completionHandler:^(CTSResponse *response, NSError *error) {
+                    NSLog(@"++++++++++++++++++++ Asked to send the M otp ");
+                    
+                    if(error){
+                        NSLog(@"++++++++++++++++++++ ERROR in  M otp ");
+                        
+                        [self linkHelper:nil error:error];
+                    }else{
+                        //do link for wallet access
+                        [self requestBindSignin:user.mobileNo completionHandler:^(NSError *error) {
+                            [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusMotpSigIn entity:profile.responseData.profileByMobile.mobile] error:nil];
+                        }];
+                    }
+                }];
+            }
+            else if(profile.responseData.profileByEmail){
+                //if Mob absent, Only Email present    : (SDK invokes RequesEOtp) > User can now signin with eotp or pwd
+                NSLog(@"++++++++++++++++++++ Email Found ");
+                
+                [self requestGenerateOTPFor:profile.responseData.profileByEmail.email completionHandler:^(CTSResponse *response,NSError *error) {
+                    NSLog(@"++++++++++++++++++++ Asked to send the E otp ");
+                    
+                    if(error){
+                        NSLog(@"++++++++++++++++++++ ERROR in  E otp ");
+                        [self linkHelper:nil error:error];
+                        
+                    }else{
+                        //do link for wallet access
+                        [self requestBindSignin:user.email completionHandler:^(NSError *error) {
+                            [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusMotpSigIn entity:profile.responseData.profileByEmail.email] error:nil];
+                        }];
+
+                    }
+                }];
+            }
+            else{
+                //if Email Mobile Absent  : (SDK SignsUp the user) > User receives the Verification code > now app should proceed to verification call from SDK
+                NSLog(@"++++++++++++++++++++ Mobile Email Both Absent ");
+                
+                [self requestSignupUser:user password:nil mobileVerified:NO emailVerified:NO completionHandler:^(NSError *error) {
+                    NSLog(@"++++++++++++++++++++ Asked to Signup ");
+                    if(error){
+                        [self linkHelper:nil error:error];
+                    }
+                    else{
+                        //do link for wallet access
+                        [self requestBindSignin:user.email completionHandler:^(NSError *error) {
+                            [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusSignup entity:user.mobileNo] error:nil];
+                        }];
+                    }
+                }];
+            }
+        }
+    }];
+}
+
+
+
 -(void)requestLinkUser:(NSString *)email mobile:(NSString *)mobile completionHandler:(ASLinkUserCallBack)callBack;
 {
     
@@ -504,6 +884,7 @@
 -(NSString *)requestSignInOauthToken{
     return [CTSOauthManager readOauthToken];
 }
+
 
 
 #pragma mark - pseudo password generator methods
@@ -632,55 +1013,83 @@ static NSData* digest(NSData* data,
 
 #pragma mark - main class methods
 enum {
-  SignupOauthTokenReqId,
-  SigninOauthTokenReqId,
-  SignupStageOneReqId,
-  SignupChangePasswordReqId,
-  ChangePasswordReqId,
-  RequestForPasswordResetReqId,
-  IsUserCitrusMemberReqId,
-  BindOauthTokenRequestId,
-  BindUserRequestId,
-  BindSigninRequestId,
-  CitruPaySigniInReqId,
-  LinkUserReqId,
-    SetPasswordReqId
+    SignupOauthTokenReqId,
+    SigninOauthTokenReqId,
+    SignupStageOneReqId,
+    SignupChangePasswordReqId,
+    ChangePasswordReqId,
+    RequestForPasswordResetReqId,
+    IsUserCitrusMemberReqId,
+    BindOauthTokenRequestId,
+    BindUserRequestId,
+    BindSigninRequestId,
+    CitruPaySigniInReqId,
+    LinkUserReqId,
+    SetPasswordReqId,
+    SignupOauthAsynTokenReqId,
+    SignupNewReqId,
+    OTPVerificationRequestId,
+    OTPRegenerationRequestId,
+    GenerateOTPReqId,
+    LinkReqId,
+    BindSigninAsyncReqId,
+    OtpSignInReqId
 };
 - (instancetype)init {
-  NSDictionary* dict = @{
-    toNSString(SignupOauthTokenReqId) : toSelector(handleReqSignupOauthToken
-                                                   :),
-    toNSString(SigninOauthTokenReqId) : toSelector(handleReqSigninOauthToken
-                                                   :),
-    toNSString(SignupStageOneReqId) : toSelector(handleReqSignupStageOneComplete
-                                                 :),
-    toNSString(SignupChangePasswordReqId) : toSelector(handleReqUsePassword
-                                                       :),
-    toNSString(RequestForPasswordResetReqId) :
-        toSelector(handleReqRequestForPasswordReset
-                   :),
-    toNSString(ChangePasswordReqId) : toSelector(handleReqChangePassword
-                                                 :),
-    toNSString(IsUserCitrusMemberReqId) : toSelector(handleIsUserCitrusMember
-                                                     :),
-    toNSString(BindOauthTokenRequestId) : toSelector(handleBindOauthToken
-                                                     :),
-    toNSString(BindUserRequestId) : toSelector(handleBindUser
-                                                     :),
- 
-    toNSString(BindSigninRequestId) : toSelector(handleBindSignIn
-                                                     :),
-    toNSString(CitruPaySigniInReqId) : toSelector(handleCitrusPaySignin
-                                                 :)
+    NSDictionary* dict = @{
+                           toNSString(SignupOauthTokenReqId) : toSelector(handleReqSignupOauthToken
+                                                                          :),
+                           toNSString(SigninOauthTokenReqId) : toSelector(handleReqSigninOauthToken
+                                                                          :),
+                           toNSString(SignupStageOneReqId) : toSelector(handleReqSignupStageOneComplete
+                                                                        :),
+                           toNSString(SignupChangePasswordReqId) : toSelector(handleReqUsePassword
+                                                                              :),
+                           toNSString(RequestForPasswordResetReqId) :
+                               toSelector(handleReqRequestForPasswordReset
+                                          :),
+                           toNSString(ChangePasswordReqId) : toSelector(handleReqChangePassword
+                                                                        :),
+                           toNSString(IsUserCitrusMemberReqId) : toSelector(handleIsUserCitrusMember
+                                                                            :),
+                           toNSString(BindOauthTokenRequestId) : toSelector(handleBindOauthToken
+                                                                            :),
+                           toNSString(BindUserRequestId) : toSelector(handleBindUser
+                                                                      :),
+                           
+                           toNSString(BindSigninRequestId) : toSelector(handleBindSignIn
+                                                                        :),
+                           toNSString(CitruPaySigniInReqId) : toSelector(handleCitrusPaySignin
+                                                                         :),
+                           
+                           toNSString(SignupOauthAsynTokenReqId) : toSelector(handleSignupAsyncOauthToken
+                                                                              :),
+                           
+                           toNSString(SignupNewReqId) : toSelector(handleNewSignup
+                                                                   :),
+                           toNSString(OTPVerificationRequestId) : toSelector(handleOTPVerfication
+                                                                             :),
+                           toNSString(OTPRegenerationRequestId):toSelector(handleOTPRegeneration:)
+                           ,
+                           toNSString(GenerateOTPReqId):toSelector(handleOTPGeneration:),
+                           
+                           toNSString(BindSigninAsyncReqId):toSelector(handleBindSignInAsync
+                                                                       :),
+                           toNSString(OtpSignInReqId):toSelector(handleOtpSignIn
+                                                                       :)
+
+                           
+
+                           };
     
-  };
-
-  self =
-      [super initWithRequestSelectorMapping:dict baseUrl:CITRUS_AUTH_BASE_URL];
-
-  return self;
+    self =
+    [super initWithRequestSelectorMapping:dict baseUrl:CITRUS_AUTH_BASE_URL];
+    
+    return self;
 }
 
+
+#pragma mark - handlers
 
 -(void)handleBindOauthToken:(CTSRestCoreResponse *)response{
     NSError* error = response.error;
@@ -748,6 +1157,28 @@ enum {
          }
     [self bindUserHelperUsername:userNameBind error:error];
     
+}
+
+-(void)handleBindSignInAsync:(CTSRestCoreResponse *)response{
+    NSError* errorSignIn = response.error;
+    JSONModelError* jsonError;
+ 
+    if(errorSignIn == nil){
+        CTSOauthTokenRes* resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+        [resultObject logProperties];
+        [CTSOauthManager saveBindSignInOauth:resultObject];
+    }
+    if(errorSignIn == nil){
+        CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
+        [profileLayer requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
+            [self bindSigninAsyncHelperError:errorSignIn];
+        }];
+    }
+    else{
+        [self bindSigninAsyncHelperError:errorSignIn];
+    }
 }
 
 
@@ -870,6 +1301,30 @@ enum {
 }
 
 
+
+-(void)handleOtpSignIn:(CTSRestCoreResponse*)response{
+    __block NSError* errorSignIn = response.error;
+    JSONModelError* jsonError;
+    // signup flow
+    if (errorSignIn == nil) {
+        CTSOauthTokenRes* resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+        [resultObject logProperties];
+        [CTSOauthManager saveOauthData:resultObject];
+    }
+    if(errorSignIn == nil){
+        CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
+        [profileLayer requestActivatePrepaidAccount:^(BOOL isActivated, NSError *error) {
+            [self otpSignInHelperError:errorSignIn];
+        }];
+    }
+    else{
+        [self otpSignInHelperError:errorSignIn];
+    }
+}
+
+
 -(void)proceedForTokensCall{
     
     CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
@@ -964,6 +1419,83 @@ enum {
 -(void)handleCitrusPaySignin:(CTSRestCoreResponse *)response{
     [self citrusPaySigninHelper:(NSError *)response.data];
 }
+
+-(void)handleSignupAsyncOauthToken:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    // signup flow
+    if (error == nil) {
+        CTSOauthTokenRes* resultObject =
+        [[CTSOauthTokenRes alloc] initWithString:response.responseString
+                                           error:&jsonError];
+        [CTSOauthManager saveSignupToken:resultObject.accessToken];
+        
+    }
+    
+    
+    [self signupAsyncOauthTokenHelperError:error];
+
+}
+
+-(void)handleNewSignup:(CTSRestCoreResponse *)response{
+    [self newSignupHelper:(NSError *)response.error];
+}
+
+-(void)handleOTPVerfication:(CTSRestCoreResponse*)response {
+    NSError* error = response.error;
+    if(error == nil){
+        [self otpVerificationHelper:[CTSUtility convertToBool:response.responseString] error:nil];
+    }
+    else{
+        [self otpVerificationHelper:NO error:error];
+    }
+    
+}
+
+-(void)handleOTPRegeneration:(CTSRestCoreResponse*)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSResponse *genResponse;
+    if(!error){
+        genResponse =[[CTSResponse alloc] initWithString:response.responseString error:&jsonError];
+        
+        if(jsonError  == nil){
+            error = [CTSError convertCTSResToErrorIfNeeded:genResponse];
+        }
+        else {
+            error = jsonError;
+        }
+        if(error){
+            genResponse = nil;
+        }
+    }
+
+    [self otpRegenerationHelper:genResponse error:error];
+}
+
+-(void)handleOTPGeneration:(CTSRestCoreResponse*)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSResponse *genResponse;
+    if(!error){
+        genResponse =[[CTSResponse alloc] initWithString:response.responseString error:&jsonError];
+        if(jsonError  == nil){
+        error = [CTSError convertCTSResToErrorIfNeeded:genResponse];
+        }
+        else {
+            error = jsonError;
+        }
+        if(error){
+            genResponse = nil;
+        }
+    }
+    
+    
+    
+    
+    [self otpGenerateHelper:genResponse error:error];
+}
+
 
 #pragma mark - helper methods
 - (void)signinHelperUsername:(NSString*)username
@@ -1068,6 +1600,14 @@ enum {
     [self resetBindData];
 }
 
+
+-(void)bindSigninAsyncHelperError:(NSError *)error{
+    ASBindSignIn callback = [self retrieveAndRemoveCallbackForReqId:BindSigninAsyncReqId];
+    callback(error);
+
+}
+
+
 -(void)citrusPaySigninHelper:(NSError *)error{
     ASCitrusSigninCallBack callback =
     [self retrieveAndRemoveCallbackForReqId:CitruPaySigniInReqId];
@@ -1095,6 +1635,82 @@ enum {
     }
 }
 
+-(void)signupAsyncOauthTokenHelperError:(NSError *)error{
+    ASAsyncSignUpOauthTokenCallBack callback = [self retrieveAndRemoveCallbackForReqId:SignupOauthAsynTokenReqId];
+    callback(error);
+}
+
+-(void)newSignupHelper:(NSError *)error{
+    ASSignupNewCallBack callback = [self retrieveAndRemoveCallbackForReqId:SignupNewReqId];
+    
+    if(callback != nil){
+        callback(error);
+    }
+    else{
+        [delegate auth:self didSignup:error];
+    }
+
+
+}
+
+-(void)otpVerificationHelper:(BOOL)isVerified error:(NSError *)error{
+    ASOtpVerificationCallback callback = [self retrieveAndRemoveCallbackForReqId:OTPVerificationRequestId];
+    if(callback != nil){
+        callback(isVerified,error);
+    }
+    else{
+        [delegate auth:self didVerifyOTP:isVerified error:error];
+    }
+    
+}
+
+
+-(void)otpRegenerationHelper:(CTSResponse *)response error:(NSError *)error{
+    ASOtpRegenerationCallback callback = [self retrieveAndRemoveCallbackForReqId:OTPRegenerationRequestId];
+    if(callback != nil){
+        callback(response,error);
+    }
+    else{
+        [delegate auth:self didRegenerateOTPWitherror:error];
+    }
+}
+
+
+-(void)otpGenerateHelper:(CTSResponse *)response error:(NSError *)error{
+    ASGenerateOtpCallBack callback = [self retrieveAndRemoveCallbackForReqId:GenerateOTPReqId];
+    if(callback != nil){
+        callback(response,error);
+    }
+    else{
+        [delegate auth:self didGenerateOTPWithError:error];
+    }
+
+}
+
+-(void)linkHelper:(CTSLinkRes *)response error:(NSError *)error{
+    ASLinkCallback callback = [self retrieveAndRemoveCallbackForReqId:LinkReqId];
+    if(callback != nil){
+        callback(response,error);
+    }
+    else{
+        [delegate auth:self didLink:response error:error];
+    }
+}
+
+
+-(void)otpSignInHelperError:(NSError *)error{
+    ASOtpSigninCallBack callback = [self retrieveAndRemoveCallbackForReqId:OtpSignInReqId];
+    if(callback != nil){
+        callback(error);
+    }else {
+        [delegate auth:self didSignInWithOtpError:error];
+    }
+
+
+}
+
+
+#pragma mark - housekeeping methods
 -(BOOL)isBadCredentials:(NSError *)error{
     
     if([CTSUtility string:[error localizedDescription] containsString:@"Bad credentials"]){
