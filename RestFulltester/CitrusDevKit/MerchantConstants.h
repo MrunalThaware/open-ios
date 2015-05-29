@@ -13,10 +13,10 @@
 #ifdef SANDBOX_MODE
 // for sandbox envirement
 #define VanityUrl @"nativeSDK"
-#define SignInId @"citrus-cube-mobile-app"
-#define SignInSecretKey @"bd63aa06f797f73966f4bcaa4bba00fe"
-#define SubscriptionId @"test-signup"
-#define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
+#define SignInId @""
+#define SignInSecretKey @""
+#define SubscriptionId @""
+#define SubscriptionSecretKey @""
 #define ReturnUrl @"http://clients.vxtindia.net/citrus/"
 #define BaseUrl @"https://sandboxadmin.citruspay.com"
 #define MerchantAccessKey @"F2VZD1HBS2VVXJPMWO77"
@@ -24,10 +24,10 @@
 #elif STAGING_MODE
 // for staging envirement
 #define VanityUrl @"stgcube"
-#define SignInId @"citrus-cube-mobile-app"
-#define SignInSecretKey @"bd63aa06f797f73966f4bcaa4bba00fe"
-#define SubscriptionId @"citrus-native-mobile-subscription"
-#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
+#define SignInId @""
+#define SignInSecretKey @""
+#define SubscriptionId @""
+#define SubscriptionSecretKey @""
 #define ReturnUrl @"http://clients.vxtindia.net/citrus/"
 #define BaseUrl @"https://stg1admin.citruspay.com"
 #define MerchantAccessKey @"F2VZD1HBS2VVXJPMWO77"
@@ -35,10 +35,10 @@
 #else 
 // for production envirement
 #define VanityUrl @"rio"
-#define SignInId @"citrus-cube-mobile-app"
-#define SignInSecretKey @"bd63aa06f797f73966f4bcaa4bba00fe"
-#define SubscriptionId @"citrus-native-mobile-subscription"
-#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
+#define SignInId @""
+#define SignInSecretKey @""
+#define SubscriptionId @""
+#define SubscriptionSecretKey @""
 #define ReturnUrl @"http://clients.vxtindia.net/citrus/"
 #define BaseUrl @"https://admin.citruspay.com"
 #define MerchantAccessKey @"2GPZFO5FDDLTQY0O98JT"

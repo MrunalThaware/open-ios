@@ -41,10 +41,16 @@
 - (void)initialize {
     
     authLayer = [[CTSAuthLayer alloc] initWithUrl:BaseUrl];
+
+    
+//    SignUp Key     indus_signup
+//    SignIn Secret  e003459401462c43bf58d7708382a745
+//    SignIn Key      indus_signin
+//    SignIn Secret  e6baa0467b960b11fa9f38f875d082fb
     
     // Optional
     // 260315 Dynamic Oauth keys
-    //    [authLayer initWithDynamicKeys:@"citrus-native-mobile-app-v1" signInSecretKey:@"83df0e4db17fa7b206f4c36d3f19d6c1" subscriptionId:@"citrus-native-mobile-subscription" subscriptionSecretKey:@"3e2288d3a1a3f59ef6f93373884d2ca1"];
+    [authLayer initWithDynamicKeys:@"indus_signin" signInSecretKey:@"e6baa0467b960b11fa9f38f875d082fb" subscriptionId:@"indus_signup" subscriptionSecretKey:@"e003459401462c43bf58d7708382a745"];
     
     profileLayer = [[CTSProfileLayer alloc] init];
     paymentlayerinfo = [[CTSPaymentLayer alloc] init];
