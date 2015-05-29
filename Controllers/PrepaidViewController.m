@@ -131,6 +131,28 @@
     }];
 }
 
+-(IBAction)verifyMobile{
+    [authLayer requestVerification:TEST_MOBILE code:self.verificationCode.text completionHandler:^(BOOL isVerified, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now Verified",TEST_MOBILE]];
+        }
+    }];
+    
+}
+
+-(IBAction)regenerateMobileVerificationCode{
+    [authLayer requestVerificationCodeRegenerate:TEST_MOBILE completionHandler:^(CTSResponse *response, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:response.responseMessage];
+        }
+    }];
+}
 
 
 -(IBAction)signin:(id)sender{
@@ -270,7 +292,6 @@
     
 }
 
-
 // To get/fetch the cash-out account that’s was saved earlier.
 -(IBAction)fetchCashoutBankAccount{
     [proifleLayer requestCashoutBankAccountCompletionHandler:^(CTSCashoutBankAccountResp *bankAccount, NSError *error) {
@@ -283,31 +304,6 @@
     }];
     
 }
-
--(IBAction)verifyMobile{
-    [authLayer requestVerification:TEST_MOBILE code:self.verificationCode.text completionHandler:^(BOOL isVerified, NSError *error) {
-        if(error){
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-        else{
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now Verified",TEST_MOBILE]];
-        }
-    }];
-
-}
-
--(IBAction)regenerateMobileVerificationCode{
-    [authLayer requestVerificationCodeRegenerate:TEST_MOBILE completionHandler:^(CTSResponse *response, NSError *error) {
-        if(error){
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-        else{
-            [UIUtility toastMessageOnScreen:response.responseMessage];
-        }
-
-    }];
-}
-
 
 // This API call fetches the payment options such as VISA, MASTER (in credit and debit  cards) and net banking options available to the merchant.
 -(void)requestPaymentModes{
@@ -398,8 +394,8 @@
 
 
 #pragma mark - UITextFieldDelegate
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
     NSLog(@"You entered %@",self.otp.text);
     [textField resignFirstResponder];
     return YES;
