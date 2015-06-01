@@ -26,7 +26,8 @@
 #define MLC_PAYMENT_UPDATE__REQUEST_TYPE [CTSPaymentUpdate class]
 #define MLC_PAYMENT_RESPONSE_TYPE [CTSPaymentRes class]
 
-#define MLC_CITRUS_SERVER_URL [@"/service/moto/authorize/struct/" stringByAppendingString:VanityUrl ]
+// 010615 Dynamic Oauth keys init with base URL
+#define MLC_CITRUS_SERVER_URL [@"/service/moto/authorize/struct/" stringByAppendingString:CTSAuthLayer.getVanityUrl]
 
 #define MLC_CITRUS_GUESTCHECKOUT_URL @"/service/moto/authorize/struct/prepaid"
 

@@ -12,7 +12,6 @@
 #import "CTSAuthLayerConstants.h"
 #import "CTSRestPluginBase.h"
 #import "CTSRestCoreResponse.h"
-#import "MerchantConstants.h"
 #import "CTSUserVerificationRes.h"
 #import "CTSMobileVerifiactionRes.h"
 
@@ -61,18 +60,21 @@ typedef void (^ASBindCallBack)(NSError* error);
 
 typedef void (^ASMobileVerifiactionCallback)(CTSMobileVerifiactionRes *mobileVerifiactionRes, NSError* error);
 
-// 260315 Dynamic Oauth keys
-@property (strong, nonatomic) NSString *signInId;
-@property (strong, nonatomic) NSString *signInSecretKey;
+// 010615 Dynamic Oauth keys init with base URL
+- (instancetype)initWithBaseURLAndDynamicVanityOauthKeysURLs:(NSString *)url vanityUrl:(NSString *)vanityUrl signInId:(NSString *)signInId signInSecretKey:(NSString *)signInSecretKey subscriptionId:(NSString *)subscriptionId subscriptionSecretKey:(NSString *)subscriptionSecretKey returnUrl:(NSString *)returnUrl merchantAccessKey:(NSString *)merchantAccessKey;
 
-@property (strong, nonatomic) NSString *subscriptionId;
-@property (strong, nonatomic) NSString *subscriptionSecretKey;
-
-- (void)initWithDynamicKeys:(NSString *)signInId signInSecretKey:(NSString *)signInSecretKey subscriptionId:(NSString *)subscriptionId subscriptionSecretKey:(NSString *)subscriptionSecretKey;
+// 010615 Dynamic Oauth keys init with base URL
 + (NSString*)getDynamicSignInId;
 + (NSString*)getDynamicSignInSecretKey;
 + (NSString*)getDynamicSubscriptionId;
 + (NSString*)getDynamicSubscriptionSecretKey;
++ (NSString*)getBaseURL;
++ (NSString*)getVanityUrl;
++ (NSString*)getMerchantAccessKey;
++ (NSString*)getReturnUrl;
+
+
+
 /**
  *  sign in the user
  *

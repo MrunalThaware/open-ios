@@ -17,7 +17,6 @@
 #import "CTSObject.h"
 #import "UserLogging.h"
 #import "CTSError.h"
-#import "MerchantConstants.h"
 #import "CTSUtility.h"
 #import "CTSRestError.h"
 #endif

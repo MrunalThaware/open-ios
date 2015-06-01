@@ -37,21 +37,21 @@
     [self initialize];
 }
 
+
 // Initialize the SDK layer viz CTSAuthLayer/CTSProfileLayer/CTSPaymentLayer
 - (void)initialize {
-    
-    authLayer = [[CTSAuthLayer alloc] initWithUrl:BaseUrl];
+    // 010615 Dynamic Oauth keys init with base URL
+#ifdef SANDBOX_MODE
+    // for Sandbox environment
+    authLayer = [[CTSAuthLayer alloc] initWithBaseURLAndDynamicVanityOauthKeysURLs:@"https://sandboxadmin.citruspay.com" vanityUrl:@"nativeSDK" signInId:@"citrus-cube-mobile-app" signInSecretKey:@"bd63aa06f797f73966f4bcaa4bba00fe" subscriptionId:@"test-signup" subscriptionSecretKey:@"c78ec84e389814a05d3ae46546d16d2e" returnUrl:@"http://clients.vxtindia.net/citrus/" merchantAccessKey:@"F2VZD1HBS2VVXJPMWO77"];
+#elif STAGING_MODE
+    // for Staging environment
+    authLayer = [[CTSAuthLayer alloc] initWithBaseURLAndDynamicVanityOauthKeysURLs:@"https://stg1admin.citruspay.com" vanityUrl:@"stgcube" signInId:@"citrus-cube-mobile-app" signInSecretKey:@"bd63aa06f797f73966f4bcaa4bba00fe" subscriptionId:@"citrus-native-mobile-subscription" subscriptionSecretKey:@"3e2288d3a1a3f59ef6f93373884d2ca1" returnUrl:@"http://clients.vxtindia.net/citrus/" merchantAccessKey:@"F2VZD1HBS2VVXJPMWO77"];
+#else
+    // for Production environment
+    authLayer = [[CTSAuthLayer alloc] initWithBaseURLAndDynamicVanityOauthKeysURLs:@"https://admin.citruspay.com" vanityUrl:@"rio" signInId:@"citrus-cube-mobile-app" signInSecretKey:@"bd63aa06f797f73966f4bcaa4bba00fe" subscriptionId:@"citrus-native-mobile-subscription" subscriptionSecretKey:@"3e2288d3a1a3f59ef6f93373884d2ca1" returnUrl:@"http://clients.vxtindia.net/citrus/" merchantAccessKey:@"2GPZFO5FDDLTQY0O98JT"];
+#endif
 
-    
-//    SignUp Key     indus_signup
-//    SignIn Secret  e003459401462c43bf58d7708382a745
-//    SignIn Key      indus_signin
-//    SignIn Secret  e6baa0467b960b11fa9f38f875d082fb
-    
-    // Optional
-    // 260315 Dynamic Oauth keys
-    [authLayer initWithDynamicKeys:@"indus_signin" signInSecretKey:@"e6baa0467b960b11fa9f38f875d082fb" subscriptionId:@"indus_signup" subscriptionSecretKey:@"e003459401462c43bf58d7708382a745"];
-    
     profileLayer = [[CTSProfileLayer alloc] init];
     paymentlayerinfo = [[CTSPaymentLayer alloc] init];
     
@@ -450,7 +450,7 @@
 }
 
 
-- (void)doUserCreditCardPayment {
+- (IBAction)doUserCreditCardPayment {
     CTSPaymentDetailUpdate* creditCardInfo =
     [[CTSPaymentDetailUpdate alloc] init];
     CTSElectronicCardUpdate* creditCard =
@@ -718,7 +718,7 @@
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     [creditCardInfo addCard:creditCard];
     
-    [paymentlayerinfo requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1000" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentlayerinfo requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1000" returnUrl:CTSAuthLayer.getReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
 }
@@ -734,7 +734,7 @@
     tokenizedCard.token= TEST_TOKENIZED_CARD_TOKEN;
     [tokenizedCardInfo addCard:tokenizedCard];
     
-    [paymentlayerinfo requestLoadMoneyInCitrusPay:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentlayerinfo requestLoadMoneyInCitrusPay:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo amount:@"1" returnUrl:CTSAuthLayer.getReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
 }
@@ -749,7 +749,7 @@
     netBank.code = TEST_NETBAK_CODE;
     [paymentInfo addNetBanking:netBank];
     
-    [paymentlayerinfo requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"10" returnUrl:ReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+    [paymentlayerinfo requestLoadMoneyInCitrusPay:paymentInfo withContact:contactInfo withAddress:addressInfo amount:@"10" returnUrl:CTSAuthLayer.getReturnUrl withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         [self handlePaymentResponse:paymentInfo error:error];
     }];
 }
@@ -763,7 +763,7 @@
         
         [paymentlayerinfo requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo
                                                       amount:@"1"
-                                               withReturnUrl:ReturnUrl
+                                               withReturnUrl:CTSAuthLayer.getReturnUrl
                                                withSignature:signature
                                                    withTxnId:transactionId
                                         returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {

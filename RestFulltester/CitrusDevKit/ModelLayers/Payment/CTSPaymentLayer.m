@@ -28,7 +28,6 @@
 #import "CTSOauthManager.h"
 #import "CTSTokenizedPaymentToken.h"
 #import "NSObject+logProperties.h"
-#import "MerchantConstants.h"
 #import "CTSUserAddress.h"
 #import "CTSBill.h"
 
@@ -51,7 +50,7 @@
   CTSPaymentRequest* paymentRequest = [[CTSPaymentRequest alloc] init];
 
   paymentRequest.amount = [self ctsAmountForAmount:amount];
-  paymentRequest.merchantAccessKey = MerchantAccessKey;
+  paymentRequest.merchantAccessKey = CTSAuthLayer.getMerchantAccessKey;
   paymentRequest.merchantTxnId = txnId;
   paymentRequest.notifyUrl = @"";
   paymentRequest.requestSignature = signatureArg;
@@ -286,7 +285,7 @@
                     returnUrl:returnUrl
                     signature:signatureArg
                         txnId:merchantTxnIdArg
-               merchantAccess:MerchantAccessKey];
+               merchantAccess:CTSAuthLayer.getMerchantAccessKey];
     
     CTSRestCoreRequest* request =
     [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL

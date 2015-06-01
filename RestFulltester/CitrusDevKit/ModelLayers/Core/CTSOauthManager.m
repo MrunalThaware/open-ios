@@ -153,20 +153,10 @@
 }
 
 + (CTSOauthTokenRes*)refreshOauthToken {
-    // 260315 Dynamic Oauth keys
-    NSString *signInId = [CTSAuthLayer getDynamicSignInId];
-    if (!signInId) {
-        signInId = MLC_OAUTH_REFRESH_CLIENT_ID;
-    }
-    
-    NSString *signInSecretKey = [CTSAuthLayer getDynamicSignInSecretKey];
-    if (!signInSecretKey) {
-        signInSecretKey = MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET;
-    }
     
     NSDictionary* parameters = @{
-                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : signInId,
-                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : signInSecretKey,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
                                  MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN,
                                  MLC_OAUTH_REFRESH_QUERY_REFRESH_TOKEN : [CTSOauthManager readRefreshToken]
                                  };
@@ -196,19 +186,8 @@
 
 + (CTSOauthTokenRes*)requestSignupOauthToken {
     
-    // 260315 Dynamic Oauth keys
-    NSString *subscriptionId = [CTSAuthLayer getDynamicSubscriptionId];
-    if (!subscriptionId) {
-        subscriptionId = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_ID;
-    }
-    
-    NSString *subscriptionSecretKey = [CTSAuthLayer getDynamicSubscriptionSecretKey];
-    if (!subscriptionSecretKey) {
-        subscriptionSecretKey = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET;
-    }
-    
-    NSDictionary* parameters = @{MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : subscriptionId,
-                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : subscriptionSecretKey,
+    NSDictionary* parameters = @{MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNUP_CLIENT_ID,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET,
                                  MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_TOKEN_SIGNUP_GRANT_TYPE
                                  };
 

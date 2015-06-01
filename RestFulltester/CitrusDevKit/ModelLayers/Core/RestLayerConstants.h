@@ -9,7 +9,8 @@
 #ifndef RestFulltester_RestLayerConstants_h
 #define RestFulltester_RestLayerConstants_h
 
-#define CITRUS_BASE_URL BaseUrl
+// 010615 Dynamic Oauth keys init with base URL
+#define CITRUS_BASE_URL CTSAuthLayer.getBaseURL
 
 typedef enum HTTPMethod { GET, POST, PUT, DELETE } HTTPMethod;
 

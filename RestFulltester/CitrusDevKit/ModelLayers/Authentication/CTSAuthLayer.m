@@ -25,11 +25,15 @@
 
 @implementation CTSAuthLayer
 
-// 260315 Dynamic Oauth keys
-static NSString * _signInIdAlias;
-static NSString * _signInSecretKeyAlias;
-static NSString * _subscriptionIdAlias;
-static NSString * _subscriptionSecretKeyAlias;
+// 010615 Dynamic Oauth keys init with base URL
+static NSString * VanityUrl;
+static NSString * SignInId;
+static NSString * SignInSecretKey;
+static NSString * SubscriptionId;
+static NSString * SubscriptionSecretKey;
+static NSString * ReturnUrl;
+static NSString * MerchantAccessKey;
+static NSString * BaseUrl;
 
 #pragma mark - public methods
 
@@ -45,9 +49,9 @@ static NSString * _subscriptionSecretKeyAlias;
     
     
     NSDictionary* parameters = @{
-                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : @"citrus-cube-mobile-app",
-                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : @"bd63aa06f797f73966f4bcaa4bba00fe",
-                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : @"username",
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET,
+                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME,
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : email
                                  };
     
@@ -340,19 +344,8 @@ static NSString * _subscriptionSecretKeyAlias;
 - (void)requestSignUpOauthToken {
     wasSignupCalled = YES;
     
-    // 260315 Dynamic Oauth keys
-    if (!_subscriptionId) {
-        _subscriptionId = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_ID;
-    }
-    if (!_subscriptionSecretKey) {
-        _subscriptionSecretKey = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET;
-    }
-    
-    _subscriptionIdAlias = _subscriptionId;
-    _subscriptionSecretKeyAlias = _subscriptionSecretKey;
-
-    NSDictionary* parameters = @{MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : _subscriptionId,
-                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : _subscriptionSecretKey,
+    NSDictionary* parameters = @{MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : SubscriptionId,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : SubscriptionSecretKey,
                                  MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_TOKEN_SIGNUP_GRANT_TYPE
                                  };
 
@@ -365,15 +358,6 @@ static NSString * _subscriptionSecretKeyAlias;
                                    httpMethod:POST];    
     [restCore requestAsyncServer:request];
     
-}
-
-// 260315 Dynamic Oauth keys
-+ (NSString*)getDynamicSubscriptionId{
-    return _subscriptionIdAlias;
-}
-
-+ (NSString*)getDynamicSubscriptionSecretKey{
-    return _subscriptionSecretKeyAlias;
 }
 
 - (void)requestSigninWithUsername:(NSString*)userNameArg
@@ -425,23 +409,10 @@ static NSString * _subscriptionSecretKeyAlias;
 
 -(void)proceedToSiginUserName:(NSString *)username password:(NSString *)password{
     userNameSignIn = username;
-
-    // 260315 Dynamic Oauth keys
-    if (!_signInId) {
-        _signInId = MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID;
-    }
-    
-    if (!_signInSecretKey) {
-        _signInSecretKey = MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET;
-    }
-    
-    _signInIdAlias = _signInId;
-    _signInSecretKeyAlias = _signInSecretKey;
-
     
     NSDictionary* parameters = @{
-                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : _signInId,
-                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : _signInSecretKey,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : SignInId,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : SignInSecretKey,
                                  MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_SIGNIN_GRANT_TYPE,
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD : password,
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : username
@@ -460,14 +431,7 @@ static NSString * _subscriptionSecretKeyAlias;
     [restCore requestAsyncServer:request];
 }
 
-// 260315 Dynamic Oauth keys
-+ (NSString*)getDynamicSignInId{
-    return _signInIdAlias;
-}
 
-+ (NSString*)getDynamicSignInSecretKey{
-    return _signInSecretKeyAlias;
-}
 
 
 - (void)usePassword:(NSString*)password
@@ -677,7 +641,7 @@ static NSString * _subscriptionSecretKeyAlias;
                                    httpMethod:MLC_IS_USER_EXIST_TYPE];
     
     
-    CTSRestCoreResponse *response = [CTSRestCore requestSyncServer:request withBaseUrl:CITRUS_BASE_URL];
+    CTSRestCoreResponse *response = [CTSRestCore requestSyncServer:request withBaseUrl:BaseUrl];
     return  [self convertToUserVerification:response ];
 }
 
@@ -919,7 +883,7 @@ typedef enum {
 - (instancetype)init {
     NSDictionary* dict = [self getRegistrationDict];
     self =
-    [super initWithRequestSelectorMapping:dict baseUrl:CITRUS_AUTH_BASE_URL];
+    [super initWithRequestSelectorMapping:dict baseUrl:BaseUrl];
     
     return self;
 }
@@ -958,48 +922,120 @@ typedef enum {
 {
     
     if(url == nil){
-        url = CITRUS_AUTH_BASE_URL;
+        url = BaseUrl;
     }
     self = [super initWithRequestSelectorMapping:[self getRegistrationDict]
                                          baseUrl:url];
     return self;
 }
 
-// 260315 Dynamic Oauth keys
-- (void)initWithDynamicKeys:(NSString *)signInId signInSecretKey:(NSString *)signInSecretKey subscriptionId:(NSString *)subscriptionId subscriptionSecretKey:(NSString *)subscriptionSecretKey{
-    
-    if (!signInId) {
-        _signInId = MLC_OAUTH_TOKEN_SIGNIN_CLIENT_ID;
+
+// 010615 Dynamic Oauth keys init with base URL
+- (instancetype)initWithBaseURLAndDynamicVanityOauthKeysURLs:(NSString *)url vanityUrl:(NSString *)vanityUrl signInId:(NSString *)signInId signInSecretKey:(NSString *)signInSecretKey subscriptionId:(NSString *)subscriptionId subscriptionSecretKey:(NSString *)subscriptionSecretKey returnUrl:(NSString *)returnUrl merchantAccessKey:(NSString *)merchantAccessKey{
+
+    if(url){
+        BaseUrl = url;
+        LogDebug(@"BaseUrl:%@",url);
     }else{
-        _signInId = signInId;
+        LogDebug(@"Enter valid BaseUrl");
     }
     
-    if (!signInSecretKey) {
-        _signInSecretKey = MLC_OAUTH_TOKEN_SIGNIN_CLIENT_SECRET;
+    self = [super initWithRequestSelectorMapping:[self getRegistrationDict]
+                                         baseUrl:url];
+
+    //
+    if (vanityUrl){
+        VanityUrl = vanityUrl;
+        LogDebug(@"VanityUrl:%@",VanityUrl);
     }else{
-        _signInSecretKey = signInSecretKey;
+        LogDebug(@"Enter valid VanityUrl");
     }
-    
-    _signInIdAlias = _signInId;
-    _signInSecretKeyAlias = _signInSecretKey;
-    
-    
-    
-    if (!subscriptionId) {
-        _subscriptionId = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_ID;
+
+    //
+    if (signInId){
+        SignInId = signInId;
+        LogDebug(@"SignInId:%@",SignInId);
     }else{
-        _subscriptionId = subscriptionId;
+        LogDebug(@"Enter valid SignInId");
     }
-    
-    if (!subscriptionSecretKey) {
-        _subscriptionSecretKey = MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET;
+
+    if (signInSecretKey){
+        SignInSecretKey = signInSecretKey;
+        LogDebug(@"SignInSecretKey:%@",SignInSecretKey);
     }else{
-        _subscriptionSecretKey = subscriptionSecretKey;
+        LogDebug(@"Enter valid SignInSecretKey");
     }
-    
-    _subscriptionIdAlias = _subscriptionId;
-    _subscriptionSecretKeyAlias = _subscriptionSecretKey;
+
+    //
+    if (subscriptionId){
+        SubscriptionId = subscriptionId;
+        LogDebug(@"SubscriptionId:%@",SubscriptionId);
+    }else{
+        LogDebug(@"Enter valid SubscriptionId");
+    }
+
+    if (subscriptionSecretKey){
+        SubscriptionSecretKey = subscriptionSecretKey;
+        LogDebug(@"SubscriptionSecretKey:%@",SubscriptionSecretKey);
+    }else{
+        LogDebug(@"Enter valid SubscriptionSecretKey");
+    }
+
+    //
+    if (returnUrl){
+        ReturnUrl = returnUrl;
+        LogDebug(@"ReturnUrl:%@",ReturnUrl);
+    }else{
+        LogDebug(@"Enter valid ReturnUrl");
+    }
+
+    //
+    if (merchantAccessKey){
+        MerchantAccessKey = merchantAccessKey;
+        LogDebug(@"MerchantAccessKey:%@",MerchantAccessKey);
+    }else{
+        LogDebug(@"Enter valid MerchantAccessKey");
+    }
+
+    return self;
 }
+
+
+// 010615 Dynamic Oauth keys init with base URL
+
++ (NSString*)getDynamicSignInId{
+    return SignInId;
+}
+
++ (NSString*)getDynamicSignInSecretKey{
+    return SignInSecretKey;
+}
+
++ (NSString*)getDynamicSubscriptionId{
+    return SubscriptionId;
+}
+
++ (NSString*)getDynamicSubscriptionSecretKey{
+    return SubscriptionSecretKey;
+}
+
++ (NSString*)getBaseURL{
+    return BaseUrl;
+}
+
++ (NSString*)getVanityUrl{
+    return VanityUrl;
+}
+
++ (NSString*)getMerchantAccessKey{
+    return MerchantAccessKey;
+}
+
+
++ (NSString*)getReturnUrl{
+    return ReturnUrl;
+}
+
 
 
 - (void)handleReqSignupOauthToken:(CTSRestCoreResponse*)response {

@@ -5,7 +5,6 @@
 //  Created by Yadnesh Wankhede on 26/05/14.
 //  Copyright (c) 2014 Citrus. All rights reserved.
 //
-#import "MerchantConstants.h"
 
 #ifndef RestFulltester_CTSAuthLayerConstants_h
 #define RestFulltester_CTSAuthLayerConstants_h
@@ -33,8 +32,9 @@ typedef enum SignOutResponseState {
 #define MLC_OAUTH_TYPE @"token_type"
 #define MLC_OAUTH_OBJECT_KEY @"oauth_object_key"
 #define MLC_OAUTH_TOKEN_SAVE_DATE @"oauth_token_save_date"
-#define MLC_CLIENT_ID SignInId
-#define MLC_CLIENT_SECRET SignInSecretKey
+// 010615 Dynamic Oauth keys init with base URL
+#define MLC_CLIENT_ID CTSAuthLayer.getDynamicSignInId
+#define MLC_CLIENT_SECRET CTSAuthLayer.getDynamicSignInSecretKey
 
 #define MLC_OAUTH_BIND_SIGN_IN @"oauth_object_key_bind"
 
@@ -43,8 +43,9 @@ typedef enum SignOutResponseState {
 #define MLC_OAUTH_TOKEN_QUERY_CLIENT_ID @"client_id"
 #define MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET @"client_secret"
 
-#define MLC_OAUTH_TOKEN_SIGNUP_CLIENT_ID SubscriptionId
-#define MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET SubscriptionSecretKey
+// 010615 Dynamic Oauth keys init with base URL
+#define MLC_OAUTH_TOKEN_SIGNUP_CLIENT_ID CTSAuthLayer.getDynamicSubscriptionId
+#define MLC_OAUTH_TOKEN_SIGNUP_CLIENT_SECRET CTSAuthLayer.getDynamicSubscriptionSecretKey
 #define MLC_OAUTH_TOKEN_SIGNUP_GRANT_TYPE @"implicit"
 
 #define MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH @"/oauth/token"
