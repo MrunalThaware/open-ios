@@ -86,7 +86,7 @@ typedef enum CardValidationError {
   @{@"type" : @"type", @"defaultOption" : @"defaultOption"}
 
 
-#define MLC_PROFILE_GET_BALANCE_PATH @"/service/v2/mycard"
+#define MLC_PROFILE_GET_BALANCE_PATH @"/service/v2/mycard/balance"
 #define MLC_PROFILE_GET_BALANCE_TYPE GET
 
 #define MLC_PROFILE_GET_BALANCE_ACTIVATE_PATH @"/service/v2/prepayment/balance"

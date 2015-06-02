@@ -8,12 +8,13 @@
 
 #ifndef RestFulltester_TestParams_h
 #define RestFulltester_TestParams_h
+
 // TestParams.h should be populated according to your needs
 
 #define TEST_EMAIL @"yaddyboy64@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
 
-#warning Enter your live mobile number to get OTP so you can able SignIn
+#warning Enter your live mobile number to get OTP so you can able to SignIn
 
 #define TEST_MOBILE @"1234567890" // this is dummy test mobile number
 
@@ -47,30 +48,7 @@
 #define TEST_NETBAK_OWNER_NAME @"Yadnesh Wankhede"
 #define TEST_NETBAK_NAME @"Axis Bank"
 
-// sample value
-
 #define TEST_TOKENIZED_CARD_TOKEN @"f00bbc754c00db104cfb9c6adb3fd31c"
-
 #define TEST_TOKENIZED_CARD_CVV @"000"
-
-#define MLC_GUESTCHECKOUT_REDIRECTURL @"http://www.google.com"
-#define MLC_PAYMENT_REDIRECT_URL \
-@"http://www.google.com"
-#define MLC_PAYMENT_REDIRECT_URLCOMPLETE \
-@"http://www.google.com"
-
-#define GUEST_PAY_TYPE @"GUEST_PAY_TYPE"
-#define MEMBER_PAY_TYPE @"MEMBER_PAY_TYPE"
-
-//
-#define LAST_USER @"LAST_USER"
-
-#define CARD_TYPE @"CARD_TYPE"
-#define EXPIRYDATE_TYPE @"EXPIRYDATE_TYPE"
-#define CVV_TYPE @"CVV_TYPE"
-#define MOBILE_TYPE @"MOBILE_TYPE"
-
-#define NUMERIC_TYPE @"NUMERIC_TYPE"
-#define ALPHABETICAL_TYPE @"ALPHABETICAL_TYPE"
 
 #endif

@@ -35,8 +35,6 @@ typedef enum {
     ReturnUrlCallbackNotValid,
     TransactionForcedClosed,
     TransactionAlreadyInProgress
-
-    
 } CTSErrorCode;
 
 #define CITRUS_ERROR_DOMAIN @"com.citrus.errorDomain"

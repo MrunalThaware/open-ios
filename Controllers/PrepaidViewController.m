@@ -21,6 +21,9 @@
     [super viewDidLoad];
     [self initializeLayers];
     self.title = @"Citrus iOS Native SDK";
+    
+    LogTrace(@"[authLayer requestSignInOauthToken]:%@", [authLayer requestSignInOauthToken]);
+
 }
 
 #pragma mark - initializers
@@ -271,7 +274,6 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[paymentInfo.responseDict valueForKey:@"TxStatus"] ]];
         }
     }];
-    
 }
 
 // This is when we want to store bank account for cashout into users profile. At the max there can be only one account saved at a time, so if you want store new account just call this method with new details (previous one will get overridden).
@@ -386,22 +388,22 @@
     JSONModelError *jsonError;
     CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
                                                     error:&jsonError];
-    NSLog(@"billJson %@",billJson);
-    NSLog(@"signature %@ ", sampleBill);
-    return sampleBill;
+    LogTrace(@"billJson %@",billJson);
+    LogTrace(@"signature %@ ", sampleBill);
     
+    return sampleBill;
 }
 
 
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    NSLog(@"You entered %@",self.otp.text);
+    LogTrace(@"You entered %@",self.otp.text);
     [textField resignFirstResponder];
     return YES;
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField{
-    NSLog(@"You entered %@",self.otp.text);
+    LogTrace(@"You entered %@",self.otp.text);
     [textField resignFirstResponder];
 }
 @end

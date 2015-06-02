@@ -205,7 +205,7 @@ enum {
                                    headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
                                    parameters:nil
                                    json:nil
-                                   httpMethod:GET];
+                                   httpMethod:POST];
     
     [restCore requestAsyncServer:request];
 }
