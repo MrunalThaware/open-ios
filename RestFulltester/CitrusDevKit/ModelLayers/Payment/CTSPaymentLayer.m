@@ -487,7 +487,6 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 //    }
     
     
-    
     citrusCashBackViewController = controller;
     
     

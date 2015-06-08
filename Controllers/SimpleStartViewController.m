@@ -129,7 +129,6 @@
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
 
-
     [paymentLayer requestChargeTokenizedPayment:tokenizedCardInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
@@ -150,7 +149,7 @@
     creditCard.scheme = [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
-
+    
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     [paymentInfo addCard:creditCard];
     
@@ -179,8 +178,6 @@
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
     
-
-
     [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
@@ -244,13 +241,14 @@
     NSData* signatureData = [NSURLConnection sendSynchronousRequest:urlReq
                                                   returningResponse:nil
                                                               error:&error];
+    
     NSString* billJson = [[NSString alloc] initWithData:signatureData
                                                encoding:NSUTF8StringEncoding];
     JSONModelError *jsonError;
     CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
                                                     error:&jsonError];
-    NSLog(@"billJson %@",billJson);
-    NSLog(@"signature %@ ", sampleBill);
+    LogTrace(@"billJson %@",billJson);
+    LogTrace(@"signature %@ ", sampleBill);
     return sampleBill;
 }
 

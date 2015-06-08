@@ -21,6 +21,9 @@
     [super viewDidLoad];
     [self initializeLayers];
     self.title = @"Citrus iOS Native SDK";
+    
+    LogTrace(@"[authLayer requestSignInOauthToken]:%@", [authLayer requestSignInOauthToken]);
+
 }
 
 #pragma mark - initializers
@@ -131,6 +134,28 @@
     }];
 }
 
+-(IBAction)verifyMobile{
+    [authLayer requestVerification:TEST_MOBILE code:self.verificationCode.text completionHandler:^(BOOL isVerified, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now Verified",TEST_MOBILE]];
+        }
+    }];
+    
+}
+
+-(IBAction)regenerateMobileVerificationCode{
+    [authLayer requestVerificationCodeRegenerate:TEST_MOBILE completionHandler:^(CTSResponse *response, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:response.responseMessage];
+        }
+    }];
+}
 
 
 -(IBAction)signin:(id)sender{
@@ -249,7 +274,6 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[paymentInfo.responseDict valueForKey:@"TxStatus"] ]];
         }
     }];
-    
 }
 
 // This is when we want to store bank account for cashout into users profile. At the max there can be only one account saved at a time, so if you want store new account just call this method with new details (previous one will get overridden).
@@ -270,7 +294,6 @@
     
 }
 
-
 // To get/fetch the cash-out account that’s was saved earlier.
 -(IBAction)fetchCashoutBankAccount{
     [proifleLayer requestCashoutBankAccountCompletionHandler:^(CTSCashoutBankAccountResp *bankAccount, NSError *error) {
@@ -283,31 +306,6 @@
     }];
     
 }
-
--(IBAction)verifyMobile{
-    [authLayer requestVerification:TEST_MOBILE code:self.verificationCode.text completionHandler:^(BOOL isVerified, NSError *error) {
-        if(error){
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-        else{
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now Verified",TEST_MOBILE]];
-        }
-    }];
-
-}
-
--(IBAction)regenerateMobileVerificationCode{
-    [authLayer requestVerificationCodeRegenerate:TEST_MOBILE completionHandler:^(CTSResponse *response, NSError *error) {
-        if(error){
-            [UIUtility toastMessageOnScreen:[error localizedDescription]];
-        }
-        else{
-            [UIUtility toastMessageOnScreen:response.responseMessage];
-        }
-
-    }];
-}
-
 
 // This API call fetches the payment options such as VISA, MASTER (in credit and debit  cards) and net banking options available to the merchant.
 -(void)requestPaymentModes{
@@ -390,22 +388,22 @@
     JSONModelError *jsonError;
     CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
                                                     error:&jsonError];
-    NSLog(@"billJson %@",billJson);
-    NSLog(@"signature %@ ", sampleBill);
-    return sampleBill;
+    LogTrace(@"billJson %@",billJson);
+    LogTrace(@"signature %@ ", sampleBill);
     
+    return sampleBill;
 }
 
 
 #pragma mark - UITextFieldDelegate
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    NSLog(@"You entered %@",self.otp.text);
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    LogTrace(@"You entered %@",self.otp.text);
     [textField resignFirstResponder];
     return YES;
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField{
-    NSLog(@"You entered %@",self.otp.text);
+    LogTrace(@"You entered %@",self.otp.text);
     [textField resignFirstResponder];
 }
 @end
