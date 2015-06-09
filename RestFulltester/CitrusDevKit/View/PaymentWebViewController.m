@@ -34,7 +34,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    NSLog(@" viewDidLoad ");
+    LogThread
     self.title = @"3D Secure";
     self.webview = [[UIWebView alloc] init];
     self.webview.delegate = self;
@@ -52,6 +53,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     NSLog(@" view will desappear ");
+    LogThread
+
     [super viewWillDisappear:animated];
     [self finishWebView];
     if(transactionOver == NO){
@@ -65,12 +68,18 @@
 #pragma mark - webview delegates
 
 - (void)webViewDidStartLoad:(UIWebView*)webView {
-    NSLog(@"webView %@",[webView.request URL].absoluteString);
+    NSLog(@" webViewDidStartLoad ");
+    LogThread
+    NSLog(@"webView  URL %@",[webView.request URL].absoluteString);
     [indicator startAnimating];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
+    
+    NSLog(@" webViewDidFinishLoad ");
+    LogThread
+    
     [indicator stopAnimating];
     if(reqId != PaymentChargeInnerWebLoadMoneyReqId){
         NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
@@ -85,11 +94,14 @@
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+   
+    NSLog(@" shouldStartLoadWithRequest ");
+    LogThread
     NSLog(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
     //  for load balance return url finish
     NSLog(@"reqId %d",reqId);
     if(reqId == PaymentChargeInnerWebLoadMoneyReqId){
-        NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
+        NSArray *loadMoneyResponse; //= [CTSUtility getLoadResponseIfSuccesfull:request];
         NSLog(@"loadMoneyResponse %@",loadMoneyResponse);
         if(loadMoneyResponse){
             LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
@@ -104,6 +116,8 @@
 #pragma mark - Payment handler
 
 -(void)transactionComplete:(NSMutableDictionary *)responseDictionary{
+    NSLog(@" transactionComplete ");
+    LogThread
     transactionOver = YES;
     responseDictionary = [NSMutableDictionary dictionaryWithDictionary:responseDictionary];
     [self finishWebView];
@@ -113,6 +127,8 @@
 
 
 -(void)finishWebView{
+    NSLog(@" finishWebView ");
+    LogThread
     if( [self.webview isLoading]){
         [self.webview stopLoading];
     }

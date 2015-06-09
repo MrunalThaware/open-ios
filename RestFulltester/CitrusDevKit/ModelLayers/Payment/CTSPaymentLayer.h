@@ -45,6 +45,9 @@ enum {
     
     
 };
+
+
+#define LogThread NSLog(@"THREAD  %@", [NSThread currentThread]);
 #define LoadMoneyResponeKey @"loadMoneyResponseKey"
 @class CTSAuthLayer;
 @class CTSAuthenticationProtocol;

@@ -1009,6 +1009,8 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 
 }
 - (void)chargeLoadMoneyInnerWebviewHelper:(CTSCitrusCashRes*)response  error:(NSError *)error{
+    NSLog(@" chargeLoadMoneyInnerWebviewHelper ");
+    LogThread
     [self resetCitrusPay];
 
 
@@ -1126,6 +1128,8 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 
 -(void)loadPaymentWebview:(NSString *)url reqId:(int)reqId returnUrl:(NSString *)returnUrl{
         dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@" loadPaymentWebview ");
+            LogThread
         if(paymentWebViewController != nil){
             [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
             [paymentWebViewController finishWebView];
@@ -1141,7 +1145,8 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    
+    NSLog(@" observeValueForKeyPath ");
+    LogThread
     for(NSString *keys in change){
         NSLog(@"Checking key %@, Value %@",keys,[change valueForKey:keys]);
     }
