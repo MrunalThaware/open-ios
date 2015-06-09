@@ -34,6 +34,97 @@
 		37C9CDF21B0DAC92006C6F48 /* CTSResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEF1B0DAC92006C6F48 /* CTSResponse.m */; };
 		37CF28591B1491D80057984A /* PaymentWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CF28581B1491D80057984A /* PaymentWebViewController.m */; };
 		37CF285B1B1491D80057984A /* PaymentWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CF28581B1491D80057984A /* PaymentWebViewController.m */; };
+		37D33B9E1B26C77800AD4513 /* PrepaidViewControllerOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D33B9C1B26C77800AD4513 /* PrepaidViewControllerOld.m */; };
+		37D33B9F1B26C77800AD4513 /* PrepaidViewControllerOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D33B9C1B26C77800AD4513 /* PrepaidViewControllerOld.m */; };
+		37D33BA01B26C77800AD4513 /* PrepaidViewControllerOld.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D33B9D1B26C77800AD4513 /* PrepaidViewControllerOld.xib */; };
+		37D33BA11B26C77800AD4513 /* PrepaidViewControllerOld.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D33B9D1B26C77800AD4513 /* PrepaidViewControllerOld.xib */; };
+		37D33BA41B26C7D200AD4513 /* CTSTokenizedCardPayment.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9645E198F723E0021DC0B /* CTSTokenizedCardPayment.m */; };
+		37D33BA51B26C7D200AD4513 /* CTSPaymentToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9645A198F723E0021DC0B /* CTSPaymentToken.m */; };
+		37D33BA61B26C7D200AD4513 /* CTSUserAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96460198F723E0021DC0B /* CTSUserAddress.m */; };
+		37D33BA71B26C7D200AD4513 /* UIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7692AABB19FF9B39004D56EC /* UIUtility.m */; };
+		37D33BA81B26C7D200AD4513 /* CTSError.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B961978F2DD00AE3AD0 /* CTSError.m */; };
+		37D33BA91B26C7D200AD4513 /* CTSOauthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D6C212197D289300F357FD /* CTSOauthManager.m */; };
+		37D33BAA1B26C7D200AD4513 /* PrepaidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D6E65E1AB01BAD008C28C4 /* PrepaidViewController.m */; };
+		37D33BAB1B26C7D200AD4513 /* CTSResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEF1B0DAC92006C6F48 /* CTSResponse.m */; };
+		37D33BAC1B26C7D200AD4513 /* CTSGetBalanceRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 378D711C1A84939400A6FD36 /* CTSGetBalanceRes.m */; };
+		37D33BAD1B26C7D200AD4513 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6B41922458F005D29D4 /* AppDelegate.m */; };
+		37D33BAE1B26C7D200AD4513 /* CTSAmount.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96450198F723E0021DC0B /* CTSAmount.m */; };
+		37D33BAF1B26C7D200AD4513 /* JSONModelError.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D34198A5D110096451C /* JSONModelError.m */; };
+		37D33BB01B26C7D200AD4513 /* CTSProfilePaymentRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9648B198F723E0021DC0B /* CTSProfilePaymentRes.m */; };
+		37D33BB11B26C7D200AD4513 /* CTSDebitCardOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9647E198F723E0021DC0B /* CTSDebitCardOption.m */; };
+		37D33BB21B26C7D200AD4513 /* CTSSignUpRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C964B1198F86960021DC0B /* CTSSignUpRes.m */; };
+		37D33BB31B26C7D200AD4513 /* CTSGuestCheckout.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96452198F723E0021DC0B /* CTSGuestCheckout.m */; };
+		37D33BB41B26C7D200AD4513 /* CTSElectronicCardUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96469198F723E0021DC0B /* CTSElectronicCardUpdate.m */; };
+		37D33BB51B26C7D200AD4513 /* CTSRestPluginBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D23198A5CCF0096451C /* CTSRestPluginBase.m */; };
+		37D33BB61B26C7D200AD4513 /* NSArray+JSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D37198A5D110096451C /* NSArray+JSONModel.m */; };
+		37D33BB71B26C7D200AD4513 /* CTSNetbankingOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96480198F723E0021DC0B /* CTSNetbankingOption.m */; };
+		37D33BB81B26C7D200AD4513 /* CTSPaymentMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96454198F723E0021DC0B /* CTSPaymentMode.m */; };
+		37D33BB91B26C7D200AD4513 /* SimpleStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AD31E41A1EFB01005AAC3D /* SimpleStartViewController.m */; };
+		37D33BBA1B26C7D200AD4513 /* CTSCreditCardOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9647C198F723E0021DC0B /* CTSCreditCardOption.m */; };
+		37D33BBB1B26C7D200AD4513 /* JSONModel+CoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D2C198A5D110096451C /* JSONModel+CoreData.m */; };
+		37D33BBC1B26C7D200AD4513 /* CTSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B991978F2DD00AE3AD0 /* CTSObject.m */; };
+		37D33BBD1B26C7D200AD4513 /* CTSNewContactProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3707736E1B0B60BF00B8BC82 /* CTSNewContactProfile.m */; };
+		37D33BBE1B26C7D200AD4513 /* CreditCard-Validator.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851BA41978F2DD00AE3AD0 /* CreditCard-Validator.m */; };
+		37D33BBF1B26C7D200AD4513 /* CTSAuthLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B921978F2DD00AE3AD0 /* CTSAuthLayer.m */; };
+		37D33BC01B26C7D200AD4513 /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733269419B860190084D52D /* JSONValueTransformer.m */; };
+		37D33BC11B26C7D200AD4513 /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */; };
+		37D33BC21B26C7D200AD4513 /* CTSPaymentNetbankingRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96456198F723E0021DC0B /* CTSPaymentNetbankingRequest.m */; };
+		37D33BC31B26C7D200AD4513 /* CTSPaymentOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9646F198F723E0021DC0B /* CTSPaymentOption.m */; };
+		37D33BC41B26C7D200AD4513 /* CTSUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851B9D1978F2DD00AE3AD0 /* CTSUtility.m */; };
+		37D33BC51B26C7D200AD4513 /* CTSLinkRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEA1B0C7E51006C6F48 /* CTSLinkRes.m */; };
+		37D33BC61B26C7D200AD4513 /* CTSRestCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D1A198A5CCF0096451C /* CTSRestCore.m */; };
+		37D33BC71B26C7D200AD4513 /* CTSNewResponseDataProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 370773731B0B626600B8BC82 /* CTSNewResponseDataProfile.m */; };
+		37D33BC81B26C7D200AD4513 /* ServerSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 378D79D91A26FE9A00E373B2 /* ServerSignature.m */; };
+		37D33BC91B26C7D200AD4513 /* CTSRestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D21198A5CCF0096451C /* CTSRestObject.m */; };
+		37D33BCA1B26C7D200AD4513 /* NSObject+logProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 37851BA71978F2DD00AE3AD0 /* NSObject+logProperties.m */; };
+		37D33BCB1B26C7D200AD4513 /* CTSProfileLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96445198F6B350021DC0B /* CTSProfileLayer.m */; };
+		37D33BCC1B26C7D200AD4513 /* CTSProfileContactNewRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 370773781B0B629E00B8BC82 /* CTSProfileContactNewRes.m */; };
+		37D33BCD1B26C7D200AD4513 /* CTSCashoutToBankRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */; };
+		37D33BCE1B26C7D200AD4513 /* CTSCashoutBankAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */; };
+		37D33BCF1B26C7D200AD4513 /* CTSPaymentUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9645C198F723E0021DC0B /* CTSPaymentUpdate.m */; };
+		37D33BD01B26C7D200AD4513 /* CTSOauthTokenRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C964AF198F86960021DC0B /* CTSOauthTokenRes.m */; };
+		37D33BD11B26C7D200AD4513 /* CTSPaymentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDF36F199382F500F97231 /* CTSPaymentLayer.m */; };
+		37D33BD21B26C7D200AD4513 /* CTSProfileContactRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96489198F723E0021DC0B /* CTSProfileContactRes.m */; };
+		37D33BD31B26C7D200AD4513 /* CTSPrepaidBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 372D83FF1AA5C71000C5EA52 /* CTSPrepaidBill.m */; };
+		37D33BD41B26C7D200AD4513 /* CTSNewUserProfileReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 370773691B0B5FEB00B8BC82 /* CTSNewUserProfileReq.m */; };
+		37D33BD51B26C7D200AD4513 /* CTSRestCoreRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D1D198A5CCF0096451C /* CTSRestCoreRequest.m */; };
+		37D33BD61B26C7D200AD4513 /* CTSNetBankingUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9646B198F723E0021DC0B /* CTSNetBankingUpdate.m */; };
+		37D33BD71B26C7D200AD4513 /* CTSLinkUserRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 372D8C281A9DD0DA004680C2 /* CTSLinkUserRes.m */; };
+		37D33BD81B26C7D200AD4513 /* CTSPaymentTransactionRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96484198F723E0021DC0B /* CTSPaymentTransactionRes.m */; };
+		37D33BD91B26C7D200AD4513 /* CTSTokenizedPaymentToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 371536DF1994998200EDF560 /* CTSTokenizedPaymentToken.m */; };
+		37D33BDA1B26C7D200AD4513 /* JSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733269219B860190084D52D /* JSONKeyMapper.m */; };
+		37D33BDB1B26C7D200AD4513 /* CTSTokenizedPayment.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96473198F723E0021DC0B /* CTSTokenizedPayment.m */; };
+		37D33BDC1B26C7D200AD4513 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A7C6B01922458F005D29D4 /* main.m */; };
+		37D33BDD1B26C7D200AD4513 /* OauthStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B74D7F199CAD7D00D7CC2C /* OauthStatus.m */; };
+		37D33BDE1B26C7D200AD4513 /* JSONModelArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D30198A5D110096451C /* JSONModelArray.m */; };
+		37D33BDF1B26C7D200AD4513 /* CTSContactUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96467198F723E0021DC0B /* CTSContactUpdate.m */; };
+		37D33BE01B26C7D200AD4513 /* PaymentWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CF28581B1491D80057984A /* PaymentWebViewController.m */; };
+		37D33BE11B26C7D200AD4513 /* CTSPaymentDetailUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9646D198F723E0021DC0B /* CTSPaymentDetailUpdate.m */; };
+		37D33BE21B26C7D200AD4513 /* PrepaidViewControllerOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D33B9C1B26C77800AD4513 /* PrepaidViewControllerOld.m */; };
+		37D33BE31B26C7D200AD4513 /* CTSRestCoreResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D1F198A5CCF0096451C /* CTSRestCoreResponse.m */; };
+		37D33BE41B26C7D200AD4513 /* CTSPaymentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96458198F723E0021DC0B /* CTSPaymentRequest.m */; };
+		37D33BE51B26C7D200AD4513 /* JSONModelClassProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D32198A5D110096451C /* JSONModelClassProperty.m */; };
+		37D33BE61B26C7D200AD4513 /* JSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D2E198A5D110096451C /* JSONModel.m */; };
+		37D33BE71B26C7D200AD4513 /* CTSRestError.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D51198A5D770096451C /* CTSRestError.m */; };
+		37D33BE81B26C7D200AD4513 /* GetProfileRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9648F198F723E0021DC0B /* GetProfileRes.m */; };
+		37D33BE91B26C7D200AD4513 /* CTSUserDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96462198F723E0021DC0B /* CTSUserDetails.m */; };
+		37D33BEA1B26C7D200AD4513 /* CitrusCashRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EF1CD51A95ED9A00D496F0 /* CitrusCashRes.m */; };
+		37D33BEB1B26C7D200AD4513 /* CTSSignupState.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E1F89919C036EC00DC29AF /* CTSSignupState.m */; };
+		37D33BEC1B26C7D200AD4513 /* CTSPrepaidUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96471198F723E0021DC0B /* CTSPrepaidUpdate.m */; };
+		37D33BED1B26C7D200AD4513 /* CTSPgSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96486198F723E0021DC0B /* CTSPgSettings.m */; };
+		37D33BEE1B26C7D200AD4513 /* CTSPaymentRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96482198F723E0021DC0B /* CTSPaymentRes.m */; };
+		37D33BEF1B26C7D200AD4513 /* CTSBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AD31E91A1F3C6E005AAC3D /* CTSBill.m */; };
+		37D33BF01B26C7D200AD4513 /* CTSProfilePrepaidRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9648D198F723E0021DC0B /* CTSProfilePrepaidRes.m */; };
+		37D33BF21B26C7D200AD4513 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A61922458F005D29D4 /* CoreGraphics.framework */; };
+		37D33BF31B26C7D200AD4513 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A81922458F005D29D4 /* UIKit.framework */; };
+		37D33BF41B26C7D200AD4513 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A7C6A41922458F005D29D4 /* Foundation.framework */; };
+		37D33BF61B26C7D200AD4513 /* PrepaidViewControllerOld.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D33B9D1B26C77800AD4513 /* PrepaidViewControllerOld.xib */; };
+		37D33BF71B26C7D200AD4513 /* PrepaidViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 374DB9BB1B17228A00A16B8C /* PrepaidViewController.xib */; };
+		37D33BF81B26C7D200AD4513 /* SimpleStartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37AD31E51A1EFB01005AAC3D /* SimpleStartViewController.xib */; };
+		37D33BF91B26C7D200AD4513 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 375F30F2195BF24500F86149 /* .gitignore */; };
+		37D33BFA1B26C7D200AD4513 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6BC1922458F005D29D4 /* Images.xcassets */; };
+		37D33BFB1B26C7D200AD4513 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6AD1922458F005D29D4 /* InfoPlist.strings */; };
+		37D33BFC1B26C7D200AD4513 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6B61922458F005D29D4 /* Main.storyboard */; };
 		37D6E6601AB01BAD008C28C4 /* PrepaidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D6E65E1AB01BAD008C28C4 /* PrepaidViewController.m */; };
 		37D6E6641AB01E1A008C28C4 /* CTSTokenizedCardPayment.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9645E198F723E0021DC0B /* CTSTokenizedCardPayment.m */; };
 		37D6E6651AB01E1A008C28C4 /* CTSPaymentToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9645A198F723E0021DC0B /* CTSPaymentToken.m */; };
@@ -350,6 +441,11 @@
 		37C9CDEF1B0DAC92006C6F48 /* CTSResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSResponse.m; sourceTree = "<group>"; };
 		37CF28571B1491D80057984A /* PaymentWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentWebViewController.h; sourceTree = "<group>"; };
 		37CF28581B1491D80057984A /* PaymentWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentWebViewController.m; sourceTree = "<group>"; };
+		37D33B9B1B26C77800AD4513 /* PrepaidViewControllerOld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepaidViewControllerOld.h; sourceTree = "<group>"; };
+		37D33B9C1B26C77800AD4513 /* PrepaidViewControllerOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepaidViewControllerOld.m; sourceTree = "<group>"; };
+		37D33B9D1B26C77800AD4513 /* PrepaidViewControllerOld.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrepaidViewControllerOld.xib; sourceTree = "<group>"; };
+		37D33C011B26C7D200AD4513 /* Prepaid SDK copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Prepaid SDK copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		37D33C021B26C7D300AD4513 /* Prepaid SDK copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Prepaid SDK copy-Info.plist"; path = "/Users/yadnesh/Work/CitrusCode/iOSWorks/open-ios/Prepaid SDK copy-Info.plist"; sourceTree = "<absolute>"; };
 		37D6C210197CF8BD00F357FD /* CTSCoreProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCoreProtocol.h; sourceTree = "<group>"; };
 		37D6C211197D289300F357FD /* CTSOauthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSOauthManager.h; sourceTree = "<group>"; };
 		37D6C212197D289300F357FD /* CTSOauthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSOauthManager.m; sourceTree = "<group>"; };
@@ -378,6 +474,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		37D33BF11B26C7D200AD4513 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37D33BF21B26C7D200AD4513 /* CoreGraphics.framework in Frameworks */,
+				37D33BF31B26C7D200AD4513 /* UIKit.framework in Frameworks */,
+				37D33BF41B26C7D200AD4513 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		37D6E6A81AB01E1A008C28C4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -584,6 +690,7 @@
 				37A7C6A31922458F005D29D4 /* Frameworks */,
 				37A7C6A21922458F005D29D4 /* Products */,
 				37D6E6BA1AB01E1A008C28C4 /* Prepaid SDK.plist */,
+				37D33C021B26C7D300AD4513 /* Prepaid SDK copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -593,6 +700,7 @@
 				7692AB5B19FFA247004D56EC /* CTS iOS GUISdk.app */,
 				37D6E6B91AB01E1A008C28C4 /* Prepaid SDK.app */,
 				76C2C1B21B0F446200DA5DC7 /* CTS iOS GUISdk Tests.xctest */,
+				37D33C011B26C7D200AD4513 /* Prepaid SDK copy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -828,6 +936,9 @@
 			isa = PBXGroup;
 			children = (
 				3723D1571948371B00C50FA5 /* TestParams.h */,
+				37D33B9B1B26C77800AD4513 /* PrepaidViewControllerOld.h */,
+				37D33B9C1B26C77800AD4513 /* PrepaidViewControllerOld.m */,
+				37D33B9D1B26C77800AD4513 /* PrepaidViewControllerOld.xib */,
 				37AD31E31A1EFB01005AAC3D /* SimpleStartViewController.h */,
 				37AD31E41A1EFB01005AAC3D /* SimpleStartViewController.m */,
 				37AD31E51A1EFB01005AAC3D /* SimpleStartViewController.xib */,
@@ -867,6 +978,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		37D33BA21B26C7D200AD4513 /* Prepaid SDK Old */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 37D33BFE1B26C7D200AD4513 /* Build configuration list for PBXNativeTarget "Prepaid SDK Old" */;
+			buildPhases = (
+				37D33BA31B26C7D200AD4513 /* Sources */,
+				37D33BF11B26C7D200AD4513 /* Frameworks */,
+				37D33BF51B26C7D200AD4513 /* Resources */,
+				37D33BFD1B26C7D200AD4513 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Prepaid SDK Old";
+			productName = RestFulltester;
+			productReference = 37D33C011B26C7D200AD4513 /* Prepaid SDK copy.app */;
+			productType = "com.apple.product-type.application";
+		};
 		37D6E6621AB01E1A008C28C4 /* Prepaid SDK */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 37D6E6B61AB01E1A008C28C4 /* Build configuration list for PBXNativeTarget "Prepaid SDK" */;
@@ -954,16 +1083,32 @@
 			targets = (
 				7692AAE819FFA247004D56EC /* Bind SDK */,
 				37D6E6621AB01E1A008C28C4 /* Prepaid SDK */,
+				37D33BA21B26C7D200AD4513 /* Prepaid SDK Old */,
 				76C2C1B11B0F446200DA5DC7 /* CTS iOS GUISdk Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		37D33BF51B26C7D200AD4513 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37D33BF61B26C7D200AD4513 /* PrepaidViewControllerOld.xib in Resources */,
+				37D33BF71B26C7D200AD4513 /* PrepaidViewController.xib in Resources */,
+				37D33BF81B26C7D200AD4513 /* SimpleStartViewController.xib in Resources */,
+				37D33BF91B26C7D200AD4513 /* .gitignore in Resources */,
+				37D33BFA1B26C7D200AD4513 /* Images.xcassets in Resources */,
+				37D33BFB1B26C7D200AD4513 /* InfoPlist.strings in Resources */,
+				37D33BFC1B26C7D200AD4513 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		37D6E6AC1AB01E1A008C28C4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37D33BA11B26C77800AD4513 /* PrepaidViewControllerOld.xib in Resources */,
 				374DB9BD1B17228A00A16B8C /* PrepaidViewController.xib in Resources */,
 				37D6E6AE1AB01E1A008C28C4 /* SimpleStartViewController.xib in Resources */,
 				37D6E6AF1AB01E1A008C28C4 /* .gitignore in Resources */,
@@ -977,6 +1122,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37D33BA01B26C77800AD4513 /* PrepaidViewControllerOld.xib in Resources */,
 				374DB9BC1B17228A00A16B8C /* PrepaidViewController.xib in Resources */,
 				37AD31E71A1EFB01005AAC3D /* SimpleStartViewController.xib in Resources */,
 				7692AB4119FFA247004D56EC /* .gitignore in Resources */,
@@ -996,6 +1142,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		37D33BFD1B26C7D200AD4513 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
 		37D6E6B51AB01E1A008C28C4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1025,6 +1184,90 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		37D33BA31B26C7D200AD4513 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37D33BA41B26C7D200AD4513 /* CTSTokenizedCardPayment.m in Sources */,
+				37D33BA51B26C7D200AD4513 /* CTSPaymentToken.m in Sources */,
+				37D33BA61B26C7D200AD4513 /* CTSUserAddress.m in Sources */,
+				37D33BA71B26C7D200AD4513 /* UIUtility.m in Sources */,
+				37D33BA81B26C7D200AD4513 /* CTSError.m in Sources */,
+				37D33BA91B26C7D200AD4513 /* CTSOauthManager.m in Sources */,
+				37D33BAA1B26C7D200AD4513 /* PrepaidViewController.m in Sources */,
+				37D33BAB1B26C7D200AD4513 /* CTSResponse.m in Sources */,
+				37D33BAC1B26C7D200AD4513 /* CTSGetBalanceRes.m in Sources */,
+				37D33BAD1B26C7D200AD4513 /* AppDelegate.m in Sources */,
+				37D33BAE1B26C7D200AD4513 /* CTSAmount.m in Sources */,
+				37D33BAF1B26C7D200AD4513 /* JSONModelError.m in Sources */,
+				37D33BB01B26C7D200AD4513 /* CTSProfilePaymentRes.m in Sources */,
+				37D33BB11B26C7D200AD4513 /* CTSDebitCardOption.m in Sources */,
+				37D33BB21B26C7D200AD4513 /* CTSSignUpRes.m in Sources */,
+				37D33BB31B26C7D200AD4513 /* CTSGuestCheckout.m in Sources */,
+				37D33BB41B26C7D200AD4513 /* CTSElectronicCardUpdate.m in Sources */,
+				37D33BB51B26C7D200AD4513 /* CTSRestPluginBase.m in Sources */,
+				37D33BB61B26C7D200AD4513 /* NSArray+JSONModel.m in Sources */,
+				37D33BB71B26C7D200AD4513 /* CTSNetbankingOption.m in Sources */,
+				37D33BB81B26C7D200AD4513 /* CTSPaymentMode.m in Sources */,
+				37D33BB91B26C7D200AD4513 /* SimpleStartViewController.m in Sources */,
+				37D33BBA1B26C7D200AD4513 /* CTSCreditCardOption.m in Sources */,
+				37D33BBB1B26C7D200AD4513 /* JSONModel+CoreData.m in Sources */,
+				37D33BBC1B26C7D200AD4513 /* CTSObject.m in Sources */,
+				37D33BBD1B26C7D200AD4513 /* CTSNewContactProfile.m in Sources */,
+				37D33BBE1B26C7D200AD4513 /* CreditCard-Validator.m in Sources */,
+				37D33BBF1B26C7D200AD4513 /* CTSAuthLayer.m in Sources */,
+				37D33BC01B26C7D200AD4513 /* JSONValueTransformer.m in Sources */,
+				37D33BC11B26C7D200AD4513 /* CTSCashoutBankAccountResp.m in Sources */,
+				37D33BC21B26C7D200AD4513 /* CTSPaymentNetbankingRequest.m in Sources */,
+				37D33BC31B26C7D200AD4513 /* CTSPaymentOption.m in Sources */,
+				37D33BC41B26C7D200AD4513 /* CTSUtility.m in Sources */,
+				37D33BC51B26C7D200AD4513 /* CTSLinkRes.m in Sources */,
+				37D33BC61B26C7D200AD4513 /* CTSRestCore.m in Sources */,
+				37D33BC71B26C7D200AD4513 /* CTSNewResponseDataProfile.m in Sources */,
+				37D33BC81B26C7D200AD4513 /* ServerSignature.m in Sources */,
+				37D33BC91B26C7D200AD4513 /* CTSRestObject.m in Sources */,
+				37D33BCA1B26C7D200AD4513 /* NSObject+logProperties.m in Sources */,
+				37D33BCB1B26C7D200AD4513 /* CTSProfileLayer.m in Sources */,
+				37D33BCC1B26C7D200AD4513 /* CTSProfileContactNewRes.m in Sources */,
+				37D33BCD1B26C7D200AD4513 /* CTSCashoutToBankRes.m in Sources */,
+				37D33BCE1B26C7D200AD4513 /* CTSCashoutBankAccount.m in Sources */,
+				37D33BCF1B26C7D200AD4513 /* CTSPaymentUpdate.m in Sources */,
+				37D33BD01B26C7D200AD4513 /* CTSOauthTokenRes.m in Sources */,
+				37D33BD11B26C7D200AD4513 /* CTSPaymentLayer.m in Sources */,
+				37D33BD21B26C7D200AD4513 /* CTSProfileContactRes.m in Sources */,
+				37D33BD31B26C7D200AD4513 /* CTSPrepaidBill.m in Sources */,
+				37D33BD41B26C7D200AD4513 /* CTSNewUserProfileReq.m in Sources */,
+				37D33BD51B26C7D200AD4513 /* CTSRestCoreRequest.m in Sources */,
+				37D33BD61B26C7D200AD4513 /* CTSNetBankingUpdate.m in Sources */,
+				37D33BD71B26C7D200AD4513 /* CTSLinkUserRes.m in Sources */,
+				37D33BD81B26C7D200AD4513 /* CTSPaymentTransactionRes.m in Sources */,
+				37D33BD91B26C7D200AD4513 /* CTSTokenizedPaymentToken.m in Sources */,
+				37D33BDA1B26C7D200AD4513 /* JSONKeyMapper.m in Sources */,
+				37D33BDB1B26C7D200AD4513 /* CTSTokenizedPayment.m in Sources */,
+				37D33BDC1B26C7D200AD4513 /* main.m in Sources */,
+				37D33BDD1B26C7D200AD4513 /* OauthStatus.m in Sources */,
+				37D33BDE1B26C7D200AD4513 /* JSONModelArray.m in Sources */,
+				37D33BDF1B26C7D200AD4513 /* CTSContactUpdate.m in Sources */,
+				37D33BE01B26C7D200AD4513 /* PaymentWebViewController.m in Sources */,
+				37D33BE11B26C7D200AD4513 /* CTSPaymentDetailUpdate.m in Sources */,
+				37D33BE21B26C7D200AD4513 /* PrepaidViewControllerOld.m in Sources */,
+				37D33BE31B26C7D200AD4513 /* CTSRestCoreResponse.m in Sources */,
+				37D33BE41B26C7D200AD4513 /* CTSPaymentRequest.m in Sources */,
+				37D33BE51B26C7D200AD4513 /* JSONModelClassProperty.m in Sources */,
+				37D33BE61B26C7D200AD4513 /* JSONModel.m in Sources */,
+				37D33BE71B26C7D200AD4513 /* CTSRestError.m in Sources */,
+				37D33BE81B26C7D200AD4513 /* GetProfileRes.m in Sources */,
+				37D33BE91B26C7D200AD4513 /* CTSUserDetails.m in Sources */,
+				37D33BEA1B26C7D200AD4513 /* CitrusCashRes.m in Sources */,
+				37D33BEB1B26C7D200AD4513 /* CTSSignupState.m in Sources */,
+				37D33BEC1B26C7D200AD4513 /* CTSPrepaidUpdate.m in Sources */,
+				37D33BED1B26C7D200AD4513 /* CTSPgSettings.m in Sources */,
+				37D33BEE1B26C7D200AD4513 /* CTSPaymentRes.m in Sources */,
+				37D33BEF1B26C7D200AD4513 /* CTSBill.m in Sources */,
+				37D33BF01B26C7D200AD4513 /* CTSProfilePrepaidRes.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		37D6E6631AB01E1A008C28C4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1091,6 +1334,7 @@
 				37D6E6981AB01E1A008C28C4 /* CTSContactUpdate.m in Sources */,
 				37CF285B1B1491D80057984A /* PaymentWebViewController.m in Sources */,
 				37D6E6991AB01E1A008C28C4 /* CTSPaymentDetailUpdate.m in Sources */,
+				37D33B9F1B26C77800AD4513 /* PrepaidViewControllerOld.m in Sources */,
 				37D6E69A1AB01E1A008C28C4 /* CTSRestCoreResponse.m in Sources */,
 				37D6E69B1AB01E1A008C28C4 /* CTSPaymentRequest.m in Sources */,
 				37D6E69C1AB01E1A008C28C4 /* JSONModelClassProperty.m in Sources */,
@@ -1174,6 +1418,7 @@
 				7692AB2319FFA247004D56EC /* CTSContactUpdate.m in Sources */,
 				37CF28591B1491D80057984A /* PaymentWebViewController.m in Sources */,
 				7692AB2419FFA247004D56EC /* CTSPaymentDetailUpdate.m in Sources */,
+				37D33B9E1B26C77800AD4513 /* PrepaidViewControllerOld.m in Sources */,
 				7692AB2519FFA247004D56EC /* CTSRestCoreResponse.m in Sources */,
 				7692AB2619FFA247004D56EC /* CTSPaymentRequest.m in Sources */,
 				7692AB2719FFA247004D56EC /* JSONModelClassProperty.m in Sources */,
@@ -1308,6 +1553,72 @@
 				PROVISIONING_PROFILE = "8f589018-f796-42e3-b0b5-18e0e73f8818";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		37D33BFF1B26C7D200AD4513 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jayamala Wankhede (9G6MVBS9S7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jayamala Wankhede (9G6MVBS9S7)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"Prepaid_SDK_OLD=1",
+				);
+				INFOPLIST_FILE = "Prepaid SDK copy-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CFNetwork,
+					"-framework",
+					CoreData,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+				);
+				PRODUCT_NAME = "Prepaid SDK copy";
+				PROVISIONING_PROFILE = "8f589018-f796-42e3-b0b5-18e0e73f8818";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		37D33C001B26C7D200AD4513 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
+				INFOPLIST_FILE = "Prepaid SDK copy-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CFNetwork,
+					"-framework",
+					CoreData,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+				);
+				PRODUCT_NAME = "Prepaid SDK copy";
+				PROVISIONING_PROFILE = "8f589018-f796-42e3-b0b5-18e0e73f8818";
+				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
@@ -1498,6 +1809,15 @@
 			buildConfigurations = (
 				37A7C6D11922458F005D29D4 /* Debug */,
 				37A7C6D21922458F005D29D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		37D33BFE1B26C7D200AD4513 /* Build configuration list for PBXNativeTarget "Prepaid SDK Old" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37D33BFF1B26C7D200AD4513 /* Debug */,
+				37D33C001B26C7D200AD4513 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

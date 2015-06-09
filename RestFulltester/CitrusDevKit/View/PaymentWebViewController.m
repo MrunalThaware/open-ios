@@ -40,7 +40,7 @@
     self.webview = [[UIWebView alloc] init];
     self.webview.delegate = self;
     self.webview.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    self.webview.backgroundColor = [UIColor redColor];
+    self.webview.backgroundColor = [UIColor orangeColor];
     indicator = [[UIActivityIndicatorView alloc]
                  initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     indicator.frame = CGRectMake(160, 300, 30, 30);
