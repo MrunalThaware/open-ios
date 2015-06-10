@@ -10,20 +10,13 @@
 #define RestFulltester_TestParams_h
 
 // TestParams.h should be populated according to your needs
-//Sadbox
-#define TEST_EMAIL @"yaddyboy100@mailinator.com"
-#define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9702964502" // this is dummy test mobile number
 
-//#define TEST_EMAIL @"abhishek.sinha2131@mailinator.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9014360952"
-
-//#define TEST_EMAIL @"YaddyBoy12@mailinator.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9702964502"
 
 #warning Enter your live mobile number to get OTP so you can able to SignIn
+
+#define TEST_EMAIL @"YaddyBoy@mailinator.com"
+#define TEST_PASSWORD @"tester@123"
+#define TEST_MOBILE @"<MOBILE>" // this is dummy test mobile number
 
 
 #define TEST_FIRST_NAME @"test"

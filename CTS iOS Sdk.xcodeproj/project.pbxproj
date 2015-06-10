@@ -228,6 +228,10 @@
 		37D33C711B28073800AD4513 /* WebViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D33C0E1B2803B500AD4513 /* WebViewViewController.xib */; };
 		37D33C721B28073800AD4513 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6AD1922458F005D29D4 /* InfoPlist.strings */; };
 		37D33C731B28073800AD4513 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6B61922458F005D29D4 /* Main.storyboard */; };
+		37D33C7C1B283B1B00AD4513 /* PayLoadWebviewDto.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D33C7B1B283B1B00AD4513 /* PayLoadWebviewDto.m */; };
+		37D33C7D1B283B1B00AD4513 /* PayLoadWebviewDto.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D33C7B1B283B1B00AD4513 /* PayLoadWebviewDto.m */; };
+		37D33C7E1B283B1B00AD4513 /* PayLoadWebviewDto.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D33C7B1B283B1B00AD4513 /* PayLoadWebviewDto.m */; };
+		37D33C7F1B283B1B00AD4513 /* PayLoadWebviewDto.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D33C7B1B283B1B00AD4513 /* PayLoadWebviewDto.m */; };
 		37D6E6601AB01BAD008C28C4 /* PrepaidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D6E65E1AB01BAD008C28C4 /* PrepaidViewController.m */; };
 		37D6E6641AB01E1A008C28C4 /* CTSTokenizedCardPayment.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9645E198F723E0021DC0B /* CTSTokenizedCardPayment.m */; };
 		37D6E6651AB01E1A008C28C4 /* CTSPaymentToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9645A198F723E0021DC0B /* CTSPaymentToken.m */; };
@@ -557,6 +561,8 @@
 		37D33C0E1B2803B500AD4513 /* WebViewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewViewController.xib; sourceTree = "<group>"; };
 		37D33C781B28073800AD4513 /* Prepaid SDK Old copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Prepaid SDK Old copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37D33C791B28073800AD4513 /* Prepaid SDK Old copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Prepaid SDK Old copy-Info.plist"; path = "/Users/yadnesh/Work/CitrusCode/iOSWorks/open-ios/Prepaid SDK Old copy-Info.plist"; sourceTree = "<absolute>"; };
+		37D33C7A1B283B1B00AD4513 /* PayLoadWebviewDto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayLoadWebviewDto.h; sourceTree = "<group>"; };
+		37D33C7B1B283B1B00AD4513 /* PayLoadWebviewDto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayLoadWebviewDto.m; sourceTree = "<group>"; };
 		37D6C210197CF8BD00F357FD /* CTSCoreProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCoreProtocol.h; sourceTree = "<group>"; };
 		37D6C211197D289300F357FD /* CTSOauthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSOauthManager.h; sourceTree = "<group>"; };
 		37D6C212197D289300F357FD /* CTSOauthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSOauthManager.m; sourceTree = "<group>"; };
@@ -1041,6 +1047,8 @@
 			children = (
 				37E1F89819C036EC00DC29AF /* CTSSignupState.h */,
 				37E1F89919C036EC00DC29AF /* CTSSignupState.m */,
+				37D33C7A1B283B1B00AD4513 /* PayLoadWebviewDto.h */,
+				37D33C7B1B283B1B00AD4513 /* PayLoadWebviewDto.m */,
 			);
 			path = dto;
 			sourceTree = "<group>";
@@ -1379,6 +1387,7 @@
 				37D33BA91B26C7D200AD4513 /* CTSOauthManager.m in Sources */,
 				37D33BAA1B26C7D200AD4513 /* PrepaidViewController.m in Sources */,
 				37D33BAB1B26C7D200AD4513 /* CTSResponse.m in Sources */,
+				37D33C7E1B283B1B00AD4513 /* PayLoadWebviewDto.m in Sources */,
 				37D33BAC1B26C7D200AD4513 /* CTSGetBalanceRes.m in Sources */,
 				37D33BAD1B26C7D200AD4513 /* AppDelegate.m in Sources */,
 				37D33BAE1B26C7D200AD4513 /* CTSAmount.m in Sources */,
@@ -1465,6 +1474,7 @@
 				37D33C1C1B28073800AD4513 /* CTSOauthManager.m in Sources */,
 				37D33C1D1B28073800AD4513 /* PrepaidViewController.m in Sources */,
 				37D33C1E1B28073800AD4513 /* CTSResponse.m in Sources */,
+				37D33C7F1B283B1B00AD4513 /* PayLoadWebviewDto.m in Sources */,
 				37D33C1F1B28073800AD4513 /* CTSGetBalanceRes.m in Sources */,
 				37D33C201B28073800AD4513 /* AppDelegate.m in Sources */,
 				37D33C211B28073800AD4513 /* CTSAmount.m in Sources */,
@@ -1551,6 +1561,7 @@
 				37D6E6691AB01E1A008C28C4 /* CTSOauthManager.m in Sources */,
 				37D6E66A1AB01E1A008C28C4 /* PrepaidViewController.m in Sources */,
 				37C9CDF21B0DAC92006C6F48 /* CTSResponse.m in Sources */,
+				37D33C7D1B283B1B00AD4513 /* PayLoadWebviewDto.m in Sources */,
 				37D6E66C1AB01E1A008C28C4 /* CTSGetBalanceRes.m in Sources */,
 				37D6E66D1AB01E1A008C28C4 /* AppDelegate.m in Sources */,
 				37D6E66E1AB01E1A008C28C4 /* CTSAmount.m in Sources */,
@@ -1637,6 +1648,7 @@
 				7692AAF119FFA247004D56EC /* CTSOauthManager.m in Sources */,
 				37D6E6601AB01BAD008C28C4 /* PrepaidViewController.m in Sources */,
 				37C9CDF01B0DAC92006C6F48 /* CTSResponse.m in Sources */,
+				37D33C7C1B283B1B00AD4513 /* PayLoadWebviewDto.m in Sources */,
 				378D711D1A84939400A6FD36 /* CTSGetBalanceRes.m in Sources */,
 				7692AAF319FFA247004D56EC /* AppDelegate.m in Sources */,
 				7692AAF419FFA247004D56EC /* CTSAmount.m in Sources */,

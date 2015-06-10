@@ -31,6 +31,7 @@
 #import "MerchantConstants.h"
 #import "CTSUserAddress.h"
 #import "CTSCashoutToBankRes.h"
+#import "PayLoadWebviewDto.h"
 //#import "WebViewViewController.h"
 //#import "UIUtility.h"
 @interface CTSPaymentLayer ()
@@ -561,6 +562,8 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                 // Your code to handle success.
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (hasSuccess && error.code != ServerErrorWithCode) {
+                        //[self loadPaymentWebview:<#(PayLoadWebviewDto *)#>];
+                        
                         [self loadPaymentWebview:paymentInfo.redirectUrl reqId:PaymentChargeInnerWebLoadMoneyReqId returnUrl:returnUrl];
                     }else{
                         [self chargeLoadMoneyInnerWebviewHelper:nil error:[CTSError convertToError:paymentInfo]];
@@ -1127,7 +1130,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 
 
 -(void)loadPaymentWebview:(NSString *)url reqId:(int)reqId returnUrl:(NSString *)returnUrl{
-        dispatch_async(dispatch_get_main_queue(), ^{
+        //dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@" loadPaymentWebview ");
             LogThread
         if(paymentWebViewController != nil){
@@ -1141,7 +1144,24 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
         paymentWebViewController.returnUrl = returnUrl ;
         NSLog(@"citrusCashBackViewController.navigationController %@",citrusCashBackViewController.navigationController);
         [citrusCashBackViewController.navigationController pushViewController:paymentWebViewController animated:YES];
-    });
+   // });
+}
+
+
+-(void)loadPaymentWebview:(PayLoadWebviewDto *)loadWebview{
+        NSLog(@" loadPaymentWebview ");
+        LogThread
+        if(paymentWebViewController != nil){
+            [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
+            [paymentWebViewController finishWebView];
+        }
+        paymentWebViewController = [[PaymentWebViewController alloc] init];
+        [self addObserver:self forKeyPath:@"paymentWebViewController.response" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+        paymentWebViewController.redirectURL = loadWebview.url;
+        paymentWebViewController.reqId = loadWebview.reqId;
+        paymentWebViewController.returnUrl = loadWebview.returnUrl ;
+        NSLog(@"citrusCashBackViewController.navigationController %@",citrusCashBackViewController.navigationController);
+        [citrusCashBackViewController.navigationController pushViewController:paymentWebViewController animated:YES];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
