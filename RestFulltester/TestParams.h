@@ -11,13 +11,13 @@
 
 // TestParams.h should be populated according to your needs
 //Sadbox
-//#define TEST_EMAIL @"yaddyboy100@mailinator.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"9702964502" // this is dummy test mobile number
-
-#define TEST_EMAIL @"abhishek.sinha2131@mailinator.com"
+#define TEST_EMAIL @"yaddyboy100@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9014360952"
+#define TEST_MOBILE @"9702964502" // this is dummy test mobile number
+
+//#define TEST_EMAIL @"abhishek.sinha2131@mailinator.com"
+//#define TEST_PASSWORD @"tester@123"
+//#define TEST_MOBILE @"9014360952"
 
 //#define TEST_EMAIL @"YaddyBoy12@mailinator.com"
 //#define TEST_PASSWORD @"tester@123"
