@@ -10,6 +10,7 @@
 #import "SimpleStartViewController.h"
 #import "PrepaidViewController.h"
 #import "PrepaidViewControllerOld.h"
+#import "PrepaidViewControllerOld2.h"
 
 @implementation AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
@@ -21,11 +22,12 @@
     SimpleStartViewController *viewController = [[SimpleStartViewController alloc] initWithNibName:@"SimpleStartViewController" bundle:nil];
 #elif defined (Prepaid_SDK)
     PrepaidViewController *viewController = [[PrepaidViewController alloc] initWithNibName:@"PrepaidViewController" bundle:nil];
-    
 #elif defined (Prepaid_SDK_OLD)
     PrepaidViewControllerOld *viewController = [[PrepaidViewControllerOld alloc] initWithNibName:@"PrepaidViewControllerOld" bundle:nil];
-
+#elif defined (Prepaid_SDK_OLD2)
+    PrepaidViewControllerOld2 *viewController = [[PrepaidViewControllerOld2 alloc] initWithNibName:@"PrepaidViewControllerOld2" bundle:nil];
 #endif
+    
     
     // add into nav contoller
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:viewController];
