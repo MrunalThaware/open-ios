@@ -17,6 +17,7 @@
 #import "CTSCashoutBankAccountResp.h"
 #import "CTSCashoutBankAccount.h"
 #import "CTSNewContactProfile.h"
+
 @class CTSProfileLayer;
 @protocol CTSProfileProtocol
 /**
@@ -95,12 +96,18 @@ typedef void (^ASGetPaymentInfoCallBack)(CTSProfilePaymentRes* paymentInfo,
 typedef void (^ASUpdatePaymentInfoCallBack)(NSError* error);
 
 typedef void (^ASUpdateContactInfoCallBack)(NSError* error);
+
 typedef void (^ASGetBalanceCallBack)(CTSAmount *amount, NSError* error);
+
 typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
+
 typedef void (^ASUpdateCashoutBankAccountCallback)( NSError* error);
+
 typedef void (^ASGetCashoutBankAccountCallback)(CTSCashoutBankAccountResp *bankAccount, NSError* error);
+
 typedef void (^ASNewContactProfileCallback)(CTSNewContactProfile* profile, NSError*error);
 
+typedef void (^ASUpdateMobileNumberCallback)(NSError* error);
 
 
 
@@ -141,7 +148,17 @@ typedef void (^ASNewContactProfileCallback)(CTSNewContactProfile* profile, NSErr
 
 - (void)requestUpdateCashoutBankAccount:(CTSCashoutBankAccount*)bankAccount
            withCompletionHandler:(ASUpdateCashoutBankAccountCallback)callback;
+
 -(void)requestCashoutBankAccountCompletionHandler:(ASGetCashoutBankAccountCallback)callback;
+
 -(void)requestMemberInfoMobile:(NSString *)mobile email:(NSString *)email withCompletionHandler:(ASNewContactProfileCallback)callback;
+
+/**
+ @brief            update mobile number.
+ @param mobile     Set update mobile number.
+ @param callback   Set success/failure callBack.
+ @details          Use this method For update new mobile number.
+ */
+- (void)requestUpdateMobile:(NSString *)mobileNumber WithCompletionHandler:(ASUpdateMobileNumberCallback)callback;
 
 @end

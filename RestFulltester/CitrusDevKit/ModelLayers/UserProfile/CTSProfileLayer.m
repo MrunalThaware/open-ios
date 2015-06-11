@@ -19,44 +19,38 @@
 
 @implementation CTSProfileLayer
 @synthesize delegate;
+
 enum {
-  ProfileGetContactReqId,
-  ProfileUpdateContactReqId,
-  ProfileGetPaymentReqId,
-  ProfileUpdatePaymentReqId,
+    ProfileGetContactReqId,
+    ProfileUpdateContactReqId,
+    ProfileGetPaymentReqId,
+    ProfileUpdatePaymentReqId,
     ProfileGetBalanceReqId,
     ProfileActivatePrepaidAccountReqId,
     ProfileUpdateCashoutBankAccountReqId,
     ProfileGetCashoutBankAccountReqId,
-    ProfileGetNewProfileReqId
-
-
+    ProfileGetNewProfileReqId,
+    ProfileUpdateMobileRequestId
 };
 
 - (instancetype)init {
-  NSDictionary* dic = @{
-    toNSString(ProfileGetContactReqId) : toSelector(handleReqProfileGetContact
-                                                    :),
-    toNSString(ProfileUpdateContactReqId) :
-        toSelector(handleProfileUpdateContact
-                   :),
-    toNSString(ProfileGetPaymentReqId) : toSelector(handleProfileGetPayment
-                                                    :),
-    toNSString(ProfileUpdatePaymentReqId) :
-        toSelector(handleProfileUpdatePayment
-                   :),
-    toNSString(ProfileGetBalanceReqId):toSelector(handleProfileGetBanlance:),
-        toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:),
-    toNSString(ProfileUpdateCashoutBankAccountReqId):toSelector(handleUpdateCashoutAccount:),
-    toNSString(ProfileGetCashoutBankAccountReqId):toSelector(handleGetCashoutBankAccount:),
-    toNSString(ProfileGetNewProfileReqId):toSelector(handleGetNewContactProfile:)
+    NSDictionary* dic = @{
+                          toNSString(ProfileGetContactReqId) : toSelector(handleReqProfileGetContact:),
+                          toNSString(ProfileUpdateContactReqId) : toSelector(handleProfileUpdateContact:),
+                          toNSString(ProfileGetPaymentReqId) : toSelector(handleProfileGetPayment:),
+                          toNSString(ProfileUpdatePaymentReqId) : toSelector(handleProfileUpdatePayment:),
+                          toNSString(ProfileGetBalanceReqId) : toSelector(handleProfileGetBanlance:),
+                          toNSString(ProfileActivatePrepaidAccountReqId) : toSelector(handleActivatePrepaidAccount:),
+                          toNSString(ProfileUpdateCashoutBankAccountReqId) : toSelector(handleUpdateCashoutAccount:),
+                          toNSString(ProfileGetCashoutBankAccountReqId) : toSelector(handleGetCashoutBankAccount:),
+                          toNSString(ProfileGetNewProfileReqId) : toSelector(handleGetNewContactProfile:),
+                          toNSString(ProfileUpdateMobileRequestId) : toSelector(handleProfileMobileUpdate:)
+                          };
     
-  };
-
-  self = [super initWithRequestSelectorMapping:dic
-                                       baseUrl:CITRUS_PROFILE_BASE_URL];
-
-  return self;
+    self = [super initWithRequestSelectorMapping:dic
+                                         baseUrl:CITRUS_PROFILE_BASE_URL];
+    
+    return self;
 }
 
 #pragma mark - class methods
@@ -346,6 +340,34 @@ enum {
     
 }
 
+// update mobile number
+- (void)requestUpdateMobile:(NSString *)mobileNumber WithCompletionHandler:(ASUpdateMobileNumberCallback)callback{
+    [self addCallback:callback forRequestId:ProfileUpdateMobileRequestId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthToken = oauthStatus.oauthToken;
+    }
+    
+    if (oauthStatus.error != nil || oauthToken == nil) {
+        [self updateMobileHelper:oauthStatus.error];
+    }
+
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_UPDATE_MOBILE_PATH
+                                   requestId:ProfileUpdateMobileRequestId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:@{MLC_PROFILE_UPDATE_MOBILE_QUERY_MOBILE:mobileNumber}
+                                   json:nil
+                                   httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+}
+
 
 
 #pragma mark - response handlers methods
@@ -452,6 +474,11 @@ enum {
     
     [self getNewContactProfileHelper:profile error:error];
     
+}
+
+
+- (void)handleProfileMobileUpdate:(CTSRestCoreResponse*)response {
+    [self updateMobileHelper:response.error];
 }
 
 #pragma mark - helper methods
@@ -563,4 +590,13 @@ enum {
         [delegate profile:self didGetNewProfile:profile error:error];
     }
 }
+
+
+-(void)updateMobileHelper:(NSError *)error{
+    ASUpdateContactInfoCallBack callback = [self retrieveAndRemoveCallbackForReqId:ProfileUpdateMobileRequestId];
+    if (callback != nil) {
+        callback(error);
+    }
+}
+
 @end

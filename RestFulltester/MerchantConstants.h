@@ -20,13 +20,11 @@
 #define SignInSecretKey @"bd63aa06f797f73966f4bcaa4bba00fe"
 #define SubscriptionId @"test-signup"
 #define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
-//
-//// URLs
+
+// URLs
 #define VanityUrl @"nativeSDK"
 #define ReturnUrl @"http://localhost:8888/redirectURL.php"
 #define BillUrl @"http://localhost:8888/billGenerator.php"
 #define BaseUrl @"https://sandboxadmin.citruspay.com"
-
-
 
 #endif

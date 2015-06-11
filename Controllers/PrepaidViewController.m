@@ -22,7 +22,9 @@
     [self initializeLayers];
     self.title = @"Citrus iOS Native SDK";
     
-    LogTrace(@"[authLayer requestSignInOauthToken]:%@", [authLayer requestSignInOauthToken]);
+//    LogTrace(@"[authLayer requestSignInOauthToken]:%@", [authLayer requestSignInOauthToken]);
+    
+//    [self requestUpdateMobileNumber];
 
 }
 
@@ -156,6 +158,19 @@
         }
     }];
 }
+
+
+-(void)requestUpdateMobileNumber{
+    [proifleLayer requestUpdateMobile:TEST_MOBILE WithCompletionHandler:^(NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:@"Mobile Number updated successfully"];
+        }
+    }];
+}
+
 
 
 -(IBAction)signin:(id)sender{
