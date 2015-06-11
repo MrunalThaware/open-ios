@@ -18,8 +18,8 @@
 // Keys
 #define SignInId @"citrus-cube-mobile-app"
 #define SignInSecretKey @"bd63aa06f797f73966f4bcaa4bba00fe"
-#define SubscriptionId @"test-signup"
-#define SubscriptionSecretKey @"c78ec84e389814a05d3ae46546d16d2e"
+#define SubscriptionId @"citrus-native-mobile-subscription"
+#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
 
 // URLs
 #define VanityUrl @"nativeSDK"

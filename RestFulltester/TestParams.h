@@ -13,12 +13,19 @@
 
 
 
-#define TEST_EMAIL @"YaddyBoy@mailinator.com"
+
+#define TEST_EMAIL @"abhishek.sinha@gmail.com"
 #define TEST_PASSWORD @"tester@123"
+#define TEST_MOBILE @"9700306263"
+
 
 #warning Enter your live mobile number to get OTP so you can SignIn
-
-#define TEST_MOBILE @"<MOBILE>"
+//
+//#define TEST_EMAIL @"YaddyBoy@mailinator.com"
+//#define TEST_PASSWORD @"tester@123"
+//
+//
+//#define TEST_MOBILE @"<MOBILE>"
 
 
 #define TEST_FIRST_NAME @"test"

@@ -791,7 +791,7 @@
                     }else{
                         //do link for wallet access
                         [self requestBindSignin:user.email completionHandler:^(NSError *error) {
-                            [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusMotpSigIn entity:profile.responseData.profileByEmail.email] error:nil];
+                            [self linkHelper:[[CTSLinkRes alloc] initWith:LinkUserStatusEotpSignIn entity:profile.responseData.profileByEmail.email] error:nil];
                         }];
 
                     }
