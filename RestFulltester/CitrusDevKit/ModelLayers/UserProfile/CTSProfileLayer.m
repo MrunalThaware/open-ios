@@ -344,6 +344,13 @@ enum {
 - (void)requestUpdateMobile:(NSString *)mobileNumber WithCompletionHandler:(ASUpdateMobileNumberCallback)callback{
     [self addCallback:callback forRequestId:ProfileUpdateMobileRequestId];
     
+    
+    mobileNumber = [CTSUtility mobileNumberToTenDigitIfValid:mobileNumber];
+    if (![CTSUtility validateMobile:mobileNumber]) {
+        [self updateMobileHelper:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
     OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
@@ -356,6 +363,10 @@ enum {
         [self updateMobileHelper:oauthStatus.error];
     }
 
+    
+    
+    
+    
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_PROFILE_UPDATE_MOBILE_PATH
