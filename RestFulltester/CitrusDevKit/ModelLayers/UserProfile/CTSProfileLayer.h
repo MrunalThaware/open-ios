@@ -17,6 +17,7 @@
 #import "CTSCashoutBankAccountResp.h"
 #import "CTSCashoutBankAccount.h"
 #import "CTSNewContactProfile.h"
+#import "CTSUpdateMobileNumberRes.h"
 
 @class CTSProfileLayer;
 @protocol CTSProfileProtocol
@@ -107,8 +108,7 @@ typedef void (^ASGetCashoutBankAccountCallback)(CTSCashoutBankAccountResp *bankA
 
 typedef void (^ASNewContactProfileCallback)(CTSNewContactProfile* profile, NSError*error);
 
-typedef void (^ASUpdateMobileNumberCallback)(NSError* error);
-
+typedef void (^ASUpdateMobileNumberCallback)(CTSUpdateMobileNumberRes *updateMobileNumber, NSError* error);
 
 
 /**

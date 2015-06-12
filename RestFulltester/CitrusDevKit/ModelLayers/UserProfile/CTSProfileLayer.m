@@ -347,7 +347,7 @@ enum {
     
     mobileNumber = [CTSUtility mobileNumberToTenDigitIfValid:mobileNumber];
     if (![CTSUtility validateMobile:mobileNumber]) {
-        [self updateMobileHelper:[CTSError getErrorForCode:MobileNotValid]];
+        [self updateMobileHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }
     
@@ -360,13 +360,8 @@ enum {
     }
     
     if (oauthStatus.error != nil || oauthToken == nil) {
-        [self updateMobileHelper:oauthStatus.error];
+        [self updateMobileHelper:nil error:oauthStatus.error];
     }
-
-    
-    
-    
-    
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_PROFILE_UPDATE_MOBILE_PATH
@@ -489,7 +484,13 @@ enum {
 
 
 - (void)handleProfileMobileUpdate:(CTSRestCoreResponse*)response {
-    [self updateMobileHelper:response.error];
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSUpdateMobileNumberRes* updateMobileNumber = nil;
+    if(error == nil){
+        updateMobileNumber = [[CTSUpdateMobileNumberRes alloc] initWithString:response.responseString error:&jsonError];
+    }
+    [self updateMobileHelper:updateMobileNumber error:response.error];
 }
 
 #pragma mark - helper methods
@@ -603,10 +604,10 @@ enum {
 }
 
 
--(void)updateMobileHelper:(NSError *)error{
-    ASUpdateContactInfoCallBack callback = [self retrieveAndRemoveCallbackForReqId:ProfileUpdateMobileRequestId];
+-(void)updateMobileHelper:(CTSUpdateMobileNumberRes *)updateMobileNumber error:(NSError *)error{
+    ASUpdateMobileNumberCallback callback = [self retrieveAndRemoveCallbackForReqId:ProfileUpdateMobileRequestId];
     if (callback != nil) {
-        callback(error);
+        callback(updateMobileNumber, error);
     }
 }
 

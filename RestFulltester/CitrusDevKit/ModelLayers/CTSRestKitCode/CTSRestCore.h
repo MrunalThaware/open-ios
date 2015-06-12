@@ -31,5 +31,4 @@
                               withBaseUrl:(NSString*)baseUrl;
 + (NSString*)serializeParams:(NSDictionary*)params ;
 -(void)requestAsyncServerDelegation:(CTSRestCoreRequest *)restRequest;
-
 @end

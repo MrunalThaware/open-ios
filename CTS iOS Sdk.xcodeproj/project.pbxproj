@@ -376,6 +376,16 @@
 		76C2C19B1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */; };
 		76C2C19E1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */; };
 		76C2C1B71B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C2C1B61B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m */; };
+		76DB73761B297F49004D797F /* CTSPGHealthRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB73751B297F49004D797F /* CTSPGHealthRes.m */; };
+		76DB73771B297F49004D797F /* CTSPGHealthRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB73751B297F49004D797F /* CTSPGHealthRes.m */; };
+		76DB73781B297F49004D797F /* CTSPGHealthRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB73751B297F49004D797F /* CTSPGHealthRes.m */; };
+		76DB73791B297F49004D797F /* CTSPGHealthRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB73751B297F49004D797F /* CTSPGHealthRes.m */; };
+		76DB737A1B297F49004D797F /* CTSPGHealthRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB73751B297F49004D797F /* CTSPGHealthRes.m */; };
+		76DB737D1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */; };
+		76DB737E1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */; };
+		76DB737F1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */; };
+		76DB73801B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */; };
+		76DB73811B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -588,6 +598,10 @@
 		76C2C1B21B0F446200DA5DC7 /* CTS iOS GUISdk Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CTS iOS GUISdk Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		76C2C1B51B0F446200DA5DC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76C2C1B61B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CTS_iOS_GUISdk_Tests.m; sourceTree = "<group>"; };
+		76DB73741B297F49004D797F /* CTSPGHealthRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPGHealthRes.h; sourceTree = "<group>"; };
+		76DB73751B297F49004D797F /* CTSPGHealthRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSPGHealthRes.m; sourceTree = "<group>"; };
+		76DB737B1B2AEB41004D797F /* CTSUpdateMobileNumberRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSUpdateMobileNumberRes.h; sourceTree = "<group>"; };
+		76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSUpdateMobileNumberRes.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1015,6 +1029,8 @@
 				372D83FF1AA5C71000C5EA52 /* CTSPrepaidBill.m */,
 				76C2C1991B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.h */,
 				76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */,
+				76DB73741B297F49004D797F /* CTSPGHealthRes.h */,
+				76DB73751B297F49004D797F /* CTSPGHealthRes.m */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -1038,6 +1054,8 @@
 				37C9648F198F723E0021DC0B /* GetProfileRes.m */,
 				378D711B1A84939400A6FD36 /* CTSGetBalanceRes.h */,
 				378D711C1A84939400A6FD36 /* CTSGetBalanceRes.m */,
+				76DB737B1B2AEB41004D797F /* CTSUpdateMobileNumberRes.h */,
+				76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */,
 			);
 			path = UserProfile;
 			sourceTree = "<group>";
@@ -1382,6 +1400,7 @@
 				37D33BA41B26C7D200AD4513 /* CTSTokenizedCardPayment.m in Sources */,
 				37D33BA51B26C7D200AD4513 /* CTSPaymentToken.m in Sources */,
 				37D33BA61B26C7D200AD4513 /* CTSUserAddress.m in Sources */,
+				76DB73781B297F49004D797F /* CTSPGHealthRes.m in Sources */,
 				37D33BA71B26C7D200AD4513 /* UIUtility.m in Sources */,
 				37D33BA81B26C7D200AD4513 /* CTSError.m in Sources */,
 				37D33BA91B26C7D200AD4513 /* CTSOauthManager.m in Sources */,
@@ -1425,6 +1444,7 @@
 				37D33BCE1B26C7D200AD4513 /* CTSCashoutBankAccount.m in Sources */,
 				37D33BCF1B26C7D200AD4513 /* CTSPaymentUpdate.m in Sources */,
 				37D33BD01B26C7D200AD4513 /* CTSOauthTokenRes.m in Sources */,
+				76DB737F1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */,
 				37D33BD11B26C7D200AD4513 /* CTSPaymentLayer.m in Sources */,
 				37D33BD21B26C7D200AD4513 /* CTSProfileContactRes.m in Sources */,
 				37D33BD31B26C7D200AD4513 /* CTSPrepaidBill.m in Sources */,
@@ -1469,6 +1489,7 @@
 				37D33C171B28073800AD4513 /* CTSTokenizedCardPayment.m in Sources */,
 				37D33C181B28073800AD4513 /* CTSPaymentToken.m in Sources */,
 				37D33C191B28073800AD4513 /* CTSUserAddress.m in Sources */,
+				76DB73791B297F49004D797F /* CTSPGHealthRes.m in Sources */,
 				37D33C1A1B28073800AD4513 /* UIUtility.m in Sources */,
 				37D33C1B1B28073800AD4513 /* CTSError.m in Sources */,
 				37D33C1C1B28073800AD4513 /* CTSOauthManager.m in Sources */,
@@ -1512,6 +1533,7 @@
 				37D33C411B28073800AD4513 /* CTSCashoutBankAccount.m in Sources */,
 				37D33C421B28073800AD4513 /* CTSPaymentUpdate.m in Sources */,
 				37D33C431B28073800AD4513 /* CTSOauthTokenRes.m in Sources */,
+				76DB73801B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */,
 				37D33C441B28073800AD4513 /* CTSPaymentLayer.m in Sources */,
 				37D33C451B28073800AD4513 /* CTSProfileContactRes.m in Sources */,
 				37D33C461B28073800AD4513 /* CTSPrepaidBill.m in Sources */,
@@ -1556,6 +1578,7 @@
 				37D6E6641AB01E1A008C28C4 /* CTSTokenizedCardPayment.m in Sources */,
 				37D6E6651AB01E1A008C28C4 /* CTSPaymentToken.m in Sources */,
 				37D6E6661AB01E1A008C28C4 /* CTSUserAddress.m in Sources */,
+				76DB73771B297F49004D797F /* CTSPGHealthRes.m in Sources */,
 				37D6E6671AB01E1A008C28C4 /* UIUtility.m in Sources */,
 				37D6E6681AB01E1A008C28C4 /* CTSError.m in Sources */,
 				37D6E6691AB01E1A008C28C4 /* CTSOauthManager.m in Sources */,
@@ -1599,6 +1622,7 @@
 				3757918D1AEA3B2000D61A2F /* CTSCashoutBankAccount.m in Sources */,
 				37D6E6881AB01E1A008C28C4 /* CTSPaymentUpdate.m in Sources */,
 				37D6E6891AB01E1A008C28C4 /* CTSOauthTokenRes.m in Sources */,
+				76DB737E1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */,
 				37D6E68A1AB01E1A008C28C4 /* CTSPaymentLayer.m in Sources */,
 				37D6E68B1AB01E1A008C28C4 /* CTSProfileContactRes.m in Sources */,
 				37D6E68C1AB01E1A008C28C4 /* CTSPrepaidBill.m in Sources */,
@@ -1643,6 +1667,7 @@
 				7692AAEB19FFA247004D56EC /* CTSTokenizedCardPayment.m in Sources */,
 				7692AAEC19FFA247004D56EC /* CTSPaymentToken.m in Sources */,
 				7692AAEE19FFA247004D56EC /* CTSUserAddress.m in Sources */,
+				76DB73761B297F49004D797F /* CTSPGHealthRes.m in Sources */,
 				7692AAEF19FFA247004D56EC /* UIUtility.m in Sources */,
 				7692AAF019FFA247004D56EC /* CTSError.m in Sources */,
 				7692AAF119FFA247004D56EC /* CTSOauthManager.m in Sources */,
@@ -1686,6 +1711,7 @@
 				3757918B1AEA3B2000D61A2F /* CTSCashoutBankAccount.m in Sources */,
 				7692AB1019FFA247004D56EC /* CTSPaymentUpdate.m in Sources */,
 				7692AB1119FFA247004D56EC /* CTSOauthTokenRes.m in Sources */,
+				76DB737D1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */,
 				7692AB1219FFA247004D56EC /* CTSPaymentLayer.m in Sources */,
 				7692AB1319FFA247004D56EC /* CTSProfileContactRes.m in Sources */,
 				372D84001AA5C71000C5EA52 /* CTSPrepaidBill.m in Sources */,
@@ -1727,6 +1753,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76DB73811B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */,
+				76DB737A1B297F49004D797F /* CTSPGHealthRes.m in Sources */,
 				76C2C1B71B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -154,4 +154,11 @@
 #define MLC_CASHOUT_QUERY_OWNER @"owner"
 #define MLC_CASHOUT_QUERY_CURRENCY_INR @"INR"
 
+#pragma - mark MLC_PGHEALTH
+
+#define MLC_PGHEALTH_PATH @"/utility/nativeSDK/pgHealth"
+#define MLC_PGHEALTH_QUERY_BANKCODE @"bankCode"
+#define MLC_PGHEALTH_QUERY_ALLBANKS @"ALLBANKS"
+
+
 #endif

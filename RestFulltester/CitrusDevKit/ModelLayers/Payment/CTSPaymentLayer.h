@@ -28,6 +28,7 @@
 #import "CTSCashoutBankAccountResp.h"
 #import "CTSCashoutToBankRes.h"
 #import "PaymentWebViewController.h"
+#import "CTSPGHealthRes.h"
 
 enum {
     PaymentAsGuestReqId,
@@ -41,17 +42,18 @@ enum {
     PaymentCashoutToBankReqId,
     PaymentChargeInnerWebNormalReqId,
     PaymentChargeInnerWeblTokenReqId,
-    PaymentChargeInnerWebLoadMoneyReqId
-    
-    
+    PaymentChargeInnerWebLoadMoneyReqId,
+    PGHealthReqId
 };
 
 
 #define LogThread NSLog(@"THREAD  %@", [NSThread currentThread]);
 #define LoadMoneyResponeKey @"loadMoneyResponseKey"
+
 @class CTSAuthLayer;
 @class CTSAuthenticationProtocol;
 @class CTSPaymentLayer;
+
 @protocol CTSPaymentProtocol<NSObject>
 @optional
 - (void)payment:(CTSPaymentLayer*)layer
@@ -105,8 +107,6 @@ didGetPrepaidBill:(CTSPrepaidBill*)bill
           error:(NSError*)error;
 
 
-
-
 @optional
 - (void)payment:(CTSPaymentLayer*)layer
 didLoadMoney:(CTSPaymentTransactionRes*)paymentInfo
@@ -119,6 +119,7 @@ didCashoutToBank:(CTSCashoutToBankRes *)cashoutToBankRes
           error:(NSError*)error;
 
 @end
+
 @interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol,UIWebViewDelegate> {
     UIWebView *citrusPayWebview;
     BOOL finished;
@@ -132,7 +133,6 @@ didCashoutToBank:(CTSCashoutToBankRes *)cashoutToBankRes
 @property(weak) id<CTSPaymentProtocol> delegate;
 
 - (instancetype)initWithUrl:(NSString *)url;
-
 
 typedef void (^ASMakeUserPaymentCallBack)(CTSPaymentTransactionRes* paymentInfo,
                                           NSError* error);
@@ -162,6 +162,9 @@ typedef void (^ASLoadMoneyCallBack)(CTSPaymentTransactionRes* paymentInfo,
 
 typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
                                     NSError* error);
+
+typedef void (^ASGetPGHealth)(CTSPGHealthRes* pgHealthRes,
+                                 NSError* error);
 
 /**
  * called when client request to make payment through credit card/debit card
@@ -277,6 +280,10 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
 
 -(void)requestCashoutToBank:(CTSCashoutBankAccount *)bankAccount amount:(NSString *)amount completionHandler:(ASCashoutToBankCallBack)callback;
 
-
-
+/**
+ @brief            get PG Health percentage.
+ @param callback   Set success/failure callBack.
+ @details          It will return JSON of PG health into bank code with percentage value.
+ */
+-(void)requestGetPGHealthWithCompletionHandler:(ASGetPGHealth)callback;
 @end

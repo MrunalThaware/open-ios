@@ -25,7 +25,6 @@
 //    LogTrace(@"[authLayer requestSignInOauthToken]:%@", [authLayer requestSignInOauthToken]);
     
 //    [self requestUpdateMobileNumber];
-
 }
 
 #pragma mark - initializers
@@ -159,14 +158,14 @@
     }];
 }
 
-
+// update mobile number
 -(void)requestUpdateMobileNumber{
-    [proifleLayer requestUpdateMobile:TEST_MOBILE WithCompletionHandler:^(NSError *error) {
+    [proifleLayer requestUpdateMobile:TEST_MOBILE WithCompletionHandler:^(CTSUpdateMobileNumberRes *updateMobileNumber, NSError* error) {
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
         else{
-            [UIUtility toastMessageOnScreen:@"Mobile Number updated successfully"];
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"OTP Sent on %@, Please Your Verifiy Mobile Number",updateMobileNumber.username]];
         }
     }];
 }
@@ -319,7 +318,6 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@\n number: %@\n ifsc: %@",bankAccount.cashoutAccount.owner,bankAccount.cashoutAccount.number,bankAccount.cashoutAccount.branch]];
         }
     }];
-    
 }
 
 // This API call fetches the payment options such as VISA, MASTER (in credit and debit  cards) and net banking options available to the merchant.
@@ -378,6 +376,21 @@
         }
         else{
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now logged in",userName]];
+        }
+    }];
+}
+
+
+// fetch PG Health of Banks in percentage.
+// You can decide your percentage limit for poor/good/excellent pg health show off text?
+-(IBAction)fetchPGHealth{
+    [paymentLayer requestGetPGHealthWithCompletionHandler:^(CTSPGHealthRes* pgHealthRes, NSError* error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else {
+            LogTrace(@"responseDict %@ ", pgHealthRes.responseDict);
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"CID001:%@",[pgHealthRes.responseDict valueForKey:@"CID001"]]];
         }
     }];
 }

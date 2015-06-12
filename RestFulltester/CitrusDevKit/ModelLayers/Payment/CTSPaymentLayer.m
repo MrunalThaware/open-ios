@@ -581,10 +581,6 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 
 
 
-
-
-
-
 -(void)requestCashoutToBank:(CTSCashoutBankAccount *)bankAccount amount:(NSString *)amount completionHandler:(ASCashoutToBankCallBack)callback{
 
     [self addCallback:callback forRequestId:PaymentCashoutToBankReqId];
@@ -629,6 +625,19 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 }
 
 
+-(void)requestGetPGHealthWithCompletionHandler:(ASGetPGHealth)callback{
+    [self addCallback:callback forRequestId:PGHealthReqId];
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PGHEALTH_PATH
+                                   requestId:PGHealthReqId
+                                   headers:nil
+                                   parameters:@{MLC_PGHEALTH_QUERY_BANKCODE:MLC_PGHEALTH_QUERY_ALLBANKS}
+                                   json:nil
+                                   httpMethod:POST];
+    [restCore requestAsyncServer:request];
+}
+
 
 #pragma mark - authentication protocol mehods
 - (void)signUp:(BOOL)isSuccessful
@@ -649,41 +658,20 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 
 -(NSDictionary *)getRegistrationDict{
     return @{
-             toNSString(PaymentAsGuestReqId) : toSelector(handleReqPaymentAsGuest
-                                                          :),
-             toNSString(PaymentUsingtokenizedCardBankReqId) :
-                 toSelector(handleReqPaymentUsingtokenizedCardBank
-                            :),
-             toNSString(PaymentUsingSignedInCardBankReqId) :
-                 toSelector(handlePaymentUsingSignedInCardBank
-                            :),
-             toNSString(PaymentPgSettingsReqId) : toSelector(handleReqPaymentPgSettings
-                                                             :),
-             
-             toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
-                                                                      :),
-             toNSString(PaymentAsCitruspayReqId) : toSelector(handlePayementUsingCitruspay
-                                                              :),
-             toNSString(PaymentGetPrepaidBillReqId) : toSelector(handleGetPrepaidBill
-                                                                 :),
-             toNSString(PaymentLoadMoneyCitrusPayReqId) : toSelector(handleLoadMoneyCitrusPay
-                                                                     :),
-             toNSString(PaymentCashoutToBankReqId) : toSelector(handleCashoutToBank
-                                                                :),
-             toNSString(PaymentChargeInnerWebNormalReqId) : toSelector(handleChargeNormalInnerWebview
-                                                                 :),
-             toNSString(PaymentChargeInnerWeblTokenReqId) : toSelector(handleChargeTokenInnerWebview
-                                                                     :),
-             toNSString(PaymentChargeInnerWebLoadMoneyReqId) : toSelector(handleChargeLoadMoneyInnerWebview
-                                                                :)
-             
-             
-            
-             
-             
+             toNSString(PaymentAsGuestReqId) : toSelector(handleReqPaymentAsGuest:),
+             toNSString(PaymentUsingtokenizedCardBankReqId) : toSelector(handleReqPaymentUsingtokenizedCardBank:),
+             toNSString(PaymentUsingSignedInCardBankReqId) : toSelector(handlePaymentUsingSignedInCardBank:),
+             toNSString(PaymentPgSettingsReqId) : toSelector(handleReqPaymentPgSettings:),
+             toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal:),
+             toNSString(PaymentAsCitruspayReqId) : toSelector(handlePayementUsingCitruspay:),
+             toNSString(PaymentGetPrepaidBillReqId) : toSelector(handleGetPrepaidBill:),
+             toNSString(PaymentLoadMoneyCitrusPayReqId) : toSelector(handleLoadMoneyCitrusPay:),
+             toNSString(PaymentCashoutToBankReqId) : toSelector(handleCashoutToBank:),
+             toNSString(PaymentChargeInnerWebNormalReqId) : toSelector(handleChargeNormalInnerWebview:),
+             toNSString(PaymentChargeInnerWeblTokenReqId) : toSelector(handleChargeTokenInnerWebview:),
+             toNSString(PaymentChargeInnerWebLoadMoneyReqId) : toSelector(handleChargeLoadMoneyInnerWebview:),
+             toNSString(PGHealthReqId) : toSelector(handlePGHealthResponse:)
              };
-    
-    
 }
 
 
@@ -870,6 +858,21 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 - (void)handleChargeLoadMoneyInnerWebview:(CTSRestCoreResponse*)response {}
 
 
+- (void)handlePGHealthResponse:(CTSRestCoreResponse*)response {
+    NSError* error = response.error;
+    CTSPGHealthRes* pgHealthRes = nil;
+    if (error == nil) {
+        pgHealthRes = [[CTSPGHealthRes alloc] init];
+        NSDictionary *responseDict =  [NSJSONSerialization JSONObjectWithData: [response.responseString dataUsingEncoding:NSUTF8StringEncoding]
+                                                                    options: NSJSONReadingMutableContainers
+                                                                      error: &error];
+        
+        pgHealthRes.responseDict = [NSMutableDictionary dictionaryWithDictionary:responseDict];
+
+    }
+    [self pgHealthHelper:pgHealthRes error:error];
+}
+
 
 
 
@@ -1026,6 +1029,15 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
         //TODO:DELEGATE CALLBACK
     }
 
+}
+
+
+//
+- (void)pgHealthHelper:(CTSPGHealthRes*)pgHealthRes error:(NSError*)error {
+    ASGetPGHealth callback = [self retrieveAndRemoveCallbackForReqId:PGHealthReqId];
+    if (callback != nil) {
+        callback(pgHealthRes, error);
+    }
 }
 
 -(void)resetCitrusPay{

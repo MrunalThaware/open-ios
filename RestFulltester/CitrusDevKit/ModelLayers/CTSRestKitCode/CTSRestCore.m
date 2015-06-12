@@ -8,9 +8,16 @@
 
 #import "CTSRestCore.h"
 #import "NSObject+logProperties.h"
+#import "CTSPaymentLayer.h"
 
 @implementation CTSRestCore
 @synthesize baseUrl, delegate;
+
+#define PGHEALTH_PRODUCTION_BASEURL @"https://citruspay.com"
+#define PGHEALTH_SANDBOX_BASEURL @"https://sandbox.citruspay.com"
+
+#define PRODUCTION_BASEURL @"https://admin.citruspay.com"
+
 
 - (instancetype)initWithBaseUrl:(NSString*)url {
     self = [super init];
@@ -22,10 +29,19 @@
 }
 
 // request to server
-//
 - (void)requestAsyncServer:(CTSRestCoreRequest*)restRequest {
-    NSMutableURLRequest* request =
-    [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
+//    NSMutableURLRequest* request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
+    
+    NSMutableURLRequest* request;
+    if (restRequest.requestId != PGHealthReqId) {
+        request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
+    }else{
+        if ([baseUrl isEqualToString:PRODUCTION_BASEURL]) {
+            request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:PGHEALTH_PRODUCTION_BASEURL];
+        }else{
+            request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:PGHEALTH_SANDBOX_BASEURL];
+        }
+    }
     
     __block int requestId = restRequest.requestId;
     
@@ -36,7 +52,6 @@
     __block long dataIndex = restRequest.index;
     LogTrace(@"URL > %@ ", request);
     LogTrace(@"restRequest JSON> %@", restRequest.requestJson);
-    // LogTrace(@"allHeaderFields %@", [request allHeaderFields]);
     
     [NSURLConnection
      sendAsynchronousRequest:request
