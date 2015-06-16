@@ -23,8 +23,7 @@
     self.title = @"Citrus iOS Native SDK";
     
 //    LogTrace(@"[authLayer requestSignInOauthToken]:%@", [authLayer requestSignInOauthToken]);
-    
-//    [self requestUpdateMobileNumber];
+
 }
 
 #pragma mark - initializers
@@ -159,8 +158,8 @@
 }
 
 // update mobile number
--(void)requestUpdateMobileNumber{
-    [proifleLayer requestUpdateMobile:TEST_MOBILE WithCompletionHandler:^(CTSUpdateMobileNumberRes *updateMobileNumber, NSError* error) {
+-(IBAction)requestUpdateMobileNumber{
+    [proifleLayer requestUpdateMobile:_updateMobileNumber.text WithCompletionHandler:^(CTSUpdateMobileNumberRes *updateMobileNumber, NSError* error) {
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }

@@ -351,7 +351,7 @@ enum {
         return;
     }
     
-    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
     if (oauthStatus.error != nil) {

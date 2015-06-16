@@ -20,4 +20,5 @@
 }
 @property (strong, nonatomic) IBOutlet UITextField *otp;
 @property (strong, nonatomic) IBOutlet UITextField *verificationCode;
+@property (strong, nonatomic) IBOutlet UITextField *updateMobileNumber;
 @end
