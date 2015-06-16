@@ -11,12 +11,13 @@
 
 // TestParams.h should be populated according to your needs
 
-#define TEST_EMAIL @"YaddyBoy@mailinator.com"
+#define TEST_EMAIL @"YaddyBoy100@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
+#define TEST_MOBILE @"<MOBILE>"
+
 
 #warning Enter your live mobile number to get OTP so you can SignIn
 
-#define TEST_MOBILE @"<MOBILE>"
 
 #define TEST_FIRST_NAME @"test"
 #define TEST_LAST_NAME @"user"

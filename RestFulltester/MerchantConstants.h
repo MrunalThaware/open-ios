@@ -23,8 +23,8 @@
 
 // URLs
 #define VanityUrl @"nativeSDK"
-#define ReturnUrl @"http://localhost:8888/redirectURL.php"
-#define BillUrl @"http://localhost:8888/billGenerator.php"
+#define ReturnUrl @"http://192.168.2.178:8888/return.php"
+#define BillUrl @"http://192.168.2.178:8888/bill.php"
 #define BaseUrl @"https://sandboxadmin.citruspay.com"
 
 #endif

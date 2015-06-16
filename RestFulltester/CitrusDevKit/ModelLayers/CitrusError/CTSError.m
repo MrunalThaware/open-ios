@@ -88,6 +88,10 @@
           break;
           case TransactionAlreadyInProgress:
           errorDescription = @"Transaction Already In Progress";
+          
+          break;
+      case InsufficientBalance:
+          errorDescription = @"Insufficient Balance Please add Money in Citrus Account";
           break;
       default:
       break;

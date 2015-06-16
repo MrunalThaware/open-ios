@@ -211,21 +211,39 @@
         return;
     
     }
-    if(![CTSUtility validateBill:bill]){
+    
+        if(![CTSUtility validateBill:bill]){
         [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:WrongBill]];
         return;
         
     }
+    
+    
+    
     citrusCashBackViewController = controller;
     cCashReturnUrl = bill.returnUrl;
     
-
-
-    [self requestChargeInternalCitrusCashWithContact:contactInfo withAddress:userAddress bill:bill customParams:custParams  withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-        NSLog(@"paymentInfo %@",paymentInfo);
-        NSLog(@"error %@",error);
-        [self handlePaymentResponse:paymentInfo error:error] ;
+    CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
+    [profileLayer requetGetBalance:^(CTSAmount *amount, NSError *error) {
+        float balance = [amount.value floatValue];
+        float txAmount = [bill.amount.value floatValue];
+        if((balance *100) >= (txAmount*100)){
+            [self requestChargeInternalCitrusCashWithContact:contactInfo withAddress:userAddress bill:bill customParams:custParams  withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
+                NSLog(@"paymentInfo %@",paymentInfo);
+                NSLog(@"error %@",error);
+                [self handlePaymentResponse:paymentInfo error:error] ;
+            }];
+        
+        
+        
+        }
+        else{
+            [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:InsufficientBalance]];
+        }
+        
     }];
+
+    
 
     
     

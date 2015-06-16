@@ -184,7 +184,6 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now logged in",userName]];
         }
     }];
-    
 }
 
 
@@ -365,7 +364,7 @@
 }
 
 #pragma mark - Alternate Methods
--(void)signinPassword:(id)sender{
+-(void)signinPassword{
     
     [authLayer requestSigninWithUsername:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSString *userName, NSString *token, NSError *error) {
         LogTrace(@"userName %@",userName);

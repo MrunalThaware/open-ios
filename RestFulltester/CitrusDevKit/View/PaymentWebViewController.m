@@ -79,17 +79,29 @@
     
     NSLog(@" webViewDidFinishLoad ");
     LogThread
-    
+    NSURL *currentURL = [[webView request] URL];
+
     [indicator stopAnimating];
     if(reqId != PaymentChargeInnerWebLoadMoneyReqId){
         NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
-        NSURL *currentURL = [[webView request] URL];
         NSLog(@"currentURL %@",[currentURL description]);
         responseDict = [CTSUtility errorResponseIfReturnUrlDidntRespond:_returnUrl webViewUrl:[currentURL absoluteString] currentResponse:responseDict];
         if(responseDict){
             [self transactionComplete:(NSMutableDictionary *)responseDict];
         }
     }
+    else{
+        if([CTSUtility string:[currentURL absoluteString] containsString:_returnUrl]){
+            NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:[webView request]];
+            NSDictionary *loadMoneyResponseDict = [NSDictionary dictionaryWithObject:loadMoneyResponse forKey:LoadMoneyResponeKey];
+            [self transactionComplete:(NSMutableDictionary *)loadMoneyResponseDict];
+        }
+    
+    
+    }
+    
+    
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
@@ -99,16 +111,20 @@
     LogThread
     NSLog(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
     //  for load balance return url finish
-    NSLog(@"reqId %d",reqId);
-    if(reqId == PaymentChargeInnerWebLoadMoneyReqId){
-        NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
-        NSLog(@"loadMoneyResponse %@",loadMoneyResponse);
-        if(loadMoneyResponse){
-            LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
-            NSDictionary *loadMoneyResponseDict = [NSDictionary dictionaryWithObject:loadMoneyResponse forKey:LoadMoneyResponeKey];
-            [self transactionComplete:(NSMutableDictionary *)loadMoneyResponseDict];
-        }
-    }
+//    NSLog(@"reqId %d",reqId);
+//    if(reqId == PaymentChargeInnerWebLoadMoneyReqId){
+//        NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
+ //       NSLog(@"loadMoneyResponse %@",loadMoneyResponse);
+//        if(loadMoneyResponse){
+//            LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
+//            NSDictionary *loadMoneyResponseDict = [NSDictionary dictionaryWithObject:loadMoneyResponse forKey:LoadMoneyResponeKey];
+//            [self transactionComplete:(NSMutableDictionary *)loadMoneyResponseDict];
+//        }
+//    }
+    
+    
+//    NSLog(@"response Should %@",[CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody]);
+    
     return YES;
 }
 
