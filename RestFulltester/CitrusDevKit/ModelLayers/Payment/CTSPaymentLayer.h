@@ -205,13 +205,13 @@ typedef void (^ASGetPGHealth)(CTSPGHealthRes* pgHealthRes,
 
 
 
-
+//////////// DEPRECATED
 - (void)requestChargeTokenizedPayment:(CTSPaymentDetailUpdate*)paymentInfo
                           withContact:(CTSContactUpdate*)contactInfo
                           withAddress:(CTSUserAddress*)userAddress
                                  bill:(CTSBill *)bill
                          customParams:(NSDictionary *)custParams
-                withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback DEPRECATED_ATTRIBUTE;
+                withCompletionHandler:(ASMakeTokenizedPaymentCallBack)callback ;
 
 
 - (void)requestChargePayment:(CTSPaymentDetailUpdate*)paymentInfo
@@ -219,7 +219,8 @@ typedef void (^ASGetPGHealth)(CTSPGHealthRes* pgHealthRes,
                       withAddress:(CTSUserAddress*)userAddress
                              bill:(CTSBill *)bill
                 customParams:(NSDictionary *)custParams
-            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback DEPRECATED_ATTRIBUTE;
+            withCompletionHandler:(ASMakeGuestPaymentCallBack)callback
+;
 
 - (void)requestLoadMoneyInCitrusPay:(CTSPaymentDetailUpdate *)paymentInfo
                         withContact:(CTSContactUpdate*)contactInfo
@@ -227,7 +228,12 @@ typedef void (^ASGetPGHealth)(CTSPGHealthRes* pgHealthRes,
                              amount:( NSString *)amount
                           returnUrl:(NSString *)returnUrl
                        customParams:(NSDictionary *)custParams
-              withCompletionHandler:(ASLoadMoneyCallBack)callback DEPRECATED_ATTRIBUTE;
+              withCompletionHandler:(ASLoadMoneyCallBack)callback ;
+
+
+////////////////////// END DEPRECATED
+
+
 
 
 - (void)requestChargeCitrusCashWithContact:(CTSContactUpdate*)contactInfo
