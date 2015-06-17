@@ -49,6 +49,10 @@
     transactionOver = NO;
     [self.webview loadRequest:[[NSURLRequest alloc]
                                initWithURL:[NSURL URLWithString:redirectURL]]];
+    
+    analyticsManager = [[CTSAnalyticsManager alloc] init];
+    [analyticsManager trackScreenNamed:@"3D Secure Screen"];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -58,6 +62,8 @@
     [super viewWillDisappear:animated];
     [self finishWebView];
     if(transactionOver == NO){
+        [analyticsManager trackEventWithCategory:@"WebView" action:@"TransactionForcedClosed"];
+
         NSDictionary* responseDict = [CTSUtility errorResponseTransactionForcedClosedByUser];
         if(responseDict){
             [self transactionComplete:(NSMutableDictionary *)responseDict];
@@ -73,6 +79,9 @@
     NSLog(@"webView  URL %@",[webView.request URL].absoluteString);
     [indicator startAnimating];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    [analyticsManager trackEventWithCategory:@"WebView" action:@"3D Secure Screen DidStartLoad"];
+
 }
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
@@ -96,12 +105,11 @@
             NSDictionary *loadMoneyResponseDict = [NSDictionary dictionaryWithObject:loadMoneyResponse forKey:LoadMoneyResponeKey];
             [self transactionComplete:(NSMutableDictionary *)loadMoneyResponseDict];
         }
-    
-    
     }
     
     
-    
+    [analyticsManager trackEventWithCategory:@"WebView" action:@"3D Secure Screen DidFinishLoad"];
+
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
@@ -139,6 +147,8 @@
     [self finishWebView];
     [responseDictionary setValue:toNSString(reqId) forKey:@"reqId"];
     [self setValue:responseDictionary forKey:@"response"];
+    
+    [analyticsManager trackTransactionWithDictionary:responseDictionary];
 }
 
 

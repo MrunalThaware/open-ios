@@ -29,6 +29,7 @@
 #import "CTSCashoutToBankRes.h"
 #import "PaymentWebViewController.h"
 #import "CTSPGHealthRes.h"
+#import "CTSAnalyticsManager.h"
 
 enum {
     PaymentAsGuestReqId,
@@ -124,6 +125,7 @@ didCashoutToBank:(CTSCashoutToBankRes *)cashoutToBankRes
     UIWebView *citrusPayWebview;
     BOOL finished;
     NSString *cCashReturnUrl;
+    CTSAnalyticsManager *analyticsManager;
 }
 @property(strong,nonatomic)UIViewController *citrusCashBackViewController;
 @property(strong,nonatomic)PaymentWebViewController *paymentWebViewController;

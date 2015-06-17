@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CTSAnalyticsManager.h"
 
 @interface PaymentWebViewController : UIViewController <UIWebViewDelegate>
 {
     UIActivityIndicatorView* indicator;
     BOOL transactionOver;
-
+    CTSAnalyticsManager *analyticsManager;
 }
 @property(nonatomic,strong) NSString *redirectURL,*returnUrl;
 @property(assign) int reqId;

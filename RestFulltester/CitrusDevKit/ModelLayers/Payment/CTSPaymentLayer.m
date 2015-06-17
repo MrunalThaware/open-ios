@@ -34,6 +34,7 @@
 #import "PayLoadWebviewDto.h"
 //#import "WebViewViewController.h"
 //#import "UIUtility.h"
+
 @interface CTSPaymentLayer ()
 @end
 
@@ -506,9 +507,13 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 //    }
     
     
+    [analyticsManager trackEventWithCategory:paymentInfo.type action:@"PayNow"];
+
     citrusCashBackViewController = controller;
     
     
+    [analyticsManager trackTransactionWithIdentifier:bill.merchantTxnId amount:bill.amount.value forCategoryName:paymentInfo.type providerName:bill.requestSignature accountType:[paymentInfo.paymentOptions valueForKey:@"scheme"]];
+
     [self requestChargePayment:paymentInfo withContact:contactInfo withAddress:userAddress bill:bill customParams:custParams withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
         if(!error){
             
@@ -521,14 +526,21 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (hasSuccess && error.code != ServerErrorWithCode) {
                         [self loadPaymentWebview:paymentInfo.redirectUrl reqId:PaymentChargeInnerWebNormalReqId returnUrl:bill.returnUrl];
+                        
+                        [analyticsManager trackEventWithCategory:paymentInfo.txMsg action:@"Initiate 3D Secure Screen"];
                     }
                     else{
                         [self chargeNormalInnerWebviewHelper:nil error:[CTSError convertToError:paymentInfo]];
+                        
+                        [analyticsManager trackEventWithCategory:CTSSDKErrorCategory action:[@(error.code) stringValue]];
                     }
                 });
         }
         else {
             [self chargeNormalInnerWebviewHelper:nil error:error];
+            
+            [analyticsManager trackEventWithCategory:CTSSDKErrorCategory action:[@(error.code) stringValue]];
+
         }
     }];
     
@@ -670,8 +682,12 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     finished = YES;
     NSDictionary* dict = [self getRegistrationDict];
     self = [super initWithRequestSelectorMapping:dict
-                                       baseUrl:CITRUS_PAYMENT_BASE_URL];
-  return self;
+                                         baseUrl:CITRUS_PAYMENT_BASE_URL];
+    
+    analyticsManager = [[CTSAnalyticsManager alloc] init];
+    [analyticsManager trackScreenNamed:@"Payment Initialize"];
+    
+    return self;
 }
 
 -(NSDictionary *)getRegistrationDict{
