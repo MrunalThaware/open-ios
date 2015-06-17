@@ -11,18 +11,11 @@
 
 // TestParams.h should be populated according to your needs
 
-//#define TEST_EMAIL @"mukesh122@mailinator.com"
-//#define TEST_PASSWORD @"tester@123"
-//#define TEST_MOBILE @"<MOBILE>"
-
-#define TEST_EMAIL @"saish@faasos.com"
-#define TEST_PASSWORD @"cloud123"
-#define TEST_MOBILE @"8655000098"
+#define TEST_EMAIL @"mukesh122@mailinator.com"
+#define TEST_PASSWORD @"tester@123"
+#define TEST_MOBILE @"<MOBILE>"
 
 
-//#define TEST_EMAIL @"jignesh.agola@gmail.com"
-//#define TEST_PASSWORD @"wasd123456"
-//#define TEST_MOBILE @"9773254611"
 
 #warning Enter your live mobile number to get OTP so you can SignIn
 

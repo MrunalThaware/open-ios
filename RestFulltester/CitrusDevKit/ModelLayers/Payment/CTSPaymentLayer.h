@@ -229,8 +229,6 @@ typedef void (^ASGetPGHealth)(CTSPGHealthRes* pgHealthRes,
                           returnUrl:(NSString *)returnUrl
                        customParams:(NSDictionary *)custParams
               withCompletionHandler:(ASLoadMoneyCallBack)callback ;
-
-
 ////////////////////// END DEPRECATED
 
 
