@@ -15,5 +15,7 @@
 @property(nonatomic)NSString *requestSignature;
 @property(nonatomic)NSString *merchantAccessKey;
 @property(nonatomic)NSString *returnUrl;
+@property(nonatomic)NSString <Optional>*notifyUrl;
+
 
 @end

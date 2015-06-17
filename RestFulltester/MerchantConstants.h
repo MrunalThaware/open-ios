@@ -16,15 +16,31 @@
 #warning Enter your Keys & URLs here
 
 // Keys
-#define SignInId @"citrus-cube-mobile-app"
-#define SignInSecretKey @"bd63aa06f797f73966f4bcaa4bba00fe"
-#define SubscriptionId @"citrus-native-mobile-subscription"
-#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
+//#define SignInId @"citrus-cube-mobile-app"
+//#define SignInSecretKey @"bd63aa06f797f73966f4bcaa4bba00fe"
+//#define SubscriptionId @"citrus-native-mobile-subscription"
+//#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93373884d2ca1"
 
 // URLs
-#define VanityUrl @"nativeSDK"
-#define ReturnUrl @"http://192.168.2.178:8888/return.php"
-#define BillUrl @"http://192.168.2.178:8888/bill.php"
-#define BaseUrl @"https://sandboxadmin.citruspay.com"
+//#define VanityUrl @"nativeSDK"
+//#define ReturnUrl @"http://192.168.2.178:8888/return.php"
+#define BillUrl @"http://localhost:8888/bill.php"
+//#define BaseUrl @"https://admin.citruspay.com"
+
+
+
+
+
+
+
+
+#define VanityUrl @"FAASOS"
+//{"access_key":"F0NKFORLI7EI9TBK4QPQ","signup-id":"y8e0rjxlic-signup","signup-secret":"bfac07407d171209f106c4917a9e599b","signin-id":"y8e0rjxlic-signin","signin-secret":"d682183aba5468dd7c5d544018451f1a","vanity":"FAASOS"}
+#define SignInId @"y8e0rjxlic-signin"
+#define SignInSecretKey @"d682183aba5468dd7c5d544018451f1a"
+#define SubscriptionId @"y8e0rjxlic-signup"
+#define SubscriptionSecretKey @"bfac07407d171209f106c4917a9e599b"
+#define BaseUrl @"https://admin.citruspay.com"
+#define ReturnUrl @"https://www.faasos.com/response.aspx"
 
 #endif

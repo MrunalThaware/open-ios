@@ -47,6 +47,7 @@
                                   address:(CTSUserAddress*)address
                                    amount:(NSString*)amount
                                 returnUrl:(NSString*)returnUrl
+                                notifyUrl:(NSString*)notifyUrl
                                 signature:(NSString*)signatureArg
                                     txnId:(NSString*)txnId
                            merchantAccess:(NSString *)merchantAccessKey
@@ -56,7 +57,7 @@
   paymentRequest.amount = [self ctsAmountForAmount:amount];
   paymentRequest.merchantAccessKey = merchantAccessKey;
   paymentRequest.merchantTxnId = txnId;
-  paymentRequest.notifyUrl = @"";
+  paymentRequest.notifyUrl = notifyUrl;
   paymentRequest.requestSignature = signatureArg;
   paymentRequest.returnUrl = returnUrl;
   paymentRequest.paymentToken =
@@ -92,6 +93,7 @@
                       address:userAddress
                        amount:bill.amount.value
                     returnUrl:bill.returnUrl
+                    notifyUrl:bill.notifyUrl
                     signature:bill.requestSignature
                         txnId:bill.merchantTxnId
      merchantAccess:bill.merchantAccessKey
@@ -162,6 +164,7 @@
                       address:userAddress
                        amount:bill.amount.value
                     returnUrl:bill.returnUrl
+                    notifyUrl:bill.notifyUrl
                     signature:bill.requestSignature
                         txnId:bill.merchantTxnId
                   merchantAccess:bill.merchantAccessKey
@@ -233,20 +236,14 @@
                 NSLog(@"error %@",error);
                 [self handlePaymentResponse:paymentInfo error:error] ;
             }];
-        
-        
-        
+
         }
         else{
             [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:InsufficientBalance]];
         }
         
     }];
-
-    
-
-    
-    
+  
 }
 
 
@@ -269,6 +266,7 @@
                       address:userAddress
                        amount:bill.amount.value
                     returnUrl:bill.returnUrl
+                    notifyUrl:bill.notifyUrl
                     signature:bill.requestSignature
                         txnId:bill.merchantTxnId
                merchantAccess:bill.merchantAccessKey
@@ -335,6 +333,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
                           address:userAddress
                            amount:amountBlock
                         returnUrl:prepaidBill.returnUrl
+                        notifyUrl:prepaidBill.notifyUrl
                         signature:prepaidBill.signature
                             txnId:prepaidBill.merchantTransactionId
                    merchantAccess:prepaidBill.merchantAccessKey
@@ -1089,6 +1088,11 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
     [citrusCashBackViewController.view addSubview:citrusPayWebview];
     [citrusPayWebview loadRequest:[[NSURLRequest alloc]
                                initWithURL:[NSURL URLWithString:url]]];
+    
+    citrusPayWebview. frame = CGRectMake(0, 0,citrusCashBackViewController.view.frame.size.width , citrusCashBackViewController.view.frame.size.height);
+    
+    
+    
 }
 
 

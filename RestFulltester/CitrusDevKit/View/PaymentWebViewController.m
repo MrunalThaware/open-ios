@@ -108,6 +108,7 @@
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
    
     NSLog(@" shouldStartLoadWithRequest ");
+    
     LogThread
     NSLog(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
     //  for load balance return url finish
