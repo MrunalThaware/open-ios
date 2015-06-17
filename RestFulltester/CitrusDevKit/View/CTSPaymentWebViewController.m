@@ -6,17 +6,17 @@
 //  Copyright (c) 2015 Citrus. All rights reserved.
 //
 
-#import "PaymentWebViewController.h"
+#import "CTSPaymentWebViewController.h"
 #import "CTSUtility.h"
 #import "UIUtility.h"
 #import "CTSError.h"
 #import "CTSPaymentLayer.h"
 
-@interface PaymentWebViewController ()
+@interface CTSPaymentWebViewController ()
 @property(nonatomic,strong) UIWebView *webview;
 @end
 
-@implementation PaymentWebViewController
+@implementation CTSPaymentWebViewController
 @synthesize redirectURL,reqId,response;
 
 #define toNSString(cts) [NSString stringWithFormat:@"%d", cts]

@@ -32,8 +32,8 @@
 		37C9CDED1B0C9516006C6F48 /* CTSLinkRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEA1B0C7E51006C6F48 /* CTSLinkRes.m */; };
 		37C9CDF01B0DAC92006C6F48 /* CTSResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEF1B0DAC92006C6F48 /* CTSResponse.m */; };
 		37C9CDF21B0DAC92006C6F48 /* CTSResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9CDEF1B0DAC92006C6F48 /* CTSResponse.m */; };
-		37CF28591B1491D80057984A /* PaymentWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CF28581B1491D80057984A /* PaymentWebViewController.m */; };
-		37CF285B1B1491D80057984A /* PaymentWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CF28581B1491D80057984A /* PaymentWebViewController.m */; };
+		37CF28591B1491D80057984A /* CTSPaymentWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CF28581B1491D80057984A /* CTSPaymentWebViewController.m */; };
+		37CF285B1B1491D80057984A /* CTSPaymentWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CF28581B1491D80057984A /* CTSPaymentWebViewController.m */; };
 		37D33B9E1B26C77800AD4513 /* PrepaidViewControllerOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D33B9C1B26C77800AD4513 /* PrepaidViewControllerOld.m */; };
 		37D33B9F1B26C77800AD4513 /* PrepaidViewControllerOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D33B9C1B26C77800AD4513 /* PrepaidViewControllerOld.m */; };
 		37D33BA01B26C77800AD4513 /* PrepaidViewControllerOld.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37D33B9D1B26C77800AD4513 /* PrepaidViewControllerOld.xib */; };
@@ -98,7 +98,7 @@
 		37D33BDD1B26C7D200AD4513 /* OauthStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B74D7F199CAD7D00D7CC2C /* OauthStatus.m */; };
 		37D33BDE1B26C7D200AD4513 /* JSONModelArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D30198A5D110096451C /* JSONModelArray.m */; };
 		37D33BDF1B26C7D200AD4513 /* CTSContactUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96467198F723E0021DC0B /* CTSContactUpdate.m */; };
-		37D33BE01B26C7D200AD4513 /* PaymentWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CF28581B1491D80057984A /* PaymentWebViewController.m */; };
+		37D33BE01B26C7D200AD4513 /* CTSPaymentWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CF28581B1491D80057984A /* CTSPaymentWebViewController.m */; };
 		37D33BE11B26C7D200AD4513 /* CTSPaymentDetailUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9646D198F723E0021DC0B /* CTSPaymentDetailUpdate.m */; };
 		37D33BE21B26C7D200AD4513 /* PrepaidViewControllerOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D33B9C1B26C77800AD4513 /* PrepaidViewControllerOld.m */; };
 		37D33BE31B26C7D200AD4513 /* CTSRestCoreResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D1F198A5CCF0096451C /* CTSRestCoreResponse.m */; };
@@ -198,7 +198,7 @@
 		37D33C511B28073800AD4513 /* OauthStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B74D7F199CAD7D00D7CC2C /* OauthStatus.m */; };
 		37D33C521B28073800AD4513 /* JSONModelArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D30198A5D110096451C /* JSONModelArray.m */; };
 		37D33C531B28073800AD4513 /* CTSContactUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C96467198F723E0021DC0B /* CTSContactUpdate.m */; };
-		37D33C541B28073800AD4513 /* PaymentWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CF28581B1491D80057984A /* PaymentWebViewController.m */; };
+		37D33C541B28073800AD4513 /* CTSPaymentWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CF28581B1491D80057984A /* CTSPaymentWebViewController.m */; };
 		37D33C551B28073800AD4513 /* CTSPaymentDetailUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C9646D198F723E0021DC0B /* CTSPaymentDetailUpdate.m */; };
 		37D33C561B28073800AD4513 /* PrepaidViewControllerOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D33B9C1B26C77800AD4513 /* PrepaidViewControllerOld.m */; };
 		37D33C571B28073800AD4513 /* CTSRestCoreResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 371B5D1F198A5CCF0096451C /* CTSRestCoreResponse.m */; };
@@ -556,8 +556,8 @@
 		37C9CDEA1B0C7E51006C6F48 /* CTSLinkRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSLinkRes.m; sourceTree = "<group>"; };
 		37C9CDEE1B0DAC92006C6F48 /* CTSResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSResponse.h; sourceTree = "<group>"; };
 		37C9CDEF1B0DAC92006C6F48 /* CTSResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSResponse.m; sourceTree = "<group>"; };
-		37CF28571B1491D80057984A /* PaymentWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentWebViewController.h; sourceTree = "<group>"; };
-		37CF28581B1491D80057984A /* PaymentWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentWebViewController.m; sourceTree = "<group>"; };
+		37CF28571B1491D80057984A /* CTSPaymentWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPaymentWebViewController.h; sourceTree = "<group>"; };
+		37CF28581B1491D80057984A /* CTSPaymentWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSPaymentWebViewController.m; sourceTree = "<group>"; };
 		37D33B9B1B26C77800AD4513 /* PrepaidViewControllerOld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepaidViewControllerOld.h; sourceTree = "<group>"; };
 		37D33B9C1B26C77800AD4513 /* PrepaidViewControllerOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepaidViewControllerOld.m; sourceTree = "<group>"; };
 		37D33B9D1B26C77800AD4513 /* PrepaidViewControllerOld.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrepaidViewControllerOld.xib; sourceTree = "<group>"; };
@@ -812,8 +812,8 @@
 		378639E41B03278A0054DB59 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				37CF28571B1491D80057984A /* PaymentWebViewController.h */,
-				37CF28581B1491D80057984A /* PaymentWebViewController.m */,
+				37CF28571B1491D80057984A /* CTSPaymentWebViewController.h */,
+				37CF28581B1491D80057984A /* CTSPaymentWebViewController.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1461,7 +1461,7 @@
 				37D33BDD1B26C7D200AD4513 /* OauthStatus.m in Sources */,
 				37D33BDE1B26C7D200AD4513 /* JSONModelArray.m in Sources */,
 				37D33BDF1B26C7D200AD4513 /* CTSContactUpdate.m in Sources */,
-				37D33BE01B26C7D200AD4513 /* PaymentWebViewController.m in Sources */,
+				37D33BE01B26C7D200AD4513 /* CTSPaymentWebViewController.m in Sources */,
 				37D33BE11B26C7D200AD4513 /* CTSPaymentDetailUpdate.m in Sources */,
 				37D33BE21B26C7D200AD4513 /* PrepaidViewControllerOld.m in Sources */,
 				37D33BE31B26C7D200AD4513 /* CTSRestCoreResponse.m in Sources */,
@@ -1550,7 +1550,7 @@
 				37D33C511B28073800AD4513 /* OauthStatus.m in Sources */,
 				37D33C521B28073800AD4513 /* JSONModelArray.m in Sources */,
 				37D33C531B28073800AD4513 /* CTSContactUpdate.m in Sources */,
-				37D33C541B28073800AD4513 /* PaymentWebViewController.m in Sources */,
+				37D33C541B28073800AD4513 /* CTSPaymentWebViewController.m in Sources */,
 				37D33C551B28073800AD4513 /* CTSPaymentDetailUpdate.m in Sources */,
 				37D33C561B28073800AD4513 /* PrepaidViewControllerOld.m in Sources */,
 				37D33C571B28073800AD4513 /* CTSRestCoreResponse.m in Sources */,
@@ -1639,7 +1639,7 @@
 				37D6E6961AB01E1A008C28C4 /* OauthStatus.m in Sources */,
 				37D6E6971AB01E1A008C28C4 /* JSONModelArray.m in Sources */,
 				37D6E6981AB01E1A008C28C4 /* CTSContactUpdate.m in Sources */,
-				37CF285B1B1491D80057984A /* PaymentWebViewController.m in Sources */,
+				37CF285B1B1491D80057984A /* CTSPaymentWebViewController.m in Sources */,
 				37D6E6991AB01E1A008C28C4 /* CTSPaymentDetailUpdate.m in Sources */,
 				37D33B9F1B26C77800AD4513 /* PrepaidViewControllerOld.m in Sources */,
 				37D6E69A1AB01E1A008C28C4 /* CTSRestCoreResponse.m in Sources */,
@@ -1728,7 +1728,7 @@
 				7692AB2119FFA247004D56EC /* OauthStatus.m in Sources */,
 				7692AB2219FFA247004D56EC /* JSONModelArray.m in Sources */,
 				7692AB2319FFA247004D56EC /* CTSContactUpdate.m in Sources */,
-				37CF28591B1491D80057984A /* PaymentWebViewController.m in Sources */,
+				37CF28591B1491D80057984A /* CTSPaymentWebViewController.m in Sources */,
 				7692AB2419FFA247004D56EC /* CTSPaymentDetailUpdate.m in Sources */,
 				37D33B9E1B26C77800AD4513 /* PrepaidViewControllerOld.m in Sources */,
 				7692AB2519FFA247004D56EC /* CTSRestCoreResponse.m in Sources */,

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PaymentWebViewController : UIViewController <UIWebViewDelegate>
+@interface CTSPaymentWebViewController : UIViewController <UIWebViewDelegate>
 {
     UIActivityIndicatorView* indicator;
     BOOL transactionOver;

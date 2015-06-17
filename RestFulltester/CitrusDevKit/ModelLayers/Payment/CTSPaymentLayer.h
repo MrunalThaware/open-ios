@@ -27,7 +27,7 @@
 #import "CTSCashoutBankAccount.h"
 #import "CTSCashoutBankAccountResp.h"
 #import "CTSCashoutToBankRes.h"
-#import "PaymentWebViewController.h"
+#import "CTSPaymentWebViewController.h"
 #import "CTSPGHealthRes.h"
 
 enum {
@@ -126,7 +126,7 @@ didCashoutToBank:(CTSCashoutToBankRes *)cashoutToBankRes
     NSString *cCashReturnUrl;
 }
 @property(strong,nonatomic)UIViewController *citrusCashBackViewController;
-@property(strong,nonatomic)PaymentWebViewController *paymentWebViewController;
+@property(strong,nonatomic)CTSPaymentWebViewController *paymentWebViewController;
 
 @property(strong) NSString* merchantTxnId;
 @property(strong) NSString* signature;

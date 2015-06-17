@@ -1171,7 +1171,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
             [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
             [paymentWebViewController finishWebView];
         }
-        paymentWebViewController = [[PaymentWebViewController alloc] init];
+        paymentWebViewController = [[CTSPaymentWebViewController alloc] init];
         [self addObserver:self forKeyPath:@"paymentWebViewController.response" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
         paymentWebViewController.redirectURL = url;
         paymentWebViewController.reqId = reqId;
@@ -1189,7 +1189,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
             [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
             [paymentWebViewController finishWebView];
         }
-        paymentWebViewController = [[PaymentWebViewController alloc] init];
+        paymentWebViewController = [[CTSPaymentWebViewController alloc] init];
         [self addObserver:self forKeyPath:@"paymentWebViewController.response" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
         paymentWebViewController.redirectURL = loadWebview.url;
         paymentWebViewController.reqId = loadWebview.reqId;
