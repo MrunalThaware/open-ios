@@ -278,7 +278,8 @@ didReceiveResponse:(NSURLResponse *)response{
     else{
         
         NSError *error;
-        if([response.URL.absoluteString containsString:MLC_CITRUS_PAY_AUTH_COOKIE_PATH]){
+
+        if([CTSRestCore isVerifyPage:[[response URL] absoluteString]]){
             error = [CTSError errorForStatusCode:1000];
         }else {
             error = [CTSError errorForStatusCode:(int)httpResponse.statusCode];
@@ -289,7 +290,21 @@ didReceiveResponse:(NSURLResponse *)response{
 
     }
     [delegate restCore:self didReceiveResponse:restResponse];
+}
+
+
++(BOOL)isVerifyPage:(NSString *)urlString{
+    BOOL isVerifyPage = [CTSRestCore myContainsString:urlString];
     
+    if(isVerifyPage){
+        isVerifyPage = YES;
+    }
+    return isVerifyPage;
+}
+
++ (BOOL)myContainsString:(NSString*)other {
+    NSRange range = [other rangeOfString:MLC_CITRUS_PAY_AUTH_COOKIE_PATH];
+    return range.length != 0;
 }
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection
