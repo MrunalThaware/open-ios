@@ -54,4 +54,8 @@
 
 -(void)dummyCVVAndExpiryIfMaestro;
 
+-(void)amexCreditcardCorrectionIfNeeded;
+
+-(void)doCorrections;
+
 @end

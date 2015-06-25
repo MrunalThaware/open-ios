@@ -125,7 +125,7 @@
      tokenizedCard.cvv= TEST_CREDIT_CARD_CVV;
      tokenizedCard.token= @"f00bbc754c00db104cfb9c6adb3fd31c";
     [tokenizedCardInfo addCard:tokenizedCard];
-    
+    //5115669e6129247a1e7a3599ea58e947
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
 

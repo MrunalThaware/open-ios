@@ -82,7 +82,7 @@
     NSURL *currentURL = [[webView request] URL];
 
     [indicator stopAnimating];
-    if(reqId != PaymentChargeInnerWebLoadMoneyReqId){
+    if(YES){
         NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
         NSLog(@"currentURL %@",[currentURL description]);
         responseDict = [CTSUtility errorResponseIfReturnUrlDidntRespond:_returnUrl webViewUrl:[currentURL absoluteString] currentResponse:responseDict];
@@ -124,7 +124,7 @@
 //    }
     
     
-//    NSLog(@"response Should %@",[CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody]);
+    NSLog(@"response Should %@",[CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody]);
     
     return YES;
 }

@@ -36,6 +36,7 @@ typedef enum {
     TransactionForcedClosed,
     TransactionAlreadyInProgress,
     InsufficientBalance,
+    CardHolderNameInvalid
 
 } CTSErrorCode;
 

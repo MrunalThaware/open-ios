@@ -97,14 +97,29 @@
 - (CTSErrorCode)validate {
   CTSErrorCode error = NoError;
 
-  if ([type isEqualToString:MLC_PROFILE_PAYMENT_CREDIT_TYPE]) {
+
+  if ([type isEqualToString:MLC_PROFILE_PAYMENT_DEBIT_TYPE]||[type isEqualToString:MLC_PROFILE_PAYMENT_CREDIT_TYPE]) {
     error = [self validateCard];
   }
-  if ([type isEqualToString:MLC_PROFILE_PAYMENT_DEBIT_TYPE]) {
-    error = [self validateCard];
-  }
+//  else if(){
+//  
+//  
+//  }
+    
   return error;
 }
+
+
+-(CTSErrorCode)validateCardOwner{
+    CTSErrorCode error = NoError;
+
+    if ([CTSUtility stringContainsSpecialChars:owner exception:@""]) {
+        error = CardHolderNameInvalid;
+    }
+    return error;
+
+}
+
 - (CTSErrorCode)validateCard {
   CTSErrorCode error = NoError;
   if ([CTSUtility validateCardNumber:number] == NO) {
@@ -114,6 +129,7 @@
   } else if ([CTSUtility isMaestero:number]== NO &&[CTSUtility validateCVV:cvv cardNumber:number] == NO) {
     error = CvvNotValid;
   }
+    
   return error;
 }
 

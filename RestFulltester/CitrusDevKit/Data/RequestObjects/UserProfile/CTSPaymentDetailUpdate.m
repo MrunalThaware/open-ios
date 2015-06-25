@@ -90,7 +90,7 @@
 -(void)dummyCVVAndExpiryIfMaestro{
     for (CTSPaymentOption* payment in paymentOptions) {
         
-        if(![payment.type isEqualToString:@"netbanking"] && [CTSUtility isMaestero:payment.number]){
+        if(![payment.type isEqualToString:MLC_PROFILE_PAYMENT_NETBANKING_TYPE] && [CTSUtility isMaestero:payment.number]){
             if([payment.cvv isEqualToString:@""] || payment.cvv  == nil){
             payment.cvv = @"123";
             
@@ -103,6 +103,22 @@
         }
     }
 
+}
+
+
+-(void)amexCreditcardCorrectionIfNeeded{
+    for (CTSPaymentOption* payment in paymentOptions) {
+        
+        if(![payment.type isEqualToString:MLC_PROFILE_PAYMENT_NETBANKING_TYPE] && [CTSUtility isAmex:payment.number]){
+            payment.type = MLC_PROFILE_PAYMENT_CREDIT_TYPE;
+        }
+    }
+
+}
+
+-(void)doCorrections{
+    [self dummyCVVAndExpiryIfMaestro];
+    [self amexCreditcardCorrectionIfNeeded];
 }
 
 @end

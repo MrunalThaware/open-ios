@@ -15,10 +15,6 @@
 #define TEST_PASSWORD @"tester@123"
 #define TEST_MOBILE @"<MOBILE>"
 
-
-
-
-
 #warning Enter your live mobile number to get OTP so you can SignIn
 
 

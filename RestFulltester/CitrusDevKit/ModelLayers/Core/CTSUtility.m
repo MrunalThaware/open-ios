@@ -291,6 +291,12 @@
     return NO;
 }
 
++(BOOL)isAmex:(NSString *)number{
+    if([[CTSUtility fetchCardSchemeForCardNumber:number] isEqualToString:@"AMEX"]){
+        return YES;
+    }
+    return NO;
+}
 
 + (UIImage*)getSchmeTypeImage:(NSString*)cardNumber {
     // Card scheme validation
@@ -688,14 +694,14 @@
 
 
 + (BOOL)validateMobile:(NSString*)mobile {
-    //    BOOL error = NO;
-    //    if ([mobile length] == 10) {
-    //        error = YES;
-    //    }
-    //    return error;
+        BOOL error = NO;
+        if ([mobile length] == 10) {
+            error = YES;
+        }
+        return error;
     
-    NSPredicate *regex = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^(?:0091|\\+91||91|0)[7-9][0-9]{9}$"];
-    return [regex evaluateWithObject:mobile];
+//    NSPredicate *regex = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^(?:0091|\\+91||91|0)[7-9][0-9]{9}$"];
+//    return [regex evaluateWithObject:mobile];
 }
 
 + (NSString *)mobileNumberToTenDigit:(NSString*)mobile {
@@ -727,4 +733,20 @@
    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 
 }
+
+
++(BOOL)stringContainsSpecialChars:(NSString *)toCheck exception:(NSString*)exceptionChars{
+    BOOL isContain = NO;
+    NSString *setString = [NSString stringWithFormat:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789%@",exceptionChars];
+    NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:setString] invertedSet];
+    
+    if ([toCheck rangeOfCharacterFromSet:set].location != NSNotFound) {
+        isContain = YES;
+    }
+    return isContain;
+}
+
+
+
+
 @end

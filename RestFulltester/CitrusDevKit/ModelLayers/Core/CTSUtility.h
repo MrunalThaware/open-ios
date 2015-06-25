@@ -55,4 +55,6 @@
 +(BOOL)isEmail:(NSString *)string;
 +(NSString *)toJson:(NSDictionary *)dict;
 +(NSString*)mobileNumberToTenDigitIfValid:(NSString *)number;
++(BOOL)isAmex:(NSString *)number;
++(BOOL)stringContainsSpecialChars:(NSString *)toCheck exception:(NSString*)exceptionChars;
 @end

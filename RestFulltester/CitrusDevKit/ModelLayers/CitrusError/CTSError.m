@@ -26,8 +26,7 @@
       errorDescription = @"mobile number not valid, expected 10 digits";
       break;
     case CvvNotValid:
-      errorDescription = @"cvv format not valid, expected 3 digits for non "
-          @"amex and 4 for amex";
+      errorDescription = @"cvv format not valid, expected 3 digits for non amex and 4 for amex";
       break;
     case CardNumberNotValid:
       errorDescription = @"card number not valid";
@@ -93,6 +92,10 @@
       case InsufficientBalance:
           errorDescription = @"Insufficient Balance Please add Money in Citrus Account";
           break;
+      case CardHolderNameInvalid:
+          errorDescription = @"Card Holder Name Invalid, Cannot be Empty or Contain Special Charecters";
+          break;
+          
       default:
       break;
   }
