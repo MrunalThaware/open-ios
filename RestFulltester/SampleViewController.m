@@ -13,28 +13,21 @@
 #import "CTSUtility.h"
 #import "UIUtility.h"
 #import "RedirectWebViewController.h"
+#import "CTSProfileUpdate.h"
 
 #define toErrorDescription(error) [error.userInfo objectForKey:NSLocalizedDescriptionKey]
 
-#define TextCreditCards  \
-@[                     \
-@"371449635398431",  \
-@"30569309025904",   \
-@"6011111111111117", \
-@"3530111333300000", \
-@"5555555555554444", \
-@"4111111111111111", \
-@"6759649826438453"  \
-]
 @implementation SampleViewController
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.title = @"Citrus iOS Payment SDK";
-
     [self initialize];
+    
+//    [self generateMobileVerificationCode];
+    
+//    [self validateMobileVerficationCode:@"6k31"];
+
 }
 
 
@@ -123,7 +116,6 @@
     [authLayer requestBindSigninUsername:TEST_EMAIL completionHandler:^(NSError *error) {
         [self logError:error];
     }];
-    
 }
 
 // Sign in for use if he has account
@@ -178,46 +170,6 @@
         }
     }];
 }
-
-
-// For send mobile verification Code
-// Use same for regenerate mobile verification Code again
-// You can use same method for update mobile number also
--(IBAction)sendMobileVerificationCode{
-    [authLayer sendMobileVerificationCode:TEST_MOBILE completionHandler:^(CTSMobileVerifiactionRes *mobileVerifiactionRes, NSError* error) {
-        NSString *toastMessage;
-        if (error) {
-            [self logError:error];
-            toastMessage = error.localizedDescription;
-        }
-        else{
-            LogDebug(@" Success!! ");
-            LogDebug(@" responseCode %@ ",mobileVerifiactionRes.responseCode);
-            LogDebug(@" responseMessage %@ ",mobileVerifiactionRes.responseMessage);
-            toastMessage = [NSString stringWithFormat:@"Success!!\nresponseCode:%@,\nresponseMessage:%@", mobileVerifiactionRes.responseCode, mobileVerifiactionRes.responseMessage];
-        }
-        [UIUtility toastMessageOnScreen:toastMessage];
-    }];
-}
-
-// For verifying mobile number
--(IBAction)verifyingMobileNumber{
-    [authLayer verifyingMobileNumber:@"1n4i" completionHandler:^(CTSMobileVerifiactionRes *mobileVerifiactionRes, NSError* error) {
-        NSString *toastMessage;
-        if (error) {
-            [self logError:error];
-            toastMessage = error.localizedDescription;
-        }
-        else{
-            LogDebug(@" Success!! ");
-            LogDebug(@" responseCode %@ ",mobileVerifiactionRes.responseCode);
-            LogDebug(@" responseMessage %@ ",mobileVerifiactionRes.responseMessage);
-            toastMessage = [NSString stringWithFormat:@"Success!!\nresponseCode:%@,\nresponseMessage:%@", mobileVerifiactionRes.responseCode, mobileVerifiactionRes.responseMessage];
-        }
-        [UIUtility toastMessageOnScreen:toastMessage];
-    }];
-}
-
 
 -(void)isUserVerifedWithOauth{
     [authLayer requestIsUserVerified:TEST_MOBILE completionHandler:^(CTSUserVerificationRes *verificationRes, NSError *error) {
@@ -384,9 +336,7 @@
     contactUpdate.mobile = @"9167291274";
     contactUpdate.email = @"yaddy@gmail.com";
     
-    [profileLayer
-     updateContactInformation:contactUpdate
-     withCompletionHandler:^(NSError* error) {
+    [profileLayer updateContactInformation:contactUpdate withCompletionHandler:^(NSError* error) {
          [profileLayer requestContactInformationWithCompletionHandler:nil];
      }];
 }
@@ -837,6 +787,44 @@
     LogDebug(@" errorCTS description %@",errorCTS.description);
     LogDebug(@" errorCTS responseString %@",errorCTS.serverResponse);
 }
+
+/**************************************************************************************************************************************/
+/**************************************************************************************************************************************/
+
+// 23062015 New API
+-(void)generateMobileVerificationCode{
+    [authLayer requestGenerateMobileVerificationCode:@"9011094323" completionHandler:^(NSError *error) {
+        NSString *toastMessage;
+        if (error) {
+            [self logError:error];
+            toastMessage = error.localizedDescription;
+        }
+        else{
+            LogDebug(@"Success!!");
+            toastMessage = @"Success!!";
+        }
+        [UIUtility toastMessageOnScreen:toastMessage];
+    }];
+}
+
+// 23062015 New API
+-(void)validateMobileVerficationCode:(NSString *)mobileOTP{
+    [authLayer requestVerifyMobileCodeWithMobile:@"9011094323" mobileOTP:mobileOTP completionHandler:^(BOOL isVerified, NSError *error) {
+        NSString *toastMessage;
+        if (error) {
+            [self logError:error];
+            LogDebug(@" error %@  ",error);
+            toastMessage = error.localizedDescription;
+        }
+        else{
+            LogDebug(@"Success!!");
+            LogDebug(@" isVerified %d ",isVerified);
+            toastMessage = @"Success!!";
+        }
+        [UIUtility toastMessageOnScreen:toastMessage];
+    }];
+}
+
 
 @end
 

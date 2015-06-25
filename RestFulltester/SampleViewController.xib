@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdX-Wf-qhe">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdX-Wf-qhe">
                     <rect key="frame" x="0.0" y="69" width="600" height="30"/>
                     <state key="normal" title="Sign Up">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -24,7 +24,7 @@
                         <action selector="signUp" destination="-1" eventType="touchUpInside" id="suS-yG-o44"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hko-RT-t8t">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hko-RT-t8t">
                     <rect key="frame" x="0.0" y="102" width="600" height="30"/>
                     <state key="normal" title="Sign In">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -33,7 +33,7 @@
                         <action selector="signIn" destination="-1" eventType="touchUpInside" id="05R-W8-2qO"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l9e-WE-DHZ">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l9e-WE-DHZ">
                     <rect key="frame" x="0.0" y="374" width="600" height="30"/>
                     <state key="normal" title="Get Cookie">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -42,7 +42,7 @@
                         <action selector="getCookie" destination="-1" eventType="touchUpInside" id="tt9-Yb-GPI"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Whd-RL-YrM">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Whd-RL-YrM">
                     <rect key="frame" x="0.0" y="411" width="600" height="30"/>
                     <state key="normal" title="Pay Using Citrus Cash">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -51,7 +51,7 @@
                         <action selector="payUsingCitrusCash" destination="-1" eventType="touchUpInside" id="4v5-L5-o6s"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KS1-bD-pI1">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KS1-bD-pI1">
                     <rect key="frame" x="0.0" y="449" width="600" height="30"/>
                     <state key="normal" title="Load Money using Card">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,7 +60,7 @@
                         <action selector="loadMoneyInCitrusPayUsingCard" destination="-1" eventType="touchUpInside" id="6Gd-A4-Wfn"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lJV-XL-aBl">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lJV-XL-aBl">
                     <rect key="frame" x="0.0" y="487" width="600" height="30"/>
                     <state key="normal" title="Load Money using Token">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -69,7 +69,7 @@
                         <action selector="loadMoneyInCitrusPayUsingCardToken" destination="-1" eventType="touchUpInside" id="hif-jW-3ch"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bN7-vH-Dm3">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bN7-vH-Dm3">
                     <rect key="frame" x="0.0" y="518" width="600" height="30"/>
                     <state key="normal" title="Load Money using Net Banking">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -78,7 +78,7 @@
                         <action selector="loadMoneyInCitrusPayUsingNetbank" destination="-1" eventType="touchUpInside" id="e2E-Bu-U9e"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rp4-gb-FI9">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rp4-gb-FI9">
                     <rect key="frame" x="0.0" y="138" width="600" height="30"/>
                     <state key="normal" title="Update Payment Info">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -87,7 +87,7 @@
                         <action selector="updatePaymentInfo" destination="-1" eventType="touchUpInside" id="Re5-26-C5K"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OPG-zD-a99">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OPG-zD-a99">
                     <rect key="frame" x="0.0" y="172" width="600" height="30"/>
                     <state key="normal" title="Get Payment Info">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -96,7 +96,7 @@
                         <action selector="getPaymentInfo" destination="-1" eventType="touchUpInside" id="nqv-ID-T4b"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TcO-eu-CJ3">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TcO-eu-CJ3">
                     <rect key="frame" x="0.0" y="340" width="600" height="30"/>
                     <state key="normal" title="Get Balance">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -105,7 +105,7 @@
                         <action selector="getBalance" destination="-1" eventType="touchUpInside" id="N8L-LA-5v2"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DWB-3G-Qsw">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DWB-3G-Qsw">
                     <rect key="frame" x="0.0" y="204" width="600" height="30"/>
                     <state key="normal" title="Save Default Payment Option">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -114,25 +114,7 @@
                         <action selector="saveDefaultPaymentOption" destination="-1" eventType="touchUpInside" id="Ngt-Qx-5Uy"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P3b-wx-DAe">
-                    <rect key="frame" x="0.0" y="237" width="600" height="30"/>
-                    <state key="normal" title="Send Mobile Verifiaction Code">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="sendMobileVerificationCode" destination="-1" eventType="touchUpInside" id="uZk-QY-tcZ"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="72t-b2-eGq">
-                    <rect key="frame" x="0.0" y="266" width="600" height="30"/>
-                    <state key="normal" title="Verifying Mobile Number">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="verifyingMobileNumber" destination="-1" eventType="touchUpInside" id="mpG-ym-1lf"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVk-68-xb5">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVk-68-xb5">
                     <rect key="frame" x="0.0" y="303" width="600" height="30"/>
                     <state key="normal" title="User Card Payment">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -144,12 +126,9 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="lVk-68-xb5" firstAttribute="top" secondItem="72t-b2-eGq" secondAttribute="bottom" constant="7" id="1nF-ig-DEz"/>
                 <constraint firstItem="TcO-eu-CJ3" firstAttribute="top" secondItem="lVk-68-xb5" secondAttribute="bottom" constant="7" id="2vc-ZN-6SL"/>
                 <constraint firstItem="sdX-Wf-qhe" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="69" id="3T4-sS-6GB"/>
-                <constraint firstItem="lVk-68-xb5" firstAttribute="leading" secondItem="72t-b2-eGq" secondAttribute="leading" id="3aS-Fa-gf0"/>
                 <constraint firstItem="OPG-zD-a99" firstAttribute="leading" secondItem="DWB-3G-Qsw" secondAttribute="leading" id="6OC-wS-iIu"/>
-                <constraint firstItem="lVk-68-xb5" firstAttribute="trailing" secondItem="72t-b2-eGq" secondAttribute="trailing" id="7NX-LO-f8b"/>
                 <constraint firstItem="rp4-gb-FI9" firstAttribute="trailing" secondItem="OPG-zD-a99" secondAttribute="trailing" id="9Po-mq-VBt"/>
                 <constraint firstItem="rp4-gb-FI9" firstAttribute="top" secondItem="hko-RT-t8t" secondAttribute="bottom" constant="6" id="BUl-k8-6v2"/>
                 <constraint firstItem="bN7-vH-Dm3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ChI-Ox-2TF"/>
@@ -165,13 +144,8 @@
                 <constraint firstItem="l9e-WE-DHZ" firstAttribute="trailing" secondItem="TcO-eu-CJ3" secondAttribute="trailing" id="V4c-V1-Az6"/>
                 <constraint firstItem="DWB-3G-Qsw" firstAttribute="top" secondItem="OPG-zD-a99" secondAttribute="bottom" constant="2" id="VE0-tD-73D"/>
                 <constraint firstItem="Whd-RL-YrM" firstAttribute="leading" secondItem="l9e-WE-DHZ" secondAttribute="leading" id="Wgs-KF-keb"/>
-                <constraint firstItem="72t-b2-eGq" firstAttribute="top" secondItem="DWB-3G-Qsw" secondAttribute="bottom" constant="32" id="Xh1-gk-gjP"/>
-                <constraint firstItem="72t-b2-eGq" firstAttribute="trailing" secondItem="P3b-wx-DAe" secondAttribute="trailing" id="YGb-pC-vvU"/>
                 <constraint firstItem="KS1-bD-pI1" firstAttribute="trailing" secondItem="Whd-RL-YrM" secondAttribute="trailing" id="YXH-yp-3Sy"/>
                 <constraint firstItem="OPG-zD-a99" firstAttribute="top" secondItem="rp4-gb-FI9" secondAttribute="bottom" constant="4" id="btV-mj-BQa"/>
-                <constraint firstItem="P3b-wx-DAe" firstAttribute="leading" secondItem="72t-b2-eGq" secondAttribute="leading" id="hXh-Bd-Cb5"/>
-                <constraint firstItem="P3b-wx-DAe" firstAttribute="top" secondItem="DWB-3G-Qsw" secondAttribute="bottom" constant="3" id="jGG-9q-mQa"/>
-                <constraint firstItem="DWB-3G-Qsw" firstAttribute="trailing" secondItem="P3b-wx-DAe" secondAttribute="trailing" id="k1Z-PS-GJZ"/>
                 <constraint firstItem="Whd-RL-YrM" firstAttribute="trailing" secondItem="l9e-WE-DHZ" secondAttribute="trailing" id="kfE-WX-0ej"/>
                 <constraint firstItem="l9e-WE-DHZ" firstAttribute="top" secondItem="TcO-eu-CJ3" secondAttribute="bottom" constant="4" id="m1p-JS-PX8"/>
                 <constraint firstItem="lJV-XL-aBl" firstAttribute="top" secondItem="KS1-bD-pI1" secondAttribute="bottom" constant="8" symbolic="YES" id="mly-nv-trA"/>
@@ -184,7 +158,6 @@
                 <constraint firstItem="rp4-gb-FI9" firstAttribute="leading" secondItem="hko-RT-t8t" secondAttribute="leading" id="xVR-hP-9xg"/>
                 <constraint firstItem="rp4-gb-FI9" firstAttribute="trailing" secondItem="hko-RT-t8t" secondAttribute="trailing" id="xZf-2D-tNf"/>
                 <constraint firstItem="Whd-RL-YrM" firstAttribute="top" secondItem="l9e-WE-DHZ" secondAttribute="bottom" constant="7" id="xcZ-MJ-LcS"/>
-                <constraint firstItem="P3b-wx-DAe" firstAttribute="leading" secondItem="DWB-3G-Qsw" secondAttribute="leading" id="xy6-wh-ie8"/>
                 <constraint firstItem="sdX-Wf-qhe" firstAttribute="leading" secondItem="hko-RT-t8t" secondAttribute="leading" id="yZc-VN-UK1"/>
             </constraints>
             <point key="canvasLocation" x="383" y="334"/>

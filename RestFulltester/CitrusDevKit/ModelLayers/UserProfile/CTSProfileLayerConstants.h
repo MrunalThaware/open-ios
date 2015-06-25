@@ -96,4 +96,9 @@ typedef enum CardValidationError {
 #define MLC_PROFILE_GET_BALANCE_ACTIVATE_PATH @"/service/v2/prepayment/balance"
 #define MLC_PROFILE_GET_BALANCE_ACTIVATE_TYPE GET
 
+// UM API's
+#define MLC_GET_USER_PROFILE_DETAILS_PATH @"/service/um/profile/profileInfo"
+
+#define MLC_PROFILE_UPDATE_DETAILS_PATH @"/service/um/profile/update"
+
 #endif

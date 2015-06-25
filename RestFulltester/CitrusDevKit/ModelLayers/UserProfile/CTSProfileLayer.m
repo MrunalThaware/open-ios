@@ -16,6 +16,7 @@
 #import "NSObject+logProperties.h"
 #import "CTSAuthLayer.h"
 
+
 @implementation CTSProfileLayer
 
 enum {
@@ -27,7 +28,9 @@ enum {
     ProfileGetNewContactReqId,
     ProfileGetBalanceReqId,
     ProfileActivatePrepaidAccountReqId,
-    ProfileActivatePrepaidAccountReqIdGetBalance
+    ProfileActivatePrepaidAccountReqIdGetBalance,
+    ProfileGetUserReqId,
+    ProfileUserUpdateReqId
 };
 
 - (instancetype)init {
@@ -40,25 +43,17 @@ enum {
 
 -(NSDictionary *)getRegistrationDict{
     return @{
-             toNSString(ProfileGetContactReqId) : toSelector(handleReqProfileGetContact
-                                                             :),
-             toNSString(ProfileUpdateContactReqId) :
-                 toSelector(handleProfileUpdateContact
-                            :),
-             toNSString(ProfileGetPaymentReqId) : toSelector(handleProfileGetPayment
-                                                             :),
-             toNSString(ProfileUpdatePaymentReqId) :
-                 toSelector(handleProfileUpdatePayment
-                            :),
-             toNSString(ProfileUpdateMobileRequestId) :
-                 toSelector(handleProfileMobileUpdate
-                            :),
-             toNSString(ProfileGetNewContactReqId) :
-                 toSelector(handleGetNewProfileContact
-                            :),
+             toNSString(ProfileGetContactReqId) : toSelector(handleReqProfileGetContact:),
+             toNSString(ProfileUpdateContactReqId) : toSelector(handleProfileUpdateContact:),
+             toNSString(ProfileGetPaymentReqId) : toSelector(handleProfileGetPayment:),
+             toNSString(ProfileUpdatePaymentReqId) : toSelector(handleProfileUpdatePayment:),
+             toNSString(ProfileUpdateMobileRequestId) : toSelector(handleProfileMobileUpdate:),
+             toNSString(ProfileGetNewContactReqId) : toSelector(handleGetNewProfileContact:),
              toNSString(ProfileGetBalanceReqId):toSelector(handleProfileGetBanlance:),
              toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:),
-             toNSString(ProfileActivatePrepaidAccountReqIdGetBalance):toSelector(handleActivatePrepaidAccountWithGetBalance:)
+             toNSString(ProfileActivatePrepaidAccountReqIdGetBalance):toSelector(handleActivatePrepaidAccountWithGetBalance:),
+             toNSString(ProfileGetUserReqId):toSelector(handleReqUserProfile:),
+             toNSString(ProfileUserUpdateReqId):toSelector(handleReqUpdateUserProfile:)
              };
 }
 
@@ -244,8 +239,6 @@ enum {
                                    httpMethod:GET];
     
     [restCore requestAsyncServer:request];
-
-
 }
 
 #define IS_CALLED_ACTIVATION @"alreadyCalledActivationAccount"
@@ -329,7 +322,51 @@ enum {
     [restCore requestAsyncServer:request];
 }
 
+// 23062015 UM API's
+- (void)requestGetUserProfileDetailsWithCompletionHandler:(ASGetUserProfileDetailsCallBack)callback {
+    [self addCallback:callback forRequestId:ProfileGetUserReqId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self getUserProfileHelper:nil error:oauthStatus.error];
+        return;
+    }
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_GET_USER_PROFILE_DETAILS_PATH
+                                   requestId:ProfileGetUserReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:nil
+                                   httpMethod:GET];
+    
+    [restCore requestAsyncServer:request];
+}
 
+// 23062015 UM API's
+- (void)updateUserProfileDetails:(CTSProfileUpdate*)profileUpdate withCompletionHandler:(ASUpdateUserProfileDetailsCallBack)callback {
+    [self addCallback:callback forRequestId:ProfileUserUpdateReqId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self updateContactInfoHelper:oauthStatus.error];
+        return;
+    }
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_UPDATE_DETAILS_PATH
+                                   requestId:ProfileUserUpdateReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:[profileUpdate toJSONString]
+                                   httpMethod:PUT];
+    
+    [restCore requestAsyncServer:request];
+}
 
 #pragma mark - response handlers methods
 
@@ -345,6 +382,32 @@ enum {
     }
     [self getContactInfoHelper:contact error:error];
 }
+
+- (void)handleReqUserProfile:(CTSRestCoreResponse*)response {
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSUserProfileRes* userProfile = nil;
+    if (error == nil) {
+        userProfile = [[CTSUserProfileRes alloc] initWithString:response.responseString
+                                               error:&jsonError];
+        [userProfile logProperties];
+    }
+    [self getUserProfileHelper:userProfile error:error];
+}
+
+- (void)handleReqUpdateUserProfile:(CTSRestCoreResponse*)response {
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSUpdateUserProfileRes* userProfile = nil;
+    if (error == nil) {
+        userProfile = [[CTSUpdateUserProfileRes alloc] initWithString:response.responseString
+                                                          error:&jsonError];
+        [userProfile logProperties];
+    }
+    [self getUpdateUserProfileHelper:userProfile error:error];
+}
+
+
 
 - (void)handleProfileUpdateContact:(CTSRestCoreResponse*)response {
   [self updateContactInfoHelper:response.error];
@@ -460,15 +523,27 @@ enum {
   }
 }
 
-- (void)getContactInfoHelper:(CTSProfileContactRes*)contact
-                       error:(NSError*)error {
-  ASGetContactInfoCallBack callback =
-      [self retrieveAndRemoveCallbackForReqId:ProfileGetContactReqId];
-
-  if (callback != nil) {
-    callback(contact, error);
-  }
+- (void)getContactInfoHelper:(CTSProfileContactRes*)contact error:(NSError*)error {
+    ASGetContactInfoCallBack callback = [self retrieveAndRemoveCallbackForReqId:ProfileGetContactReqId];
+    if (callback != nil) {
+        callback(contact, error);
+    }
 }
+
+- (void)getUserProfileHelper:(CTSUserProfileRes*)userProfile error:(NSError*)error {
+    ASGetUserProfileDetailsCallBack callback = [self retrieveAndRemoveCallbackForReqId:ProfileGetUserReqId];
+    if (callback != nil) {
+        callback(userProfile, error);
+    }
+}
+
+- (void)getUpdateUserProfileHelper:(CTSUpdateUserProfileRes*)updateUserProfile error:(NSError*)error {
+    ASUpdateUserProfileDetailsCallBack callback = [self retrieveAndRemoveCallbackForReqId:ProfileUserUpdateReqId];
+    if (callback != nil) {
+        callback(updateUserProfile, error);
+    }
+}
+
 
 - (void)updatePaymentInfoHelper:(NSError*)error {
   ASUpdatePaymentInfoCallBack callback =
@@ -529,11 +604,9 @@ enum {
 
 
 -(void)activatePrepaidHelper:(BOOL )isActivated error:(NSError *)error{
-    
     if(error == nil){
         [CTSUtility saveToDisk:@"YES" as:IS_CALLED_ACTIVATION];
     }
-    
     
     ASActivatePrepaidCallBack callback =
     [self retrieveAndRemoveCallbackForReqId:ProfileActivatePrepaidAccountReqId];

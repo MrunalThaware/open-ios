@@ -16,22 +16,22 @@
 #import "CTSProfileLayerConstants.h"
 #import "CTSProfileContactNewRes.h"
 #import "CTSAmount.h"
+#import "CTSUserProfileRes.h"
+#import "CTSUpdateUserProfileRes.h"
+#import "CTSProfileUpdate.h"
 
 @class CTSProfileLayer;
 
 /**
  *  user profile related services
  */
-@interface CTSProfileLayer : CTSRestPluginBase {
-}
+@interface CTSProfileLayer : CTSRestPluginBase
 
 - (instancetype)initWithUrl:(NSString *)url;
 
-typedef void (^ASGetContactInfoCallBack)(CTSProfileContactRes* contactInfo,
-                                         NSError* error);
+typedef void (^ASGetContactInfoCallBack)(CTSProfileContactRes* contactInfo, NSError* error);
 
-typedef void (^ASGetPaymentInfoCallBack)(CTSProfilePaymentRes* paymentInfo,
-                                         NSError* error);
+typedef void (^ASGetPaymentInfoCallBack)(CTSProfilePaymentRes* paymentInfo, NSError* error);
 
 typedef void (^ASUpdatePaymentInfoCallBack)(NSError* error);
 
@@ -44,6 +44,11 @@ typedef void (^ASGetContactInfoNewCallback)(CTSProfileContactNewRes*contactInfo,
 typedef void (^ASGetBalanceCallBack)(CTSAmount *amount, NSError* error);
 
 typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
+
+typedef void (^ASGetUserProfileDetailsCallBack)(CTSUserProfileRes* userProfile, NSError* error);
+
+typedef void (^ASUpdateUserProfileDetailsCallBack)(CTSUpdateUserProfileRes* updateUserProfile, NSError* error);
+
 
 /**
  *  update contact related information
@@ -94,4 +99,19 @@ typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
  @details               Using this method user will activate Citrus cash Prepaid account.
  */
 -(void)requestActivatePrepaidAccount:(ASActivatePrepaidCallBack)callback;
+
+/**
+ @brief                   For getting user profile details.
+ @param callback          Set success/failure callBack.
+ @details                 Use this method get the user profile details.
+ */
+- (void)requestGetUserProfileDetailsWithCompletionHandler:(ASGetUserProfileDetailsCallBack)callback;
+
+/**
+ @brief                   update user profile details.
+ @param profileUpdate     contains {"email" : "nehal.citrus@gmail.com","mobile": "9975424879","firstName":"nehalkumar","lastName":"shaha"}.
+ @param callback          Set success/failure callBack.
+ @details                 update user profile details.
+ */
+- (void)updateUserProfileDetails:(CTSProfileUpdate*)profileUpdate withCompletionHandler:(ASUpdateUserProfileDetailsCallBack)callback;
 @end

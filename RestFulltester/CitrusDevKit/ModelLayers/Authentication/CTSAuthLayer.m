@@ -35,12 +35,184 @@ static NSString * ReturnUrl;
 static NSString * MerchantAccessKey;
 static NSString * BaseUrl;
 
+typedef enum {
+    SignupOauthTokenReqId,
+    SigninOauthTokenReqId,
+    SignupStageOneReqId,
+    SignupChangePasswordReqId,
+    ChangePasswordReqId,
+    RequestForPasswordResetReqId,
+    IsUserCitrusMemberReqId,
+    UserVerificationReqId,
+    IsUserAlreadyRegisteredReqId,
+    OTPVerificationRequestId,
+    OTPRegenerationRequestId,
+    ISMobileVerifiedRequestId,
+    isUserVerifiedRequestId,
+    CitruPaySigniInReqId,
+    BindSigninRequestId,
+    MobileVerificationReqId,
+    GenerationMobileVerificationCodeRequestId,
+    MobileVerificationCodeRequestId
+}AuthRequestId;
+
+#pragma mark - main class methods
+
+- (instancetype)init {
+    NSDictionary* dict = [self getRegistrationDict];
+    self =
+    [super initWithRequestSelectorMapping:dict baseUrl:BaseUrl];
+    
+    return self;
+}
+
+-(NSDictionary *)getRegistrationDict{
+    return @{
+             toNSString(SignupOauthTokenReqId) : toSelector(handleReqSignupOauthToken:),
+             toNSString(SigninOauthTokenReqId) : toSelector(handleReqSigninOauthToken:),
+             toNSString(SignupStageOneReqId) : toSelector(handleReqSignupStageOneComplete:),
+             toNSString(SignupChangePasswordReqId) : toSelector(handleReqUsePassword:),
+             toNSString(RequestForPasswordResetReqId) : toSelector(handleReqRequestForPasswordReset:),
+             toNSString(ChangePasswordReqId) : toSelector(handleReqChangePassword:),
+             toNSString(IsUserCitrusMemberReqId) : toSelector(handleIsUserCitrusMember:),
+             toNSString(OTPVerificationRequestId) : toSelector(handleOTPVerfication:),
+             toNSString(OTPRegenerationRequestId):toSelector(handleOTPRegeneration:),
+             toNSString(ISMobileVerifiedRequestId): toSelector(handleIsMobileVerified:),
+             toNSString(IsUserAlreadyRegisteredReqId):toSelector(handleIsAlreadyRegistered:),
+             toNSString(UserVerificationReqId):toSelector(handleUserVerification:),
+             toNSString(isUserVerifiedRequestId):toSelector(handleIsUserVerified:),
+             toNSString(CitruPaySigniInReqId) : toSelector(handleCitrusPaySignin:),
+             toNSString(BindSigninRequestId) : toSelector(handleBindSignIn:),
+             toNSString(MobileVerificationReqId):toSelector(handleMobileVerification:),
+             toNSString(GenerationMobileVerificationCodeRequestId):toSelector(handleGenrateMobileVerificationCode:),
+             toNSString(MobileVerificationCodeRequestId):toSelector(handleMobileVerficationCode:)
+             };
+}
+
+- (instancetype)initWithUrl:(NSString *)url
+{
+    
+    if(url == nil){
+        url = BaseUrl;
+    }
+    self = [super initWithRequestSelectorMapping:[self getRegistrationDict]
+                                         baseUrl:url];
+    return self;
+}
+
+
+// 010615 Dynamic Oauth keys init with base URL
+- (instancetype)initWithBaseURLAndDynamicVanityOauthKeysURLs:(NSString *)url vanityUrl:(NSString *)vanityUrl signInId:(NSString *)signInId signInSecretKey:(NSString *)signInSecretKey subscriptionId:(NSString *)subscriptionId subscriptionSecretKey:(NSString *)subscriptionSecretKey returnUrl:(NSString *)returnUrl merchantAccessKey:(NSString *)merchantAccessKey{
+
+    if(url){
+        BaseUrl = url;
+        LogDebug(@"BaseUrl:%@",url);
+    }else{
+        LogDebug(@"Enter valid BaseUrl");
+    }
+    
+    self = [super initWithRequestSelectorMapping:[self getRegistrationDict]
+                                         baseUrl:url];
+
+    //
+    if (vanityUrl){
+        VanityUrl = vanityUrl;
+        LogDebug(@"VanityUrl:%@",VanityUrl);
+    }else{
+        LogDebug(@"Enter valid VanityUrl");
+    }
+
+    //
+    if (signInId){
+        SignInId = signInId;
+        LogDebug(@"SignInId:%@",SignInId);
+    }else{
+        LogDebug(@"Enter valid SignInId");
+    }
+
+    if (signInSecretKey){
+        SignInSecretKey = signInSecretKey;
+        LogDebug(@"SignInSecretKey:%@",SignInSecretKey);
+    }else{
+        LogDebug(@"Enter valid SignInSecretKey");
+    }
+
+    //
+    if (subscriptionId){
+        SubscriptionId = subscriptionId;
+        LogDebug(@"SubscriptionId:%@",SubscriptionId);
+    }else{
+        LogDebug(@"Enter valid SubscriptionId");
+    }
+
+    if (subscriptionSecretKey){
+        SubscriptionSecretKey = subscriptionSecretKey;
+        LogDebug(@"SubscriptionSecretKey:%@",SubscriptionSecretKey);
+    }else{
+        LogDebug(@"Enter valid SubscriptionSecretKey");
+    }
+
+    //
+    if (returnUrl){
+        ReturnUrl = returnUrl;
+        LogDebug(@"ReturnUrl:%@",ReturnUrl);
+    }else{
+        LogDebug(@"Enter valid ReturnUrl");
+    }
+
+    //
+    if (merchantAccessKey){
+        MerchantAccessKey = merchantAccessKey;
+        LogDebug(@"MerchantAccessKey:%@",MerchantAccessKey);
+    }else{
+        LogDebug(@"Enter valid MerchantAccessKey");
+    }
+
+    return self;
+}
+
+
+// 010615 Dynamic Oauth keys init with base URL
+
++ (NSString*)getDynamicSignInId{
+    return SignInId;
+}
+
++ (NSString*)getDynamicSignInSecretKey{
+    return SignInSecretKey;
+}
+
++ (NSString*)getDynamicSubscriptionId{
+    return SubscriptionId;
+}
+
++ (NSString*)getDynamicSubscriptionSecretKey{
+    return SubscriptionSecretKey;
+}
+
++ (NSString*)getBaseURL{
+    return BaseUrl;
+}
+
++ (NSString*)getVanityUrl{
+    return VanityUrl;
+}
+
++ (NSString*)getMerchantAccessKey{
+    return MerchantAccessKey;
+}
+
+
++ (NSString*)getReturnUrl{
+    return ReturnUrl;
+}
+
+
 #pragma mark - public methods
 
 -(void)requestBindSigninUsername:(NSString *)email completionHandler:(ASBindCallBack)callback{
     
     [self addCallback:callback forRequestId:BindSigninRequestId];
-
     
     if (![CTSUtility validateEmail:email]) {
         [self bindUserHelperUsernameError:[CTSError getErrorForCode:EmailNotValid]];
@@ -188,7 +360,7 @@ static NSString * BaseUrl;
     lastNameSignup = lastName;
     sourceTypeSignup = sourceType;
     if (password == nil) {
-       // passwordSignUp = [self generatePseudoRandomPassword];
+        // passwordSignUp = [self generatePseudoRandomPassword];
     } else {
         passwordSignUp = password;
     }
@@ -348,14 +520,14 @@ static NSString * BaseUrl;
                                  MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : SubscriptionSecretKey,
                                  MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OAUTH_TOKEN_SIGNUP_GRANT_TYPE
                                  };
-
+    
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
                                    requestId:SignupOauthTokenReqId
                                    headers:nil
                                    parameters:parameters
                                    json:nil
-                                   httpMethod:POST];    
+                                   httpMethod:POST];
     [restCore requestAsyncServer:request];
     
 }
@@ -418,7 +590,7 @@ static NSString * BaseUrl;
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : username
                                  };
     
-
+    
     
     CTSRestCoreRequest* request =
     [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
@@ -550,7 +722,7 @@ static NSString * BaseUrl;
     
     if([CTSUtility isEmail:userName]){
         if (![CTSUtility validateEmail:userName]) {
-         [self userVerificationHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+            [self userVerificationHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
             return;
         }
     }
@@ -582,7 +754,7 @@ static NSString * BaseUrl;
         if ([cookie.domain rangeOfString:@"citrus" options:NSCaseInsensitiveSearch].location != NSNotFound) {
             isSet = YES;
             break;
-        } 
+        }
     }
     return isSet;
 }
@@ -655,7 +827,7 @@ static NSString * BaseUrl;
 }
 
 -(void)deleteSigninCookie{
-
+    
     NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     for (NSHTTPCookie *cookie in [storage cookies]) {
         
@@ -679,7 +851,7 @@ static NSString * BaseUrl;
             completionHandler:(ASCitrusSigninCallBack)callBack{
     
     [self addCallback:callBack forRequestId:CitruPaySigniInReqId];
-
+    
     //validate username
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_CITRUS_PAY_AUTH_COOKIE_PATH
@@ -696,12 +868,11 @@ static NSString * BaseUrl;
     [restCore requestAsyncServerDelegation:request];
 }
 
-
 #pragma mark - New Methods
 
 -(void)requestIsUserVerified:(NSString *)userName  completionHandler:(ASIsUserVerified)callback{
     [self addCallback:callback forRequestId:isUserVerifiedRequestId];
-
+    
     
     NSError* validationError = [CTSUtility verifiyEmailOrMobile:userName];
     if (validationError) {
@@ -859,184 +1030,61 @@ static NSData* digest(NSData* data,
 }
 
 
-#pragma mark - main class methods
-typedef enum {
-    SignupOauthTokenReqId,
-    SigninOauthTokenReqId,
-    SignupStageOneReqId,
-    SignupChangePasswordReqId,
-    ChangePasswordReqId,
-    RequestForPasswordResetReqId,
-    IsUserCitrusMemberReqId,
-    UserVerificationReqId,
-    IsUserAlreadyRegisteredReqId,
-    OTPVerificationRequestId,
-    OTPRegenerationRequestId,
-    ISMobileVerifiedRequestId,
-    isUserVerifiedRequestId,
-    CitruPaySigniInReqId,
-    BindSigninRequestId,
-    MobileVerificationReqId
-}AuthRequestId;
-
-
-- (instancetype)init {
-    NSDictionary* dict = [self getRegistrationDict];
-    self =
-    [super initWithRequestSelectorMapping:dict baseUrl:BaseUrl];
+// 23062015 New API
+-(void)requestGenerateMobileVerificationCode:(NSString *)mobile completionHandler:(ASGenerationMobileVerificationCodeCallback)callback{
+    [self addCallback:callback forRequestId:GenerationMobileVerificationCodeRequestId];
     
-    return self;
-}
-
--(NSDictionary *)getRegistrationDict{
-    return @{
-             toNSString(SignupOauthTokenReqId) : toSelector(handleReqSignupOauthToken
-                                                            :),
-             toNSString(SigninOauthTokenReqId) : toSelector(handleReqSigninOauthToken
-                                                            :),
-             toNSString(SignupStageOneReqId) : toSelector(handleReqSignupStageOneComplete
-                                                          :),
-             toNSString(SignupChangePasswordReqId) : toSelector(handleReqUsePassword
-                                                                :),
-             toNSString(RequestForPasswordResetReqId) :
-                 toSelector(handleReqRequestForPasswordReset
-                            :),
-             toNSString(ChangePasswordReqId) : toSelector(handleReqChangePassword
-                                                          :),
-             toNSString(IsUserCitrusMemberReqId) : toSelector(handleIsUserCitrusMember
-                                                              :),
-             toNSString(OTPVerificationRequestId) : toSelector(handleOTPVerfication
-                                                               :),
-             toNSString(OTPRegenerationRequestId):toSelector(handleOTPRegeneration:),
-             toNSString(ISMobileVerifiedRequestId): toSelector(handleIsMobileVerified:),
-             toNSString(IsUserAlreadyRegisteredReqId):toSelector(handleIsAlreadyRegistered:),
-             toNSString(UserVerificationReqId):toSelector(handleUserVerification:),
-             toNSString(isUserVerifiedRequestId):toSelector(handleIsUserVerified:),
-             toNSString(CitruPaySigniInReqId) : toSelector(handleCitrusPaySignin:),
-             toNSString(BindSigninRequestId) : toSelector(handleBindSignIn:),
-             toNSString(MobileVerificationReqId):toSelector(handleMobileVerification:),
-             };
-}
-
-- (instancetype)initWithUrl:(NSString *)url
-{
-    
-    if(url == nil){
-        url = BaseUrl;
-    }
-    self = [super initWithRequestSelectorMapping:[self getRegistrationDict]
-                                         baseUrl:url];
-    return self;
-}
-
-
-// 010615 Dynamic Oauth keys init with base URL
-- (instancetype)initWithBaseURLAndDynamicVanityOauthKeysURLs:(NSString *)url vanityUrl:(NSString *)vanityUrl signInId:(NSString *)signInId signInSecretKey:(NSString *)signInSecretKey subscriptionId:(NSString *)subscriptionId subscriptionSecretKey:(NSString *)subscriptionSecretKey returnUrl:(NSString *)returnUrl merchantAccessKey:(NSString *)merchantAccessKey{
-
-    if(url){
-        BaseUrl = url;
-        LogDebug(@"BaseUrl:%@",url);
-    }else{
-        LogDebug(@"Enter valid BaseUrl");
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    if (!mobile) {
+        [self generationMobileVerificationCodeHelper:[CTSError getErrorForCode:MobileNotValid]];
+        return;
     }
     
-    self = [super initWithRequestSelectorMapping:[self getRegistrationDict]
-                                         baseUrl:url];
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    if (oauthStatus.error != nil) {
+        [self generationMobileVerificationCodeHelper:oauthStatus.error];
+        return;
+    }
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_GENERATE_MOBILE_VERIFICATION_CODE_PATH
+                                   requestId:GenerationMobileVerificationCodeRequestId
+                                     headers:[CTSUtility readOauthTokenAsHeader:oauthStatus.oauthToken]
+                                  parameters:@{MLC_OTP_REGENERATE_QUERY_MOBILE : mobile}
+                                        json:nil
+                                  httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+}
 
-    //
-    if (vanityUrl){
-        VanityUrl = vanityUrl;
-        LogDebug(@"VanityUrl:%@",VanityUrl);
-    }else{
-        LogDebug(@"Enter valid VanityUrl");
+// 23062015 New API
+-(void)requestVerifyMobileCodeWithMobile:(NSString *)mobile mobileOTP:(NSString *)mobileOTP completionHandler:(ASMobileVerificationCodeCallback)callback{
+    [self addCallback:callback forRequestId:MobileVerificationCodeRequestId];
+    
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    if (!mobile) {
+        [self MobileVerificationCodeHelper:NO error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    if (oauthStatus.error != nil) {
+        [self MobileVerificationCodeHelper:NO error:oauthStatus.error];
+        return;
     }
 
-    //
-    if (signInId){
-        SignInId = signInId;
-        LogDebug(@"SignInId:%@",SignInId);
-    }else{
-        LogDebug(@"Enter valid SignInId");
-    }
-
-    if (signInSecretKey){
-        SignInSecretKey = signInSecretKey;
-        LogDebug(@"SignInSecretKey:%@",SignInSecretKey);
-    }else{
-        LogDebug(@"Enter valid SignInSecretKey");
-    }
-
-    //
-    if (subscriptionId){
-        SubscriptionId = subscriptionId;
-        LogDebug(@"SubscriptionId:%@",SubscriptionId);
-    }else{
-        LogDebug(@"Enter valid SubscriptionId");
-    }
-
-    if (subscriptionSecretKey){
-        SubscriptionSecretKey = subscriptionSecretKey;
-        LogDebug(@"SubscriptionSecretKey:%@",SubscriptionSecretKey);
-    }else{
-        LogDebug(@"Enter valid SubscriptionSecretKey");
-    }
-
-    //
-    if (returnUrl){
-        ReturnUrl = returnUrl;
-        LogDebug(@"ReturnUrl:%@",ReturnUrl);
-    }else{
-        LogDebug(@"Enter valid ReturnUrl");
-    }
-
-    //
-    if (merchantAccessKey){
-        MerchantAccessKey = merchantAccessKey;
-        LogDebug(@"MerchantAccessKey:%@",MerchantAccessKey);
-    }else{
-        LogDebug(@"Enter valid MerchantAccessKey");
-    }
-
-    return self;
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_MOBILE_VERIFICATION_CODE_PATH
+                                   requestId:MobileVerificationCodeRequestId
+                                     headers:[CTSUtility readOauthTokenAsHeader:oauthStatus.oauthToken]
+                                  parameters:@{MLC_OTP_VER_QUERY_OTP : mobileOTP, MLC_OTP_VER_QUERY_MOBILE : mobile}
+                                        json:nil
+                                  httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
 }
 
-
-// 010615 Dynamic Oauth keys init with base URL
-
-+ (NSString*)getDynamicSignInId{
-    return SignInId;
-}
-
-+ (NSString*)getDynamicSignInSecretKey{
-    return SignInSecretKey;
-}
-
-+ (NSString*)getDynamicSubscriptionId{
-    return SubscriptionId;
-}
-
-+ (NSString*)getDynamicSubscriptionSecretKey{
-    return SubscriptionSecretKey;
-}
-
-+ (NSString*)getBaseURL{
-    return BaseUrl;
-}
-
-+ (NSString*)getVanityUrl{
-    return VanityUrl;
-}
-
-+ (NSString*)getMerchantAccessKey{
-    return MerchantAccessKey;
-}
-
-
-+ (NSString*)getReturnUrl{
-    return ReturnUrl;
-}
-
-
+#pragma handlers - methods
 
 - (void)handleReqSignupOauthToken:(CTSRestCoreResponse*)response {
     NSError* error = response.error;
@@ -1166,10 +1214,27 @@ typedef enum {
     }
 }
 
+-(void)handleMobileVerficationCode:(CTSRestCoreResponse*)response {
+    NSError* error = response.error;
+    if(error == nil){
+        [self MobileVerificationCodeHelper:[CTSUtility convertToBool:response.responseString] error:nil];
+    }
+    else{
+        [self MobileVerificationCodeHelper:NO error:error];
+    }
+}
+
+
 -(void)handleOTPRegeneration:(CTSRestCoreResponse*)response{
     NSError* error = response.error;
     [self otpRegenerationHelperError:error];
 }
+
+-(void)handleGenrateMobileVerificationCode:(CTSRestCoreResponse*)response{
+    NSError* error = response.error;
+    [self generationMobileVerificationCodeHelper:error];
+}
+
 
 -(void)handleIsMobileVerified:(CTSRestCoreResponse *)response{
     NSError *error = response.error;
@@ -1290,6 +1355,7 @@ typedef enum {
 }
 
 #pragma mark - helper methods
+
 - (void)signinHelperUsername:(NSString*)username
                        oauth:(NSString*)token
                        error:(NSError*)error {
@@ -1360,6 +1426,13 @@ typedef enum {
     }
 }
 
+-(void)MobileVerificationCodeHelper:(BOOL)isVerified error:(NSError *)error{
+    ASMobileVerificationCodeCallback callback = [self retrieveAndRemoveCallbackForReqId:MobileVerificationCodeRequestId];
+    if(callback != nil){
+        callback(isVerified,error);
+    }
+}
+
 
 -(void)otpRegenerationHelperError:(NSError *)error{
     ASOtpRegenerationCallback callback = [self retrieveAndRemoveCallbackForReqId:OTPRegenerationRequestId];
@@ -1367,6 +1440,14 @@ typedef enum {
         callback(error);
     }
  }
+
+-(void)generationMobileVerificationCodeHelper:(NSError *)error{
+    ASGenerationMobileVerificationCodeCallback callback = [self retrieveAndRemoveCallbackForReqId:GenerationMobileVerificationCodeRequestId];
+    if(callback != nil){
+        callback(error);
+    }
+}
+
 
 -(void)isMobileVerifiedHelper:(BOOL)isVerified error:(NSError *)error{
     ASIsMobileVerifiedCallback callback = [self retrieveAndRemoveCallbackForReqId:ISMobileVerifiedRequestId];

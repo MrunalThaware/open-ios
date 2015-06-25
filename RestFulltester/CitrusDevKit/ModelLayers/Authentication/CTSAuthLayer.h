@@ -60,6 +60,11 @@ typedef void (^ASBindCallBack)(NSError* error);
 
 typedef void (^ASMobileVerifiactionCallback)(CTSMobileVerifiactionRes *mobileVerifiactionRes, NSError* error);
 
+typedef void (^ASGenerationMobileVerificationCodeCallback)(NSError* error);
+
+typedef void (^ASMobileVerificationCodeCallback)(BOOL isVerified,NSError* error);
+
+
 // 010615 Dynamic Oauth keys init with base URL
 - (instancetype)initWithBaseURLAndDynamicVanityOauthKeysURLs:(NSString *)url vanityUrl:(NSString *)vanityUrl signInId:(NSString *)signInId signInSecretKey:(NSString *)signInSecretKey subscriptionId:(NSString *)subscriptionId subscriptionSecretKey:(NSString *)subscriptionSecretKey returnUrl:(NSString *)returnUrl merchantAccessKey:(NSString *)merchantAccessKey;
 
@@ -218,4 +223,20 @@ typedef void (^ASMobileVerifiactionCallback)(CTSMobileVerifiactionRes *mobileVer
  @details                 Use this method For verifying mobile number .
  */
 - (void)verifyingMobileNumber:(NSString*)verificationCode completionHandler:(ASMobileVerifiactionCallback)callback;
+
+/**
+ @brief                   For genrate mobile verification code .
+ @param mobile            Set mobile number.
+ @param callback          Set success/failure callBack.
+ @details                 Use this method For genrate mobile verification code .
+ */
+-(void)requestGenerateMobileVerificationCode:(NSString *)mobile completionHandler:(ASGenerationMobileVerificationCodeCallback)callback;
+
+/**
+ @brief                   For verifiy mobile verification code .
+ @param mobile            Set mobile number.
+ @param callback          Set success/failure callBack.
+ @details                 Use this method For verifiy mobile verification code .
+ */
+-(void)requestVerifyMobileCodeWithMobile:(NSString *)mobile mobileOTP:(NSString *)mobileOTP completionHandler:(ASMobileVerificationCodeCallback)callback;
 @end
