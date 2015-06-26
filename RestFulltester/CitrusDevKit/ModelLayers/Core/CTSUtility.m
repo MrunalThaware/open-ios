@@ -686,7 +686,7 @@
 
 +(NSString*)mobileNumberToTenDigitIfValid:(NSString *)number{
     NSString *proccessedNumber = nil;
-    if([self validateMobile:number]){
+    if([self validateMobile:number] == NO){
         proccessedNumber = [self mobileNumberToTenDigit:number];
     }
     return proccessedNumber;
@@ -695,7 +695,7 @@
 
 + (BOOL)validateMobile:(NSString*)mobile {
         BOOL error = NO;
-        if ([mobile length] == 10) {
+        if ([mobile length] < 10) {
             error = YES;
         }
         return error;
@@ -718,10 +718,10 @@
     
     
     
-    int extraCount =  (int)[proccesedNumber length] - 10;
-    if(extraCount){
-        proccesedNumber = [proccesedNumber substringFromIndex:extraCount];
-    }
+//    int extraCount =  (int)[proccesedNumber length] - 10;
+//    if(extraCount){
+//        proccesedNumber = [proccesedNumber substringFromIndex:extraCount];
+//    }
     
     return proccesedNumber;
 }
@@ -735,17 +735,28 @@
 }
 
 
-+(BOOL)stringContainsSpecialChars:(NSString *)toCheck exception:(NSString*)exceptionChars{
++(BOOL)stringContainsSpecialChars:(NSString *)toCheck exceptChars:(NSString*)exceptionChars exceptCharSet:(NSCharacterSet*)exceptionCharSet {
     BOOL isContain = NO;
     NSString *setString = [NSString stringWithFormat:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789%@",exceptionChars];
-    NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:setString] invertedSet];
+    NSMutableCharacterSet *setBase = [NSMutableCharacterSet characterSetWithCharactersInString:setString];
+  if(exceptionCharSet)
+    [setBase formUnionWithCharacterSet:exceptionCharSet];
     
-    if ([toCheck rangeOfCharacterFromSet:set].location != NSNotFound) {
+    NSCharacterSet * set = [setBase invertedSet];
+    
+        if ([toCheck rangeOfCharacterFromSet:set].location != NSNotFound) {
         isContain = YES;
     }
     return isContain;
 }
 
++(BOOL)islengthInvalid:(NSString*)string{
+    if(string.length>255 || string.length == 0){
+        return YES;
+    }
+    return NO;
+
+}
 
 
 

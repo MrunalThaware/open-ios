@@ -105,6 +105,12 @@
 //  
 //  
 //  }
+
+    if(error != NoError){
+        return error;
+    
+    }
+    error = [self validateCardOwner];
     
   return error;
 }
@@ -113,7 +119,9 @@
 -(CTSErrorCode)validateCardOwner{
     CTSErrorCode error = NoError;
 
-    if ([CTSUtility stringContainsSpecialChars:owner exception:@""]) {
+
+    
+    if ([CTSUtility stringContainsSpecialChars:owner exceptChars:@"" exceptCharSet:[NSCharacterSet whitespaceCharacterSet]] || [CTSUtility islengthInvalid:owner]||owner == nil) {
         error = CardHolderNameInvalid;
     }
     return error;

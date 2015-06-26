@@ -101,7 +101,7 @@
 -(void)auth:(CTSAuthLayer *)layer didVerifyOTP:(BOOL)isVerified error:(NSError *)error;
 
 @optional
--(void)auth:(CTSAuthLayer *)layer didRegenerateOTPWitherror:(NSError *)error;
+-(void)auth:(CTSAuthLayer *)layer didGenerateVerificationCode:(CTSResponse *)response error:(NSError *)error;
 
 @optional
 -(void)auth:(CTSAuthLayer *)layer didGenerateOTPWithError:(NSError *)error;
@@ -154,7 +154,7 @@ typedef void (^ASSignupNewCallBack)(NSError* error);
 
 typedef void (^ASOtpVerificationCallback)(BOOL isVerified,NSError* error);
 
-typedef void (^ASOtpRegenerationCallback)(CTSResponse*response, NSError* error);
+typedef void (^ASOtpRegenerationCallback)(CTSResponse* response, NSError* error);
 
 typedef void (^ASGenerateOtpCallBack)(CTSResponse*response, NSError* error);
 
@@ -264,7 +264,7 @@ typedef void (^ASOtpSigninCallBack)(NSError* error);
 
 -(void)requestSignupUser:(CTSUserDetails *)user password:(NSString *)pasword mobileVerified:(BOOL)isMarkMobileVerifed emailVerified:(BOOL)isMarkEmailVerified completionHandler:(ASSignupNewCallBack)callback;
 
--(void)requestVerification:(NSString *)mobile code:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback;
+-(void)requestMobileVerificationWithCode:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback;
 
 -(void)requestVerificationCodeRegenerate:(NSString *)mobile completionHandler:(ASOtpRegenerationCallback)callback;
 

@@ -135,7 +135,7 @@
 }
 
 -(IBAction)verifyMobile{
-    [authLayer requestVerification:TEST_MOBILE code:self.verificationCode.text completionHandler:^(BOOL isVerified, NSError *error) {
+    [authLayer requestMobileVerificationWithCode:self.verificationCode.text completionHandler:^(BOOL isVerified, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
@@ -159,14 +159,17 @@
 
 // update mobile number
 -(IBAction)requestUpdateMobileNumber{
-    [proifleLayer requestUpdateMobile:_updateMobileNumber.text WithCompletionHandler:^(CTSUpdateMobileNumberRes *updateMobileNumber, NSError* error) {
+
+    
+    [authLayer requestVerificationCodeRegenerate:_updateMobileNumber.text completionHandler:^(CTSResponse *response, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
         else{
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"OTP Sent on %@, Please Your Verifiy Mobile Number",updateMobileNumber.username]];
+            [UIUtility toastMessageOnScreen:response.responseMessage];
         }
     }];
+
 }
 
 
@@ -183,8 +186,6 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now logged in",userName]];
         }
     }];
-
-
 
 }
 

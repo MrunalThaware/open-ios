@@ -10,10 +10,13 @@
 #define RestFulltester_TestParams_h
 
 // TestParams.h should be populated according to your needs
-
+//
 #define TEST_EMAIL @"mukesh122@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
 #define TEST_MOBILE @"<MOBILE>"
+
+
+
 
 #warning Enter your live mobile number to get OTP so you can SignIn
 
@@ -40,7 +43,7 @@
 #define TEST_CREDIT_CARD_NUMBER @"4028530052708001"
 #define TEST_CREDIT_CARD_EXPIRY_DATE @"03/2020"
 #define TEST_CREDIT_CARD_SCHEME @"visa"
-#define TEST_CREDIT_CARD_OWNER_NAME @"Jitendra Gupta"
+#define TEST_CREDIT_CARD_OWNER_NAME @""
 #define TEST_CREDIT_CARD_BANK_NAME @"ICICI (credit card)"
 #define TEST_CREDIT_CARD_CVV @"018"
 

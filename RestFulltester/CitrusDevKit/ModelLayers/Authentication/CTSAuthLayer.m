@@ -64,7 +64,9 @@
                          error:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
-  if (![CTSUtility validateMobile:mobile]) {
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    
+  if (!mobile) {
     [self signupHelperUsername:userNameSignup
                          oauth:[CTSOauthManager readOauthToken]
                          error:[CTSError getErrorForCode:MobileNotValid]];
@@ -123,7 +125,8 @@
                          error:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
-  if (![CTSUtility validateMobile:mobile]) {
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+  if (!mobile) {
     [self signupHelperUsername:userNameSignup
                          oauth:[CTSOauthManager readOauthToken]
                          error:[CTSError getErrorForCode:MobileNotValid]];
@@ -242,28 +245,95 @@
     }];
 }
 
+//
+//-(void)requestVerification:(NSString *)mobile code:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback{
+//    [self addCallback:callback forRequestId:OTPVerificationRequestId];
+//    
+//    
+//    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+//    if (!mobile) {
+//        [self otpVerificationHelper:NO error:[CTSError getErrorForCode:MobileNotValid]];
+//        return;
+//    }
+//    
+//    
+//    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
+//    NSString* oauthToken = oauthStatus.oauthToken;
+//    
+//    
+//    
+//    
+//    if (oauthStatus.error != nil) {
+//        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+//        oauthToken = oauthStatus.oauthToken;
+//    }
+//    
+//    
+//    if (oauthStatus.error != nil || oauthToken == nil) {
+//        [self otpVerificationHelper:nil error:oauthStatus.error];
+//        
+//    }
+//    
+//    NSDictionary* parameters = @{
+//                                 MLC_OTP_VER_QUERY_OTP : otp,
+//                                 MLC_OTP_VER_QUERY_MOBILE : mobile
+//                                 };
+//    
+//    
+//    
+//    
+//    
+//    CTSRestCoreRequest* request =
+//    [[CTSRestCoreRequest alloc] initWithPath:MLC_MOBILE_VERIFICATION_CODE_OAUTH_PATH
+//                                   requestId:OTPVerificationRequestId
+//                                     headers:nil
+//                                  parameters:parameters
+//                                        json:nil
+//                                  httpMethod:POST];
+//    
+//    [restCore requestAsyncServer:request];
+//    
+//    
+//}
 
--(void)requestVerification:(NSString *)mobile code:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback{
-    [self addCallback:callback forRequestId:OTPVerificationRequestId];
+
+
+
+
+-(void)requestMobileVerificationWithCode:(NSString *)otp completionHandler:(ASOtpVerificationCallback)callback{
+    [self addCallback:callback forRequestId:MobileVerificationRequestId];
+ 
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
     
     
-   // username = [CTSUtility mobileNumberToTenDigitIfValid:username];
-    if (!mobile) {
-        [self otpVerificationHelper:NO error:[CTSError getErrorForCode:MobileNotValid]];
-        return;
+    
+    
+    if (oauthStatus.error != nil) {
+        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthToken = oauthStatus.oauthToken;
     }
     
-    NSDictionary* parameters = @{
-                                 MLC_OTP_VER_QUERY_OTP : otp,
-                                 MLC_OTP_VER_QUERY_MOBILE : mobile
-                                 };
+    
+    if (oauthStatus.error != nil || oauthToken == nil) {
+        [self mobileVerificationHelper:NO error:oauthStatus.error];
+        
+    }
+    
+
+    
+    
+    NSString *jsonString =[NSString stringWithFormat:@"{\"%@\":\"%@\"}",MLC_MOBILE_VERIFICATION_CODE_OAUTH_QUERY_MOBILE, otp];
+
+    
     
     CTSRestCoreRequest* request =
-    [[CTSRestCoreRequest alloc] initWithPath:MLC_OTP_VER_PATH
-                                   requestId:OTPVerificationRequestId
-                                     headers:nil
-                                  parameters:parameters
-                                        json:nil
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_MOBILE_VERIFICATION_CODE_OAUTH_PATH
+                                   requestId:MobileVerificationRequestId
+                                     headers:[CTSUtility readOauthTokenAsHeader:oauthStatus.oauthToken]
+                                  parameters:nil
+                                        json:jsonString
                                   httpMethod:POST];
     
     [restCore requestAsyncServer:request];
@@ -271,32 +341,52 @@
     
 }
 
-
 -(void)requestVerificationCodeRegenerate:(NSString *)mobile completionHandler:(ASOtpRegenerationCallback)callback{
-    [self addCallback:callback forRequestId:OTPRegenerationRequestId];
-   // mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    [self addCallback:callback forRequestId:MobVerCodeRegenerationRequestId];
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
     
     if (!mobile) {
-        [self otpRegenerationHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
+        [self mobVerCodeRegenerationHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }
     
-    NSDictionary* parameters = @{
-                                 MLC_OTP_REGENERATE_QUERY_MOBILE : mobile
-                                 };
+    
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    
+    
+    
+    if (oauthStatus.error != nil) {
+        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthToken = oauthStatus.oauthToken;
+    }
+    
+    
+    if (oauthStatus.error != nil || oauthToken == nil) {
+        [self mobVerCodeRegenerationHelper:nil error:oauthStatus.error];
+        
+    }
+    
+
+    
+    
+    NSString *jsonString =[NSString stringWithFormat:@"{\"%@\":\"%@\"}",MLC_OTP_REGENERATE_QUERY_MOBILE, mobile];
+
     
     CTSRestCoreRequest* request =
-    [[CTSRestCoreRequest alloc] initWithPath:MLC_OTP_REGENERATE_PATH
-                                   requestId:OTPRegenerationRequestId
-                                     headers:nil
-                                  parameters:parameters
-                                        json:nil
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_OTP_REGENERATE_WITH_OAUTH_PATH
+                                   requestId:MobVerCodeRegenerationRequestId
+                                     headers:[CTSUtility readOauthTokenAsHeader:oauthStatus.oauthToken]
+                                  parameters:nil
+                                        json:jsonString
                                   httpMethod:MLC_OTP_REGENERATE_TYPE];
     
     [restCore requestAsyncServer:request];
     
 }
-
+//6hs1
 
 
 -(void)requestGenerateOTPFor:(NSString *)entity completionHandler:(ASGenerateOtpCallBack)callback{
@@ -609,8 +699,8 @@
                                  error:[CTSError getErrorForCode:EmailNotValid]];
         return;
     }
-
-    if (![CTSUtility validateMobile:mobile]) {
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    if (!mobile) {
         [self bindUserHelperUsername:email
                                error:[CTSError getErrorForCode:MobileNotValid]];
         return;
@@ -738,7 +828,7 @@
     
     
     user.mobileNo = [CTSUtility mobileNumberToTenDigitIfValid:user.mobileNo];
-    if (![CTSUtility validateMobile:user.mobileNo]) {
+    if (!user.mobileNo) {
         [self linkHelper:nil
                        error:[CTSError getErrorForCode:MobileNotValid]];
         return;
@@ -841,8 +931,8 @@
         [self linkUserHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
         return;
     }
-    
-    if (![CTSUtility validateMobile:mobile]) {
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    if (!mobile) {
         [self linkUserHelper:nil
                                error:[CTSError getErrorForCode:MobileNotValid]];
         return;
@@ -1028,8 +1118,8 @@ enum {
     SetPasswordReqId,
     SignupOauthAsynTokenReqId,
     SignupNewReqId,
-    OTPVerificationRequestId,
-    OTPRegenerationRequestId,
+    MobileVerificationRequestId,
+    MobVerCodeRegenerationRequestId,
     GenerateOTPReqId,
     LinkReqId,
     BindSigninAsyncReqId,
@@ -1067,9 +1157,9 @@ enum {
                            
                            toNSString(SignupNewReqId) : toSelector(handleNewSignup
                                                                    :),
-                           toNSString(OTPVerificationRequestId) : toSelector(handleOTPVerfication
-                                                                             :),
-                           toNSString(OTPRegenerationRequestId):toSelector(handleOTPRegeneration:)
+                           toNSString(MobileVerificationRequestId) : toSelector(handleMobileVerfication:
+                                                                             ),
+                           toNSString(MobVerCodeRegenerationRequestId):toSelector(handleMobVerCodeRegeneration:)
                            ,
                            toNSString(GenerateOTPReqId):toSelector(handleOTPGeneration:),
                            
@@ -1441,24 +1531,13 @@ enum {
     [self newSignupHelper:(NSError *)response.error];
 }
 
--(void)handleOTPVerfication:(CTSRestCoreResponse*)response {
-    NSError* error = response.error;
-    if(error == nil){
-        [self otpVerificationHelper:[CTSUtility convertToBool:response.responseString] error:nil];
-    }
-    else{
-        [self otpVerificationHelper:NO error:error];
-    }
-    
-}
-
--(void)handleOTPRegeneration:(CTSRestCoreResponse*)response{
+-(void)handleMobileVerfication:(CTSRestCoreResponse*)response {
     NSError* error = response.error;
     JSONModelError* jsonError;
     CTSResponse *genResponse;
+    BOOL isVerified = NO;
     if(!error){
         genResponse =[[CTSResponse alloc] initWithString:response.responseString error:&jsonError];
-        
         if(jsonError  == nil){
             error = [CTSError convertCTSResToErrorIfNeeded:genResponse];
         }
@@ -1469,8 +1548,37 @@ enum {
             genResponse = nil;
         }
     }
+    if(error == nil){
+    
+        isVerified = YES;
+    }
+    
+    [self mobileVerificationHelper:isVerified error:error];
+    
+    
+    
+    
+}
 
-    [self otpRegenerationHelper:genResponse error:error];
+-(void)handleMobVerCodeRegeneration:(CTSRestCoreResponse*)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSResponse *genResponse;
+    if(!error){
+        genResponse =[[CTSResponse alloc] initWithString:response.responseString error:&jsonError];
+        if(jsonError  == nil){
+            error = [CTSError convertCTSResToErrorIfNeeded:genResponse];
+        }
+        else {
+            error = jsonError;
+        }
+        if(error){
+            genResponse = nil;
+        }
+    }
+    
+    [self mobVerCodeRegenerationHelper:genResponse error:error];
+    
 }
 
 -(void)handleOTPGeneration:(CTSRestCoreResponse*)response{
@@ -1653,8 +1761,8 @@ enum {
 
 }
 
--(void)otpVerificationHelper:(BOOL)isVerified error:(NSError *)error{
-    ASOtpVerificationCallback callback = [self retrieveAndRemoveCallbackForReqId:OTPVerificationRequestId];
+-(void)mobileVerificationHelper:(BOOL)isVerified error:(NSError *)error{
+    ASOtpVerificationCallback callback = [self retrieveAndRemoveCallbackForReqId:MobileVerificationRequestId];
     if(callback != nil){
         callback(isVerified,error);
     }
@@ -1665,13 +1773,13 @@ enum {
 }
 
 
--(void)otpRegenerationHelper:(CTSResponse *)response error:(NSError *)error{
-    ASOtpRegenerationCallback callback = [self retrieveAndRemoveCallbackForReqId:OTPRegenerationRequestId];
+-(void)mobVerCodeRegenerationHelper:(CTSResponse *)response error:(NSError *)error{
+    ASOtpRegenerationCallback callback = [self retrieveAndRemoveCallbackForReqId:MobVerCodeRegenerationRequestId];
     if(callback != nil){
         callback(response,error);
     }
     else{
-        [delegate auth:self didRegenerateOTPWitherror:error];
+        [delegate auth:self didGenerateVerificationCode:response error:error];
     }
 }
 

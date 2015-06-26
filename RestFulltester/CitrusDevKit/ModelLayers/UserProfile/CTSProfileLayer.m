@@ -305,7 +305,7 @@ enum {
     
     
     mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
-    if (![CTSUtility validateMobile:mobile]) {
+    if (!mobile) {
         [self getNewContactProfileHelper:nil
                    error:[CTSError getErrorForCode:MobileNotValid]];
         return;
@@ -346,7 +346,7 @@ enum {
     
     
     mobileNumber = [CTSUtility mobileNumberToTenDigitIfValid:mobileNumber];
-    if (![CTSUtility validateMobile:mobileNumber]) {
+    if (!mobileNumber) {
         [self updateMobileHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }

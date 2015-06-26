@@ -152,9 +152,9 @@
     
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     [paymentInfo addCard:creditCard];
-    
+
     // Get your bill here.
-    CTSBill *bill = [SimpleStartViewController getBillFromServer];
+    CTSBill *bill = nil;//[SimpleStartViewController getBillFromServer];
     
     [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){

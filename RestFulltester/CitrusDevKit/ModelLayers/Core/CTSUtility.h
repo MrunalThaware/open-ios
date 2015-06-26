@@ -56,5 +56,6 @@
 +(NSString *)toJson:(NSDictionary *)dict;
 +(NSString*)mobileNumberToTenDigitIfValid:(NSString *)number;
 +(BOOL)isAmex:(NSString *)number;
-+(BOOL)stringContainsSpecialChars:(NSString *)toCheck exception:(NSString*)exceptionChars;
++(BOOL)stringContainsSpecialChars:(NSString *)toCheck exceptChars:(NSString*)exceptionChars exceptCharSet:(NSCharacterSet*)exceptionCharSet;
++(BOOL)islengthInvalid:(NSString*)string;
 @end
