@@ -56,6 +56,6 @@
 
 -(void)amexCreditcardCorrectionIfNeeded;
 
--(void)doCorrections;
+-(void)doCardCorrectionsIfNeeded;
 
 @end

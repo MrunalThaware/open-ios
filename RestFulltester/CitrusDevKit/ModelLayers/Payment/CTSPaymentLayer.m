@@ -143,7 +143,7 @@
     }
     CTSErrorCode error = [paymentInfo validate];
     
-    [paymentInfo dummyCVVAndExpiryIfMaestro];
+    [paymentInfo doCardCorrectionsIfNeeded];
     
     LogTrace(@"validation error %d ", error);
     
@@ -313,7 +313,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     error = [paymentInfo validate];
     }
     
-    [paymentInfo dummyCVVAndExpiryIfMaestro];
+    [paymentInfo doCardCorrectionsIfNeeded];
     
    // LogTrace(@"validation error %d ", error);
     

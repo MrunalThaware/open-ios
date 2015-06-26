@@ -116,7 +116,7 @@
 
 }
 
--(void)doCorrections{
+-(void)doCardCorrectionsIfNeeded{
     [self dummyCVVAndExpiryIfMaestro];
     [self amexCreditcardCorrectionIfNeeded];
 }
