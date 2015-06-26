@@ -124,6 +124,7 @@ enum {
     }
   }
 
+  [paymentInfo doCardCorrectionsIfNeeded];
   [paymentInfo clearCVV];
   [paymentInfo clearNetbankCode];
 
