@@ -36,9 +36,17 @@ typedef enum {
     TransactionForcedClosed,
     TransactionAlreadyInProgress,
     InsufficientBalance,
-    CardHolderNameInvalid
+    CardHolderNameInvalid,
+    DeleteCardNumberNotValid
+
+    
 
 } CTSErrorCode;
+
+
+
+
+
 
 #define CITRUS_ERROR_DOMAIN @"com.citrus.errorDomain"
 #define CITRUS_ERROR_DESCRIPTION_KEY @"CTSServerErrorDescription"
@@ -47,6 +55,8 @@ typedef enum {
 @interface CTSError : NSObject
 // Follwoing methods are for internal use only
 + (NSError*)getErrorForCode:(CTSErrorCode)code;
+//+ (NSError*)getErrorForCode:(CTSErrorCode)code paramType:();
+
 + (NSError*)getServerErrorWithCode:(int)errorCode
                           withInfo:(NSDictionary*)information;
 +(NSString *)getFakeJsonForCode:(CTSErrorCode)errorCode;

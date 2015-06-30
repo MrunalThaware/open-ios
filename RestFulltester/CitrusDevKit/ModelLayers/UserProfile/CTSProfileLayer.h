@@ -78,6 +78,13 @@ didReceiveCashoutAccount:(CTSCashoutBankAccountResp *)cashoutAccount  error:(NSE
 @optional
 - (void)profile:(CTSProfileLayer*)profile didGetNewProfile:(CTSNewContactProfile *)profile
           error:(NSError*)error;
+
+
+@optional
+- (void)profile:(CTSProfileLayer*)profile
+didDeleteCardWithError:(NSError*)error;
+
+
 @end
 
 
@@ -109,6 +116,8 @@ typedef void (^ASGetCashoutBankAccountCallback)(CTSCashoutBankAccountResp *bankA
 typedef void (^ASNewContactProfileCallback)(CTSNewContactProfile* profile, NSError*error);
 
 typedef void (^ASUpdateMobileNumberCallback)(CTSUpdateMobileNumberRes *updateMobileNumber, NSError* error);
+
+typedef void (^ASDeleteCardCallback)(NSError* error);
 
 
 /**
@@ -160,5 +169,15 @@ typedef void (^ASUpdateMobileNumberCallback)(CTSUpdateMobileNumberRes *updateMob
  @details          Use this method For update new mobile number.
  */
 - (void)requestUpdateMobile:(NSString *)mobileNumber WithCompletionHandler:(ASUpdateMobileNumberCallback)callback;
+
+
+/**
+ @brief            delete Saved Card.
+ @param lastFourDigits     Last four digits of the saved card.
+ @param scheme   correct scheme of the card.
+ @details          Use this method For delete saved cards.
+ */
+-(void)requestDeleteCard:(NSString *)lastFourDigits scheme:(NSString *)scheme withCompletionHandler:(ASDeleteCardCallback)callback;
+
 
 @end
