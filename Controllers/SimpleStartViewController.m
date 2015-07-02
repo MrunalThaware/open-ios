@@ -45,11 +45,7 @@
     addressInfo.street2 = @"Pink City";
     addressInfo.zip = @"401209";
 
-    customParams = @{@"USERDATA2":@"MOB_RC|9988776655",
-                     @"USERDATA10":@"test",
-                     @"USERDATA4":@"MOB_RC|test@gmail.com",
-                     @"USERDATA3":@"MOB_RC|4111XXXXXXXX1111",
-                     };
+    customParams = nil;
 }
 
 
@@ -96,7 +92,7 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Credit card info for card payment type.
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = TEST_CREDIT_CARD_NUMBER;
+    creditCard.number = @"5105105105105100";
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
     creditCard.scheme = [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
@@ -115,6 +111,10 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't save card\n error: %@",toErrorDescription(error)]];
         }
     }];
+    
+    
+    
+    
 }
 
 // Tokenized card payment.
@@ -123,9 +123,9 @@
     // Update card for tokenized payment.
     CTSElectronicCardUpdate *tokenizedCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
      tokenizedCard.cvv= TEST_CREDIT_CARD_CVV;
-     tokenizedCard.token= @"f00bbc754c00db104cfb9c6adb3fd31c";
+     tokenizedCard.token= @"5115669e6129247a1e7a3599ea58e947";
     [tokenizedCardInfo addCard:tokenizedCard];
-    //5115669e6129247a1e7a3599ea58e947
+    //
     // Get your bill here.
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
 
@@ -154,7 +154,8 @@
     [paymentInfo addCard:creditCard];
 
     // Get your bill here.
-    CTSBill *bill = nil;//[SimpleStartViewController getBillFromServer];
+    CTSBill *bill = [SimpleStartViewController getBillFromServer];
+
     
     [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){

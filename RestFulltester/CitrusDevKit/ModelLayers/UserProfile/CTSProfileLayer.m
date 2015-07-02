@@ -383,9 +383,15 @@ enum {
 -(void)requestDeleteCard:(NSString *)lastFourDigits scheme:(NSString *)scheme withCompletionHandler:(ASDeleteCardCallback)callback{
     [self addCallback:callback forRequestId:ProfileDeleteCardReqId];
     
-    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
+    if (oauthStatus.error != nil) {
+        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthToken = oauthStatus.oauthToken;
+    }
+
     if (oauthStatus.error != nil) {
         [self deleteCardHelper:oauthStatus.error];
         return;
