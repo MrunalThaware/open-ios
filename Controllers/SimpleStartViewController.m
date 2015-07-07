@@ -157,7 +157,7 @@
     CTSBill *bill = [SimpleStartViewController getBillFromServer];
 
     
-    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:@"" returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
         }
@@ -248,6 +248,21 @@
     JSONModelError *jsonError;
     CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
                                                     error:&jsonError];
+    
+//    
+//    sampleBill.amount = [[CTSAmount alloc] init];
+//    sampleBill.amount.value = @"1";
+//    sampleBill.amount.value = @"INR";
+//    sampleBill.requestSignature = @"b0a169132e022a6b46b24374483fe5b8d3869b24";
+//    sampleBill.merchantAccessKey = @"GN5LNPT86TK4HVCZFENP";
+//    sampleBill.merchantTxnId = @"SG213649122";
+//    sampleBill.returnUrl = @"http://app-tech.tinyowl.com/restaurant/payment/online/response";
+//    sampleBill.notifyUrl = @"www.google.com";
+    
+    
+
+    
+    
     LogTrace(@"billJson %@",billJson);
     LogTrace(@"signature %@ ", sampleBill);
     return sampleBill;

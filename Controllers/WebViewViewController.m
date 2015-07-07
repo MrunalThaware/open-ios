@@ -12,6 +12,7 @@
 #import "SimpleStartViewController.h"
 #import "PrepaidViewControllerOld2.h"
 #import "TestParams.h"
+#import <JavaScriptCore/JavaScriptCore.h>
 
 @interface WebViewViewController ()
 
@@ -65,11 +66,19 @@
     [indicator stopAnimating];
     
     //for payment proccessing return url finish
-    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
-    if(responseDict){
-        //responseDict> contains all the information related to transaction
-        [self transactionComplete:responseDict];
-    }
+//    NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
+//    if(responseDict){
+//        //responseDict> contains all the information related to transaction
+//        [self transactionComplete:responseDict];
+//    }
+    
+    
+    
+    JSContext *context =  [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    context[@"submitButton"] = ^(NSString *param1) {
+        [self yourObjectiveCMethod:param1];
+    };
+    
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
@@ -81,7 +90,7 @@
     if(loadMoneyResponse){
         LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
 
-        [self loadMoneyComplete:loadMoneyResponse];
+       // [self loadMoneyComplete:loadMoneyResponse];
     }
     
     
@@ -91,7 +100,7 @@
     NSLog(@"responseDict %@",responseDict);
     if(responseDict){
         //responseDict> contains all the information related to transaction
-        [self transactionComplete:responseDict];
+       // [self transactionComplete:responseDict];
     }
     
     return YES;
@@ -136,4 +145,27 @@
     self.webview.delegate = nil;
     self.webview = nil;
 }
+
+
+
+- (void)statWebview
+{
+    
+    
+//    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,40,320,320)];
+//    webView.delegate = self;
+//    [self.view addSubview:webView];
+//    NSString *pageSource = @"<!DOCTYPE html> <html> <head> </head> <body> <h1>My Mobile App</h1> <p>Please enter the Details</p> <form name=\"feedback\" method=\"post\" action=\"mailto:you@site.com\"> <!-- Form elements will go in here --> </form> <form name=\"inputform\"> <input type=\"button\" onClick=\"submitButton('My Test Parameter')\" value=\"submit\"> </form> </body> </html>";
+//    [webView loadHTMLString:pageSource baseURL:nil];
+}
+
+//- (void)webViewDidFinishLoad:(UIWebView *)webView
+//{
+//    
+//}
+
+- (void)yourObjectiveCMethod:(NSString *)param1 {
+    NSLog(@"User clicked submit. param1=%@", param1);
+}
+
 @end
