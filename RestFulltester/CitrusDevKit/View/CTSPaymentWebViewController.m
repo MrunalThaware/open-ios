@@ -49,6 +49,26 @@
     transactionOver = NO;
     [self.webview loadRequest:[[NSURLRequest alloc]
                                initWithURL:[NSURL URLWithString:redirectURL]]];
+    
+    
+//    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissController)];
+//    
+//    
+//    self.navigationController.navigationItem.leftBarButtonItem = closeButton;
+//    
+//    
+    
+        UIButton*back = [UIButton buttonWithType:UIButtonTypeSystem];
+        [back addTarget:self action:@selector(dismissController) forControlEvents:UIControlEventTouchUpInside];
+    back.frame = CGRectMake(10, 10, 50, 22);
+        [back setTitle:@"Back" forState:UIControlStateNormal];
+        [self.navigationController.navigationBar addSubview:back ];
+    
+    
+}
+
+-(void)dismissController{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

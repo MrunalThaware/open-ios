@@ -1177,7 +1177,13 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
         paymentWebViewController.reqId = reqId;
         paymentWebViewController.returnUrl = returnUrl ;
         NSLog(@"citrusCashBackViewController.navigationController %@",citrusCashBackViewController.navigationController);
-        [citrusCashBackViewController.navigationController pushViewController:paymentWebViewController animated:YES];
+//    if(citrusCashBackViewController.navigationController){
+//    [citrusCashBackViewController.navigationController pushViewController:paymentWebViewController animated:YES];
+//    }{
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:paymentWebViewController];
+     [citrusCashBackViewController presentViewController:navigationController animated:NO completion:nil];
+   // }
+
    // });
 }
 
@@ -1210,7 +1216,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
     int toIntReqId = [CTSUtility extractReqId:response.responseDict];
     NSError *error = [CTSUtility extractError:response.responseDict];
     
-    [paymentWebViewController.navigationController popViewControllerAnimated:YES];
+    [self dismissController];
     [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
     paymentWebViewController=nil;
     citrusCashBackViewController = nil;
@@ -1232,5 +1238,8 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
     }
 }
 
+ -(void)dismissController{
+     [paymentWebViewController dismissViewControllerAnimated:YES completion:nil];
+ }
 
 @end
