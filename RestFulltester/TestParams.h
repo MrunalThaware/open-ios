@@ -13,7 +13,7 @@
 //
 #define TEST_EMAIL @"yaddyboy100@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9702964502"
+#define TEST_MOBILE @"9999999999"
 
 
 
