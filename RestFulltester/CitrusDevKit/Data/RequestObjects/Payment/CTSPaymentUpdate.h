@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface CTSPaymentUpdate : NSObject
-@property(nonatomic, strong) NSString* currency, *redirect, *amount, *returnUrl;
+@property( strong) NSString* currency, *redirect, *amount, *returnUrl;
 
 @end

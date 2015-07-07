@@ -23,7 +23,7 @@
     int delegationRequestId;
     BOOL finished;
 }
-@property(strong, nonatomic) NSString* baseUrl;
+@property(strong) NSString* baseUrl;
 @property(weak) id<CTSRestCoreDelegate> delegate;
 - (instancetype)initWithBaseUrl:(NSString*)url;
 - (void)requestAsyncServer:(CTSRestCoreRequest*)restRequest;

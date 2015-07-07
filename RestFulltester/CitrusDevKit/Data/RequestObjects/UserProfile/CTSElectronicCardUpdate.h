@@ -11,8 +11,8 @@
 #import "CTSObject.h"
 
 @interface CTSElectronicCardUpdate : CTSObject
-@property(strong, nonatomic, readonly) NSString* type;
-@property(strong, nonatomic) NSString* name, *ownerName, *number, *expiryDate,
+@property(strong, readonly) NSString* type;
+@property(strong) NSString* name, *ownerName, *number, *expiryDate,
     *scheme, *cvv, *token, *bankcode;
 
 /**

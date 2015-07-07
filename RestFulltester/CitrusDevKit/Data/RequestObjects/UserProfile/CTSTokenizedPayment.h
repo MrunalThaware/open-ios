@@ -10,8 +10,8 @@
 #import "CTSObject.h"
 
 @interface CTSTokenizedPayment : CTSObject
-@property(strong, nonatomic, readonly) NSString* type;
-@property(strong, nonatomic) NSString* token, *cvv;
+@property(strong,readonly) NSString* type;
+@property(strong) NSString* token, *cvv;
 
 - (instancetype)initWithToken:(NSString*)tokenArg cvv:(NSString*)cvvArg;
 

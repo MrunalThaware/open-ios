@@ -10,7 +10,7 @@
 #import "CTSPaymentOption.h"
 
 @interface CTSProfilePaymentRes : JSONModel
-@property(nonatomic, strong) NSString* type;
-@property(nonatomic, strong) NSString<Optional>* defaultOption;
-@property(nonatomic, strong) NSArray<CTSPaymentOption>* paymentOptions;
+@property(  strong) NSString* type;
+@property(  strong) NSString<Optional>* defaultOption;
+@property(  strong) NSArray<CTSPaymentOption>* paymentOptions;
 @end

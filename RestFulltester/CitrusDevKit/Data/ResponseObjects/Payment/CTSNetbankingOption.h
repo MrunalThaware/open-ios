@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface CTSNetbankingOption : NSObject
-@property(nonatomic, strong) NSString* bankName;
-@property(nonatomic, strong) NSString* issuerCode;
+@property(strong) NSString* bankName;
+@property(strong) NSString* issuerCode;
 @end

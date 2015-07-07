@@ -13,10 +13,10 @@
 #import "JSONModel.h"
 
 @interface CTSPaymentDetailUpdate : JSONModel
-@property(nonatomic, strong) NSString* type;
-@property(nonatomic, strong) NSString <Optional>*defaultOption;
-@property(nonatomic, strong) NSString<Optional>* password;
-@property(nonatomic, strong) NSMutableArray<CTSPaymentOption>* paymentOptions;
+@property( strong) NSString* type;
+@property( strong) NSString <Optional>*defaultOption;
+@property( strong) NSString<Optional>* password;
+@property( strong) NSMutableArray<CTSPaymentOption>* paymentOptions;
 
 -(instancetype)initCitrusPayWithEmail:(NSString *)email;
 

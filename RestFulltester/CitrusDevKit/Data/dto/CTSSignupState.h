@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface CTSSignupState : NSObject
-@property(nonatomic, strong) NSString* email, *mobile, *password;
+@property(strong) NSString* email, *mobile, *password;
 
 - (instancetype)initWithEmail:(NSString*)email
                        mobile:(NSString*)mobile

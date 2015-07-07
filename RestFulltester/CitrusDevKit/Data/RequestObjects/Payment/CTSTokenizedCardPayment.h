@@ -13,7 +13,7 @@
 #import "JSONModel.h"
 
 @interface CTSTokenizedCardPayment : JSONModel
-@property(nonatomic, strong) CTSAmount* amount;
+@property(strong) CTSAmount* amount;
 @property(strong) NSString<Optional>* merchantAccessKey;
 @property(strong) NSString<Optional>* merchantTxnId;
 @property(strong) NSString<Optional>* notifyUrl;
@@ -21,6 +21,6 @@
 @property(strong) NSString<Optional>* returnUrl;
 @property(strong) NSString<Optional>* merchant;
 @property(strong) NSString<Optional>* merchantKey;
-@property(nonatomic, strong) CTSUserDetails<Optional>* userDetails;
-@property(nonatomic, strong) CTSPaymentToken<Optional>* paymentToken;
+@property(strong) CTSUserDetails<Optional>* userDetails;
+@property(strong) CTSPaymentToken<Optional>* paymentToken;
 @end

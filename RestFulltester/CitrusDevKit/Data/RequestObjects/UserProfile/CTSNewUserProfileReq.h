@@ -9,6 +9,6 @@
 #import "JSONModel.h"
 
 @interface CTSNewUserProfileReq : JSONModel
-@property(nonatomic, strong) NSString<Optional>* email;
-@property(nonatomic, strong) NSString<Optional>* mobile;
+@property(strong) NSString<Optional>* email;
+@property( strong) NSString<Optional>* mobile;
 @end

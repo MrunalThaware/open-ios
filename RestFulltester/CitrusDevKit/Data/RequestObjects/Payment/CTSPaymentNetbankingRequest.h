@@ -12,7 +12,7 @@
 #import "CTSPaymentToken.h"
 #import "JSONModel.h"
 @interface CTSPaymentNetbankingRequest : JSONModel
-@property(nonatomic, strong) CTSAmount* amount;
+@property( strong) CTSAmount* amount;
 @property(strong) NSString<Optional>* merchantAccesskey;
 @property(strong) NSString<Optional>* merchantTxnId;
 @property(strong) NSString<Optional>* notifyUrl;
@@ -20,6 +20,6 @@
 @property(strong) NSString<Optional>* returnUrl;
 @property(strong) NSString<Optional>* merchant;
 @property(strong) NSString<Optional>* merchantKey;
-@property(nonatomic, strong) CTSPaymentToken* paymentToken;
-@property(nonatomic, strong) CTSUserDetails* userDetails;
+@property(strong) CTSPaymentToken* paymentToken;
+@property(strong) CTSUserDetails* userDetails;
 @end

@@ -10,12 +10,12 @@
 #import "JSONModel.h"
 #import "CTSAmount.h"
 @interface CTSBill : JSONModel
-@property(nonatomic)NSString *merchantTxnId;
-@property(nonatomic)CTSAmount *amount;
-@property(nonatomic)NSString *requestSignature;
-@property(nonatomic)NSString *merchantAccessKey;
-@property(nonatomic)NSString *returnUrl;
-@property(nonatomic,strong)NSString <Optional>*notifyUrl;
+@property(strong)NSString *merchantTxnId;
+@property(strong)CTSAmount *amount;
+@property(strong)NSString *requestSignature;
+@property(strong)NSString *merchantAccessKey;
+@property(strong)NSString *returnUrl;
+@property(strong)NSString <Optional>*notifyUrl;
 
 
 @end

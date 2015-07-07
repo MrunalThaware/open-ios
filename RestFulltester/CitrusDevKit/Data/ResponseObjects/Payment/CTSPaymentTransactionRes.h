@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
 @interface CTSPaymentTransactionRes : JSONModel
-@property(nonatomic, strong) NSString* redirectUrl;
-@property(nonatomic, strong) NSString<Optional>* pgRespCode;
-@property(nonatomic, strong) NSString<Optional>* txMsg;
+@property( strong) NSString* redirectUrl;
+@property( strong) NSString<Optional>* pgRespCode;
+@property( strong) NSString<Optional>* txMsg;
 
 
 @end

@@ -10,5 +10,5 @@
 #import "JSONModel.h"
 
 @interface CTSPGHealthRes : JSONModel
-@property(nonatomic, strong) NSMutableDictionary* responseDict;
+@property(strong) NSMutableDictionary* responseDict;
 @end

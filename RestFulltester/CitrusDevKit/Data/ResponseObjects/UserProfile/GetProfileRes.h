@@ -10,15 +10,15 @@
 #import "NSObject+logProperties.h"
 
 @interface GetProfileRes : NSObject
-@property(nonatomic, strong) NSString* mobileMoneyId;
-@property(nonatomic, strong) NSString* scheme;
-@property(nonatomic, strong) NSString* token;
-@property(nonatomic, strong) NSString* expiryDate;
-@property(nonatomic, strong) NSString* name;
-@property(nonatomic, strong) NSString* owner;
-@property(nonatomic, strong) NSString* bank;
-@property(nonatomic, strong) NSString* accountNumber;
-@property(nonatomic, strong) NSString* impsRegisteredMobile;
+@property( strong) NSString* mobileMoneyId;
+@property( strong) NSString* scheme;
+@property( strong) NSString* token;
+@property( strong) NSString* expiryDate;
+@property( strong) NSString* name;
+@property( strong) NSString* owner;
+@property( strong) NSString* bank;
+@property( strong) NSString* accountNumber;
+@property( strong) NSString* impsRegisteredMobile;
 
 
 @end

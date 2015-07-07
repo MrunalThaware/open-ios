@@ -10,10 +10,10 @@
 #import "JSONModel.h"
 @interface CTSRestError : JSONModel
 
-@property(nonatomic,strong)NSString<Optional>*errorDescription;
-@property(nonatomic,strong)NSString<Optional>*description;
-@property(nonatomic, strong) NSString<Optional>* error;
-@property(nonatomic, strong) NSString<Optional>* type;
-@property(nonatomic, strong) NSString<Ignore>* serverResponse;
+@property( strong)NSString<Optional>*errorDescription;
+@property( strong)NSString<Optional>*description;
+@property(  strong) NSString<Optional>* error;
+@property(  strong) NSString<Optional>* type;
+@property(  strong) NSString<Ignore>* serverResponse;
 
 @end

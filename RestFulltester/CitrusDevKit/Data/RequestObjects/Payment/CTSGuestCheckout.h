@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
 @interface CTSGuestCheckout : JSONModel
-@property(nonatomic, strong) NSString* returnUrl;
+@property( strong) NSString* returnUrl;
 @property(strong) NSString<Optional>* expiryYear;
-@property(nonatomic, strong) NSString<Optional>* amount;
+@property(strong) NSString<Optional>* amount;
 @property(strong) NSString<Optional>* addressState;
 @property(strong)NSString <Optional>*paymentMode;
 @property(strong)NSString<Optional> *lastName;

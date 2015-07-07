@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface CTSCreditCardOption : NSObject
-@property(nonatomic, strong) NSString* creditCardOption;
+@property(  strong) NSString* creditCardOption;
 @end

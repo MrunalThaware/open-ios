@@ -21,6 +21,7 @@
     [super viewDidLoad];
     [self initializeLayers];
     self.title = @"Citrus iOS Native SDK";
+    
 }
 
 #pragma mark - initializers

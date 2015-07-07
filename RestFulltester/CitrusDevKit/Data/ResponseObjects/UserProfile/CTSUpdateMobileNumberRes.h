@@ -10,5 +10,5 @@
 #import "JSONModel.h"
 
 @interface CTSUpdateMobileNumberRes : JSONModel
-@property(nonatomic, strong) NSString* username;
+@property( strong) NSString* username;
 @end

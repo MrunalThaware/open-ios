@@ -13,7 +13,7 @@
 #import "CTSPaymentLayer.h"
 
 @interface CTSPaymentWebViewController ()
-@property(nonatomic,strong) UIWebView *webview;
+@property( strong) UIWebView *webview;
 @end
 
 @implementation CTSPaymentWebViewController

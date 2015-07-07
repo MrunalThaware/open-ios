@@ -10,5 +10,5 @@
 #import "JSONModel.h"
 
 @interface CTSSignUpRes : JSONModel
-@property(strong, nonatomic) NSString* userName;
+@property(strong) NSString* userName;
 @end

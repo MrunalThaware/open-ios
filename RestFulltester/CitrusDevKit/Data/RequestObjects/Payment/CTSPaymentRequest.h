@@ -12,14 +12,14 @@
 #import "CTSUserDetails.h"
 #import "JSONModel.h"
 @interface CTSPaymentRequest : JSONModel
-@property(nonatomic, strong) CTSAmount* amount;
+@property(strong) CTSAmount* amount;
 @property(strong) NSString<Optional>* merchantAccessKey;
 @property(strong) NSString<Optional>* merchantTxnId;
 @property(strong) NSString<Optional>* notifyUrl;
 @property(strong) NSString<Optional>* requestSignature;
 @property(strong) NSString<Optional>* returnUrl;
-@property(nonatomic, strong) CTSPaymentToken* paymentToken;
-@property(nonatomic, strong) CTSUserDetails* userDetails;
+@property(strong) CTSPaymentToken* paymentToken;
+@property(strong) CTSUserDetails* userDetails;
 @property( strong) NSDictionary<Optional>* customParameters;
 
 @end

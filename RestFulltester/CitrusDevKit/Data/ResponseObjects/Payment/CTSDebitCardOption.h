@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface CTSDebitCardOption : NSObject
-@property(nonatomic, strong) NSString* debitCardOption;
+@property( strong) NSString* debitCardOption;
 @end

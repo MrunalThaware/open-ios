@@ -9,9 +9,9 @@
 #import "JSONModel.h"
 
 @interface CTSResponse : JSONModel
-@property(strong,nonatomic)NSString *responseCode;
-@property(strong,nonatomic)NSString *responseMessage;
-@property(strong , nonatomic)NSDictionary *responseData;
+@property(strong)NSString *responseCode;
+@property(strong)NSString *responseMessage;
+@property(strong)NSDictionary *responseData;
 
 -(BOOL)isError;
 -(int)errorCode;

@@ -27,21 +27,21 @@ typedef enum {
 } CTSPaymentType;
 
 @interface CTSPaymentOption : JSONModel
-//@property(nonatomic, strong) NSString* type, *cardName, *ownerName, *number,
+//@property( strong) NSString* type, *cardName, *ownerName, *number,
 //    *bankName, *expiryDate, *scheme;
 
-@property(nonatomic, strong) NSString<Optional>* type;
-@property(nonatomic, strong) NSString<Optional>* name;
-@property(nonatomic, strong) NSString<Optional>* owner;
-@property(nonatomic, strong) NSString<Optional>* bank;
-@property(nonatomic, strong) NSString<Optional>* number;
-@property(nonatomic, strong) NSString<Optional>* expiryDate;
-@property(nonatomic, strong) NSString<Optional>* scheme;
-@property(nonatomic, strong) NSString<Optional>* token;
-@property(nonatomic, strong) NSString<Optional>* mmid;
-@property(nonatomic, strong) NSString<Optional>* impsRegisteredMobile;
-@property(nonatomic, strong) NSString<Optional>* cvv;
-@property(nonatomic, strong) NSString<Optional>* code;
+@property( strong) NSString<Optional>* type;
+@property( strong) NSString<Optional>* name;
+@property( strong) NSString<Optional>* owner;
+@property( strong) NSString<Optional>* bank;
+@property( strong) NSString<Optional>* number;
+@property( strong) NSString<Optional>* expiryDate;
+@property( strong) NSString<Optional>* scheme;
+@property( strong) NSString<Optional>* token;
+@property( strong) NSString<Optional>* mmid;
+@property( strong) NSString<Optional>* impsRegisteredMobile;
+@property( strong) NSString<Optional>* cvv;
+@property( strong) NSString<Optional>* code;
 
 -(instancetype)initCitrusPayWithEmail:(NSString *)email;
 - (instancetype)initWithNetBanking:(CTSNetBankingUpdate*)bankDetails;

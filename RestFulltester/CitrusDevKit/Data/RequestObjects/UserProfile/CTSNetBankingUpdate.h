@@ -11,11 +11,11 @@
 #import "CTSObject.h"
 
 @interface CTSNetBankingUpdate : CTSObject
-@property(strong, nonatomic, readonly) NSString* type;
-@property(strong, nonatomic) NSString* name;
-@property(strong, nonatomic) NSString* bank;
-@property(strong, nonatomic) NSString* code;
-@property(strong, nonatomic) NSString* token;
-@property(strong, nonatomic) NSString* issuerCode;
+@property(strong, readonly) NSString* type;
+@property(strong ) NSString* name;
+@property(strong ) NSString* bank;
+@property(strong ) NSString* code;
+@property(strong ) NSString* token;
+@property(strong ) NSString* issuerCode;
 
 @end

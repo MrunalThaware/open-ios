@@ -11,10 +11,10 @@
 #import "JSONModel.h"
 
 @interface CTSContactUpdate : JSONModel
-@property(nonatomic, strong) NSString* firstName, *lastName;
-@property(nonatomic, strong) NSString* type;
-@property(nonatomic, strong) NSString<Optional>* email;
-@property(nonatomic, strong) NSString<Optional>* mobile;
-@property(nonatomic, strong) NSString<Optional>* password;
+@property(  strong) NSString* firstName, *lastName;
+@property(  strong) NSString* type;
+@property(  strong) NSString<Optional>* email;
+@property(  strong) NSString<Optional>* mobile;
+@property(  strong) NSString<Optional>* password;
 
 @end
