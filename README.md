@@ -48,7 +48,7 @@ To integrate the SDK you just have to drag drop file MerchantConstants.h & folde
 ## Let's Start Programming now
 
 SDK operates in two different modes Sandbox and Production mode.
-During the developement you always want to use the Sandbox mode. once you are done with your App development you can switch to production mode . 
+During the developement you would always want to use the Sandbox mode. once you are done with your App development you can switch to production mode . 
 
 To operate in Sandbox mode you need to change the `BaseUrl` from MerchantConstants.h to 
 
@@ -67,9 +67,9 @@ A typical MerchantConstants.h file looks like following
 		#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93444484d2ca1"
 
 		// URLs
-		#define VanityUrl @"nativeSDK"
-		#define ReturnUrl @"http://192.168.0.5:8888/TestReturn.html"
-		#define BillUrl @"http://192.168.0.5:8888/bill.php"
+		#define VanityUrl @"nativeSDK" //this can be fetched from your Citrus Admin panel
+		#define ReturnUrl @"http://192.168.0.5:8888/TestReturn.html" //Load money reutnr URL, optional if you are not using prepaid functionality
+		#define BillUrl @"http://192.168.0.5:8888/bill.php" //this is your bill URL
 		#define BaseUrl @"https://sandboxadmin.citruspay.com"
 
 
