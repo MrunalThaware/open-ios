@@ -13,8 +13,8 @@ open-iOS
 * You need to host Bill generator on your server
 * You need to host Return Url Page on your server. (After the transaction is complete, Citrus posts a response to this URL.)
 * Make sure that you have obtained following parameters from your Citrus admin panel
-	* Secret Key
-	* Access Key
+	* Merchant Secret Key
+	* Merchant Access Key
 	* SignIn Key
 	* SignIn Secret
 	* SignUp Key
