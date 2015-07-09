@@ -12,7 +12,7 @@
 {
     UIActivityIndicatorView* indicator;
     BOOL transactionOver;
-
+    UIAlertView *pleaseWait;
 }
 @property( strong) NSString *redirectURL,*returnUrl;
 @property(assign) int reqId;

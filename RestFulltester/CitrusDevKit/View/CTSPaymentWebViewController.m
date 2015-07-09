@@ -51,20 +51,27 @@
                                initWithURL:[NSURL URLWithString:redirectURL]]];
     
     
-//    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissController)];
-//    
-//    
-//    self.navigationController.navigationItem.leftBarButtonItem = closeButton;
-//    
-//    
+    //    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissController)];
+    //
+    //
+    //    self.navigationController.navigationItem.leftBarButtonItem = closeButton;
+    //
+    //
     
-        UIButton*back = [UIButton buttonWithType:UIButtonTypeSystem];
-        [back addTarget:self action:@selector(dismissController) forControlEvents:UIControlEventTouchUpInside];
+    [self addBackButton];
+}
+
+
+-(void)addBackButton{
+    UIButton*back = [UIButton buttonWithType:UIButtonTypeSystem];
+    [back addTarget:self action:@selector(promptForCancelTransaction) forControlEvents:UIControlEventTouchUpInside];
     back.frame = CGRectMake(10, 10, 50, 22);
-        [back setTitle:@"Back" forState:UIControlStateNormal];
-        [self.navigationController.navigationBar addSubview:back ];
+//    back.frame = CGRectMake(0, 0, 34, 26);
+    [back setTitle:@"Back" forState:UIControlStateNormal];
+    [self.navigationController.navigationBar addSubview:back ];
     
-    
+
+
 }
 
 -(void)dismissController{
@@ -102,7 +109,7 @@
     NSURL *currentURL = [[webView request] URL];
 
     [indicator stopAnimating];
-    if(YES){
+    if(reqId != PaymentChargeInnerWebLoadMoneyReqId){
         NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
         NSLog(@"currentURL %@",[currentURL description]);
         responseDict = [CTSUtility errorResponseIfReturnUrlDidntRespond:_returnUrl webViewUrl:[currentURL absoluteString] currentResponse:responseDict];
@@ -116,12 +123,8 @@
             NSDictionary *loadMoneyResponseDict = [NSDictionary dictionaryWithObject:loadMoneyResponse forKey:LoadMoneyResponeKey];
             [self transactionComplete:(NSMutableDictionary *)loadMoneyResponseDict];
         }
-    
-    
     }
-    
-    
-    
+
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
@@ -155,6 +158,8 @@
 -(void)transactionComplete:(NSMutableDictionary *)responseDictionary{
     NSLog(@" transactionComplete ");
     LogThread
+    [pleaseWait dismissWithClickedButtonIndex:10 animated:YES];
+
     transactionOver = YES;
     responseDictionary = [NSMutableDictionary dictionaryWithDictionary:responseDictionary];
     [self finishWebView];
@@ -175,4 +180,48 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
+
+-(void)promptForCancelTransaction{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:@"Do you Really Want to Cancel the Transaction?" delegate:self cancelButtonTitle:@"NO"otherButtonTitles:@"YES", nil];
+        
+        alert.tag = 1;
+        [alert show];
+    });
+}
+
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [alertView dismissWithClickedButtonIndex:10 animated:YES];
+
+    NSLog(@"clicked button %d",buttonIndex);
+    if(buttonIndex == 0){
+    }
+    else if (buttonIndex == 1){
+        [self pleaseWaitPrompt];
+        [self cancelTransaction];
+    }
+}
+
+
+-(void)pleaseWaitPrompt{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        pleaseWait = [[UIAlertView alloc] initWithTitle:@"Please Wait !" message:@"Safely Ending the Transaction ..." delegate:nil cancelButtonTitle:nil otherButtonTitles: nil];
+        [pleaseWait show];
+    });
+
+}
+
+-(void)cancelTransaction{
+    LogThread
+    NSLog(@" CancelTransaction ");
+    if( [self.webview isLoading]){
+        [self.webview stopLoading];
+    }
+    [self.webview loadRequest:[[NSURLRequest alloc]
+                               initWithURL:[NSURL URLWithString:redirectURL]]];
+}
 @end
