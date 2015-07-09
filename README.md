@@ -33,7 +33,7 @@ Citrus iOS SDK broadly offers following features.
 *
 
 
-### InstallationFrom source code
+### Installation From source code
 Get the latest source code from github.com:
 ```bash
 $ git clone https://github.com/citruspay/open-ios.git
@@ -42,6 +42,34 @@ $ git clone https://github.com/citruspay/open-ios.git
 ### Xcode integration
 
 To integrate the SDK you just have to drag drop folder CitrusDevKit/ and file MerchantConstants.h to your project as groups, import CitrusSdk.h and populate macros in MerchantConstants.h with the parameters you obatained from your Citrus admin panel
+
+
+
+## Let's Start Programming now
+
+SDK operates in two different modes Sandbox and Production mode.
+During the developement you always want to use the Sandbox mode
+
+To operate in Sandbox mode you need to change the `BaseUrl` from MerchantConstants.h to 
+		@"https://sandboxadmin.citruspay.com"
+
+for production
+		@"https://admin.citruspay.com"
+
+A typical MerchantConstants.h file looks like following
+
+		//// Keys
+		#define SignInId @"citrus-mobile-app"
+		#define SignInSecretKey @"bd63aa06f797f73966f4bcaa433300fe"
+		#define SubscriptionId @"citrus-native-mobile-subscription"
+		#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93444484d2ca1"
+
+		// URLs
+		#define VanityUrl @"nativeSDK"
+		#define ReturnUrl @"http://192.168.0.5:8888/TestReturn.html"
+		#define BillUrl @"http://192.168.0.5:8888/bill.php"
+		#define BaseUrl @"https://sandboxadmin.citruspay.com"
+
 
 
 
