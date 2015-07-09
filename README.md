@@ -25,13 +25,23 @@ Note: Please DO NOT PROCEED if the above mentioned requirements have not been me
 ###Features
 Citrus iOS SDK broadly offers following features.
 * Prepaid Payments.
-* Direct credit/debit card (CC, DC) or netbanking payments (NB)
+* Direct credit/debit card (CC, DC) or netbanking payments (NB) .
 * Saving Credit/Debit cards into user's account for easier future payments by abiding The Payment Card Industry Data Security Standard (PCI DSS).
-* Loading Money into users Citrus prepaid account for Prepaid facility
-* Withdraw the money back into User's bank account from the Prepaid account
-* Creating Citrus account for the user
+* Loading Money into users Citrus prepaid account for Prepaid facility .
+* Withdraw the money back into User's bank account from the Prepaid account .
+* Creating Citrus account for the user .
+*
 
 
+### InstallationFrom source code
+Get the latest source code from github.com:
+```bash
+$ git clone https://github.com/citruspay/open-ios.git
+```
+
+### Xcode integration
+
+To integrate the SDK you just have to drag drop folder CitrusDevKit/ and file MerchantConstants.h to your project as groups, import CitrusSdk.h and populate macros in MerchantConstants.h with the parameters you obatained from your Citrus admin panel
 
 
 
