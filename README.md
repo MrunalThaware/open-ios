@@ -41,20 +41,22 @@ $ git clone https://github.com/citruspay/open-ios.git
 
 ### Xcode integration
 
-To integrate the SDK you just have to drag drop folder CitrusDevKit/ and file MerchantConstants.h to your project as groups, import CitrusSdk.h and populate macros in MerchantConstants.h with the parameters you obatained from your Citrus admin panel
+To integrate the SDK you just have to drag drop file MerchantConstants.h & folder CitrusDevKit/  into your project as groups, import CitrusSdk.h and populate the macros in MerchantConstants.h with the parameters you obatained from your Citrus admin panel
 
 
 
 ## Let's Start Programming now
 
 SDK operates in two different modes Sandbox and Production mode.
-During the developement you always want to use the Sandbox mode
+During the developement you always want to use the Sandbox mode. once you are done with your App development you can switch to production mode . 
 
 To operate in Sandbox mode you need to change the `BaseUrl` from MerchantConstants.h to 
-		@"https://sandboxadmin.citruspay.com"
+
+		#define BaseUrl @"https://sandboxadmin.citruspay.com"
 
 for production
-		@"https://admin.citruspay.com"
+
+		#define BaseUrl @"https://admin.citruspay.com"
 
 A typical MerchantConstants.h file looks like following
 
