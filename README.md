@@ -67,10 +67,10 @@ A typical MerchantConstants.h file looks like following
 		#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93444484d2ca1"
 
 		// URLs
-		#define VanityUrl @"nativeSDK" //this can be fetched from your Citrus Admin panel
-		#define ReturnUrl @"http://192.168.0.5:8888/TestReturn.html" //Load money reutnr URL, optional if you are not using prepaid functionality
-		#define BillUrl @"http://192.168.0.5:8888/bill.php" //this is your bill URL
-		#define BaseUrl @"https://sandboxadmin.citruspay.com"
+		#define VanityUrl @"nativeSDK"		//this can be fetched from your Citrus Admin panel
+		#define ReturnUrl @"http://192.168.0.5:8888/TestReturn.html"		//Load money reutnr URL, optional if you are not using prepaid functionality
+		#define BillUrl @"http://192.168.0.5:8888/bill.php"		//this is your bill URL
+		#define BaseUrl @"https://sandboxadmin.citruspay.com"		//Citrus Server Url either prodcution or Sandbox
 
 
 
