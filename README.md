@@ -72,3 +72,28 @@ A typical MerchantConstants.h file looks like following
 		#define BillUrl @"http://192.168.0.5:8888/bill.php"		//this is your bill URL
 		#define BaseUrl @"https://sandboxadmin.citruspay.com"  		//Citrus Server Url either prodcution or Sandbox
 
+
+
+once you are done with all of the initial configuration you can proceed with following Guide
+
+The SDK is logically devided into 3 modules/layers or interfacing classes
+ * CTSAuthLayer - handles all of the user creation related tasks .
+ * CTSProfileLayer - handles all of the user profile related tasks .
+ * CTSPaymentLayer - handles all of the payment related tasks .
+ 
+To use any of the above layers your need to declare them as a strong property like following,
+		//declaration in your .h file
+		 @property(strong)CTSPaymentLayer *paymentLayer ;
+		
+		// initialization in your .m file
+		paymentLayer = [[CTSPaymentLayer alloc] init];
+ 
+Following are the specific taks related to each
+######CTSAuthLayer
+
+Check if anyone is logged in
+
+
+
+
+
