@@ -62,6 +62,7 @@
 }
 
 
+
 -(void)addBackButton{
     UIButton*back = [UIButton buttonWithType:UIButtonTypeSystem];
     [back addTarget:self action:@selector(promptForCancelTransaction) forControlEvents:UIControlEventTouchUpInside];
@@ -69,9 +70,6 @@
 //    back.frame = CGRectMake(0, 0, 34, 26);
     [back setTitle:@"Back" forState:UIControlStateNormal];
     [self.navigationController.navigationBar addSubview:back ];
-    
-
-
 }
 
 -(void)dismissController{
@@ -94,6 +92,12 @@
 
 #pragma mark - webview delegates
 
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    LogTrace(@"error %@ ",error);
+    [self transactionComplete:(NSMutableDictionary *)[CTSUtility errorResponseDeviceOffline:error]];
+
+}
+
 - (void)webViewDidStartLoad:(UIWebView*)webView {
     NSLog(@" webViewDidStartLoad ");
     LogThread
@@ -111,16 +115,17 @@
     [indicator stopAnimating];
     if(reqId != PaymentChargeInnerWebLoadMoneyReqId){
         NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
-        NSLog(@"currentURL %@",[currentURL description]);
+        NSLog(@"currentURL %@ return url %@",[currentURL description], _returnUrl);
         responseDict = [CTSUtility errorResponseIfReturnUrlDidntRespond:_returnUrl webViewUrl:[currentURL absoluteString] currentResponse:responseDict];
         if(responseDict){
             [self transactionComplete:(NSMutableDictionary *)responseDict];
         }
     }
     else{
-        if([CTSUtility string:[currentURL absoluteString] containsString:_returnUrl]){
+        if([CTSUtility isURL:currentURL toUrl:[NSURL URLWithString:_returnUrl]]){
             NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:[webView request]];
             NSDictionary *loadMoneyResponseDict = [NSDictionary dictionaryWithObject:loadMoneyResponse forKey:LoadMoneyResponeKey];
+            transactionOver = YES;
             [self transactionComplete:(NSMutableDictionary *)loadMoneyResponseDict];
         }
     }
@@ -201,7 +206,7 @@
     if(buttonIndex == 0){
     }
     else if (buttonIndex == 1){
-        [self pleaseWaitPrompt];
+       // [self pleaseWaitPrompt];
         [self cancelTransaction];
     }
 }
@@ -217,11 +222,13 @@
 
 -(void)cancelTransaction{
     LogThread
+    if(transactionOver == NO){
     NSLog(@" CancelTransaction ");
     if( [self.webview isLoading]){
         [self.webview stopLoading];
     }
     [self.webview loadRequest:[[NSURLRequest alloc]
                                initWithURL:[NSURL URLWithString:redirectURL]]];
+    }
 }
 @end

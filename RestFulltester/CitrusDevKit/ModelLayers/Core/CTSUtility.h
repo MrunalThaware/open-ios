@@ -58,4 +58,6 @@
 +(BOOL)isAmex:(NSString *)number;
 +(BOOL)stringContainsSpecialChars:(NSString *)toCheck exceptChars:(NSString*)exceptionChars exceptCharSet:(NSCharacterSet*)exceptionCharSet;
 +(BOOL)islengthInvalid:(NSString*)string;
++(BOOL)isURL:(NSURL *)aURL toUrl:(NSURL *)bUrl;
++(NSDictionary *)errorResponseDeviceOffline:(NSError *)error;
 @end

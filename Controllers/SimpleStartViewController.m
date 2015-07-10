@@ -174,7 +174,8 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update bank details for net banking payment.
     CTSNetBankingUpdate* netBank = [[CTSNetBankingUpdate alloc] init];
-    netBank.code = @"CID002";
+    netBank.code = @"CID001";
+    netBank.name = @"NAME";
     [paymentInfo addNetBanking:netBank];
     
     // Get your bill here.
@@ -252,7 +253,7 @@
     
 //    
 //    sampleBill.amount = [[CTSAmount alloc] init];
-//    sampleBill.amount.value = @"1";
+ //   sampleBill.amount.value = @"10";
 //    sampleBill.amount.value = @"INR";
 //    sampleBill.requestSignature = @"b0a169132e022a6b46b24374483fe5b8d3869b24";
 //    sampleBill.merchantAccessKey = @"GN5LNPT86TK4HVCZFENP";

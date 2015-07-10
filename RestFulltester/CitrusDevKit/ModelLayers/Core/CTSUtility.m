@@ -638,7 +638,7 @@
 }
 
 +(NSDictionary *)errorResponseIfReturnUrlDidntRespond:(NSString *)returnUrl webViewUrl:(NSString *)webviewUrl currentResponse:(NSDictionary *)responseDict{
-    if( [CTSUtility string:returnUrl containsString:webviewUrl]){
+    if( [CTSUtility isURL:[NSURL URLWithString:returnUrl] toUrl:[NSURL URLWithString:webviewUrl]]){
         NSLog(@"final Return URL completed loading found");
         if(responseDict == nil){
             NSError *error = [CTSError getErrorForCode:ReturnUrlCallbackNotValid];
@@ -649,11 +649,49 @@
     
 }
 
+
+
+
+
++(BOOL)isURL:(NSURL *)aURL toUrl:(NSURL *)bUrl{
+
+    if ([bUrl isEqual:aURL]) return YES;
+    if ([[bUrl scheme] caseInsensitiveCompare:[aURL scheme]] != NSOrderedSame) return NO;
+    if ([[bUrl host] caseInsensitiveCompare:[aURL host]] != NSOrderedSame) return NO;
+    
+    // NSURL path is smart about trimming trailing slashes
+    // note case-sensitivty here
+    if ([[bUrl path] compare:[aURL path]] != NSOrderedSame) return NO;
+    
+    // at this point, we've established that the urls are equivalent according to the rfc
+    // insofar as scheme, host, and paths match
+    
+    // according to rfc2616, port's can weakly match if one is missing and the
+    // other is default for the scheme, but for now, let's insist on an explicit match
+    if ([[bUrl port] compare:[aURL port]] != NSOrderedSame) return NO;
+    
+    if ([[bUrl query] compare:[aURL query]] != NSOrderedSame) return NO;
+    
+    // for things like user/pw, fragment, etc., seems sensible to be
+    // permissive about these.  (plus, I'm tired :-))
+    return YES;
+
+
+
+}
+
+
 +(NSDictionary *)errorResponseTransactionForcedClosedByUser{
     NSError *error = [CTSError getErrorForCode:TransactionForcedClosed];
     NSDictionary * responseDict = [NSDictionary dictionaryWithObject:error forKey:CITRUS_ERROR_DOMAIN];
     return responseDict;
 }
+
++(NSDictionary *)errorResponseDeviceOffline:(NSError *)error{
+    NSDictionary * responseDict = [NSDictionary dictionaryWithObject:error forKey:CITRUS_ERROR_DOMAIN];
+    return responseDict;
+}
+
 
 +(int)extractReqId:(NSMutableDictionary *)response{
     int reqId = [(NSString *)[response valueForKey:@"reqId"] intValue];
