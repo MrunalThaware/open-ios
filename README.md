@@ -96,22 +96,16 @@ Following are the specific tasks related to each of the layer
  * Creating & Linking the User 
  * Signin the user for Prepaid level access
  * Reset User Password
- * 
  
-
-
- ######CTSProfileLayer
+######CTSProfileLayer
  * Save User Cards
  * Get Saved Cards
  * Get User's Prepaid Balance
  * Save Cashout Bank Account
  * Get Saved Cashout Bank Acoount
- * 
  
  
-
- 
-  ######CTSPaymentLayer
+######CTSPaymentLayer
   * CC, DC, NB Direct Payments
   * Saved CC, DC Payments (A.K.A. Tokenized payments)
   * Loading Money into Users Citrus Prepaid Account
