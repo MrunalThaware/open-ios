@@ -19,6 +19,7 @@
 #import "CTSUserProfileRes.h"
 #import "CTSUpdateUserProfileRes.h"
 #import "CTSProfileUpdate.h"
+#import "CTSNewContactProfile.h"
 
 @class CTSProfileLayer;
 
@@ -48,6 +49,8 @@ typedef void (^ASActivatePrepaidCallBack)(BOOL isActivated, NSError* error);
 typedef void (^ASGetUserProfileDetailsCallBack)(CTSUserProfileRes* userProfile, NSError* error);
 
 typedef void (^ASUpdateUserProfileDetailsCallBack)(CTSUpdateUserProfileRes* updateUserProfile, NSError* error);
+
+typedef void (^ASNewContactProfileCallback)(CTSNewContactProfile* profile, NSError*error);
 
 
 /**
@@ -114,4 +117,7 @@ typedef void (^ASUpdateUserProfileDetailsCallBack)(CTSUpdateUserProfileRes* upda
  @details                 update user profile details.
  */
 - (void)updateUserProfileDetails:(CTSProfileUpdate*)profileUpdate withCompletionHandler:(ASUpdateUserProfileDetailsCallBack)callback;
+
+-(void)requestMemberInfoWithMobile:(NSString *)mobile withEmail:(NSString *)email
+             withCompletionHandler:(ASNewContactProfileCallback)callback;
 @end

@@ -15,7 +15,7 @@
 #import "CTSOauthManager.h"
 #import "NSObject+logProperties.h"
 #import "CTSAuthLayer.h"
-
+#import "CTSNewUserProfileReq.h"
 
 @implementation CTSProfileLayer
 
@@ -30,7 +30,8 @@ enum {
     ProfileActivatePrepaidAccountReqId,
     ProfileActivatePrepaidAccountReqIdGetBalance,
     ProfileGetUserReqId,
-    ProfileUserUpdateReqId
+    ProfileUserUpdateReqId,
+    ProfileGetNewProfileReqId
 };
 
 - (instancetype)init {
@@ -53,7 +54,8 @@ enum {
              toNSString(ProfileActivatePrepaidAccountReqId):toSelector(handleActivatePrepaidAccount:),
              toNSString(ProfileActivatePrepaidAccountReqIdGetBalance):toSelector(handleActivatePrepaidAccountWithGetBalance:),
              toNSString(ProfileGetUserReqId):toSelector(handleReqUserProfile:),
-             toNSString(ProfileUserUpdateReqId):toSelector(handleReqUpdateUserProfile:)
+             toNSString(ProfileUserUpdateReqId):toSelector(handleReqUpdateUserProfile:),
+             toNSString(ProfileGetNewProfileReqId) : toSelector(handleGetNewContactProfile:)
              };
 }
 
@@ -368,6 +370,59 @@ enum {
     [restCore requestAsyncServer:request];
 }
 
+
+-(void)requestMemberInfoWithMobile:(NSString *)mobile withEmail:(NSString *)email
+             withCompletionHandler:(ASNewContactProfileCallback)callback{
+    
+    [self addCallback:callback forRequestId:ProfileGetNewProfileReqId];
+    
+    CTSNewUserProfileReq *profileReq = [[CTSNewUserProfileReq alloc] init];
+    if (email && mobile) {
+        if (![CTSUtility validateEmail:email]) {
+            [self getNewContactProfileHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+            return;
+        }
+        
+        if (![CTSUtility mobileNumberToTenDigitIfValid:mobile]) {
+            [self getNewContactProfileHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
+        
+        profileReq.mobile = mobile;
+        profileReq.email = email;
+        
+    } else if (email){
+        if (![CTSUtility validateEmail:email]) {
+            [self getNewContactProfileHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+            return;
+        }
+        profileReq.email = email;
+        
+    }else if (mobile){
+        if (![CTSUtility mobileNumberToTenDigitIfValid:mobile]) {
+            [self getNewContactProfileHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
+        profileReq.mobile = mobile;
+        
+    }
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
+    if (oauthStatus.error != nil) {
+        [self getNewContactProfileHelper:nil error:oauthStatus.error];
+    }
+
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_MEMBER_INFO_PATH
+                                   requestId:ProfileGetNewProfileReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthStatus.oauthToken]
+                                   parameters:nil
+                                   json:[profileReq toJSONString]
+                                   httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+}
+
 #pragma mark - response handlers methods
 
 - (void)handleReqProfileGetContact:(CTSRestCoreResponse*)response {
@@ -512,6 +567,20 @@ enum {
 }
 
 
+-(void)handleGetNewContactProfile:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSNewContactProfile *profile = nil;
+    
+    if(error == nil){
+        profile = [[CTSNewContactProfile alloc] initWithString:response.responseString error:&jsonError];
+    }
+    if(jsonError){
+        error = jsonError;
+    }
+    [self getNewContactProfileHelper:profile error:error];
+}
+
 #pragma mark - helper methods
 
 - (void)updateContactInfoHelper:(NSError*)error {
@@ -615,5 +684,11 @@ enum {
     }
 }
 
+-(void)getNewContactProfileHelper:(CTSNewContactProfile *)profile error:(NSError *)error{
+    ASNewContactProfileCallback callback = [self retrieveAndRemoveCallbackForReqId:ProfileGetNewProfileReqId];
+    if (callback != nil) {
+        callback(profile, error);
+    }
+}
 
 @end

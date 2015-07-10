@@ -101,4 +101,8 @@ typedef enum CardValidationError {
 
 #define MLC_PROFILE_UPDATE_DETAILS_PATH @"/service/um/profile/update"
 
+#define MLC_MEMBER_INFO_PATH @"/service/um/profile/memberInfo"
+#define MLC_MEMBER_INFO_PATH_EMAIL @"email"
+#define MLC_MEMBER_INFO_PATH_MOBILE @"mobile"
+
 #endif

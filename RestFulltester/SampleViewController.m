@@ -341,6 +341,25 @@
      }];
 }
 
+
+// get PaymentInfo.
+-(IBAction)getMemberInfo{
+    // Configure your request here.
+    [profileLayer requestMemberInfoWithMobile:nil withEmail:TEST_EMAIL withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
+        NSString *toastMessage;
+        if (error) {
+            [self logError:error];
+            toastMessage = error.localizedDescription;
+        }
+        else{
+            LogDebug(@" Success!! ");
+            LogDebug(@"profile %@ ", profile.responseData);
+            toastMessage = [NSString stringWithFormat:@"%@", profile.responseData];
+        }
+        [UIUtility toastMessageOnScreen:toastMessage];
+    }];
+}
+
 /****************************************|PAYMENTLAYER|**************************************************/
 
 #pragma mark - PaymentLayer Sample implementation
