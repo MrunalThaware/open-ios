@@ -82,16 +82,28 @@ The SDK is logically devided into 3 modules/layers or interfacing classes
  * CTSPaymentLayer - handles all of the payment related tasks .
  
 To use any of the above layers your need to declare them as a strong property like following,
+
 		//declaration in your .h file
 		 @property(strong)CTSPaymentLayer *paymentLayer ;
 		
 		// initialization in your .m file
 		paymentLayer = [[CTSPaymentLayer alloc] init];
  
-Following are the specific taks related to each
+Following are the specific taks related to each of the layer
 ######CTSAuthLayer
+ * See if anyone is logged in
+ * Creating & Linking the User 
+ * Signin the user for Prepaid level access
+ * Reset User Password
 
-Check if anyone is logged in
+ ######CTSProfileLayer
+ * Save User Cards
+ * Get Saved Cards
+ * Get User's Prepaid Balance
+ * Save Cashout Bank Account
+ * Get Saved Cashout Bank Acoount
+
+ 
 
 
 
