@@ -89,12 +89,14 @@ To use any of the above layers your need to declare them as a strong property li
 		// initialization in your .m file
 		paymentLayer = [[CTSPaymentLayer alloc] init];
  
-Following are the specific taks related to each of the layer
+Following are the specific tasks related to each of the layer
+
 ######CTSAuthLayer
  * See if anyone is logged in
  * Creating & Linking the User 
  * Signin the user for Prepaid level access
  * Reset User Password
+
 
  ######CTSProfileLayer
  * Save User Cards
@@ -102,6 +104,16 @@ Following are the specific taks related to each of the layer
  * Get User's Prepaid Balance
  * Save Cashout Bank Account
  * Get Saved Cashout Bank Acoount
+ 
+
+ 
+  ######CTSPaymentLayer
+  * CC, DC, NB Direct Payments
+  * Saved CC, DC Payments (A.K.A. Tokenized payments)
+  * Loading Money into Users Citrus Prepaid Account
+  * Paying via Prepaid account
+  * Initiate Cashout Proccess into users Account from Citrus prepaid account
+
 
  
 
