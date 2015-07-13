@@ -91,26 +91,29 @@ To use any of the above layers your need to declare them as a strong property li
  
 Following are the specific tasks related to each of the layer
 
-######CTSAuthLayer
+######[CTSAuthLayer](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer)
  * [See if anyone is logged in](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer#see-if-anyone-is-logged-in)
- * Creating & Linking the User 
- * Signin the user for Prepaid level access
- * Reset User Password
+ * [Creating & Linking the User](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer#creating--linking-the-user) 
+ * [Signin the user for Prepaid level access](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer#sign-in-the-user-for-prepaid-level-access)
+ * [Reset User Password](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer#reset-user-password)
+ * [Sign Out](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer#sign-out)
  
-######CTSProfileLayer
- * Save User Cards
- * Get Saved Cards
- * Get User's Prepaid Balance
- * Save Cashout Bank Account
- * Get Saved Cashout Bank Acoount
+######[CTSProfileLayer](https://github.com/citruspay/open-ios/wiki/2.--Integrating-CTSProfileLayer)
+ * [Save User Cards](https://github.com/citruspay/open-ios/wiki/2.--Integrating-CTSProfileLayer#save-user-cards)
+ * [Get Saved Cards](https://github.com/citruspay/open-ios/wiki/2.--Integrating-CTSProfileLayer#get-saved-cards)
+ * [Get User's Prepaid Balance](https://github.com/citruspay/open-ios/wiki/2.--Integrating-CTSProfileLayer#get-users-prepaid-balance)
+ * [Save Cashout Bank Account](https://github.com/citruspay/open-ios/wiki/2.--Integrating-CTSProfileLayer#save-cash-out-bank-account)
+ * [Get Saved Cashout Bank Acoount](https://github.com/citruspay/open-ios/wiki/2.--Integrating-CTSProfileLayer#get-saved-cashout-bank-acoount)
  
  
-######CTSPaymentLayer
-  * CC, DC, NB Direct Payments
-  * Saved CC, DC Payments (A.K.A. Tokenized payments)
-  * Loading Money into Users Citrus Prepaid Account
-  * Paying via Prepaid account
-  * Initiate Cashout Proccess into users Account from Citrus prepaid account
+######CTSPaymentLayer](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer)
+  * [CC, DC, NB Direct Payments](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#cc-dc-nb-direct-payments)
+  * [Saved CC, DC Payments (A.K.A. Tokenized payments)](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#saved-cc-dc-payments-aka-tokenized-payments)
+  * [Loading Money into Users Citrus Prepaid Account](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#loading-money-into-users-citrus-prepaid-account)
+  * [Paying via Prepaid account](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#paying-via-prepaid-accountcitrus-cash)
+  * [Initiate Cashout Proccess into users Account from Citrus prepaid account](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#initiate-cashout-process-into-users-account-from-citrus-prepaid-account)
+  * [Fetch Available Schemes and Banks for the Merchant](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#fetch-available-schemes-and-banks-for-the-merchant)
+  * [Fetch the PG Health](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#fetch-the-pg-health)
 
 
  
