@@ -1,8 +1,4 @@
 
-# This Wiki Is Obsolete, Please Refer To This [Guide](http://citruspay.com/DevelopersGuide/#/iossdk) For The Latest Installation And Integration Steps .
-
-
-
 open-iOS
 ============
 ###SDK Installation Prerequisites
