@@ -26,7 +26,7 @@ Citrus iOS SDK broadly offers following features.
 * Loading Money into users Citrus prepaid account for Prepaid facility .
 * Withdraw the money back into User's bank account from the Prepaid account .
 * Creating Citrus account for the user .
-*
+
 
 
 ### Installation From source code
@@ -43,7 +43,7 @@ To integrate the SDK you just have to drag drop file MerchantConstants.h & folde
 
 ## Let's Start Programming now
 
-SDK operates in two different modes Sandbox and Production mode.
+SDK operates in two different modes Sandbox and Production mode. for both the enviroments Citrus PG Prerequisites key sets are different. keys from one enviroment wont work on other. so please make sure you are using correct set of keys
 During the developement you would always want to use the Sandbox mode. once you are done with your App development you can switch to production mode . 
 
 To operate in Sandbox mode you need to change the `BaseUrl` from MerchantConstants.h to 
