@@ -92,7 +92,7 @@ To use any of the above layers your need to declare them as a strong property li
 Following are the specific tasks related to each of the layer
 
 ######CTSAuthLayer
- * See if anyone is logged in
+ * [See if anyone is logged in](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer#see-if-anyone-is-logged-in)
  * Creating & Linking the User 
  * Signin the user for Prepaid level access
  * Reset User Password
