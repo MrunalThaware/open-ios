@@ -106,7 +106,7 @@ Following are the specific tasks related to each of the layer
  * [Get Saved Cashout Bank Acoount](https://github.com/citruspay/open-ios/wiki/2.--Integrating-CTSProfileLayer#get-saved-cashout-bank-acoount)
  
  
-######CTSPaymentLayer](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer)
+######[CTSPaymentLayer](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer)
   * [CC, DC, NB Direct Payments](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#cc-dc-nb-direct-payments)
   * [Saved CC, DC Payments (A.K.A. Tokenized payments)](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#saved-cc-dc-payments-aka-tokenized-payments)
   * [Loading Money into Users Citrus Prepaid Account](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#loading-money-into-users-citrus-prepaid-account)
