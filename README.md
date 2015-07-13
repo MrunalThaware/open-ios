@@ -41,7 +41,9 @@ To integrate the SDK you just have to drag drop file MerchantConstants.h & folde
 
 ![Drag Drop](https://dl.dropboxusercontent.com/u/6397934/citrus/GIT/Drag%20Drop.gif)
 
+#import "CitrusSdk.h"
 
+![import](https://dl.dropboxusercontent.com/u/6397934/citrus/GIT/Import.png)
 
 ## Let's Start Programming now
 
