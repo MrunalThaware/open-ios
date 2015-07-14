@@ -64,7 +64,6 @@ A typical MerchantConstants.h file looks like following
 		#define SignInId @"citrus-mobile-app"
 		#define SignInSecretKey @"bd63aa06f797f73966f4bcaa433300fe"
 		#define SubscriptionId @"citrus-native-mobile-subscription"
-		#define SubscriptionSecretKey @"3e2288d3a1a3f59ef6f93444484d2ca1"
 
 		// URLs
 		#define VanityUrl @"nativeSDK"					//this can be fetched from your Citrus Admin panel
@@ -76,7 +75,7 @@ A typical MerchantConstants.h file looks like following
 
 once you are done with all of the initial configuration you can proceed with following Guide
 
-The SDK is logically devided into 3 modules/layers or interfacing classes
+The SDK is logically divided into 3 modules/layers or interfacing classes
  * CTSAuthLayer - handles all of the user creation related tasks .
  * CTSProfileLayer - handles all of the user profile related tasks .
  * CTSPaymentLayer - handles all of the payment related tasks .
