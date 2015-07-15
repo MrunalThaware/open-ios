@@ -15,13 +15,19 @@
 #import "RedirectWebViewController.h"
 #import "CTSProfileUpdate.h"
 
+@interface SampleViewController ()
+@property (strong, nonatomic) IBOutlet UITextField *otp;
+@end
+
 #define toErrorDescription(error) [error.userInfo objectForKey:NSLocalizedDescriptionKey]
 
 @implementation SampleViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Citrus iOS Payment SDK";
+    
+    self.title = @"CitrusPay iOS Native Payment SDK Kit";
+    
     [self initialize];
     
 //    [self generateMobileVerificationCode];
@@ -33,6 +39,8 @@
 
 // Initialize the SDK layer viz CTSAuthLayer/CTSProfileLayer/CTSPaymentLayer
 - (void)initialize {
+#warning Enter your Keys & URLs here
+
     // 010615 Dynamic Oauth keys init with base URL
 #ifdef SANDBOX_MODE
     // for Sandbox environment
@@ -339,25 +347,6 @@
     [profileLayer updateContactInformation:contactUpdate withCompletionHandler:^(NSError* error) {
          [profileLayer requestContactInformationWithCompletionHandler:nil];
      }];
-}
-
-
-// get PaymentInfo.
--(IBAction)getMemberInfo{
-    // Configure your request here.
-    [profileLayer requestMemberInfoWithMobile:nil withEmail:TEST_EMAIL withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
-        NSString *toastMessage;
-        if (error) {
-            [self logError:error];
-            toastMessage = error.localizedDescription;
-        }
-        else{
-            LogDebug(@" Success!! ");
-            LogDebug(@"profile %@ ", profile.responseData);
-            toastMessage = [NSString stringWithFormat:@"%@", profile.responseData];
-        }
-        [UIUtility toastMessageOnScreen:toastMessage];
-    }];
 }
 
 /****************************************|PAYMENTLAYER|**************************************************/
@@ -844,6 +833,82 @@
     }];
 }
 
+
+// sign In With e or m OTP
+- (IBAction)signInWithOTP {
+    [UIUtility didPresentLoadingAlertView:@"Loading..." withActivity:YES];
+    [authLayer requestSignInWithOTP:self.otp.text
+                  withEmailORMobile:TEST_MOBILE
+              withCompletionHandler:^(NSString* userName,
+                                      NSString* token,
+                                      NSError* error) {
+                  NSString *toastMessage;
+                  if (error) {
+                      [self logError:error];
+                      toastMessage = error.localizedDescription;
+                  }
+                  else{
+                      LogDebug(@" Success!! ");
+                      LogDebug(@"userName %@ ", userName);
+                      LogDebug(@"token %@ ", token);
+                      toastMessage = [NSString stringWithFormat:@"Success!!\nuserName:%@\ntoken:%@",userName, token];
+                  }
+                  [UIUtility dismissLoadingAlertView:YES];
+                  [UIUtility toastMessageOnScreen:toastMessage];
+              }];
+}
+
+
+// generate sign In OTP
+- (IBAction)generateSignInOTP {
+    [authLayer requestGenerateOTPWithEmailORMobile:TEST_MOBILE
+                                    withSourceType:RIO_SRC_TYPE
+                             withCompletionHandler:^(CTSResponseData *responseData, NSError *error) {
+                                 NSString *toastMessage;
+                                 if (error) {
+                                     [self logError:error];
+                                     toastMessage = error.localizedDescription;
+                                 }
+                                 else{
+                                     LogDebug(@" Success!! ");
+                                     LogDebug(@"responseData.responseData %@ ", responseData.responseData);
+                                     toastMessage = responseData.responseMessage;
+                                 }
+                                 [UIUtility dismissLoadingAlertView:YES];
+                                 [UIUtility toastMessageOnScreen:toastMessage];
+                             }];
+}
+
+
+// get PaymentInfo.
+-(IBAction)getMemberInfo{
+    // Configure your request here.
+    [profileLayer requestMemberInfoWithMobile:nil withEmail:TEST_EMAIL withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
+        NSString *toastMessage;
+        if (error) {
+            [self logError:error];
+            toastMessage = error.localizedDescription;
+        }
+        else{
+            LogDebug(@" Success!! ");
+            LogDebug(@"profile %@ ", profile.responseData);
+            toastMessage = [NSString stringWithFormat:@"%@", profile.responseData];
+        }
+        [UIUtility toastMessageOnScreen:toastMessage];
+    }];
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    LogDebug(@"You entered %@",self.otp.text);
+    [textField resignFirstResponder];
+    return YES;
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    LogDebug(@"You entered %@",self.otp.text);
+    [textField resignFirstResponder];
+}
 
 @end
 

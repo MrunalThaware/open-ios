@@ -180,5 +180,13 @@ typedef enum {
 #define MLC_CITRUS_PAY_AUTH_COOKIE_PASSWORD @"password"
 #define MLC_CITRUS_PAY_AUTH_COOKIE_RMCOOKIE @"rmcookie"
 
+#pragma mark - OTP_SIGNIN
+#define MLC_GENERATE_OTP_SIGNIN_REQ_PATH @"/service/um/otp/generate"
+#define MLC_SOURCE_TYPE_PARAMS @"source"
+#define MLC_OTP_TYPE_PARAMS @"otpType"
+#define MLC_OTP_TYPE_EMAIL_PARAMS @"email"
+#define MLC_OTP_TYPE_MOBILE_PARAMS @"mobile"
+#define MLC_IDENTITY_PARAMS @"identity"
+#define MLC_OTP_SIGNIN_GRANT_TYPE @"onetimepass"
 
 #endif

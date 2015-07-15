@@ -14,6 +14,7 @@
 #import "CTSRestCoreResponse.h"
 #import "CTSUserVerificationRes.h"
 #import "CTSMobileVerifiactionRes.h"
+#import "CTSResponseData.h"
 
 @class CTSAuthLayer;
 
@@ -63,6 +64,10 @@ typedef void (^ASMobileVerifiactionCallback)(CTSMobileVerifiactionRes *mobileVer
 typedef void (^ASGenerationMobileVerificationCodeCallback)(NSError* error);
 
 typedef void (^ASMobileVerificationCodeCallback)(BOOL isVerified,NSError* error);
+
+typedef void (^ASIsUserVerified)(CTSUserVerificationRes *verificationRes,NSError* error);
+
+typedef void (^ASGenerateOTPWithEmailORMobileCallback)(CTSResponseData *responseData, NSError *error);
 
 
 // 010615 Dynamic Oauth keys init with base URL
@@ -239,4 +244,26 @@ typedef void (^ASMobileVerificationCodeCallback)(BOOL isVerified,NSError* error)
  @details                 Use this method For verifiy mobile verification code .
  */
 -(void)requestVerifyMobileCodeWithMobile:(NSString *)mobile mobileOTP:(NSString *)mobileOTP completionHandler:(ASMobileVerificationCodeCallback)callback;
+
+/**
+ @brief                                   requestGenerateOTPWithEmailORMobile.
+ @param WithEmailORMobile                 emailORMobile.
+ @param withSourceType                    sourceType.
+ @param callback                          ASGenerateOTPWithEmailORMobileCallback callBack.
+ @details                                 generate otp with email or mobile.
+ */
+-(void)requestGenerateOTPWithEmailORMobile:(NSString *)emailORMobile
+                            withSourceType:(NSString *)sourceType
+                     withCompletionHandler:(ASGenerateOTPWithEmailORMobileCallback)completion;
+
+/**
+ @brief                      requestSignInWithOTP.
+ @param WithOTP              OTP.
+ @param withEmailORMobile    emailORMobile.
+ @param withCompletionHandler   completion.
+ @details                    sign in with OTP.
+ */
+- (void)requestSignInWithOTP:(NSString *)OTP
+           withEmailORMobile:(NSString *)emailORMobile
+       withCompletionHandler:(ASSigninCallBack)completion;
 @end

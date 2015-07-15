@@ -85,6 +85,7 @@
 		76D492791B396447004393B7 /* CTSUserProfileRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D492781B396447004393B7 /* CTSUserProfileRes.m */; };
 		76D4927C1B398370004393B7 /* CTSUpdateUserProfileRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D4927B1B398370004393B7 /* CTSUpdateUserProfileRes.m */; };
 		76D4927F1B39886B004393B7 /* CTSProfileUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D4927E1B39886B004393B7 /* CTSProfileUpdate.m */; };
+		76D62C081B56771A006EE7C8 /* CTSResponseData.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D62C071B56771A006EE7C8 /* CTSResponseData.m */; };
 		76D7511C1B4FD8F200D4E73F /* CTSNewUserProfileReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D7511B1B4FD8F200D4E73F /* CTSNewUserProfileReq.m */; };
 		76DA2E9D1AD7C8F000D76485 /* CTSBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA2E981AD7C8F000D76485 /* CTSBill.m */; };
 		76DA2E9E1AD7C8F000D76485 /* CTSCitrusCashRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA2E9A1AD7C8F000D76485 /* CTSCitrusCashRes.m */; };
@@ -256,6 +257,8 @@
 		76D4927B1B398370004393B7 /* CTSUpdateUserProfileRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSUpdateUserProfileRes.m; sourceTree = "<group>"; };
 		76D4927D1B39886B004393B7 /* CTSProfileUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSProfileUpdate.h; sourceTree = "<group>"; };
 		76D4927E1B39886B004393B7 /* CTSProfileUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSProfileUpdate.m; sourceTree = "<group>"; };
+		76D62C061B56771A006EE7C8 /* CTSResponseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSResponseData.h; sourceTree = "<group>"; };
+		76D62C071B56771A006EE7C8 /* CTSResponseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSResponseData.m; sourceTree = "<group>"; };
 		76D7511A1B4FD8F200D4E73F /* CTSNewUserProfileReq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSNewUserProfileReq.h; sourceTree = "<group>"; };
 		76D7511B1B4FD8F200D4E73F /* CTSNewUserProfileReq.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSNewUserProfileReq.m; sourceTree = "<group>"; };
 		76DA2E971AD7C8F000D76485 /* CTSBill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSBill.h; sourceTree = "<group>"; };
@@ -597,6 +600,8 @@
 		37C96474198F723E0021DC0B /* ResponseObjects */ = {
 			isa = PBXGroup;
 			children = (
+				76D62C061B56771A006EE7C8 /* CTSResponseData.h */,
+				76D62C071B56771A006EE7C8 /* CTSResponseData.m */,
 				37C96475198F723E0021DC0B /* Authentication */,
 				37C9647A198F723E0021DC0B /* Payment */,
 				37C96487198F723E0021DC0B /* UserProfile */,
@@ -786,6 +791,7 @@
 				37C96497198F723E0021DC0B /* CTSTokenizedCardPayment.m in Sources */,
 				37C96495198F723E0021DC0B /* CTSPaymentToken.m in Sources */,
 				37C96498198F723E0021DC0B /* CTSUserAddress.m in Sources */,
+				76D62C081B56771A006EE7C8 /* CTSResponseData.m in Sources */,
 				37851BF61978F2DD00AE3AD0 /* CTSError.m in Sources */,
 				37D6C213197D289300F357FD /* CTSOauthManager.m in Sources */,
 				3751E6071A15BCFA004458F3 /* CTSUserVerificationRes.m in Sources */,

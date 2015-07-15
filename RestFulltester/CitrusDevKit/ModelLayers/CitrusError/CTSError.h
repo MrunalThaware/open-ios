@@ -31,7 +31,8 @@ typedef enum {
     ReturnUrlNotValid,
     PrepaidBillFetchFailed,
     WrongBill,
-    NoViewController
+    NoViewController,
+    InvalidOTP
 } CTSErrorCode;
 
 

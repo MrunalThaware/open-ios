@@ -54,6 +54,10 @@
         case InvalidParameter:
             errorDescription = @"invalid parameter passed to method";
             break;
+            
+        case InvalidOTP:
+            errorDescription = @"invalid OTP passed";
+            break;
 
         case OauthTokenExpired:
             errorDescription = @"Oauth Token expired, Please refresh it from server";

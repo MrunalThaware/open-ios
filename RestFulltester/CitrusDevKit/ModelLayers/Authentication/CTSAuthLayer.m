@@ -53,7 +53,8 @@ typedef enum {
     BindSigninRequestId,
     MobileVerificationReqId,
     GenerationMobileVerificationCodeRequestId,
-    MobileVerificationCodeRequestId
+    MobileVerificationCodeRequestId,
+    GenerationSignInOTPRequestId
 }AuthRequestId;
 
 #pragma mark - main class methods
@@ -85,7 +86,8 @@ typedef enum {
              toNSString(BindSigninRequestId) : toSelector(handleBindSignIn:),
              toNSString(MobileVerificationReqId):toSelector(handleMobileVerification:),
              toNSString(GenerationMobileVerificationCodeRequestId):toSelector(handleGenrateMobileVerificationCode:),
-             toNSString(MobileVerificationCodeRequestId):toSelector(handleMobileVerficationCode:)
+             toNSString(MobileVerificationCodeRequestId):toSelector(handleMobileVerficationCode:),
+             toNSString(GenerationSignInOTPRequestId):toSelector(handleGenerateOTPWithEmailORMobileResponse:)
              };
 }
 
@@ -590,8 +592,6 @@ typedef enum {
                                  MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : username
                                  };
     
-    
-    
     CTSRestCoreRequest* request =
     [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
                                    requestId:SigninOauthTokenReqId
@@ -903,6 +903,104 @@ typedef enum {
     [restCore requestAsyncServer:request];
 }
 
+
+-(void)requestGenerateOTPWithEmailORMobile:(NSString *)emailORMobile
+                            withSourceType:(NSString *)sourceType
+                     withCompletionHandler:(ASGenerateOTPWithEmailORMobileCallback)completion{
+    
+    [self addCallback:completion forRequestId:GenerationSignInOTPRequestId];
+    
+    if (!sourceType) {
+        [self generateOTPWithEmailORMobileHelper:nil error:[CTSError getErrorForCode:InvalidParameter]];
+        return;
+    }
+    
+    NSString* jsonString;
+    if([CTSUtility isEmail:emailORMobile]){
+        if (![CTSUtility validateEmail:emailORMobile]) {
+            [self generateOTPWithEmailORMobileHelper:nil error:[CTSError getErrorForCode:EmailNotValid]];
+            return;
+        }else{
+            jsonString =[NSString stringWithFormat:@"{\"%@\":\"%@\", \"%@\":\"%@\", \"%@\":\"%@\"}", MLC_IDENTITY_PARAMS, emailORMobile, MLC_SOURCE_TYPE_PARAMS, sourceType, MLC_OTP_TYPE_PARAMS, MLC_OTP_TYPE_EMAIL_PARAMS];
+        }
+    }else {
+        if (![CTSUtility mobileNumberToTenDigitIfValid:emailORMobile]) {
+            [self generateOTPWithEmailORMobileHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }else{
+            jsonString =[NSString stringWithFormat:@"{\"%@\":\"%@\", \"%@\":\"%@\", \"%@\":\"%@\"}", MLC_IDENTITY_PARAMS, emailORMobile, MLC_SOURCE_TYPE_PARAMS, sourceType, MLC_OTP_TYPE_PARAMS, MLC_OTP_TYPE_MOBILE_PARAMS];
+        }
+    }
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_GENERATE_OTP_SIGNIN_REQ_PATH
+                                   requestId:GenerationSignInOTPRequestId
+                                     headers:nil
+                                  parameters:nil
+                                        json:jsonString
+                                  httpMethod:POST];
+    [restCore requestAsyncServer:request];
+}
+
+- (void)requestSignInWithOTP:(NSString *)OTP
+           withEmailORMobile:(NSString *)emailORMobile
+       withCompletionHandler:(ASSigninCallBack)completion{
+    
+    [self addCallback:completion forRequestId:SigninOauthTokenReqId];
+
+    if (!OTP) {
+        [self signinHelperUsername:emailORMobile
+                             oauth:nil
+                             error:[CTSError getErrorForCode:InvalidOTP]];
+        return;
+    }
+
+    if([CTSUtility isEmail:emailORMobile]){
+        if (![CTSUtility validateEmail:emailORMobile]) {
+            [self signinHelperUsername:emailORMobile
+                                 oauth:nil
+                                 error:[CTSError getErrorForCode:EmailNotValid]];
+            return;
+        }else{
+            
+            if (!SignInId && !SignInSecretKey) {
+                [self signinHelperUsername:emailORMobile
+                                     oauth:nil
+                                     error:[CTSError getErrorForCode:InvalidParameter]];
+                return;
+            }
+         }
+    }else {
+        if (![CTSUtility mobileNumberToTenDigitIfValid:emailORMobile]) {
+            [self signinHelperUsername:emailORMobile
+                                 oauth:nil
+                                 error:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }else{
+        }
+    }
+    
+    userNameSignIn = emailORMobile;
+
+    NSDictionary* parameters = @{
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_ID : SignInId,
+                                 MLC_OAUTH_TOKEN_QUERY_CLIENT_SECRET : SignInSecretKey,
+                                 MLC_OAUTH_TOKEN_QUERY_GRANT_TYPE : MLC_OTP_SIGNIN_GRANT_TYPE,
+                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_PASSWORD : OTP,
+                                 MLC_OAUTH_TOKEN_SIGNIN_QUERY_USERNAME : emailORMobile
+                                 };
+    
+    CTSRestCoreRequest* request =
+    [[CTSRestCoreRequest alloc] initWithPath:MLC_OAUTH_TOKEN_SIGNUP_REQ_PATH
+                                   requestId:SigninOauthTokenReqId
+                                     headers:nil
+                                  parameters:parameters
+                                        json:nil
+                                  httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+
+}
 
 
 #pragma mark - pseudo password generator methods
@@ -1327,6 +1425,23 @@ static NSData* digest(NSData* data,
     [self isAlreadyRegisteredHelper:veriRes error:error];
 }
 
+-(void)handleGenerateOTPWithEmailORMobileResponse:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSResponseData* resultObject = nil;
+    if(error == nil){
+        resultObject = [[CTSResponseData alloc] initWithString:response.responseString
+                                                 error:&jsonError];
+    }
+    
+    if(jsonError){
+        error = [CTSError getErrorForCode:unknownError];
+    }
+
+    [self generateOTPWithEmailORMobileHelper:resultObject error:error];
+}
+
+
 
 -(void)handleCitrusPaySignin:(CTSRestCoreResponse *)response{
     LogDebug(@"handleCitrusPaySignin: THREAD %@", [NSThread currentThread]);
@@ -1478,6 +1593,12 @@ static NSData* digest(NSData* data,
     }
 }
 
+-(void)generateOTPWithEmailORMobileHelper:(CTSResponseData *)responseData error:(NSError *)error{
+    ASGenerateOTPWithEmailORMobileCallback callback = [self retrieveAndRemoveCallbackForReqId:GenerationSignInOTPRequestId];
+    if(callback != nil){
+        callback(responseData,error);
+    }
+}
 
 -(void)isUserVerifedHelper:(CTSUserVerificationRes *)verification error:(NSError *)error{
     ASIsUserVerified callback = [self retrieveAndRemoveCallbackForReqId:isUserVerifiedRequestId];
