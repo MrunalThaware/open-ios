@@ -184,6 +184,9 @@ typedef enum SignOutResponseState {
 #define MLC_OTP_SIGNIN_QUERY_OTP_TYPE @"otpType"
 #define MLC_OTP_SIGNIN_PATH_IDENTITY @"identity"
 
+#define MLC_OTP_SIGNIN_PATH_IDENTITY @"identity"
+
+#define MLC_ACCESS_CONSUMER_PORTAL_TOKEN_KEY @"Access-Token"
 
 typedef enum {
   OauthRefreshStatusSuccess,

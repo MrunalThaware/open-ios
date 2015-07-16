@@ -13,6 +13,11 @@
 #import "CTSError.h"
 #import "UserLogging.h"
 
+#define PGHEALTH_PRODUCTION_BASEURL @"https://citruspay.com"
+#define PGHEALTH_SANDBOX_BASEURL @"https://sandbox.citruspay.com"
+
+#define PRODUCTION_BASEURL @"https://admin.citruspay.com"
+
 @class CTSRestCore;
 @protocol CTSRestCoreDelegate
 - (void)restCore:(CTSRestCore*)restCore

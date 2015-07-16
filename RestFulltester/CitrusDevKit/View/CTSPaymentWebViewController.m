@@ -47,8 +47,16 @@
     [self.view addSubview:self.webview];
     [self.webview addSubview:indicator];
     transactionOver = NO;
-    [self.webview loadRequest:[[NSURLRequest alloc]
-                               initWithURL:[NSURL URLWithString:redirectURL]]];
+    
+    if (!self.consumerPortalRequest) {
+        self.title = @"3D Secure";
+        [self.webview loadRequest:[[NSURLRequest alloc]
+                                   initWithURL:[NSURL URLWithString:redirectURL]]];
+    }else{
+        self.title = @"Consumer Portal";
+        [self.webview loadRequest:self.consumerPortalRequest];
+    }
+
     
     
     //    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissController)];
@@ -187,13 +195,16 @@
 
 
 -(void)promptForCancelTransaction{
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:@"Do you Really Want to Cancel the Transaction?" delegate:self cancelButtonTitle:@"NO"otherButtonTitles:@"YES", nil];
-        
-        alert.tag = 1;
-        [alert show];
-    });
+    if (!self.consumerPortalRequest) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert !" message:@"Do you Really Want to Cancel the Transaction?" delegate:self cancelButtonTitle:@"NO"otherButtonTitles:@"YES", nil];
+            
+            alert.tag = 1;
+            [alert show];
+        });
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 
@@ -201,8 +212,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [alertView dismissWithClickedButtonIndex:10 animated:YES];
-
-    NSLog(@"clicked button %d",buttonIndex);
     if(buttonIndex == 0){
     }
     else if (buttonIndex == 1){

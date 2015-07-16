@@ -17,6 +17,10 @@
 #import "CTSUserDetails.h"
 #import "CTSLinkRes.h"
 #import "CTSResponse.h"
+
+#define CONSUMER_PORTAL_PRODUCTION_BASEURL @"https://consumer.citruspay.com/CitrusConsumerPortal/AppLanding/appLandingPage"
+#define CONSUMER_PORTAL_STAGING_BASEURL @"https://stgconsumer.citruspay.com/CitrusConsumerPortal/AppLanding/appLandingPage"
+
 @class CTSAuthLayer;
 @protocol CTSAuthenticationProtocol
 
@@ -164,6 +168,7 @@ typedef void (^ASBindSignIn)(NSError* error);
 
 typedef void (^ASOtpSigninCallBack)(NSError* error);
 
+typedef void (^ASConsumerPortalCallBack)(NSError* error);
 
 @property(nonatomic, weak) id<CTSAuthenticationProtocol> delegate;
 
@@ -273,4 +278,7 @@ typedef void (^ASOtpSigninCallBack)(NSError* error);
 -(void)requestSigninWithUsername:(NSString*)userNameArg otp:(NSString*)otp completionHandler:(ASOtpSigninCallBack)callBack;
 
 -(void)requestLink:(CTSUserDetails *)user completionHandler:(ASLinkCallback )callback;
+
+- (void)accessConsumerPortalWithParentViewController:(UIViewController *)controller
+                               withCompletionHandler:(ASConsumerPortalCallBack)callback;
 @end

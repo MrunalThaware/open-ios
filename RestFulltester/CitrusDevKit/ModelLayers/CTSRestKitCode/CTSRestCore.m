@@ -13,12 +13,6 @@
 @implementation CTSRestCore
 @synthesize baseUrl, delegate;
 
-#define PGHEALTH_PRODUCTION_BASEURL @"https://citruspay.com"
-#define PGHEALTH_SANDBOX_BASEURL @"https://sandbox.citruspay.com"
-
-#define PRODUCTION_BASEURL @"https://admin.citruspay.com"
-
-
 - (instancetype)initWithBaseUrl:(NSString*)url {
     self = [super init];
     if (self) {

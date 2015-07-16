@@ -17,6 +17,8 @@
 #import "NSObject+logProperties.h"
 #import "CTSSignupState.h"
 #import "CTSProfileLayer.h"
+#import "CTSPaymentWebViewController.h"
+#import "CTSRestCore.h"
 
 #import <CommonCrypto/CommonDigest.h>
 #ifndef MIN
@@ -976,6 +978,43 @@
 }
 
 
+- (void)accessConsumerPortalWithParentViewController:(UIViewController *)controller
+                               withCompletionHandler:(ASConsumerPortalCallBack)callback{
+    
+    [self addCallback:callback forRequestId:ConsumerPortalRequestId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    if (oauthStatus.error != nil) {
+        [self consumerPortalHelperWithRequest:nil withError:oauthStatus.error andParentViewController:nil];
+        return;
+    }
+    
+    NSMutableURLRequest *request;
+    if ([BaseUrl isEqualToString:PRODUCTION_BASEURL]) {
+        request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:CONSUMER_PORTAL_PRODUCTION_BASEURL]];
+    }else{
+        request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:CONSUMER_PORTAL_STAGING_BASEURL]];
+    }
+
+    [request addValue:oauthStatus.oauthToken forHTTPHeaderField:MLC_ACCESS_CONSUMER_PORTAL_TOKEN_KEY];
+    
+    [self consumerPortalHelperWithRequest:request withError:nil andParentViewController:controller];
+}
+
+-(void)consumerPortalHelperWithRequest:(NSMutableURLRequest *)request
+                             withError:(NSError *)error
+               andParentViewController:(UIViewController *)controller{
+    
+    ASConsumerPortalCallBack callback = [self retrieveAndRemoveCallbackForReqId:ConsumerPortalRequestId];
+    
+    if(callback != nil){
+        CTSPaymentWebViewController *paymentWebViewController = [[CTSPaymentWebViewController alloc] init];
+        paymentWebViewController.consumerPortalRequest = request;
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:paymentWebViewController];
+        [controller presentViewController:navigationController animated:NO completion:nil];
+        callback(error);
+    }
+}
 
 #pragma mark - pseudo password generator methods
 - (NSString*)generatePseudoRandomPassword {
@@ -1123,7 +1162,8 @@ enum {
     GenerateOTPReqId,
     LinkReqId,
     BindSigninAsyncReqId,
-    OtpSignInReqId
+    OtpSignInReqId,
+    ConsumerPortalRequestId
 };
 - (instancetype)init {
     NSDictionary* dict = @{
@@ -1167,8 +1207,6 @@ enum {
                                                                        :),
                            toNSString(OtpSignInReqId):toSelector(handleOtpSignIn
                                                                        :)
-
-                           
 
                            };
     

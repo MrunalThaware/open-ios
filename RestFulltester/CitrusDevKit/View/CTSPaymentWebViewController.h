@@ -17,5 +17,6 @@
 @property( strong) NSString *redirectURL,*returnUrl;
 @property(assign) int reqId;
 @property( strong) NSMutableDictionary *response;
+@property(nonatomic,strong) NSMutableURLRequest *consumerPortalRequest;
 -(void)finishWebView;
 @end

@@ -20,7 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initializeLayers];
-    self.title = @"Citrus iOS Native SDK";
+    
+    self.title = @"CitrusPay iOS Native Payment SDK Kit";
     
 //    LogTrace(@"[authLayer requestSignInOauthToken]:%@", [authLayer requestSignInOauthToken]);
 
@@ -397,6 +398,21 @@
     }];
 }
 
+//  Accessing consumer portal from mobile app
+-(IBAction)accessConsumerPortal{
+    [authLayer accessConsumerPortalWithParentViewController:self withCompletionHandler:^(NSError *error) {
+        NSString *toastMessage;
+        if (error) {
+            LogDebug(@" error:%@", error.localizedDescription);
+            toastMessage = error.localizedDescription;
+        }
+        else{
+            LogDebug(@"Consumer Portal will load shortly");
+            toastMessage = @"Consumer Portal will load shortly";
+        }
+        [UIUtility toastMessageOnScreen:toastMessage];
+    }];
+}
 
 #pragma mark - Payment Helpers
 

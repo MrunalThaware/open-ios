@@ -15,7 +15,7 @@
 */
 #warning Enter your Keys & URLs here
 
-//// Keys
+// Keys
 #define SignInId @"citrus-cube-mobile-app"
 #define SignInSecretKey @"bd63aa06f797f73966f4bcaa4bba00fe"
 #define SubscriptionId @"citrus-native-mobile-subscription"
