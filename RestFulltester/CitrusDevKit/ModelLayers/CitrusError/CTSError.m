@@ -45,7 +45,7 @@
             errorDescription = @"card number not valid";
             break;
         case ExpiryDateNotValid:
-            errorDescription = @"wrong expiry date format,expected - \"mm/yyyy\" ";
+            errorDescription = @"wrong expiry date format, expected - \"mm/yyyy\" ";
             break;
         case ServerErrorWithCode:
             errorDescription = @"server sent error code";

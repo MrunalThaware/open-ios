@@ -68,13 +68,12 @@
     
     if ([type isEqualToString:MLC_PROFILE_PAYMENT_DEBIT_TYPE]||[type isEqualToString:MLC_PROFILE_PAYMENT_CREDIT_TYPE]) {
         error = [self validateCard];
+        error = [self validateCardOwner];
     }
     
     if(error != NoError){
         return error;
-        
     }
-    error = [self validateCardOwner];
     
     return error;
 }
