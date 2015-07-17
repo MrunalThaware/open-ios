@@ -32,7 +32,8 @@ typedef enum {
     PrepaidBillFetchFailed,
     WrongBill,
     NoViewController,
-    InvalidOTP
+    InvalidOTP,
+    CardHolderNameInvalid
 } CTSErrorCode;
 
 

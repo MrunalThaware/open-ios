@@ -576,4 +576,27 @@
     return range.length != 0;
 }
 
+
++(BOOL)stringContainsSpecialChars:(NSString *)toCheck exceptChars:(NSString*)exceptionChars exceptCharSet:(NSCharacterSet*)exceptionCharSet {
+    BOOL isContain = NO;
+    NSString *setString = [NSString stringWithFormat:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789%@",exceptionChars];
+    NSMutableCharacterSet *setBase = [NSMutableCharacterSet characterSetWithCharactersInString:setString];
+    if(exceptionCharSet)
+        [setBase formUnionWithCharacterSet:exceptionCharSet];
+    
+    NSCharacterSet * set = [setBase invertedSet];
+    
+    if ([toCheck rangeOfCharacterFromSet:set].location != NSNotFound) {
+        isContain = YES;
+    }
+    return isContain;
+}
+
++(BOOL)islengthInvalid:(NSString*)string{
+    if(string.length>255 || string.length == 0){
+        return YES;
+    }
+    return NO;
+}
+
 @end

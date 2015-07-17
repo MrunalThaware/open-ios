@@ -85,6 +85,10 @@
             errorDescription = @"Mobile number not verified, Please verify it.";
             break;
 
+        case CardHolderNameInvalid:
+            errorDescription = @"Card Holder Name Invalid, Cannot be Empty or Contain Special Charecters";
+            break;
+
         case unknownError:
             errorDescription = @"Oops... Something went wrong.";
             break;

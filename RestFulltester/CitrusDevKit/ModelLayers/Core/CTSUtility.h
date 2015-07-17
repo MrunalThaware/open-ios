@@ -43,4 +43,6 @@
 +(BOOL)validateBill:(CTSBill *)bill;
 + (NSDictionary*)getResponseIfTransactionIsComplete:(UIWebView *)webview;
 +(BOOL)isVerifyPage:(NSString *)urlString;
++(BOOL)stringContainsSpecialChars:(NSString *)toCheck exceptChars:(NSString*)exceptionChars exceptCharSet:(NSCharacterSet*)exceptionCharSet;
++(BOOL)islengthInvalid:(NSString*)string;
 @end

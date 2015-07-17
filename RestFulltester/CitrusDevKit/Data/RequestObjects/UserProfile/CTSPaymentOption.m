@@ -64,15 +64,29 @@
 }
 
 - (CTSErrorCode)validate {
-  CTSErrorCode error = NoError;
+    CTSErrorCode error = NoError;
+    
+    if ([type isEqualToString:MLC_PROFILE_PAYMENT_DEBIT_TYPE]||[type isEqualToString:MLC_PROFILE_PAYMENT_CREDIT_TYPE]) {
+        error = [self validateCard];
+    }
+    
+    if(error != NoError){
+        return error;
+        
+    }
+    error = [self validateCardOwner];
+    
+    return error;
+}
 
-  if ([type isEqualToString:MLC_PROFILE_PAYMENT_CREDIT_TYPE]) {
-    error = [self validateCard];
-  }
-  if ([type isEqualToString:MLC_PROFILE_PAYMENT_DEBIT_TYPE]) {
-    error = [self validateCard];
-  }
-  return error;
+
+-(CTSErrorCode)validateCardOwner{
+    CTSErrorCode error = NoError;
+    if ([CTSUtility stringContainsSpecialChars:owner exceptChars:@"" exceptCharSet:[NSCharacterSet whitespaceCharacterSet]] || [CTSUtility islengthInvalid:owner]||owner == nil) {
+        error = CardHolderNameInvalid;
+    }
+    return error;
+    
 }
 
 - (CTSErrorCode)validateCard {
