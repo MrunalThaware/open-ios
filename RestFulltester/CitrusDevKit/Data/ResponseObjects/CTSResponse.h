@@ -15,4 +15,5 @@
 
 -(BOOL)isError;
 -(int)errorCode;
+-(int)apiResponseCode;
 @end

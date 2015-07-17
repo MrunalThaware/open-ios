@@ -273,4 +273,7 @@ typedef void (^ASOtpSigninCallBack)(NSError* error);
 -(void)requestSigninWithUsername:(NSString*)userNameArg otp:(NSString*)otp completionHandler:(ASOtpSigninCallBack)callBack;
 
 -(void)requestLink:(CTSUserDetails *)user completionHandler:(ASLinkCallback )callback;
+
+-(void)requestLink:(CTSUserDetails *)user forceVerification:(BOOL)isForceVer completionHandler:(ASLinkCallback )callback;
+
 @end

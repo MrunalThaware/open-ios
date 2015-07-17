@@ -177,6 +177,12 @@ typedef enum SignOutResponseState {
 
 
 
+//LinkUser ForceVerification
+#define MLC_LINK_FORCE_VER_PATH @"/service/um/link/user"
+#define MLC_LINK_FORCE_VER_QUERY_EMAIL @"email"
+#define MLC_LINK_FORCE_VER_QUERY_MOBILE @"mobile"
+#define MLC_LINK_FORCE_VER_QUERY_FORCE_VERI @"force_mobile_verification"
+
 
 #pragma mark - OTP_SIGNIN
 #define MLC_OTP_SIGNIN_PATH @"/service/um/otp/generate"

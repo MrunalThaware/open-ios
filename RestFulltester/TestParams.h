@@ -11,10 +11,11 @@
 
 // TestParams.h should be populated according to your needs
 //
-#define TEST_EMAIL @"yaddyboy100@mailinator.com"
-#define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9999999999"
 
+
+#define TEST_EMAIL @"yaddyboy1005@mailinator.com"
+#define TEST_PASSWORD @"tester@123"
+#define TEST_MOBILE @"9702964505"
 
 
 
