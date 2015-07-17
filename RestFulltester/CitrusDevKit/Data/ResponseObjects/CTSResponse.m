@@ -28,4 +28,12 @@
    return [errorCodeString intValue];
 }
 
+
+-(int)apiResponseCode{
+    NSArray *separtedByHyphen = [_responseCode componentsSeparatedByString:@"-"];
+    int responseCodeVal = [[separtedByHyphen lastObject] intValue];
+    return responseCodeVal;
+
+}
+
 @end

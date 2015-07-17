@@ -910,7 +910,42 @@
 
 
 
--(void)requestLinkUser:(NSString *)email mobile:(NSString *)mobile completionHandler:(ASLinkUserCallBack)callBack;
+
+-(void)requestLink:(CTSUserDetails *)user forceVerification:(BOOL)isForceVer completionHandler:(ASLinkCallback )callback{
+    
+    
+    [self addCallback:callback forRequestId:LinkForceMobVerReqId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    
+    
+    
+    
+    //validate username
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_LINK_FORCE_VER_PATH
+                                   requestId:LinkForceMobVerReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:[CTSUtility toJson:@{
+                                                              MLC_LINK_FORCE_VER_QUERY_EMAIL:user.email,
+                                                              MLC_LINK_FORCE_VER_QUERY_MOBILE:user.mobileNo,
+                                                              MLC_LINK_FORCE_VER_QUERY_FORCE_VERI:[CTSUtility toStringBool:isForceVer]
+                                                              }]
+
+                                   httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+}
+
+
+
+
+
+
+-(void)requestLinkUser:(NSString *)email mobile:(NSString *)mobile completionHandler:(ASLinkUserCallBack)callBack
 {
     
     
@@ -1123,7 +1158,8 @@ enum {
     GenerateOTPReqId,
     LinkReqId,
     BindSigninAsyncReqId,
-    OtpSignInReqId
+    OtpSignInReqId,
+    LinkForceMobVerReqId
 };
 - (instancetype)init {
     NSDictionary* dict = @{
@@ -1166,7 +1202,8 @@ enum {
                            toNSString(BindSigninAsyncReqId):toSelector(handleBindSignInAsync
                                                                        :),
                            toNSString(OtpSignInReqId):toSelector(handleOtpSignIn
-                                                                       :)
+                                                                       :),
+                           toNSString(LinkForceMobVerReqId):toSelector(handleLinkUserForceVer:)
 
                            
 
@@ -1180,6 +1217,49 @@ enum {
 
 
 #pragma mark - handlers
+
+
+-(void)handleLinkUserForceVer:(CTSRestCoreResponse *)response{
+
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSResponse *genResponse;
+    CTSLinkRes *linkResponse = nil;
+
+    if(!error){
+        linkResponse = [[CTSLinkRes alloc] init];
+
+        genResponse =[[CTSResponse alloc] initWithString:response.responseString error:&jsonError];
+        int responseCode = [genResponse apiResponseCode];
+        switch (responseCode) {
+            case 1:
+                linkResponse.linkUserStatus = LinkUserStatusMotpSigIn;
+                break;
+            case 2:
+                linkResponse.linkUserStatus = LinkUserStatusEotpSignIn;
+
+                break;
+            case 3:
+                linkResponse.linkUserStatus = LinkUserStatusForceMobVerEotpSignin;
+
+                break;
+            case 4:
+                linkResponse.linkUserStatus = LinkUserStatusSignup;
+
+                break;
+            default:
+                break;
+        }
+        linkResponse.message = genResponse.responseMessage;
+        
+        
+    }
+    
+    [self linkUserForceVerHelper:linkResponse error:error];
+    
+    
+}
+
 
 -(void)handleBindOauthToken:(CTSRestCoreResponse *)response{
     NSError* error = response.error;
@@ -1606,6 +1686,15 @@ enum {
 
 
 #pragma mark - helper methods
+
+-(void)linkUserForceVerHelper:(CTSLinkRes *)linkResponse error:(NSError *)error{
+    ASLinkCallback callback = [self retrieveAndRemoveCallbackForReqId:LinkForceMobVerReqId];
+    if(callback){
+        callback(linkResponse,error);
+    }
+}
+
+
 - (void)signinHelperUsername:(NSString*)username
                        oauth:(NSString*)token
                        error:(NSError*)error {

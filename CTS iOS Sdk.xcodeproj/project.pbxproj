@@ -21,7 +21,6 @@
 		373372AE1B427AE200D239F5 /* CTSValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 373372AC1B427AE200D239F5 /* CTSValidator.m */; };
 		373372AF1B427AE200D239F5 /* CTSValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 373372AC1B427AE200D239F5 /* CTSValidator.m */; };
 		373372B01B427AE200D239F5 /* CTSValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 373372AC1B427AE200D239F5 /* CTSValidator.m */; };
-		373372B11B427AE200D239F5 /* CTSValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 373372AC1B427AE200D239F5 /* CTSValidator.m */; };
 		374DB9BC1B17228A00A16B8C /* PrepaidViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 374DB9BB1B17228A00A16B8C /* PrepaidViewController.xib */; };
 		374DB9BD1B17228A00A16B8C /* PrepaidViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 374DB9BB1B17228A00A16B8C /* PrepaidViewController.xib */; };
 		3757918B1AEA3B2000D61A2F /* CTSCashoutBankAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */; };
@@ -380,28 +379,15 @@
 		7692AB5319FFA247004D56EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A7C6B61922458F005D29D4 /* Main.storyboard */; };
 		76C2C19B1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */; };
 		76C2C19E1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */; };
-		76C2C1B71B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C2C1B61B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m */; };
 		76DB73761B297F49004D797F /* CTSPGHealthRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB73751B297F49004D797F /* CTSPGHealthRes.m */; };
 		76DB73771B297F49004D797F /* CTSPGHealthRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB73751B297F49004D797F /* CTSPGHealthRes.m */; };
 		76DB73781B297F49004D797F /* CTSPGHealthRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB73751B297F49004D797F /* CTSPGHealthRes.m */; };
 		76DB73791B297F49004D797F /* CTSPGHealthRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB73751B297F49004D797F /* CTSPGHealthRes.m */; };
-		76DB737A1B297F49004D797F /* CTSPGHealthRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB73751B297F49004D797F /* CTSPGHealthRes.m */; };
 		76DB737D1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */; };
 		76DB737E1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */; };
 		76DB737F1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */; };
 		76DB73801B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */; };
-		76DB73811B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB737C1B2AEB41004D797F /* CTSUpdateMobileNumberRes.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		76C2C1B81B0F446200DA5DC7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 37A7C6991922458F005D29D4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7692AAE819FFA247004D56EC;
-			remoteInfo = "CTS iOS GUISdk";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		370773681B0B5FEB00B8BC82 /* CTSNewUserProfileReq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSNewUserProfileReq.h; sourceTree = "<group>"; };
@@ -602,7 +588,6 @@
 		7692AB6319FFAA26004D56EC /* CTS iOS GUISdk-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CTS iOS GUISdk-Info.plist"; sourceTree = "<group>"; };
 		76C2C1991B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCashoutBankAccountResp.h; sourceTree = "<group>"; };
 		76C2C19A1B0F42CD00DA5DC7 /* CTSCashoutBankAccountResp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCashoutBankAccountResp.m; sourceTree = "<group>"; };
-		76C2C1B21B0F446200DA5DC7 /* CTS iOS GUISdk Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CTS iOS GUISdk Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		76C2C1B51B0F446200DA5DC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76C2C1B61B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CTS_iOS_GUISdk_Tests.m; sourceTree = "<group>"; };
 		76DB73741B297F49004D797F /* CTSPGHealthRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPGHealthRes.h; sourceTree = "<group>"; };
@@ -649,13 +634,6 @@
 				7692AB3519FFA247004D56EC /* CoreGraphics.framework in Frameworks */,
 				7692AB3619FFA247004D56EC /* UIKit.framework in Frameworks */,
 				7692AB3719FFA247004D56EC /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		76C2C1AF1B0F446200DA5DC7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -860,7 +838,6 @@
 			children = (
 				7692AB5B19FFA247004D56EC /* CTS iOS GUISdk.app */,
 				37D6E6B91AB01E1A008C28C4 /* Prepaid SDK.app */,
-				76C2C1B21B0F446200DA5DC7 /* CTS iOS GUISdk Tests.xctest */,
 				37D33C011B26C7D200AD4513 /* Prepaid SDK copy.app */,
 				37D33C781B28073800AD4513 /* Prepaid SDK Old copy.app */,
 			);
@@ -1222,24 +1199,6 @@
 			productReference = 7692AB5B19FFA247004D56EC /* CTS iOS GUISdk.app */;
 			productType = "com.apple.product-type.application";
 		};
-		76C2C1B11B0F446200DA5DC7 /* CTS iOS GUISdk Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 76C2C1BA1B0F446200DA5DC7 /* Build configuration list for PBXNativeTarget "CTS iOS GUISdk Tests" */;
-			buildPhases = (
-				76C2C1AE1B0F446200DA5DC7 /* Sources */,
-				76C2C1AF1B0F446200DA5DC7 /* Frameworks */,
-				76C2C1B01B0F446200DA5DC7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				76C2C1B91B0F446200DA5DC7 /* PBXTargetDependency */,
-			);
-			name = "CTS iOS GUISdk Tests";
-			productName = "CTS iOS GUISdk Tests";
-			productReference = 76C2C1B21B0F446200DA5DC7 /* CTS iOS GUISdk Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1249,12 +1208,11 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Citrus;
 				TargetAttributes = {
-					7692AAE819FFA247004D56EC = {
+					37D6E6621AB01E1A008C28C4 = {
 						DevelopmentTeam = BF75J23QJ2;
 					};
-					76C2C1B11B0F446200DA5DC7 = {
-						CreatedOnToolsVersion = 6.3;
-						TestTargetID = 7692AAE819FFA247004D56EC;
+					7692AAE819FFA247004D56EC = {
+						DevelopmentTeam = BF75J23QJ2;
 					};
 				};
 			};
@@ -1275,7 +1233,6 @@
 				37D6E6621AB01E1A008C28C4 /* Prepaid SDK */,
 				37D33BA21B26C7D200AD4513 /* Prepaid SDK Old */,
 				37D33C151B28073800AD4513 /* Prepaid SDK Old2 */,
-				76C2C1B11B0F446200DA5DC7 /* CTS iOS GUISdk Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -1342,13 +1299,6 @@
 				37D33C121B2803B500AD4513 /* WebViewViewController.xib in Resources */,
 				7692AB4A19FFA247004D56EC /* InfoPlist.strings in Resources */,
 				7692AB5319FFA247004D56EC /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		76C2C1B01B0F446200DA5DC7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1770,26 +1720,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		76C2C1AE1B0F446200DA5DC7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				76DB73811B2AEB41004D797F /* CTSUpdateMobileNumberRes.m in Sources */,
-				373372B11B427AE200D239F5 /* CTSValidator.m in Sources */,
-				76DB737A1B297F49004D797F /* CTSPGHealthRes.m in Sources */,
-				76C2C1B71B0F446200DA5DC7 /* CTS_iOS_GUISdk_Tests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		76C2C1B91B0F446200DA5DC7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7692AAE819FFA247004D56EC /* Bind SDK */;
-			targetProxy = 76C2C1B81B0F446200DA5DC7 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		37A7C6AD1922458F005D29D4 /* InfoPlist.strings */ = {
@@ -2030,8 +1961,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jayamala Wankhede (9G6MVBS9S7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jayamala Wankhede (9G6MVBS9S7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2056,7 +1987,7 @@
 					SystemConfiguration,
 				);
 				PRODUCT_NAME = "Prepaid SDK";
-				PROVISIONING_PROFILE = "8f589018-f796-42e3-b0b5-18e0e73f8818";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2067,6 +1998,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				INFOPLIST_FILE = "Prepaid SDK.plist";
@@ -2086,7 +2018,7 @@
 					SystemConfiguration,
 				);
 				PRODUCT_NAME = "Prepaid SDK";
-				PROVISIONING_PROFILE = "8f589018-f796-42e3-b0b5-18e0e73f8818";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2096,8 +2028,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Yadnesh Wankhede (9NQH2263XK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jayamala Wankhede (9G6MVBS9S7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2106,6 +2038,7 @@
 					Bind_SDK,
 				);
 				INFOPLIST_FILE = "RestFulltester/CTS iOS GUISdk-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -2122,7 +2055,7 @@
 					SystemConfiguration,
 				);
 				PRODUCT_NAME = "CTS iOS GUISdk";
-				PROVISIONING_PROFILE = "8f589018-f796-42e3-b0b5-18e0e73f8818";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2133,9 +2066,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				INFOPLIST_FILE = "RestFulltester/CTS iOS GUISdk-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -2152,55 +2087,8 @@
 					SystemConfiguration,
 				);
 				PRODUCT_NAME = "CTS iOS GUISdk";
-				PROVISIONING_PROFILE = "8f589018-f796-42e3-b0b5-18e0e73f8818";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		76C2C1BB1B0F446200DA5DC7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "CTS iOS GUISdk Tests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CTS iOS GUISdk.app/CTS iOS GUISdk";
-			};
-			name = Debug;
-		};
-		76C2C1BC1B0F446200DA5DC7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "CTS iOS GUISdk Tests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CTS iOS GUISdk.app/CTS iOS GUISdk";
 			};
 			name = Release;
 		};
@@ -2248,15 +2136,6 @@
 			buildConfigurations = (
 				7692AB5919FFA247004D56EC /* Debug */,
 				7692AB5A19FFA247004D56EC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		76C2C1BA1B0F446200DA5DC7 /* Build configuration list for PBXNativeTarget "CTS iOS GUISdk Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				76C2C1BB1B0F446200DA5DC7 /* Debug */,
-				76C2C1BC1B0F446200DA5DC7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

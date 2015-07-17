@@ -10,7 +10,8 @@
 typedef enum {
     LinkUserStatusEotpSignIn,
     LinkUserStatusMotpSigIn,
-    LinkUserStatusSignup,
+    LinkUserStatusForceMobVerEotpSignin,
+    LinkUserStatusSignup
 } LinkUserStatus;
 @interface CTSLinkRes : NSObject
 @property(assign) LinkUserStatus linkUserStatus;

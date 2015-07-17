@@ -52,6 +52,8 @@
 
 // Bind to the User.
 -(IBAction)bindUser:(id)sender{
+    
+    
     // Configure your request here.
     [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
         NSLog(@"error.code %ld ", (long)error.code);
@@ -179,9 +181,9 @@
     [paymentInfo addNetBanking:netBank];
     
     // Get your bill here.
-    CTSBill *bill = [SimpleStartViewController getBillFromServer];
+    //CTSBill *bill = [SimpleStartViewController getBillFromServer];
     
-    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:nil customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
         }

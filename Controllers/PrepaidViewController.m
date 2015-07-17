@@ -86,13 +86,53 @@
 
 -(IBAction)linkUser:(id)sender{
     
+//    CTSUserDetails *user = [[CTSUserDetails alloc] init];
+//    user.mobileNo = TEST_MOBILE;
+//    user.email = TEST_EMAIL;
+//    user.firstName = TEST_FIRST_NAME;
+//    user.lastName = TEST_LAST_NAME;
+//    
+//    [authLayer requestLink:user completionHandler:^(CTSLinkRes *linkRes, NSError *error) {
+//        if(error){
+//            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+//        }
+//        else{
+//            switch (linkRes.linkUserStatus) {
+//                case LinkUserStatusEotpSignIn:
+//                    //User is Already a Citrus Member, OTP is Sent to Email, Please Login Using OTP,
+//                    //User can also access his Saved Cards and check Preaid Balance now
+//                    [UIUtility toastMessageOnScreen:linkRes.message];
+//                    break;
+//                case LinkUserStatusMotpSigIn:
+//                    //User is Already a Citrus Member, OTP is Sent to Mobile, Please Login Using OTP,
+//                    //User can also access his Saved Cards and check Preaid Balance now
+//                    [UIUtility toastMessageOnScreen:linkRes.message];
+//                    break;
+//                case LinkUserStatusSignup:
+//                    //User is now registered Please Go to Mobile Verification screen
+//                    //User can also access his Saved Cards and check Preaid Balance now
+//                    [UIUtility toastMessageOnScreen:linkRes.message];
+//                    break;
+//                default:
+//                    break;
+//            }
+//            
+//        }
+//    }];
+    
+    
+    
+    
+    
+    
+    
     CTSUserDetails *user = [[CTSUserDetails alloc] init];
     user.mobileNo = TEST_MOBILE;
     user.email = TEST_EMAIL;
     user.firstName = TEST_FIRST_NAME;
     user.lastName = TEST_LAST_NAME;
     
-    [authLayer requestLink:user completionHandler:^(CTSLinkRes *linkRes, NSError *error) {
+    [authLayer requestLink:user forceVerification:NO completionHandler:^(CTSLinkRes *linkRes, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
@@ -113,12 +153,18 @@
                     //User can also access his Saved Cards and check Preaid Balance now
                     [UIUtility toastMessageOnScreen:linkRes.message];
                     break;
+                case LinkUserStatusForceMobVerEotpSignin:
+                    //User has received the verification code on mobile
+                    [UIUtility toastMessageOnScreen:linkRes.message];
+                    break;
+
                 default:
                     break;
             }
             
         }
     }];
+
 }
 
 
