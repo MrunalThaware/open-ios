@@ -9,6 +9,7 @@
 #import "CTSRestCore.h"
 #import "NSObject+logProperties.h"
 #import "CTSAuthLayerConstants.h"
+#import "CTSPaymentLayer.h"
 
 @implementation CTSRestCore
 @synthesize baseUrl, delegate;
@@ -24,8 +25,18 @@
 
 // request to server
 - (void)requestAsyncServer:(CTSRestCoreRequest*)restRequest {
-  NSMutableURLRequest* request =
-      [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
+//  NSMutableURLRequest* request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
+
+    NSMutableURLRequest* request;
+    if (restRequest.requestId != GetVaultTokenReqId) {
+        request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
+    }else{
+        if ([baseUrl isEqualToString:PRODUCTION_BASEURL]) {
+            request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:VAULT_PRODUCTION_BASEURL];
+        }else{
+            request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:VAULT_TEST_BASEURL];
+        }
+    }
 
   __block int requestId = restRequest.requestId;
 

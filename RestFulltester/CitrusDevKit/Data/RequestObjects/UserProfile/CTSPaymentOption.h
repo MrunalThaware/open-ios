@@ -46,5 +46,8 @@ typedef enum {
 - (CTSErrorCode)validate;
 -(CTSPaymentType)fetchPaymentType;
 -(CTSPaymentToken*)fetchPaymentToken;
++ (CTSErrorCode)validateCardDetailsForCardNumber:(NSString *)number
+                                  withExpiryDate:(NSString *)expiryDate
+                                       withOwner:(NSString *)owner;
 @end
 @protocol CTSPaymentOption;

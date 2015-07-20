@@ -78,6 +78,28 @@
     return error;
 }
 
++ (CTSErrorCode)validateCardDetailsForCardNumber:(NSString *)number
+                                  withExpiryDate:(NSString *)expiryDate
+                                       withOwner:(NSString *)owner{
+    CTSErrorCode error = NoError;
+    
+    if ([CTSUtility validateCardNumber:number] == NO) {
+        error = CardNumberNotValid;
+    } else if ([CTSUtility validateExpiryDate:expiryDate] == NO) {
+        error = ExpiryDateNotValid;
+    }
+    
+    if ([CTSUtility stringContainsSpecialChars:owner exceptChars:@"" exceptCharSet:[NSCharacterSet whitespaceCharacterSet]] || [CTSUtility islengthInvalid:owner]||owner == nil) {
+        error = CardHolderNameInvalid;
+    }
+    
+    if(error != NoError){
+        return error;
+    }
+    
+    return error;
+}
+
 
 -(CTSErrorCode)validateCardOwner{
     CTSErrorCode error = NoError;

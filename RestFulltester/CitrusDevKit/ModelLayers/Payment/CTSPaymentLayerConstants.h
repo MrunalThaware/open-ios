@@ -144,5 +144,18 @@
 #define MLC_PAYMENT_GET_PREPAID_BILL_QUERY_REDIRECT @"redirect"
 #define MLC_PAYMENT_GET_PREPAID_BILL_QUERY_CURRENCY_INR @"INR"
 
+#pragma - mark MLC_GET_VAULT_TOKEN
+#define MLC_GET_VAULT_TOKEN_PATH @"/api/vault/v1/tokenize/subscription"
+#define MLC_GET_VAULT_TOKEN_CARD @"card"
+#define MLC_GET_VAULT_TOKEN_PAN @"pan"
+#define MLC_GET_VAULT_TOKEN_HOLDER @"holder"
+#define MLC_GET_VAULT_TOKEN_EXPIRY @"expiry"
+#define MLC_GET_VAULT_TOKEN_HINT @"hint"
+#define MLC_GET_VAULT_TOKEN_KEY @"key"
+#define MLC_GET_VAULT_TOKEN_KEY_NAME @"userID"
+#define MLC_GET_VAULT_TOKEN_VALUE @"value"
+
+#define VAULT_PRODUCTION_BASEURL @"https://vault.test.citruspay.com:443"
+#define VAULT_TEST_BASEURL @"https://vault.test.citruspay.com:443"
 
 #endif

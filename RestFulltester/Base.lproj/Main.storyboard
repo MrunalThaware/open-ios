@@ -1,27 +1,277 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="uPt-8C-Fn3">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="F1f-Qi-dtT">
+            <objects>
+                <navigationController id="uPt-8C-Fn3" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="l2R-bC-Ily">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="CTv-cB-Pbs"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DWm-Gh-1hi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-581" y="246"/>
+        </scene>
+        <!--Sample View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="SampleViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zVO-QM-3lZ">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FCN-PI-UZ2">
+                                        <rect key="frame" x="0.0" y="25" width="414" height="30"/>
+                                        <state key="normal" title="Sign Up">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="signUp" destination="vXZ-lx-hvc" eventType="touchUpInside" id="OBB-cN-S68"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JL5-Z8-T6O">
+                                        <rect key="frame" x="0.0" y="58" width="414" height="30"/>
+                                        <state key="normal" title="Sign In With Password">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="signIn" destination="vXZ-lx-hvc" eventType="touchUpInside" id="11I-Pe-K6E"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QYq-oq-qaR">
+                                        <rect key="frame" x="0.0" y="355" width="414" height="30"/>
+                                        <state key="normal" title="Get Cookie">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="getCookie" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Xod-5i-1ov"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="txE-9w-82K">
+                                        <rect key="frame" x="0.0" y="385" width="414" height="30"/>
+                                        <state key="normal" title="Pay Using Citrus Cash">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="payUsingCitrusCash" destination="vXZ-lx-hvc" eventType="touchUpInside" id="D34-Xs-7tG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gWO-GI-LPa">
+                                        <rect key="frame" x="0.0" y="423" width="414" height="30"/>
+                                        <state key="normal" title="Load Money using Card">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loadMoneyInCitrusPayUsingCard" destination="vXZ-lx-hvc" eventType="touchUpInside" id="kuK-o3-Blk"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2e-Nm-9rt">
+                                        <rect key="frame" x="0.0" y="461" width="414" height="30"/>
+                                        <state key="normal" title="Load Money using Token">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loadMoneyInCitrusPayUsingCardToken" destination="vXZ-lx-hvc" eventType="touchUpInside" id="EE7-yt-Gwp"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ly0-LV-Lcq">
+                                        <rect key="frame" x="0.0" y="492" width="414" height="30"/>
+                                        <state key="normal" title="Load Money using Net Banking">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loadMoneyInCitrusPayUsingNetbank" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Faf-NN-fSr"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzN-3A-a58">
+                                        <rect key="frame" x="0.0" y="155" width="414" height="30"/>
+                                        <state key="normal" title="Update Payment Info">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="updatePaymentInfo" destination="vXZ-lx-hvc" eventType="touchUpInside" id="7h1-Fy-c53"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rOX-ye-ULO">
+                                        <rect key="frame" x="0.0" y="189" width="414" height="30"/>
+                                        <state key="normal" title="Get Payment Info">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="getPaymentInfo" destination="vXZ-lx-hvc" eventType="touchUpInside" id="MFK-LA-dij"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gr-eo-rmj">
+                                        <rect key="frame" x="0.0" y="324" width="414" height="30"/>
+                                        <state key="normal" title="Get Balance">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="getBalance" destination="vXZ-lx-hvc" eventType="touchUpInside" id="gWB-31-Q5Y"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JYZ-Qx-cDT">
+                                        <rect key="frame" x="0.0" y="221" width="414" height="30"/>
+                                        <state key="normal" title="Save Default Payment Option">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="saveDefaultPaymentOption" destination="vXZ-lx-hvc" eventType="touchUpInside" id="5XF-jO-VFy"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r9c-0O-Dzh">
+                                        <rect key="frame" x="0.0" y="290" width="414" height="30"/>
+                                        <state key="normal" title="User Card Payment">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="doUserCreditCardPayment" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Qa9-CF-IWS"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pwp-zt-erT">
+                                        <rect key="frame" x="0.0" y="255" width="414" height="30"/>
+                                        <state key="normal" title="Get Member Info">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="getMemberInfo" destination="vXZ-lx-hvc" eventType="touchUpInside" id="J0l-SP-iWz"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jl8-wl-Gba">
+                                        <rect key="frame" x="0.0" y="90" width="414" height="30"/>
+                                        <state key="normal" title="Generate Sign In OTP">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="generateSignInOTP" destination="vXZ-lx-hvc" eventType="touchUpInside" id="VRX-he-t89"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GCf-y9-cSN">
+                                        <rect key="frame" x="147" y="121" width="121" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="121" id="AKm-TX-dyw"/>
+                                        </constraints>
+                                        <state key="normal" title="Sign In With OTP">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="signInWithOTP" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ogP-bW-mCj"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ayx-LI-IFW">
+                                        <rect key="frame" x="2" y="529" width="414" height="30"/>
+                                        <state key="normal" title="Get Vault Token">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="getVaultToken" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Cif-nc-Rk3"/>
+                                        </connections>
+                                    </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wth-i4-cdg">
+                                        <rect key="frame" x="24" y="122" width="97" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="s2e-Nm-9rt" firstAttribute="top" secondItem="gWO-GI-LPa" secondAttribute="bottom" constant="8" symbolic="YES" id="1bg-J1-hUT"/>
+                                    <constraint firstItem="QYq-oq-qaR" firstAttribute="top" secondItem="8gr-eo-rmj" secondAttribute="bottom" constant="1" id="2Qf-Eq-gkq"/>
+                                    <constraint firstItem="Pwp-zt-erT" firstAttribute="top" secondItem="JYZ-Qx-cDT" secondAttribute="bottom" constant="4" id="2Wg-gV-SeT"/>
+                                    <constraint firstItem="s2e-Nm-9rt" firstAttribute="trailing" secondItem="gWO-GI-LPa" secondAttribute="trailing" id="2on-BZ-bPz"/>
+                                    <constraint firstItem="r9c-0O-Dzh" firstAttribute="leading" secondItem="Pwp-zt-erT" secondAttribute="leading" id="3zn-u4-o15"/>
+                                    <constraint firstItem="gWO-GI-LPa" firstAttribute="top" secondItem="txE-9w-82K" secondAttribute="bottom" constant="8" symbolic="YES" id="5Ov-jo-yXf"/>
+                                    <constraint firstItem="Ly0-LV-Lcq" firstAttribute="top" secondItem="s2e-Nm-9rt" secondAttribute="bottom" constant="1" id="6N7-rm-iY1"/>
+                                    <constraint firstItem="JYZ-Qx-cDT" firstAttribute="leading" secondItem="Pwp-zt-erT" secondAttribute="leading" id="6ff-2w-T84"/>
+                                    <constraint firstAttribute="trailing" secondItem="ayx-LI-IFW" secondAttribute="trailing" constant="-2" id="8cq-RP-lgt"/>
+                                    <constraint firstItem="Ly0-LV-Lcq" firstAttribute="leading" secondItem="s2e-Nm-9rt" secondAttribute="leading" id="9r0-Yl-5tu"/>
+                                    <constraint firstItem="JL5-Z8-T6O" firstAttribute="leading" secondItem="FCN-PI-UZ2" secondAttribute="leading" id="Atm-gL-JPM"/>
+                                    <constraint firstItem="QYq-oq-qaR" firstAttribute="leading" secondItem="8gr-eo-rmj" secondAttribute="leading" id="Bek-Gx-IWu"/>
+                                    <constraint firstItem="8gr-eo-rmj" firstAttribute="trailing" secondItem="QYq-oq-qaR" secondAttribute="trailing" id="BzJ-GT-WNW"/>
+                                    <constraint firstItem="ayx-LI-IFW" firstAttribute="leading" secondItem="zVO-QM-3lZ" secondAttribute="leading" constant="2" id="DGr-UQ-Auv"/>
+                                    <constraint firstItem="JYZ-Qx-cDT" firstAttribute="top" secondItem="rOX-ye-ULO" secondAttribute="bottom" constant="2" id="EsF-go-7wd"/>
+                                    <constraint firstItem="8gr-eo-rmj" firstAttribute="trailing" secondItem="r9c-0O-Dzh" secondAttribute="trailing" id="H8d-rZ-lzk"/>
+                                    <constraint firstItem="GCf-y9-cSN" firstAttribute="top" secondItem="jl8-wl-Gba" secondAttribute="bottom" constant="1" id="IW0-eW-WYL"/>
+                                    <constraint firstItem="rOX-ye-ULO" firstAttribute="leading" secondItem="gzN-3A-a58" secondAttribute="leading" id="KQy-id-BG9"/>
+                                    <constraint firstItem="jl8-wl-Gba" firstAttribute="trailing" secondItem="gzN-3A-a58" secondAttribute="trailing" id="Kf7-A5-Hhg"/>
+                                    <constraint firstItem="rOX-ye-ULO" firstAttribute="top" secondItem="gzN-3A-a58" secondAttribute="bottom" constant="4" id="NYA-Sp-glP"/>
+                                    <constraint firstItem="FCN-PI-UZ2" firstAttribute="top" secondItem="zVO-QM-3lZ" secondAttribute="top" constant="25" id="Nrx-n9-svp"/>
+                                    <constraint firstItem="wth-i4-cdg" firstAttribute="leading" secondItem="zVO-QM-3lZ" secondAttribute="leading" constant="24" id="OUG-5i-wM1"/>
+                                    <constraint firstItem="gzN-3A-a58" firstAttribute="leading" secondItem="jl8-wl-Gba" secondAttribute="leading" id="OWh-Wj-bbr"/>
+                                    <constraint firstItem="r9c-0O-Dzh" firstAttribute="leading" secondItem="8gr-eo-rmj" secondAttribute="leading" id="Paf-RV-JZB"/>
+                                    <constraint firstItem="8gr-eo-rmj" firstAttribute="top" secondItem="r9c-0O-Dzh" secondAttribute="bottom" constant="4" id="RSL-Ge-ewN"/>
+                                    <constraint firstItem="jl8-wl-Gba" firstAttribute="centerX" secondItem="GCf-y9-cSN" secondAttribute="centerX" id="T1e-0B-1wE"/>
+                                    <constraint firstItem="gWO-GI-LPa" firstAttribute="trailing" secondItem="txE-9w-82K" secondAttribute="trailing" id="TID-2l-FUZ"/>
+                                    <constraint firstItem="rOX-ye-ULO" firstAttribute="trailing" secondItem="gzN-3A-a58" secondAttribute="trailing" id="Tu3-Dr-tfu"/>
+                                    <constraint firstAttribute="trailing" secondItem="gzN-3A-a58" secondAttribute="trailing" id="aT1-HI-Qvu"/>
+                                    <constraint firstItem="jl8-wl-Gba" firstAttribute="centerX" secondItem="zVO-QM-3lZ" secondAttribute="centerX" id="aaP-Dh-bhx"/>
+                                    <constraint firstItem="JYZ-Qx-cDT" firstAttribute="leading" secondItem="rOX-ye-ULO" secondAttribute="leading" id="agv-cg-t1N"/>
+                                    <constraint firstItem="Pwp-zt-erT" firstAttribute="trailing" secondItem="r9c-0O-Dzh" secondAttribute="trailing" id="bzv-kP-Egu"/>
+                                    <constraint firstItem="gWO-GI-LPa" firstAttribute="leading" secondItem="s2e-Nm-9rt" secondAttribute="leading" id="chg-Ti-qOP"/>
+                                    <constraint firstItem="gzN-3A-a58" firstAttribute="top" secondItem="GCf-y9-cSN" secondAttribute="bottom" constant="4" id="e9E-Mf-Pvi"/>
+                                    <constraint firstItem="JYZ-Qx-cDT" firstAttribute="trailing" secondItem="rOX-ye-ULO" secondAttribute="trailing" id="eTn-bq-Fn9"/>
+                                    <constraint firstItem="jl8-wl-Gba" firstAttribute="trailing" secondItem="JL5-Z8-T6O" secondAttribute="trailing" id="hUV-od-2ku"/>
+                                    <constraint firstItem="txE-9w-82K" firstAttribute="top" secondItem="QYq-oq-qaR" secondAttribute="bottom" id="jJ9-Df-9ak"/>
+                                    <constraint firstItem="txE-9w-82K" firstAttribute="leading" secondItem="gWO-GI-LPa" secondAttribute="leading" id="krV-Sk-UrA"/>
+                                    <constraint firstItem="ayx-LI-IFW" firstAttribute="top" secondItem="Ly0-LV-Lcq" secondAttribute="bottom" constant="7" id="laF-6g-Al4"/>
+                                    <constraint firstItem="wth-i4-cdg" firstAttribute="baseline" secondItem="GCf-y9-cSN" secondAttribute="baseline" id="nMK-pG-yJa"/>
+                                    <constraint firstItem="r9c-0O-Dzh" firstAttribute="top" secondItem="Pwp-zt-erT" secondAttribute="bottom" constant="5" id="nOd-wR-t81"/>
+                                    <constraint firstItem="gWO-GI-LPa" firstAttribute="leading" secondItem="zVO-QM-3lZ" secondAttribute="leading" id="p2T-KN-g4a"/>
+                                    <constraint firstItem="GCf-y9-cSN" firstAttribute="leading" secondItem="wth-i4-cdg" secondAttribute="trailing" constant="26" id="q1y-6E-FgN"/>
+                                    <constraint firstItem="QYq-oq-qaR" firstAttribute="trailing" secondItem="txE-9w-82K" secondAttribute="trailing" id="qml-HR-PLb"/>
+                                    <constraint firstItem="QYq-oq-qaR" firstAttribute="leading" secondItem="txE-9w-82K" secondAttribute="leading" id="qpR-rC-vRS"/>
+                                    <constraint firstItem="JL5-Z8-T6O" firstAttribute="top" secondItem="FCN-PI-UZ2" secondAttribute="bottom" constant="3" id="u32-Fl-T4o"/>
+                                    <constraint firstAttribute="bottom" secondItem="ayx-LI-IFW" secondAttribute="bottom" constant="141" id="uzb-af-h16"/>
+                                    <constraint firstItem="jl8-wl-Gba" firstAttribute="top" secondItem="JL5-Z8-T6O" secondAttribute="bottom" constant="2" id="v7A-9J-9vI"/>
+                                    <constraint firstItem="JYZ-Qx-cDT" firstAttribute="trailing" secondItem="Pwp-zt-erT" secondAttribute="trailing" id="vL6-p9-l5K"/>
+                                    <constraint firstItem="FCN-PI-UZ2" firstAttribute="trailing" secondItem="JL5-Z8-T6O" secondAttribute="trailing" id="wxV-aa-cas"/>
+                                    <constraint firstItem="Ly0-LV-Lcq" firstAttribute="trailing" secondItem="s2e-Nm-9rt" secondAttribute="trailing" id="x0d-Cm-rax"/>
+                                    <constraint firstItem="jl8-wl-Gba" firstAttribute="leading" secondItem="JL5-Z8-T6O" secondAttribute="leading" id="xp3-7A-5WJ"/>
+                                </constraints>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="600"/>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mZX-PV-oL9">
+                                <rect key="frame" x="122" y="10" width="121" height="30"/>
+                                <state key="normal" title="Sign In With OTP">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="OTP" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IAW-pr-maD">
+                                <rect key="frame" x="24" y="10" width="77" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="zVO-QM-3lZ" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" id="3vm-HA-GKD"/>
+                            <constraint firstAttribute="trailing" secondItem="zVO-QM-3lZ" secondAttribute="trailing" id="ENA-zY-XVl"/>
+                            <constraint firstItem="zVO-QM-3lZ" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="eOR-K7-ILu"/>
+                            <constraint firstItem="zVO-QM-3lZ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="jgk-OL-h9G"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="B5n-o6-gVV"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="414" height="700"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="319" y="227"/>
+            <point key="canvasLocation" x="-95" y="224"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -364,7 +364,8 @@
     
     NSDictionary *params = @{MLC_PAYMENT_GET_PREPAID_BILL_QUERY_AMOUNT:amount,
                              MLC_PAYMENT_GET_PREPAID_BILL_QUERY_CURRENCY:MLC_PAYMENT_GET_PREPAID_BILL_QUERY_CURRENCY_INR,
-                             MLC_PAYMENT_GET_PREPAID_BILL_QUERY_REDIRECT:returnUrl};
+                             MLC_PAYMENT_GET_PREPAID_BILL_QUERY_REDIRECT:returnUrl
+                             };
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_PAYMENT_GET_PREPAID_BILL_PATH
@@ -398,6 +399,72 @@
   [restCore requestAsyncServer:request];
 }
 
+
+-(void)getVaultTokenWithPAN:(NSString *)cardNumber
+                 withHolder:(NSString *)holder
+                 withExpiry:(NSString *)expiry
+                 withUserID:(NSString *)userID
+             withCompletionHandler:(ASGetVaultTokenCallback)callback{
+    
+    [self addCallback:callback forRequestId:GetVaultTokenReqId];
+    
+    expiry = [CTSUtility correctExpiryDate:expiry];
+    
+    CTSErrorCode error = [CTSPaymentOption validateCardDetailsForCardNumber:cardNumber
+                                                             withExpiryDate:expiry
+                                                                  withOwner:holder];
+    
+    if (error != NoError) {
+        [self getVaultTokenHelper:nil
+                            error:[CTSError getErrorForCode:error]];
+        return;
+    }
+
+    if([CTSUtility isEmail:userID]){
+        if (![CTSUtility validateEmail:userID]) {
+            [self getVaultTokenHelper:nil
+                                error:[CTSError getErrorForCode:EmailNotValid]];
+            return;
+        }
+    }else {
+        if (![CTSUtility mobileNumberToTenDigitIfValid:userID]) {
+            [self getVaultTokenHelper:nil
+                                error:[CTSError getErrorForCode:MobileNotValid]];
+            return;
+        }
+    }
+    
+    
+    if (!userID) {
+        [self getVaultTokenHelper:nil
+                            error:[CTSError getErrorForCode:InvalidParameter]];
+        return;
+    }
+
+    NSDictionary *params = @{
+                             MLC_GET_VAULT_TOKEN_CARD : @{
+                                 MLC_GET_VAULT_TOKEN_PAN : cardNumber,
+                                 MLC_GET_VAULT_TOKEN_HOLDER : holder,
+                                 MLC_GET_VAULT_TOKEN_EXPIRY : expiry
+                             },
+                             MLC_GET_VAULT_TOKEN_HINT : @{
+                                 MLC_GET_VAULT_TOKEN_KEY : MLC_GET_VAULT_TOKEN_KEY_NAME,
+                                 MLC_GET_VAULT_TOKEN_VALUE : userID
+                             }
+                             };
+
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_GET_VAULT_TOKEN_PATH
+                                   requestId:GetVaultTokenReqId
+                                   headers:[CTSUtility readVaultTokenAsHeader]
+                                   parameters:nil
+                                   json:[CTSUtility convertDictToJSONStringForDictionary:params]
+                                   httpMethod:POST];
+    
+    [restCore requestAsyncServer:request];
+}
+
 #pragma mark - authentication protocol mehods
 - (void)signUp:(BOOL)isSuccessful
     accessToken:(NSString*)token
@@ -406,16 +473,6 @@
   }
 }
 
-enum {
-    PaymentAsGuestReqId,
-    PaymentUsingtokenizedCardBankReqId,
-    PaymentUsingSignedInCardBankReqId,
-    PaymentPgSettingsReqId,
-    PaymentGetPrepaidBillReqId,
-    PaymentLoadMoneyCitrusPayReqId,
-    PaymentAsCitruspayReqId,
-    PaymentAsCitruspayInternalReqId
-};
 
 
 - (instancetype)init {
@@ -437,7 +494,8 @@ enum {
                            toNSString(PaymentAsCitruspayReqId) : toSelector(handlePayementUsingCitruspay
                                                                             :),
                            toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
-                                                                                    :)
+                                                                                    :),
+                           toNSString(GetVaultTokenReqId) : toSelector(handleGetVaultToken:)
                            };
     self = [super initWithRequestSelectorMapping:dict
                                          baseUrl:CITRUS_PAYMENT_BASE_URL];
@@ -561,6 +619,20 @@ enum {
     [self getPrepaidBillHelper:bill error:error];
 }
 
+-(void)handleGetVaultToken:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSVaultToken *vaultToken = nil;
+    if (error == nil) {
+        vaultToken = [[CTSVaultToken alloc] initWithString:response.responseString
+                                         error:&jsonError];
+        
+        [vaultToken logProperties];
+    }
+    [self getVaultTokenHelper:vaultToken error:error];
+}
+
+
 -(void)handlePayementUsingCitruspay:(CTSRestCoreResponse*)response  {
     
     //call back view controller
@@ -596,6 +668,13 @@ enum {
   if (callback != nil) {
     callback(payment, error);
   }
+}
+
+-(void)getVaultTokenHelper:(CTSVaultToken *)profile error:(NSError *)error{
+    ASGetVaultTokenCallback callback = [self retrieveAndRemoveCallbackForReqId:GetVaultTokenReqId];
+    if (callback != nil) {
+        callback(profile, error);
+    }
 }
 
 - (void)makeTokenizedPaymentHelper:(CTSPaymentTransactionRes*)payment

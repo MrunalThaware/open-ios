@@ -9,6 +9,7 @@
 #import "CTSUtility.h"
 #import "CreditCard-Validator.h"
 #import "CTSError.h"
+#import "CTSAuthLayer.h"
 
 #define ALPHABETICS @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
 #define NUMERICS @"0123456789"
@@ -89,6 +90,25 @@
              @"Authorization" : [NSString stringWithFormat:@" Bearer %@", oauthToken]
              };
 }
+
++ (NSDictionary*)readVaultTokenAsHeader {
+    if ([CTSAuthLayer.getBaseURL isEqualToString:PRODUCTION_BASEURL]) {
+        return @{
+                 @"Authorization" : [NSString stringWithFormat:@" Bearer %@", @"test-vault"]
+                 };
+    }else{
+        return @{
+                 @"Authorization" : [NSString stringWithFormat:@" Bearer %@", @"test-vault"]
+                 };
+    }
+}
+
++ (NSString *)convertDictToJSONStringForDictionary:(NSDictionary *)dictionary {
+    NSError * err;
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&err];
+    return  [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
 
 + (NSDictionary*)readSignupTokenAsHeader {
     return @{

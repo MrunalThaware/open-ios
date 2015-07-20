@@ -898,6 +898,23 @@
     }];
 }
 
+// get get vault token for Credit card only.
+-(IBAction)getVaultToken{
+    // Configure your request here.
+    [paymentlayerinfo getVaultTokenWithPAN:@"4444333322221111" withHolder:@"Mukesh Patil" withExpiry:@"08/34" withUserID:TEST_EMAIL withCompletionHandler:^(CTSVaultToken *vaultToken, NSError *error) {
+        if (error) {
+            [self logError:error];
+            [UIUtility didPresentErrorAlertView:error];
+        }
+        else{
+            LogDebug(@" Success!! ");
+            LogDebug(@"profile %@ ", vaultToken.description);
+            [UIUtility toastMessageOnScreen:vaultToken.description];
+        }
+    }];
+}
+
+
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

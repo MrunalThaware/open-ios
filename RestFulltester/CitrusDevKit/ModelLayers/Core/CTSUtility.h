@@ -45,4 +45,6 @@
 +(BOOL)isVerifyPage:(NSString *)urlString;
 +(BOOL)stringContainsSpecialChars:(NSString *)toCheck exceptChars:(NSString*)exceptionChars exceptCharSet:(NSCharacterSet*)exceptionCharSet;
 +(BOOL)islengthInvalid:(NSString*)string;
++ (NSDictionary*)readVaultTokenAsHeader;
++ (NSString *)convertDictToJSONStringForDictionary:(NSDictionary *)dictionary;
 @end

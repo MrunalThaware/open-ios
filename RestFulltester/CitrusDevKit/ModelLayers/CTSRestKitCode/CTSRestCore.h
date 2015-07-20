@@ -13,6 +13,9 @@
 #import "CTSError.h"
 #import "UserLogging.h"
 
+
+#define PRODUCTION_BASEURL @"https://admin.citruspay.com"
+
 @class CTSRestCore;
 
 @protocol CTSRestCoreDelegate

@@ -23,6 +23,19 @@
 #import "CTSUserAddress.h"
 #import "CTSPrepaidBill.h"
 #import "CTSCitrusCashRes.h"
+#import "CTSVaultToken.h"
+
+enum {
+    PaymentAsGuestReqId,
+    PaymentUsingtokenizedCardBankReqId,
+    PaymentUsingSignedInCardBankReqId,
+    PaymentPgSettingsReqId,
+    PaymentGetPrepaidBillReqId,
+    PaymentLoadMoneyCitrusPayReqId,
+    PaymentAsCitruspayReqId,
+    PaymentAsCitruspayInternalReqId,
+    GetVaultTokenReqId
+};
 
 @class RKObjectManager;
 @class CTSAuthLayer;
@@ -61,6 +74,8 @@ typedef void (^ASCitruspayCallback)(CTSCitrusCashRes* citrusCashResponse,
 
 typedef void (^ASMakeCitruspayCallBackInternal)(CTSPaymentTransactionRes* paymentInfo,
                                                 NSError* error);
+
+typedef void (^ASGetVaultTokenCallback)(CTSVaultToken *, NSError *);
 
 - (instancetype)initWithUrl:(NSString *)url;
 
@@ -168,5 +183,19 @@ typedef void (^ASMakeCitruspayCallBackInternal)(CTSPaymentTransactionRes* paymen
                      withCompletionHandler:(ASCitruspayCallback)callback;
 
 
+/**
+ @brief                         getVaultTokenWithPAN.
+ @param WithPAN                 cardNumber.
+ @param withHolder              holder.
+ @param withExpiry              expiry
+ @param withUserID              userID.
+ @param withCompletionHandler   ASGetVaultTokenCallback callBack.
+ @details                       get vault token for credit card.
+*/
+-(void)getVaultTokenWithPAN:(NSString *)cardNumber
+                 withHolder:(NSString *)holder
+                 withExpiry:(NSString *)expiry
+                 withUserID:(NSString *)userID
+      withCompletionHandler:(ASGetVaultTokenCallback)callback;
 
 @end

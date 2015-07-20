@@ -14,8 +14,7 @@
 #define TEST_PASSWORD @"tester@123"
 
 #warning Enter your mobile number here
-//#define TEST_MOBILE @"<Mobile>"
-#define TEST_MOBILE @"7720043019"
+#define TEST_MOBILE @"<Mobile>"
 
 #define TEST_OTP @"ad0x"
 

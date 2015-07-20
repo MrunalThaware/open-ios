@@ -78,7 +78,6 @@
 		768EA56F1B4FC841006ACE6C /* CTSNewContactProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 768EA56E1B4FC841006ACE6C /* CTSNewContactProfile.m */; };
 		768EA5721B4FC967006ACE6C /* CTSNewResponseDataProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 768EA5711B4FC967006ACE6C /* CTSNewResponseDataProfile.m */; };
 		7699BD0B1B05B8DA0038C129 /* SampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7699BD071B05B8DA0038C129 /* SampleViewController.m */; };
-		7699BD0C1B05B8DA0038C129 /* SampleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7699BD081B05B8DA0038C129 /* SampleViewController.xib */; };
 		7699BD0D1B05B8DA0038C129 /* RedirectWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7699BD0A1B05B8DA0038C129 /* RedirectWebViewController.m */; };
 		7699BD111B05B9810038C129 /* UIUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 7699BD101B05B9810038C129 /* UIUtility.m */; };
 		76D23C1B1B09FA1F00732E17 /* CTSMobileVerifiactionRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D23C1A1B09FA1F00732E17 /* CTSMobileVerifiactionRes.m */; };
@@ -90,6 +89,7 @@
 		76DA2E9D1AD7C8F000D76485 /* CTSBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA2E981AD7C8F000D76485 /* CTSBill.m */; };
 		76DA2E9E1AD7C8F000D76485 /* CTSCitrusCashRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA2E9A1AD7C8F000D76485 /* CTSCitrusCashRes.m */; };
 		76DA2E9F1AD7C8F000D76485 /* CTSPrepaidBill.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DA2E9C1AD7C8F000D76485 /* CTSPrepaidBill.m */; };
+		76E28E491B5CE76800459609 /* CTSVaultToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E28E481B5CE76800459609 /* CTSVaultToken.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -244,7 +244,6 @@
 		768EA5711B4FC967006ACE6C /* CTSNewResponseDataProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSNewResponseDataProfile.m; sourceTree = "<group>"; };
 		7699BD061B05B8DA0038C129 /* SampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleViewController.h; sourceTree = "<group>"; };
 		7699BD071B05B8DA0038C129 /* SampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleViewController.m; sourceTree = "<group>"; };
-		7699BD081B05B8DA0038C129 /* SampleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SampleViewController.xib; sourceTree = "<group>"; };
 		7699BD091B05B8DA0038C129 /* RedirectWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedirectWebViewController.h; sourceTree = "<group>"; };
 		7699BD0A1B05B8DA0038C129 /* RedirectWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedirectWebViewController.m; sourceTree = "<group>"; };
 		7699BD0F1B05B9810038C129 /* UIUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIUtility.h; sourceTree = "<group>"; };
@@ -267,6 +266,8 @@
 		76DA2E9A1AD7C8F000D76485 /* CTSCitrusCashRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCitrusCashRes.m; sourceTree = "<group>"; };
 		76DA2E9B1AD7C8F000D76485 /* CTSPrepaidBill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSPrepaidBill.h; sourceTree = "<group>"; };
 		76DA2E9C1AD7C8F000D76485 /* CTSPrepaidBill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSPrepaidBill.m; sourceTree = "<group>"; };
+		76E28E471B5CE76800459609 /* CTSVaultToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSVaultToken.h; sourceTree = "<group>"; };
+		76E28E481B5CE76800459609 /* CTSVaultToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSVaultToken.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -473,7 +474,6 @@
 				37A7C6B61922458F005D29D4 /* Main.storyboard */,
 				7699BD061B05B8DA0038C129 /* SampleViewController.h */,
 				7699BD071B05B8DA0038C129 /* SampleViewController.m */,
-				7699BD081B05B8DA0038C129 /* SampleViewController.xib */,
 				7699BD091B05B8DA0038C129 /* RedirectWebViewController.h */,
 				7699BD0A1B05B8DA0038C129 /* RedirectWebViewController.m */,
 				3723D1571948371B00C50FA5 /* TestParams.h */,
@@ -645,6 +645,8 @@
 				76DA2E9A1AD7C8F000D76485 /* CTSCitrusCashRes.m */,
 				76DA2E9B1AD7C8F000D76485 /* CTSPrepaidBill.h */,
 				76DA2E9C1AD7C8F000D76485 /* CTSPrepaidBill.m */,
+				76E28E471B5CE76800459609 /* CTSVaultToken.h */,
+				76E28E481B5CE76800459609 /* CTSVaultToken.m */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -761,7 +763,6 @@
 				37A7C6BD1922458F005D29D4 /* Images.xcassets in Resources */,
 				37A7C6AF1922458F005D29D4 /* InfoPlist.strings in Resources */,
 				37A7C6B81922458F005D29D4 /* Main.storyboard in Resources */,
-				7699BD0C1B05B8DA0038C129 /* SampleViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -805,6 +806,7 @@
 				37C964B3198F86960021DC0B /* CTSSignUpRes.m in Sources */,
 				37C96491198F723E0021DC0B /* CTSGuestCheckout.m in Sources */,
 				37C9649C198F723E0021DC0B /* CTSElectronicCardUpdate.m in Sources */,
+				76E28E491B5CE76800459609 /* CTSVaultToken.m in Sources */,
 				371B5D28198A5CCF0096451C /* CTSRestPluginBase.m in Sources */,
 				371B5D4A198A5D110096451C /* NSArray+JSONModel.m in Sources */,
 				76DA2E9D1AD7C8F000D76485 /* CTSBill.m in Sources */,
