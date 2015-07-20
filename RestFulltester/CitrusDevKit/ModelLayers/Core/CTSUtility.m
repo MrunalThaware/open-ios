@@ -212,20 +212,20 @@
 + (BOOL)hasYearPassed:(int)year {
     int normalized = [self normalizeYear:year];
     NSCalendar* gregorian =
-    [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents* components =
-    [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
+    [gregorian components:NSCalendarUnitYear fromDate:[NSDate date]];
     int currentyear = (int)[components year];
     return normalized >= currentyear;
 }
 
 + (BOOL)hasMonthPassedYear:(int)year month:(int)month {
     NSCalendar* gregorian =
-    [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents* components =
-    [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
+    [gregorian components:NSCalendarUnitYear fromDate:[NSDate date]];
     NSDateComponents* monthcomponent =
-    [gregorian components:NSMonthCalendarUnit fromDate:[NSDate date]];
+    [gregorian components:NSCalendarUnitMonth fromDate:[NSDate date]];
     int currentYear = (int)[components year];
     int currentmonth = (int)[monthcomponent month];
     int normalizeyear = [self normalizeYear:year];
@@ -236,9 +236,9 @@
 + (int)normalizeYear:(int)year {
     if (year < 100 && year >= 0) {
         NSCalendar* gregorian =
-        [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
         NSDateComponents* components =
-        [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
+        [gregorian components:NSCalendarUnitYear fromDate:[NSDate date]];
         NSInteger yearr = [components year];
         NSString* currentYear = [NSString stringWithFormat:@"%d", (int)yearr];
         
