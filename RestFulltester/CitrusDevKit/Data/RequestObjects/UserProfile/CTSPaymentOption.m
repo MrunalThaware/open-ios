@@ -129,11 +129,11 @@
 - (CTSErrorCode)validateCard {
   CTSErrorCode error = NoError;
   if ([CTSUtility validateCardNumber:number] == NO) {
-    error = CardNumberNotValid;
-  } else if ([CTSUtility isMaestero:number]== NO && [CTSUtility validateExpiryDate:expiryDate] == NO) {
-    error = ExpiryDateNotValid;
-  } else if ([CTSUtility isMaestero:number]== NO &&[CTSUtility validateCVV:cvv cardNumber:number] == NO) {
-    error = CvvNotValid;
+    return CardNumberNotValid;
+  }  if ([CTSUtility isMaestero:number]== NO && [CTSUtility validateExpiryDate:expiryDate] == NO) {
+    return ExpiryDateNotValid;
+  }  if ([CTSUtility isMaestero:number]== NO &&[CTSUtility validateCVV:cvv cardNumber:number] == NO) {
+    return CvvNotValid;
   }
     
   return error;
