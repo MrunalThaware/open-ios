@@ -32,7 +32,7 @@
       errorDescription = @"card number not valid";
       break;
     case ExpiryDateNotValid:
-      errorDescription = @"expiry date invlalid";
+      errorDescription = @"expiry date invalid";
       break;
     case ServerErrorWithCode:
       errorDescription = @"server sent error code";
