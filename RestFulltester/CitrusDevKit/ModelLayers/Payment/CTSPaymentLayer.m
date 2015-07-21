@@ -399,7 +399,34 @@
   [restCore requestAsyncServer:request];
 }
 
+// get get meta data for Credit card only.
+- (void)getMetaDataForCardWithPAN:(NSString *)cardNumber
+            withCompletionHandler:(ASGetMetaDataForCardCallback)callback{
+    
+    [self addCallback:callback forRequestId:GetMetaDataCardReqId];
 
+    if ([cardNumber length] < 6) {
+        [self getMetaDataCardHelper:nil
+                            error:[CTSError getErrorForCode:CardNumberNotValid]];
+        return;
+    }else{
+        cardNumber = [cardNumber substringToIndex:6];
+    }
+    
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:[MLC_GET_META_DATA_CARD_PATH stringByAppendingString:cardNumber]
+                                   requestId:GetMetaDataCardReqId
+                                   headers:[CTSUtility readMetaDataCardAsHeader]
+                                   parameters:nil
+                                   json:nil
+                                   httpMethod:GET];
+    
+    [restCore requestAsyncServer:request];
+}
+
+
+// get get vault token for Credit card only.
 -(void)getVaultTokenWithPAN:(NSString *)cardNumber
                  withHolder:(NSString *)holder
                  withExpiry:(NSString *)expiry
@@ -495,7 +522,8 @@
                                                                             :),
                            toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
                                                                                     :),
-                           toNSString(GetVaultTokenReqId) : toSelector(handleGetVaultToken:)
+                           toNSString(GetVaultTokenReqId) : toSelector(handleGetVaultToken:),
+                           toNSString(GetMetaDataCardReqId) : toSelector(handleGetMetaDataCard:)
                            };
     self = [super initWithRequestSelectorMapping:dict
                                          baseUrl:CITRUS_PAYMENT_BASE_URL];
@@ -632,6 +660,20 @@
     [self getVaultTokenHelper:vaultToken error:error];
 }
 
+-(void)handleGetMetaDataCard:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    JSONModelError* jsonError;
+    CTSMetaDataCard *metaDataCard = nil;
+    if (error == nil) {
+        metaDataCard = [[CTSMetaDataCard alloc] initWithString:response.responseString
+                                                     error:&jsonError];
+        
+        [metaDataCard logProperties];
+    }
+    [self getMetaDataCardHelper:metaDataCard error:error];
+}
+
+
 
 -(void)handlePayementUsingCitruspay:(CTSRestCoreResponse*)response  {
     
@@ -670,12 +712,21 @@
   }
 }
 
--(void)getVaultTokenHelper:(CTSVaultToken *)profile error:(NSError *)error{
+-(void)getVaultTokenHelper:(CTSVaultToken *)vaultToken error:(NSError *)error{
     ASGetVaultTokenCallback callback = [self retrieveAndRemoveCallbackForReqId:GetVaultTokenReqId];
     if (callback != nil) {
-        callback(profile, error);
+        callback(vaultToken, error);
     }
 }
+
+
+-(void)getMetaDataCardHelper:(CTSMetaDataCard *)metaDataCard error:(NSError *)error{
+    ASGetMetaDataForCardCallback callback = [self retrieveAndRemoveCallbackForReqId:GetMetaDataCardReqId];
+    if (callback != nil) {
+        callback(metaDataCard, error);
+    }
+}
+
 
 - (void)makeTokenizedPaymentHelper:(CTSPaymentTransactionRes*)payment
                              error:(NSError*)error {

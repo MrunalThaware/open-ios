@@ -24,6 +24,7 @@
 #import "CTSPrepaidBill.h"
 #import "CTSCitrusCashRes.h"
 #import "CTSVaultToken.h"
+#import "CTSMetaDataCard.h"
 
 enum {
     PaymentAsGuestReqId,
@@ -34,7 +35,8 @@ enum {
     PaymentLoadMoneyCitrusPayReqId,
     PaymentAsCitruspayReqId,
     PaymentAsCitruspayInternalReqId,
-    GetVaultTokenReqId
+    GetVaultTokenReqId,
+    GetMetaDataCardReqId
 };
 
 @class RKObjectManager;
@@ -76,6 +78,8 @@ typedef void (^ASMakeCitruspayCallBackInternal)(CTSPaymentTransactionRes* paymen
                                                 NSError* error);
 
 typedef void (^ASGetVaultTokenCallback)(CTSVaultToken *, NSError *);
+
+typedef void (^ASGetMetaDataForCardCallback)(CTSMetaDataCard *, NSError *);
 
 - (instancetype)initWithUrl:(NSString *)url;
 
@@ -183,6 +187,17 @@ typedef void (^ASGetVaultTokenCallback)(CTSVaultToken *, NSError *);
                      withCompletionHandler:(ASCitruspayCallback)callback;
 
 
+
+/**
+ @brief                         getMetaDataForCardWithPAN.
+ @param WithPAN                 cardNumber.
+ @param withCompletionHandler   ASGetMetaDataForCardCallback callBack.
+ @details                       get mata data card for credit card.
+ */
+- (void)getMetaDataForCardWithPAN:(NSString *)cardNumber
+            withCompletionHandler:(ASGetMetaDataForCardCallback)callback;
+
+
 /**
  @brief                         getVaultTokenWithPAN.
  @param WithPAN                 cardNumber.
@@ -197,5 +212,4 @@ typedef void (^ASGetVaultTokenCallback)(CTSVaultToken *, NSError *);
                  withExpiry:(NSString *)expiry
                  withUserID:(NSString *)userID
       withCompletionHandler:(ASGetVaultTokenCallback)callback;
-
 @end

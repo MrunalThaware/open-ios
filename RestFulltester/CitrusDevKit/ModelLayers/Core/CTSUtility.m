@@ -103,6 +103,12 @@
     }
 }
 
++ (NSDictionary*)readMetaDataCardAsHeader {
+    return @{
+             @"Authorization" : [NSString stringWithFormat:@" Basic %@", @"Y2l0cnVzOlF1YWVoN09v"]
+             };
+}
+
 + (NSString *)convertDictToJSONStringForDictionary:(NSDictionary *)dictionary {
     NSError * err;
     NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&err];

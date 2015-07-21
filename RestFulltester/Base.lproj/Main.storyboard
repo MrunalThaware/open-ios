@@ -176,11 +176,11 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ayx-LI-IFW">
                                         <rect key="frame" x="2" y="529" width="414" height="30"/>
-                                        <state key="normal" title="Get Vault Token">
+                                        <state key="normal" title="Get Meta Data Card">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="getVaultToken" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Cif-nc-Rk3"/>
+                                            <action selector="getMetaDataForCard" destination="vXZ-lx-hvc" eventType="touchUpInside" id="fWC-d8-9Og"/>
                                         </connections>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wth-i4-cdg">
@@ -188,6 +188,15 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LyK-Sv-bfg">
+                                        <rect key="frame" x="0.0" y="562" width="414" height="30"/>
+                                        <state key="normal" title="Get Vault Token">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="getVaultToken" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FE5-Jh-vw2"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="s2e-Nm-9rt" firstAttribute="top" secondItem="gWO-GI-LPa" secondAttribute="bottom" constant="8" symbolic="YES" id="1bg-J1-hUT"/>
@@ -209,6 +218,7 @@
                                     <constraint firstItem="GCf-y9-cSN" firstAttribute="top" secondItem="jl8-wl-Gba" secondAttribute="bottom" constant="1" id="IW0-eW-WYL"/>
                                     <constraint firstItem="rOX-ye-ULO" firstAttribute="leading" secondItem="gzN-3A-a58" secondAttribute="leading" id="KQy-id-BG9"/>
                                     <constraint firstItem="jl8-wl-Gba" firstAttribute="trailing" secondItem="gzN-3A-a58" secondAttribute="trailing" id="Kf7-A5-Hhg"/>
+                                    <constraint firstItem="LyK-Sv-bfg" firstAttribute="trailing" secondItem="Ly0-LV-Lcq" secondAttribute="trailing" id="LOY-v8-uS3"/>
                                     <constraint firstItem="rOX-ye-ULO" firstAttribute="top" secondItem="gzN-3A-a58" secondAttribute="bottom" constant="4" id="NYA-Sp-glP"/>
                                     <constraint firstItem="FCN-PI-UZ2" firstAttribute="top" secondItem="zVO-QM-3lZ" secondAttribute="top" constant="25" id="Nrx-n9-svp"/>
                                     <constraint firstItem="wth-i4-cdg" firstAttribute="leading" secondItem="zVO-QM-3lZ" secondAttribute="leading" constant="24" id="OUG-5i-wM1"/>
@@ -229,6 +239,7 @@
                                     <constraint firstItem="txE-9w-82K" firstAttribute="top" secondItem="QYq-oq-qaR" secondAttribute="bottom" id="jJ9-Df-9ak"/>
                                     <constraint firstItem="txE-9w-82K" firstAttribute="leading" secondItem="gWO-GI-LPa" secondAttribute="leading" id="krV-Sk-UrA"/>
                                     <constraint firstItem="ayx-LI-IFW" firstAttribute="top" secondItem="Ly0-LV-Lcq" secondAttribute="bottom" constant="7" id="laF-6g-Al4"/>
+                                    <constraint firstItem="LyK-Sv-bfg" firstAttribute="leading" secondItem="Ly0-LV-Lcq" secondAttribute="leading" id="n0F-hN-Jlq"/>
                                     <constraint firstItem="wth-i4-cdg" firstAttribute="baseline" secondItem="GCf-y9-cSN" secondAttribute="baseline" id="nMK-pG-yJa"/>
                                     <constraint firstItem="r9c-0O-Dzh" firstAttribute="top" secondItem="Pwp-zt-erT" secondAttribute="bottom" constant="5" id="nOd-wR-t81"/>
                                     <constraint firstItem="gWO-GI-LPa" firstAttribute="leading" secondItem="zVO-QM-3lZ" secondAttribute="leading" id="p2T-KN-g4a"/>
@@ -242,6 +253,7 @@
                                     <constraint firstItem="FCN-PI-UZ2" firstAttribute="trailing" secondItem="JL5-Z8-T6O" secondAttribute="trailing" id="wxV-aa-cas"/>
                                     <constraint firstItem="Ly0-LV-Lcq" firstAttribute="trailing" secondItem="s2e-Nm-9rt" secondAttribute="trailing" id="x0d-Cm-rax"/>
                                     <constraint firstItem="jl8-wl-Gba" firstAttribute="leading" secondItem="JL5-Z8-T6O" secondAttribute="leading" id="xp3-7A-5WJ"/>
+                                    <constraint firstItem="LyK-Sv-bfg" firstAttribute="top" secondItem="ayx-LI-IFW" secondAttribute="bottom" constant="3" id="xr5-AA-QEg"/>
                                 </constraints>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="600"/>
                             </scrollView>

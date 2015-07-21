@@ -47,4 +47,5 @@
 +(BOOL)islengthInvalid:(NSString*)string;
 + (NSDictionary*)readVaultTokenAsHeader;
 + (NSString *)convertDictToJSONStringForDictionary:(NSDictionary *)dictionary;
++ (NSDictionary*)readMetaDataCardAsHeader;
 @end

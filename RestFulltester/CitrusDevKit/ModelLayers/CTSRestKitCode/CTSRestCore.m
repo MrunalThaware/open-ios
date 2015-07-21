@@ -28,14 +28,16 @@
 //  NSMutableURLRequest* request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
 
     NSMutableURLRequest* request;
-    if (restRequest.requestId != GetVaultTokenReqId) {
-        request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
-    }else{
+    if (restRequest.requestId == GetVaultTokenReqId) {
         if ([baseUrl isEqualToString:PRODUCTION_BASEURL]) {
-            request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:VAULT_PRODUCTION_BASEURL];
+            request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:MLC_GET_VAULT_TOKEN_PRODUCTION_BASEURL];
         }else{
-            request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:VAULT_TEST_BASEURL];
+            request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:MLC_GET_VAULT_TOKEN_TEST_BASEURL];
         }
+    }else if (restRequest.requestId == GetMetaDataCardReqId){
+        request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:MLC_GET_META_DATA_CARD_PRODUCTION_BASEURL];
+    }else{
+        request = [CTSRestCore toNSMutableRequest:restRequest withBaseUrl:baseUrl];
     }
 
   __block int requestId = restRequest.requestId;

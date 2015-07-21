@@ -898,6 +898,24 @@
     }];
 }
 
+#pragma mark - Vault API
+
+// get get vault token for Credit card only.
+-(IBAction)getMetaDataForCard{
+    // Configure your request here.
+    [paymentlayerinfo getMetaDataForCardWithPAN:@"554637" withCompletionHandler:^(CTSMetaDataCard *metaDataCard, NSError *error) {
+        if (error) {
+            [self logError:error];
+            [UIUtility toastMessageOnScreen:error.localizedDescription];
+        }
+        else{
+            LogDebug(@" Success!! ");
+            LogDebug(@"metaDataCard %@ ", metaDataCard.description);
+            [UIUtility toastMessageOnScreen:metaDataCard.description];
+        }
+    }];
+}
+
 // get get vault token for Credit card only.
 -(IBAction)getVaultToken{
     // Configure your request here.
@@ -908,7 +926,7 @@
         }
         else{
             LogDebug(@" Success!! ");
-            LogDebug(@"profile %@ ", vaultToken.description);
+            LogDebug(@"vaultToken %@ ", vaultToken.description);
             [UIUtility toastMessageOnScreen:vaultToken.description];
         }
     }];
