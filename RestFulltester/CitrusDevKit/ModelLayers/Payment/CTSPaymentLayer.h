@@ -121,12 +121,13 @@ didCashoutToBank:(CTSCashoutToBankRes *)cashoutToBankRes
 @end
 
 @interface CTSPaymentLayer : CTSRestPluginBase<CTSAuthenticationProtocol,UIWebViewDelegate> {
-    UIWebView *citrusPayWebview;
     BOOL finished;
     NSString *cCashReturnUrl;
 }
-@property(strong,nonatomic)UIViewController *citrusCashBackViewController;
-@property(strong,nonatomic)CTSPaymentWebViewController *paymentWebViewController;
+@property(strong)UIViewController *citrusCashBackViewController;
+@property(strong)CTSPaymentWebViewController *paymentWebViewController;
+@property(strong)UIWebView *citrusPayWebview;
+
 
 @property(strong) NSString* merchantTxnId;
 @property(strong) NSString* signature;

@@ -1208,6 +1208,9 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Citrus;
 				TargetAttributes = {
+					37D33BA21B26C7D200AD4513 = {
+						DevelopmentTeam = BF75J23QJ2;
+					};
 					37D6E6621AB01E1A008C28C4 = {
 						DevelopmentTeam = BF75J23QJ2;
 					};
@@ -1829,8 +1832,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jayamala Wankhede (9G6MVBS9S7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jayamala Wankhede (9G6MVBS9S7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1855,7 +1858,7 @@
 					SystemConfiguration,
 				);
 				PRODUCT_NAME = "Prepaid SDK copy";
-				PROVISIONING_PROFILE = "8f589018-f796-42e3-b0b5-18e0e73f8818";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1866,6 +1869,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				INFOPLIST_FILE = "Prepaid SDK copy-Info.plist";
@@ -1885,7 +1889,7 @@
 					SystemConfiguration,
 				);
 				PRODUCT_NAME = "Prepaid SDK copy";
-				PROVISIONING_PROFILE = "8f589018-f796-42e3-b0b5-18e0e73f8818";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

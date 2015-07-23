@@ -126,6 +126,16 @@ typedef enum SignOutResponseState {
 #define MLC_BIND_USER_QUERY_EMAIL @"email"
 #define MLC_BIND_USER_QUERY_MOBILE @"mobile"
 
+
+#pragma mark - BIND_USER_MOBILE
+#define MLC_BIND_USER_MOBILE_REQ_PATH @"/service/um/identity/bind/mobile"
+#define MLC_BIND_USER_MOBILE_REQ_TYPE POST
+#define MLC_BIND_USER_MOBILE_QUERY_EMAIL @"email"
+#define MLC_BIND_USER_MOBILE_QUERY_MOBILE @"mobile"
+
+#define MLC_BIND_USER_MOBILE_RESPONSE_JSON_KEY @"username"
+
+
 #pragma mark - BIND_SIGNIN
 #define MLC_BIND_SIGNIN_GRANT_TYPE @"username"
 
