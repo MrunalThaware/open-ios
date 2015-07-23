@@ -135,34 +135,21 @@
     
     
      //Configure your request here.
-//    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
-//        NSLog(@"error.code %ld ", (long)error.code);
-//        
-//        if(error == nil){
-//            // Your code to handle success.
-//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
-//        }
-//        else {
-//            // Your code to handle error.
-//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
-//        }
-//    }];
-//
-    
-    
-    [authLayer requestMobileBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
+    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
+        NSLog(@"error.code %ld ", (long)error.code);
+        
         if(error == nil){
             // Your code to handle success.
-            [proifleLayer requestMemberInfoMobile:TEST_MOBILE email:TEST_EMAIL withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
-                
-            }];
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
         }
-
-                    else {
-                        // Your code to handle error.
-                        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
-                    }
+        else {
+            // Your code to handle error.
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
+        }
     }];
+//
+    
+
 
     
 }
