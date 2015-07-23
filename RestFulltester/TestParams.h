@@ -11,10 +11,11 @@
 
 // TestParams.h should be populated according to your needs
 
+//works on prod
 
-#define TEST_EMAIL @"yaddyboy1005@mailinator.com"
+#define TEST_EMAIL @"yadnesh5@gmail.com"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9702964505"
+#define TEST_MOBILE @"9702964545"
 
 
 

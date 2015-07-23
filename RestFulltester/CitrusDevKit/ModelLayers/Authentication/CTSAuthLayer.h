@@ -230,6 +230,13 @@ typedef void (^ASOtpSigninCallBack)(NSError* error);
                         completionHandler:
 (ASBindUserCallback)callback;
 
+
+
+- (void)requestMobileBindUsername:(NSString*)email
+                     mobile:(NSString *)mobile
+          completionHandler:
+(ASBindUserCallback)callback;
+
 -(void)requestSetPassword:(NSString *)password userName:(NSString *)userName completionHandler:(ASSetPassword)callback;
 
 -(void)requestCitrusPaySignin:(NSString *)userName  password:(NSString*)password
@@ -275,5 +282,7 @@ typedef void (^ASOtpSigninCallBack)(NSError* error);
 -(void)requestLink:(CTSUserDetails *)user completionHandler:(ASLinkCallback )callback;
 
 -(void)requestLink:(CTSUserDetails *)user forceVerification:(BOOL)isForceVer completionHandler:(ASLinkCallback )callback;
+
+
 
 @end

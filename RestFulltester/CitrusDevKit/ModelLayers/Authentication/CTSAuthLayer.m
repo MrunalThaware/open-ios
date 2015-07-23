@@ -722,6 +722,52 @@
 }
 
 
+
+- (void)requestMobileBindUsername:(NSString*)email
+                           mobile:(NSString *)mobile
+                completionHandler:
+(ASBindUserCallback)callback{
+    [self addCallback:callback forRequestId:BindMobileReqId];
+    
+    if (![CTSUtility validateEmail:email]) {
+        [self bindByMobileHelper:mobile 
+                               error:[CTSError getErrorForCode:EmailNotValid]];
+        return;
+    }
+    mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
+    if (!mobile) {
+        [self bindUserHelperUsername:email
+                               error:[CTSError getErrorForCode:MobileNotValid]];
+        return;
+    }
+    
+    email = email.lowercaseString;
+
+
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSignupTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_BIND_USER_MOBILE_REQ_PATH
+                                   requestId:BindMobileReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:@{
+                                                MLC_BIND_USER_QUERY_EMAIL : email,
+                                                MLC_BIND_USER_QUERY_MOBILE : mobile
+                                                } json:nil
+                                   httpMethod:MLC_BIND_USER_REQ_TYPE];
+    
+    [restCore requestAsyncServer:request];
+
+
+
+
+
+
+}
+
+
 - (void)requestBindOauthToken {
     ENTRY_LOG
     
@@ -1159,7 +1205,8 @@ enum {
     LinkReqId,
     BindSigninAsyncReqId,
     OtpSignInReqId,
-    LinkForceMobVerReqId
+    LinkForceMobVerReqId,
+    BindMobileReqId
 };
 - (instancetype)init {
     NSDictionary* dict = @{
@@ -1203,7 +1250,9 @@ enum {
                                                                        :),
                            toNSString(OtpSignInReqId):toSelector(handleOtpSignIn
                                                                        :),
-                           toNSString(LinkForceMobVerReqId):toSelector(handleLinkUserForceVer:)
+                           toNSString(LinkForceMobVerReqId):toSelector(handleLinkUserForceVer:),
+                           toNSString(BindMobileReqId):toSelector(handleBindByMobile:)
+
 
                            
 
@@ -1260,6 +1309,24 @@ enum {
     
 }
 
+-(void)handleBindByMobile:(CTSRestCoreResponse *)response{
+    
+    NSError* error = response.error;
+    NSString *username = nil;
+    // signup flow
+    if (error == nil) {
+        
+        NSData *dataJson = [response.responseString dataUsingEncoding:NSUTF8StringEncoding ];
+        NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:dataJson options:kNilOptions error:&error];
+        if(!error)
+        username = [dict objectForKey:MLC_BIND_USER_MOBILE_RESPONSE_JSON_KEY];
+    }
+
+    [self bindByMobileHelper:username error:error];
+    return;
+
+
+}
 
 -(void)handleBindOauthToken:(CTSRestCoreResponse *)response{
     NSError* error = response.error;
@@ -1901,6 +1968,17 @@ enum {
         callback(error);
     }else {
         [delegate auth:self didSignInWithOtpError:error];
+    }
+
+
+}
+
+-(void)bindByMobileHelper:(NSString *)username error:(NSError *)error{
+
+    ASBindUserCallback callback = [self retrieveAndRemoveCallbackForReqId:BindMobileReqId];
+    if(callback !=nil){
+        callback(username,error);
+    
     }
 
 

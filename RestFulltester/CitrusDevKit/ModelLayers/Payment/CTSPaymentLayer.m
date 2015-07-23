@@ -40,7 +40,7 @@
 @implementation CTSPaymentLayer
 @synthesize merchantTxnId;
 @synthesize signature;
-@synthesize delegate,citrusCashBackViewController,paymentWebViewController;
+@synthesize delegate,citrusCashBackViewController,paymentWebViewController,citrusPayWebview;
 
 - (CTSPaymentRequest*)configureReqPayment:(CTSPaymentDetailUpdate*)paymentInfo
                                   contact:(CTSContactUpdate*)contact

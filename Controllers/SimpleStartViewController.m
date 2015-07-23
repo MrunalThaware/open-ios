@@ -24,6 +24,86 @@
     
 }
 
+
+
+//
+//[proifleLayer requestMemberInfoMobile:TEST_MOBILE email:TEST_EMAIL withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
+//    
+//    if(error){
+//        
+//        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ ",[error localizedDescription]]];
+//        
+//    }
+//    
+//    else{
+//        
+//        
+//        
+//        if(profile.responseData.profileByMobile){
+//            
+//            //if reaches here > this number is already verified
+//            
+//            [authLayer requestBindSignin:TEST_MOBILE completionHandler:^(NSError *error) {
+//                
+//                //handle response
+//                
+//                //                    [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+//                //
+//                //                        //handle the response
+//                //                        NSLog(@"error %@",[error localizedDescription]);
+//                //                        NSLog(@"linkUserRes %d",linkUserRes.isPasswordAlreadySet);
+//                //
+//                //
+//                //                    }];
+//                
+//                
+//            }];
+//            
+//            
+//            
+//        }
+//        
+//        else if(profile.responseData.profileByEmail){
+//            
+//            //if reaches here > this email is registered but not the mobile
+//            
+//            [authLayer requestBindSignin:TEST_EMAIL completionHandler:^(NSError *error) {
+//                
+//                //handle response
+//                
+//                
+//                [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+//                    
+//                    //handle the response
+//                    NSLog(@"error %@",[error localizedDescription]);
+//                    NSLog(@"linkUserRes %d",linkUserRes.isPasswordAlreadySet);
+//                    
+//                    
+//                }];
+//                
+//            }];
+//            
+//            
+//            
+//        }
+//        
+//        else{
+//            
+//            //neither email not mobile registred so this will signiup the user as well as allow them to save the cards for future use
+//            
+//            [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+//                
+//                //handle the response
+//                
+//            }];
+//            
+//        }
+//        
+//    }
+//    
+//}];
+
+
 #pragma mark - initializers
 
 // Initialize the SDK layer viz CTSAuthLayer/CTSProfileLayer/CTSPaymentLayer
@@ -54,19 +134,37 @@
 -(IBAction)bindUser:(id)sender{
     
     
-    // Configure your request here.
-    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
-        NSLog(@"error.code %ld ", (long)error.code);
-        
+     //Configure your request here.
+//    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
+//        NSLog(@"error.code %ld ", (long)error.code);
+//        
+//        if(error == nil){
+//            // Your code to handle success.
+//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
+//        }
+//        else {
+//            // Your code to handle error.
+//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
+//        }
+//    }];
+//
+    
+    
+    [authLayer requestMobileBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
         if(error == nil){
             // Your code to handle success.
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
+            [proifleLayer requestMemberInfoMobile:TEST_MOBILE email:TEST_EMAIL withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
+                
+            }];
         }
-        else {
-            // Your code to handle error.
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
-        }
+
+                    else {
+                        // Your code to handle error.
+                        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
+                    }
     }];
+
+    
 }
 
 // Get the bind user cards.

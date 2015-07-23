@@ -772,6 +772,11 @@
 
 }
 
++(NSDictionary *)toDict:(NSString *)json{
+    NSData *dataJson = [json dataUsingEncoding:NSUTF8StringEncoding ];
+    return  [NSJSONSerialization JSONObjectWithData:dataJson options:kNilOptions error:nil];
+
+}
 
 +(BOOL)stringContainsSpecialChars:(NSString *)toCheck exceptChars:(NSString*)exceptionChars exceptCharSet:(NSCharacterSet*)exceptionCharSet {
     BOOL isContain = NO;
