@@ -154,8 +154,12 @@
     if ([subStrings count] < 2) {
         return NO;
     }
-   
+   //yy string
    if([[subStrings objectAtIndex:1] length] != 4){
+        return NO;
+    }
+    //mm string
+    if([[subStrings objectAtIndex:0] length] > 2 || [[subStrings objectAtIndex:0] length] < 1){
         return NO;
     }
     
