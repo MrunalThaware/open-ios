@@ -13,9 +13,9 @@
 
 //works on prod
 
-#define TEST_EMAIL @"yadnesh5@gmail.com"
+#define TEST_EMAIL @"yaddyboy100@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9702964545"
+#define TEST_MOBILE @"9702964502"
 
 
 

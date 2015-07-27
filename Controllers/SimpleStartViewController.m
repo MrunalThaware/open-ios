@@ -147,8 +147,7 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
         }
     }];
-//
-    
+
 
 
     
