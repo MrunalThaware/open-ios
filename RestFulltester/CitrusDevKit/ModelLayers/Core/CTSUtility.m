@@ -159,6 +159,10 @@
         return NO;
     }
     
+    if([[subStrings objectAtIndex:0] length] != 2){
+        return NO;
+    }
+    
     int month = [[subStrings objectAtIndex:0] intValue];
     int year = [[subStrings objectAtIndex:1] intValue];
     
