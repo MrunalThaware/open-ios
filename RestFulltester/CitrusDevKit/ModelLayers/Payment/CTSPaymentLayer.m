@@ -226,6 +226,8 @@
     }
     
     
+  
+    
     
     citrusCashBackViewController = controller;
     cCashReturnUrl = bill.returnUrl;
@@ -258,7 +260,7 @@
                                       customParams:(NSDictionary *)custParams
                      withCompletionHandler:(ASMakeCitruspayCallBackInternal)callback{
     [self addCallback:callback forRequestId:PaymentAsCitruspayInternalReqId];
-    NSString *email = contactInfo.email.lowercaseString;
+    NSString *email = [CTSUtility readFromDisk:CTS_SIGNIN_USER_EMAIL];
 
     CTSPaymentDetailUpdate *paymentCitrus = [[CTSPaymentDetailUpdate alloc] initCitrusPayWithEmail:email];
 

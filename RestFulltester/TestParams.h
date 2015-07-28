@@ -15,7 +15,7 @@
 
 #define TEST_EMAIL @"yaddyboy100@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9702964522"
+#define TEST_MOBILE @"9702964532"
 
 
 #warning Enter your live mobile number to get OTP so you can SignIn

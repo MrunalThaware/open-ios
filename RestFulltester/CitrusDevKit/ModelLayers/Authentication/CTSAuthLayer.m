@@ -448,9 +448,15 @@
 
   [self addCallback:callBack forRequestId:SigninOauthTokenReqId];
 
-
-
-    userNameArg = userNameArg.lowercaseString;
+    if(![CTSUtility validateEmail:userNameArg]){
+    
+        [self signinHelperUsername:userNameArg oauth:nil error:[CTSError errorForStatusCode:EmailNotValid]];
+        return;
+    
+    }
+    
+    [CTSUtility saveToDisk:userNameArg as:CTS_SIGNIN_USER_EMAIL];
+     userNameArg = userNameArg.lowercaseString;
     userNameSignIn = userNameArg;
     passwordSignin = password;
 

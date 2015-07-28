@@ -15,6 +15,9 @@
 #import "CTSUserAddress.h"
 @import UIKit;
 
+
+#define CTS_SIGNIN_USER_EMAIL @"CTS_SIGNIN_USER_EMAIL"
+
 @interface CTSUtility : NSObject
 + (NSString*)readFromDisk:(NSString*)key;
 + (void)saveToDisk:(id)data as:(NSString*)key;
