@@ -15,8 +15,7 @@
 
 #define TEST_EMAIL @"yaddyboy100@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9702964502"
-
+#define TEST_MOBILE @"9702964522"
 
 
 #warning Enter your live mobile number to get OTP so you can SignIn
@@ -44,7 +43,7 @@
 #define TEST_CREDIT_CARD_NUMBER @"4028530052708001"
 #define TEST_CREDIT_CARD_EXPIRY_DATE @"03/20"
 #define TEST_CREDIT_CARD_SCHEME @"visa"
-#define TEST_CREDIT_CARD_OWNER_NAME @"Yadnesh Wankhede"
+#define TEST_CREDIT_CARD_OWNER_NAME @"Yadnesh$ Wankhede"
 #define TEST_CREDIT_CARD_BANK_NAME @"ICICI (credit card)"
 #define TEST_CREDIT_CARD_CVV @"018"
 
