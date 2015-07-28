@@ -63,4 +63,7 @@
 +(BOOL)islengthInvalid:(NSString*)string;
 +(BOOL)isURL:(NSURL *)aURL toUrl:(NSURL *)bUrl;
 +(NSDictionary *)errorResponseDeviceOffline:(NSError *)error;
++(CTSContactUpdate *)correctContactIfNeeded:(CTSContactUpdate *)contact;
++(CTSUserAddress *)correctAdressIfNeeded:(CTSUserAddress *)address;
+
 @end
