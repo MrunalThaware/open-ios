@@ -280,18 +280,26 @@
 }
 
 + (BOOL)hasMonthPassedYear:(int)year month:(int)month {
+    BOOL isValid = true;
     NSCalendar* gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-//    NSDateComponents* components = [gregorian components:NSCalendarUnitYear fromDate:[NSDate date]];
+    NSDateComponents* components = [gregorian components:NSCalendarUnitYear fromDate:[NSDate date]];
     NSDateComponents* monthcomponent = [gregorian components:NSCalendarUnitMonth fromDate:[NSDate date]];
-//    int currentYear = (int)[components year];
+    int currentYear = (int)[components year];
     int currentmonth = (int)[monthcomponent month];
-//    int normalizeyear = [self normalizeYear:year];
+    int normalizeyear = [self normalizeYear:year];
     // Expires at end of specified month, Calendar month starts at 0
-//    return [self hasYearPassed:year] ||
-//    (normalizeyear == currentYear && month < (currentmonth + 1));
     
-    return month >= (currentmonth);
-
+    if (![self hasYearPassed:normalizeyear]) {
+        if (!(month >= currentmonth)) {
+            return isValid = NO;
+        }
+    }else  if (normalizeyear == currentYear) {
+        if (!(month >= currentmonth)) {
+            return isValid = NO;
+        }
+    }
+    
+    return isValid;
 }
 
 + (int)normalizeYear:(int)year {
