@@ -49,4 +49,6 @@
 - (void)clearNetbankCode;
 
 -(CTSErrorCode)validateTokenized;
+
+- (void)doCardCorrectionsIfNeeded;
 @end

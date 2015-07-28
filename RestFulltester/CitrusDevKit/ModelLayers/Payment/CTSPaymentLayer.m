@@ -128,6 +128,9 @@
     return;
   }
 
+    [paymentInfo doCardCorrectionsIfNeeded];
+    
+
   CTSRestCoreRequest* request =
       [[CTSRestCoreRequest alloc] initWithPath:MLC_CITRUS_SERVER_URL
                                      requestId:PaymentUsingSignedInCardBankReqId

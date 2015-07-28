@@ -122,40 +122,41 @@ enum {
 
 - (void)updatePaymentInformation:(CTSPaymentDetailUpdate*)paymentInfo
            withCompletionHandler:(ASUpdatePaymentInfoCallBack)callback {
-  [self addCallback:callback forRequestId:ProfileUpdatePaymentReqId];
-
-  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
-  NSString* oauthToken = oauthStatus.oauthToken;
-
-  if (oauthStatus.error != nil) {
-    [self updatePaymentInfoHelper:oauthStatus.error];
-    return;
-  } else {
-    CTSErrorCode error = [paymentInfo validate];
-    if (error != NoError) {
-      [self updatePaymentInfoHelper:[CTSError getErrorForCode:error]];
-      return;
+    [self addCallback:callback forRequestId:ProfileUpdatePaymentReqId];
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self updatePaymentInfoHelper:oauthStatus.error];
+        return;
+    } else {
+        CTSErrorCode error = [paymentInfo validate];
+        if (error != NoError) {
+            [self updatePaymentInfoHelper:[CTSError getErrorForCode:error]];
+            return;
+        }
     }
-  }
-
-  [paymentInfo clearCVV];
-  [paymentInfo clearNetbankCode];
-
-  if (oauthStatus.error != nil) {
-    [self updatePaymentInfoHelper:[CTSError getErrorForCode:UserNotSignedIn]];
-      return;
-    return;
-  }
-
-  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-      initWithPath:MLC_PROFILE_UPDATE_PAYMENT_PATH
-         requestId:ProfileUpdatePaymentReqId
-           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
-        parameters:nil
-              json:[paymentInfo toJSONString]
-        httpMethod:PUT];
-
-  [restCore requestAsyncServer:request];
+    
+    [paymentInfo doCardCorrectionsIfNeeded];
+    [paymentInfo clearCVV];
+    [paymentInfo clearNetbankCode];
+    
+    if (oauthStatus.error != nil) {
+        [self updatePaymentInfoHelper:[CTSError getErrorForCode:UserNotSignedIn]];
+        return;
+        return;
+    }
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_UPDATE_PAYMENT_PATH
+                                   requestId:ProfileUpdatePaymentReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:[paymentInfo toJSONString]
+                                   httpMethod:PUT];
+    
+    [restCore requestAsyncServer:request];
 }
 
 - (void)requestPaymentInformationWithCompletionHandler:

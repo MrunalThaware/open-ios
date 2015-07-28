@@ -10,7 +10,7 @@
 #define RestFulltester_TestParams_h
 // TestParams.h should be populated according to your needs
 
-#define TEST_EMAIL @"mukeshcitrus@122mailinator.com"
+#define TEST_EMAIL @"mukeshcitrus122@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
 
 #warning Enter your mobile number here
@@ -41,7 +41,7 @@
 #define TEST_DEBIT_CVV @"018"
 
 #define TEST_CREDIT_CARD_NUMBER @"4028530052708001"
-#define TEST_CREDIT_CARD_EXPIRY_DATE @"03/2015"
+#define TEST_CREDIT_CARD_EXPIRY_DATE @"12/2015"
 #define TEST_CREDIT_CARD_SCHEME @"visa"
 #define TEST_CREDIT_CARD_OWNER_NAME @"Jitendra Gupta"
 #define TEST_CREDIT_CARD_BANK_NAME @"ICICI"

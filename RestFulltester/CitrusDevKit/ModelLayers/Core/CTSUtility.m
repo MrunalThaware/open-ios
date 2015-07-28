@@ -199,13 +199,17 @@
     return error;
 }
 
-+ (BOOL)validateExpiryDate:(NSString*)date {
-    NSArray* subStrings = [date componentsSeparatedByString:@"/"];
++ (BOOL)validateExpiryDate:(NSString* )date {
+    NSArray *subStrings = [date componentsSeparatedByString:@"/"];
     if ([subStrings count] < 2) {
         return NO;
     }
-   
-   if([[subStrings objectAtIndex:1] length] != 4){
+    //yy string
+    if([[subStrings objectAtIndex:1] length] != 4){
+        return NO;
+    }
+    //mm string
+    if([[subStrings objectAtIndex:0] length] > 2 || [[subStrings objectAtIndex:0] length] < 1){
         return NO;
     }
     
@@ -214,6 +218,7 @@
     
     return [self validateExpiryDateMonth:month year:year];
 }
+
 
 + (BOOL)validateExpiryDateMonth:(int)month year:(int)year {
     int expiryYear = year;
@@ -259,36 +264,38 @@
     return [self hasYearPassed:expiryYear];
     // return FALSE;
 }
+
 + (BOOL)hasYearPassed:(int)year {
     int normalized = [self normalizeYear:year];
     NSCalendar* gregorian =
-    [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents* components =
-    [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
-    NSInteger currentyear = [components year];
+    [gregorian components:NSCalendarUnitYear fromDate:[NSDate date]];
+    int currentyear = (int)[components year];
     return normalized >= currentyear;
 }
 
 + (BOOL)hasMonthPassedYear:(int)year month:(int)month {
-    NSCalendar* gregorian =
-    [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents* components =
-    [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
-    NSDateComponents* monthcomponent =
-    [gregorian components:NSMonthCalendarUnit fromDate:[NSDate date]];
-    int currentYear = (int)[components year];
+    NSCalendar* gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+//    NSDateComponents* components = [gregorian components:NSCalendarUnitYear fromDate:[NSDate date]];
+    NSDateComponents* monthcomponent = [gregorian components:NSCalendarUnitMonth fromDate:[NSDate date]];
+//    int currentYear = (int)[components year];
     int currentmonth = (int)[monthcomponent month];
-    int normalizeyear = [self normalizeYear:year];
+//    int normalizeyear = [self normalizeYear:year];
     // Expires at end of specified month, Calendar month starts at 0
-    return [self hasYearPassed:year] ||
-    (normalizeyear == currentYear && month < (currentmonth + 1));
+//    return [self hasYearPassed:year] ||
+//    (normalizeyear == currentYear && month < (currentmonth + 1));
+    
+    return month >= (currentmonth);
+
 }
+
 + (int)normalizeYear:(int)year {
     if (year < 100 && year >= 0) {
         NSCalendar* gregorian =
-        [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
         NSDateComponents* components =
-        [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
+        [gregorian components:NSCalendarUnitYear fromDate:[NSDate date]];
         NSInteger yearr = [components year];
         NSString* currentYear = [NSString stringWithFormat:@"%d", (int)yearr];
         
@@ -624,5 +631,20 @@
     }
     return NO;
 }
+
++ (BOOL)isMaestero:(NSString *)number {
+    if([[CTSUtility fetchCardSchemeForCardNumber:number] isEqualToString:@"MTRO"]){
+        return YES;
+    }
+    return NO;
+}
+
++ (BOOL)isAmex:(NSString *)number {
+    if([[CTSUtility fetchCardSchemeForCardNumber:number] isEqualToString:@"AMEX"]){
+        return YES;
+    }
+    return NO;
+}
+
 
 @end

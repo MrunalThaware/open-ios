@@ -48,4 +48,6 @@
 + (NSDictionary*)readVaultTokenAsHeader;
 + (NSString *)convertDictToJSONStringForDictionary:(NSDictionary *)dictionary;
 + (NSDictionary*)readMetaDataCardAsHeader;
++ (BOOL)isMaestero:(NSString *)number;
++ (BOOL)isAmex:(NSString *)number;
 @end

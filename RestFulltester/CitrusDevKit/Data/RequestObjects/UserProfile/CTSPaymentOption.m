@@ -68,6 +68,11 @@
     
     if ([type isEqualToString:MLC_PROFILE_PAYMENT_DEBIT_TYPE]||[type isEqualToString:MLC_PROFILE_PAYMENT_CREDIT_TYPE]) {
         error = [self validateCard];
+        
+        if(error != NoError){
+            return error;
+        }
+
         error = [self validateCardOwner];
     }
     
@@ -111,15 +116,17 @@
 }
 
 - (CTSErrorCode)validateCard {
-  CTSErrorCode error = NoError;
-  if ([CTSUtility validateCardNumber:number] == NO) {
-    error = CardNumberNotValid;
-  } else if ([CTSUtility validateExpiryDate:expiryDate] == NO) {
-    error = ExpiryDateNotValid;
-  } else if ([CTSUtility validateCVV:cvv cardNumber:number] == NO) {
-    error = CvvNotValid;
-  }
-  return error;
+    CTSErrorCode error = NoError;
+    if ([CTSUtility validateCardNumber:number] == NO) {
+        return CardNumberNotValid;
+    }
+    if ([CTSUtility isMaestero:number]== NO && [CTSUtility validateExpiryDate:expiryDate] == NO) {
+        return ExpiryDateNotValid;
+    }
+    if ([CTSUtility isMaestero:number]== NO &&[CTSUtility validateCVV:cvv cardNumber:number] == NO) {
+        return CvvNotValid;
+    }
+    return error;
 }
 
 - (CTSPaymentType)fetchPaymentType {
