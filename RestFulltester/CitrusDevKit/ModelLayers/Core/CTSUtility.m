@@ -598,6 +598,38 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+
++(NSHTTPCookie *)getCitrusCookie{
+    NSHTTPCookie *userCookie = nil;
+    
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *cookie in [storage cookies]) {
+        if ([cookie.domain rangeOfString:@"citrus" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            userCookie = cookie;
+        }
+    }
+    return userCookie;
+}
+
+
++(BOOL)hasUserCookieExpired{
+   BOOL hasUserCookieExpired = NO;
+    
+    NSHTTPCookie *userCookie = [self getCitrusCookie];
+    if(userCookie!=nil){
+        return YES;
+    }
+
+    if ([userCookie.expiresDate compare:[NSDate date]] == NSOrderedDescending) {
+        hasUserCookieExpired = NO;
+    } else if ([userCookie.expiresDate compare:[NSDate date]] == NSOrderedAscending) {
+        hasUserCookieExpired = YES;
+    } else {
+        hasUserCookieExpired = YES;
+    }
+    return hasUserCookieExpired;
+}
+
 +(BOOL)isCookieSetAlready{
     BOOL isSet = NO;
     NSHTTPCookie *cookie;

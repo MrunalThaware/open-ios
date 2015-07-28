@@ -28,6 +28,7 @@
 #define BillUrl @"http://192.168.2.93:8888/bill.php"
 #define BaseUrl @"https://sandboxadmin.citruspay.com"
 
+#define BaseUrl @"https://sandboxadmin.citruspay.com"
 
 
 #endif

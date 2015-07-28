@@ -301,6 +301,7 @@ didReceiveResponse:(NSURLResponse *)response{
         NSHTTPCookie* cookie = [httpscookies objectAtIndex:1];
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
         restResponse.data = nil;
+        LogTrace(@" cookie expiry %@ ",[cookie expiresDate]);
         
     }
     else{
