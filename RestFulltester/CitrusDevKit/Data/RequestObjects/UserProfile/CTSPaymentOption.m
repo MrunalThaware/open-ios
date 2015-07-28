@@ -118,13 +118,22 @@
 - (CTSErrorCode)validateCard {
     CTSErrorCode error = NoError;
     if ([CTSUtility validateCardNumber:number] == NO) {
-        return CardNumberNotValid;
-    }
-    if ([CTSUtility isMaestero:number]== NO && [CTSUtility validateExpiryDate:expiryDate] == NO) {
-        return ExpiryDateNotValid;
-    }
-    if ([CTSUtility isMaestero:number]== NO &&[CTSUtility validateCVV:cvv cardNumber:number] == NO) {
-        return CvvNotValid;
+        error = CardNumberNotValid;
+        return error;
+    } else if ([CTSUtility isMaestero:number]== NO) {
+        if ([CTSUtility validateExpiryDate:expiryDate] == NO) {
+            error = ExpiryDateNotValid;
+            return error;
+        }
+        
+        if ([CTSUtility validateExpiryDateMonth:expiryDate] == NO) {
+            error = ExpiryDateMonthYearExpired;
+            return error;
+        }
+        
+    } else if ([CTSUtility isMaestero:number]== NO &&[CTSUtility validateCVV:cvv cardNumber:number] == NO) {
+        error = CvvNotValid;
+        return error;
     }
     return error;
 }

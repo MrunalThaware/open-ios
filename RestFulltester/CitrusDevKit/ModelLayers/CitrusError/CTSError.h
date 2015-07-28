@@ -33,7 +33,8 @@ typedef enum {
     WrongBill,
     NoViewController,
     InvalidOTP,
-    CardHolderNameInvalid
+    CardHolderNameInvalid,
+    ExpiryDateMonthYearExpired
 } CTSErrorCode;
 
 

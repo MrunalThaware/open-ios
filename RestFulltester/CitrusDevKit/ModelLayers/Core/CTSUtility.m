@@ -199,28 +199,32 @@
     return error;
 }
 
-+ (BOOL)validateExpiryDate:(NSString* )date {
++ (BOOL)validateExpiryDate:(NSString *)date {
+    BOOL isValid = true;
     NSArray *subStrings = [date componentsSeparatedByString:@"/"];
     if ([subStrings count] < 2) {
-        return NO;
+        isValid = NO;
     }
     //yy string
     if([[subStrings objectAtIndex:1] length] != 4){
-        return NO;
+        isValid = NO;
     }
     //mm string
     if([[subStrings objectAtIndex:0] length] > 2 || [[subStrings objectAtIndex:0] length] < 1){
-        return NO;
+        isValid = NO;
     }
+    
+    return isValid;
+}
+
+
++ (BOOL)validateExpiryDateMonth:(NSString *)date {
+    
+    NSArray *subStrings = [date componentsSeparatedByString:@"/"];
     
     int month = [[subStrings objectAtIndex:0] intValue];
     int year = [[subStrings objectAtIndex:1] intValue];
     
-    return [self validateExpiryDateMonth:month year:year];
-}
-
-
-+ (BOOL)validateExpiryDateMonth:(int)month year:(int)year {
     int expiryYear = year;
     int expiryMonth = month;
     if (![self validateExpiryMonth:month year:year]) {

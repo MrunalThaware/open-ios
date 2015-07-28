@@ -50,4 +50,5 @@
 + (NSDictionary*)readMetaDataCardAsHeader;
 + (BOOL)isMaestero:(NSString *)number;
 + (BOOL)isAmex:(NSString *)number;
++ (BOOL)validateExpiryDateMonth:(NSString *)date;
 @end

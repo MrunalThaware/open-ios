@@ -47,6 +47,11 @@
         case ExpiryDateNotValid:
             errorDescription = @"wrong expiry date format, expected - \"mm/yyyy\" ";
             break;
+            
+        case ExpiryDateMonthYearExpired:
+            errorDescription = @"Expiry date of card is expired";
+            break;
+
         case ServerErrorWithCode:
             errorDescription = @"server sent error code";
             break;
