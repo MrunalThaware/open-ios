@@ -53,6 +53,10 @@
                            merchantAccess:(NSString *)merchantAccessKey
                            withCustParams:(NSDictionary *)custParams
 {
+    
+   contact = [CTSUtility correctContactIfNeeded:contact];
+   address = [CTSUtility correctAdressIfNeeded:address];
+    
   CTSPaymentRequest* paymentRequest = [[CTSPaymentRequest alloc] init];
   paymentRequest.amount = [self ctsAmountForAmount:amount];
   paymentRequest.merchantAccessKey = merchantAccessKey;
@@ -656,6 +660,14 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 }
 
 
+-(void)requestPerformDynamicPricing:(ASPerformDynamicPricingCallback)callback{
+
+
+
+}
+
+
+
 #pragma mark - authentication protocol mehods
 - (void)signUp:(BOOL)isSuccessful
     accessToken:(NSString*)token
@@ -687,7 +699,8 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
              toNSString(PaymentChargeInnerWebNormalReqId) : toSelector(handleChargeNormalInnerWebview:),
              toNSString(PaymentChargeInnerWeblTokenReqId) : toSelector(handleChargeTokenInnerWebview:),
              toNSString(PaymentChargeInnerWebLoadMoneyReqId) : toSelector(handleChargeLoadMoneyInnerWebview:),
-             toNSString(PGHealthReqId) : toSelector(handlePGHealthResponse:)
+             toNSString(PGHealthReqId) : toSelector(handlePGHealthResponse:),
+             toNSString(PaymentDynamicPricingReqId) : toSelector(handlePGHealthResponse:)
              };
 }
 
@@ -891,6 +904,19 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 }
 
 
+- (void)handleDyPResponse:(CTSRestCoreResponse*)response {
+    NSError* error = response.error;
+    CTSDyPResponse *dpResponse = nil;
+        JSONModelError* jsonError;
+    if (error == nil) {
+        dpResponse = [[CTSDyPResponse alloc] initWithString:response.responseString error:&jsonError];
+        error = jsonError;
+    }
+    [self dyPricingHelper:dpResponse error:error];
+
+
+}
+
 
 
 #pragma mark - helper methods
@@ -1055,6 +1081,16 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
     if (callback != nil) {
         callback(pgHealthRes, error);
     }
+}
+
+
+-(void)dyPricingHelper:(CTSDyPResponse *)response error:(NSError *)error{
+
+    ASPerformDynamicPricingCallback callback = [self retrieveAndRemoveCallbackForReqId:PaymentDynamicPricingReqId];
+    if (callback != nil) {
+        callback(response, error);
+    }
+
 }
 
 -(void)resetCitrusPay{

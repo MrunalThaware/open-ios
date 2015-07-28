@@ -11,6 +11,8 @@
 #import "CTSAuthLayerConstants.h"
 #import "UserLogging.h"
 #import "CTSBill.h"
+#import "CTSContactUpdate.h"
+#import "CTSUserAddress.h"
 @import UIKit;
 
 @interface CTSUtility : NSObject

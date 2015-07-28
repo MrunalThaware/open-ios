@@ -161,4 +161,11 @@
 #define MLC_PGHEALTH_QUERY_ALLBANKS @"ALLBANKS"
 
 
+
+#pragma - mark MLC_DYNAMIC_PRICING
+#define MLC_DYNAMIC_PRICING_PATH @"/dynamicpricing/performDynamicPricing"
+
+
+
+
 #endif

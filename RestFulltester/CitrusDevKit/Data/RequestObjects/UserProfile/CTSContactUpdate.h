@@ -17,4 +17,6 @@
 @property(  strong) NSString<Optional>* mobile;
 @property(  strong) NSString<Optional>* password;
 
+-(void)substituteDefaults;
+-(instancetype)initDefault;
 @end
