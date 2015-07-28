@@ -16,4 +16,6 @@
 @property(strong) NSString<Optional>* street2;
 @property(strong) NSString<Optional>* zip;
 
+-(void)substituteDefaults;
+-(instancetype)initDefault;
 @end

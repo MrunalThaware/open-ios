@@ -699,7 +699,7 @@
 
 + (BOOL)validateMobile:(NSString*)mobile {
         BOOL error = NO;
-        if ([mobile length] < 10) {
+        if ([mobile length] < 10 && [self stringContainsSpecialChars:mobile exceptChars:@"" exceptCharSet:[NSCharacterSet decimalDigitCharacterSet]]) {
             error = YES;
         }
         return error;
@@ -760,12 +760,33 @@
 }
 
 +(BOOL)islengthInvalid:(NSString*)string{
-    if(string.length>255 || string.length == 0){
+    if( string == nil || string.length>255 || string.length == 0){
         return YES;
     }
     return NO;
+}
+
+
++(CTSContactUpdate *)correctContactIfNeeded:(CTSContactUpdate *)contact{
+    if(contact == nil){
+        contact = [[CTSContactUpdate alloc] initDefault];
+    }
+    else{
+        [contact substituteDefaults];
+    }
+    return contact;
 
 }
++(CTSUserAddress *)correctAdressIfNeeded:(CTSUserAddress *)address{
+    if(address == nil){
+        address = [[CTSUserAddress alloc] initDefault];
+    }
+    else{
+        [address substituteDefaults];
+    }
+    return address;
+}
+
 
 
 

@@ -11,6 +11,8 @@
 #import "CTSAuthLayerConstants.h"
 #import "UserLogging.h"
 #import "CTSBill.h"
+#import "CTSContactUpdate.h"
+#import "CTSUserAddress.h"
 @import UIKit;
 
 @interface CTSUtility : NSObject
@@ -59,4 +61,7 @@
 +(BOOL)isAmex:(NSString *)number;
 +(BOOL)stringContainsSpecialChars:(NSString *)toCheck exceptChars:(NSString*)exceptionChars exceptCharSet:(NSCharacterSet*)exceptionCharSet;
 +(BOOL)islengthInvalid:(NSString*)string;
++(CTSContactUpdate *)correctContactIfNeeded:(CTSContactUpdate *)contact;
++(CTSUserAddress *)correctAdressIfNeeded:(CTSUserAddress *)address;
+
 @end

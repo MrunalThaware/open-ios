@@ -29,6 +29,7 @@
 #import "CTSCashoutToBankRes.h"
 #import "CTSPaymentWebViewController.h"
 #import "CTSPGHealthRes.h"
+#import "CTSDyPResponse.h"
 
 enum {
     PaymentAsGuestReqId,
@@ -43,7 +44,8 @@ enum {
     PaymentChargeInnerWebNormalReqId,
     PaymentChargeInnerWeblTokenReqId,
     PaymentChargeInnerWebLoadMoneyReqId,
-    PGHealthReqId
+    PGHealthReqId,
+    PaymentDynamicPricingReqId
 };
 
 
@@ -166,6 +168,10 @@ typedef void (^ASCashoutToBankCallBack)(CTSCashoutToBankRes *cashoutRes,
 
 typedef void (^ASGetPGHealth)(CTSPGHealthRes* pgHealthRes,
                                  NSError* error);
+
+
+typedef void (^ASPerformDynamicPricingCallback)(CTSDyPResponse* dyPResponse,
+                              NSError* error);
 
 /**
  * called when client request to make payment through credit card/debit card
@@ -291,4 +297,7 @@ typedef void (^ASGetPGHealth)(CTSPGHealthRes* pgHealthRes,
  @details          It will return JSON of PG health into bank code with percentage value.
  */
 -(void)requestGetPGHealthWithCompletionHandler:(ASGetPGHealth)callback;
+
+
+-(void)requestPerformDynamicPricing:(ASPerformDynamicPricingCallback)callback;
 @end

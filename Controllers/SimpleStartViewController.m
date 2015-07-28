@@ -24,86 +24,6 @@
     
 }
 
-
-
-//
-//[proifleLayer requestMemberInfoMobile:TEST_MOBILE email:TEST_EMAIL withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
-//    
-//    if(error){
-//        
-//        [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ ",[error localizedDescription]]];
-//        
-//    }
-//    
-//    else{
-//        
-//        
-//        
-//        if(profile.responseData.profileByMobile){
-//            
-//            //if reaches here > this number is already verified
-//            
-//            [authLayer requestBindSignin:TEST_MOBILE completionHandler:^(NSError *error) {
-//                
-//                //handle response
-//                
-//                //                    [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
-//                //
-//                //                        //handle the response
-//                //                        NSLog(@"error %@",[error localizedDescription]);
-//                //                        NSLog(@"linkUserRes %d",linkUserRes.isPasswordAlreadySet);
-//                //
-//                //
-//                //                    }];
-//                
-//                
-//            }];
-//            
-//            
-//            
-//        }
-//        
-//        else if(profile.responseData.profileByEmail){
-//            
-//            //if reaches here > this email is registered but not the mobile
-//            
-//            [authLayer requestBindSignin:TEST_EMAIL completionHandler:^(NSError *error) {
-//                
-//                //handle response
-//                
-//                
-//                [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
-//                    
-//                    //handle the response
-//                    NSLog(@"error %@",[error localizedDescription]);
-//                    NSLog(@"linkUserRes %d",linkUserRes.isPasswordAlreadySet);
-//                    
-//                    
-//                }];
-//                
-//            }];
-//            
-//            
-//            
-//        }
-//        
-//        else{
-//            
-//            //neither email not mobile registred so this will signiup the user as well as allow them to save the cards for future use
-//            
-//            [authLayer requestLinkUser:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
-//                
-//                //handle the response
-//                
-//            }];
-//            
-//        }
-//        
-//    }
-//    
-//}];
-
-
 #pragma mark - initializers
 
 // Initialize the SDK layer viz CTSAuthLayer/CTSProfileLayer/CTSPaymentLayer
@@ -336,22 +256,7 @@
     JSONModelError *jsonError;
     CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
                                                     error:&jsonError];
-    
-//    
-//    sampleBill.amount = [[CTSAmount alloc] init];
-//    sampleBill.amount.value = @"1";
-//    sampleBill.amount.value = @"INR";
-//    sampleBill.requestSignature = @"b0a169132e022a6b46b24374483fe5b8d3869b24";
-//    sampleBill.merchantAccessKey = @"GN5LNPT86TK4HVCZFENP";
-//    sampleBill.merchantTxnId = @"SG213649122";
-//    sampleBill.returnUrl = @"http://app-tech.tinyowl.com/restaurant/payment/online/response";
-//    sampleBill.notifyUrl = @"www.google.com";
-    
-    
-
-    
-    
-    LogTrace(@"billJson %@",billJson);
+   LogTrace(@"billJson %@",billJson);
     LogTrace(@"signature %@ ", sampleBill);
     return sampleBill;
 }
