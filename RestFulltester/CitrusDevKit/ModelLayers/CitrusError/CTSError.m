@@ -93,7 +93,7 @@
           errorDescription = @"Insufficient Balance Please add Money in Citrus Account";
           break;
       case CardHolderNameInvalid:
-          errorDescription = @"Card Holder Name Invalid, Cannot be Empty or Contain Special Charecters";
+          errorDescription = @"Card Owner Name Invalid, Cannot be Empty or Contain Special Charecters";
           break;
       case DeleteCardNumberNotValid:
           errorDescription = @"Card number not valid, last four digits are expected";

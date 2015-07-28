@@ -69,7 +69,6 @@
     }];
 
 
-
     
 }
 
@@ -99,11 +98,10 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Credit card info for card payment type.
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = @"5105105105105100";
+    creditCard.number = @"4028530052708001";
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
     creditCard.scheme = [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
-    //creditCard.name = TEST_CREDIT_CARD_BANK_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     [paymentInfo addCard:creditCard];
     
@@ -119,8 +117,7 @@
         }
     }];
     
-    
-    
+    //
     
 }
 
