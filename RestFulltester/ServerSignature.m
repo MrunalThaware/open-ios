@@ -29,7 +29,7 @@
                                                               error:&error];
     NSString* signature = [[NSString alloc] initWithData:signatureData
                                                 encoding:NSUTF8StringEncoding];
-    NSLog(@"signature %@ ", signature);
+    LogTrace(@"signature %@ ", signature);
     return signature;
 }
 
@@ -50,7 +50,7 @@
     JSONModelError *jsonError;
    CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
                                        error:&jsonError];
-    NSLog(@"signature %@ ", sampleBill);
+    LogTrace(@"signature %@ ", sampleBill);
     return sampleBill;
 
 

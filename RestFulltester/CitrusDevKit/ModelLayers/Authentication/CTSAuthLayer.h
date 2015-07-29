@@ -259,6 +259,7 @@ typedef void (^ASOtpSigninCallBack)(NSError* error);
  *  @return yes if anyone is signed in, NO otherwise
  */
 -(BOOL)isAnyoneSignedIn;
+-(BOOL)isUserBound;
 
 - (NSString*)generateBigIntegerString:(NSString*)email ;
 

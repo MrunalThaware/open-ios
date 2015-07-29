@@ -57,7 +57,7 @@
 #pragma mark - webview delegates
 
 - (void)webViewDidStartLoad:(UIWebView*)webView {
-    NSLog(@"webView %@",[webView.request URL].absoluteString);
+    LogTrace(@"webView %@",[webView.request URL].absoluteString);
     [indicator startAnimating];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
@@ -82,11 +82,11 @@
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    NSLog(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
+    LogTrace(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
 
     //for load balance return url finish
     NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
-    NSLog(@"loadMoneyResponse %@",loadMoneyResponse);
+    LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
     if(loadMoneyResponse){
         LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
 
@@ -97,7 +97,7 @@
     
     //for general payments
     NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody];
-    NSLog(@"responseDict %@",responseDict);
+    LogTrace(@"responseDict %@",responseDict);
     if(responseDict){
         //responseDict> contains all the information related to transaction
        // [self transactionComplete:responseDict];
@@ -165,7 +165,7 @@
 //}
 
 - (void)yourObjectiveCMethod:(NSString *)param1 {
-    NSLog(@"User clicked submit. param1=%@", param1);
+    LogTrace(@"User clicked submit. param1=%@", param1);
 }
 
 @end

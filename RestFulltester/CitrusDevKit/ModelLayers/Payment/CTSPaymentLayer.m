@@ -199,21 +199,14 @@
     
     [self addCallback:callback forRequestId:PaymentAsCitruspayReqId];
     
-    //vallidate
-    //check if signed in if no then return error accordigly(from handler)
-    //save controller
-    //save callback
-    //when the reply comesback
-    //redirect it on web controller
-    //from webcontroller keep detecting if verifypage has come if yes then reutrn for signin error
-    //when webview controller returns with proper callback from ios get the reply back
+
 
     if(controller == nil){
         [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:NoViewController]];
         return;
     
     }
-    if(![CTSUtility isCookieSetAlready]){
+    if(![CTSUtility isUserCookieValid]){
         [self makeCitrusPayHelper:nil error:[CTSError getErrorForCode:NoCookieFound]];
         return;
     
@@ -238,8 +231,8 @@
         float txAmount = [bill.amount.value floatValue];
         if((balance *100) >= (txAmount*100)){
             [self requestChargeInternalCitrusCashWithContact:contactInfo withAddress:userAddress bill:bill customParams:custParams  withCompletionHandler:^(CTSPaymentTransactionRes *paymentInfo, NSError *error) {
-                NSLog(@"paymentInfo %@",paymentInfo);
-                NSLog(@"error %@",error);
+                LogTrace(@"paymentInfo %@",paymentInfo);
+                LogTrace(@"error %@",error);
                 [self handlePaymentResponse:paymentInfo error:error] ;
             }];
 
@@ -394,7 +387,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     [self addCallback:callback forRequestId:PaymentGetPrepaidBillReqId];
     
     
-    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    OauthStatus* oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
     if (oauthStatus.error != nil) {
@@ -609,7 +602,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     [self addCallback:callback forRequestId:PaymentCashoutToBankReqId];
     
     
-    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    OauthStatus* oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
     if (oauthStatus.error != nil) {
@@ -763,7 +756,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
   JSONModelError* jsonError;
   CTSPaymentTransactionRes* payment = nil;
   if (error == nil) {
-    NSLog(@"error:%@", jsonError);
+    LogTrace(@"error:%@", jsonError);
     payment =
         [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
                                                    error:&jsonError];
@@ -800,7 +793,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     JSONModelError* jsonError;
     CTSPaymentTransactionRes* payment = nil;
     if (error == nil) {
-        NSLog(@"error:%@", jsonError);
+        LogTrace(@"error:%@", jsonError);
         payment =
         [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
                                                    error:&jsonError];
@@ -816,7 +809,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     JSONModelError* jsonError;
     CTSPaymentTransactionRes* payment = nil;
     if (error == nil) {
-        NSLog(@"error:%@", jsonError);
+        LogTrace(@"error:%@", jsonError);
         payment =
         [[CTSPaymentTransactionRes alloc] initWithString:response.responseString
                                                    error:&jsonError];
@@ -1060,7 +1053,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 
 }
 - (void)chargeLoadMoneyInnerWebviewHelper:(CTSCitrusCashRes*)response  error:(NSError *)error{
-    NSLog(@" chargeLoadMoneyInnerWebviewHelper ");
+    LogTrace(@" chargeLoadMoneyInnerWebviewHelper ");
     LogThread
     [self resetCitrusPay];
 
@@ -1115,7 +1108,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 #pragma mark -  CitrusPayWebView
 
 - (void)webViewDidStartLoad:(UIWebView*)webView {
-    NSLog(@"webViewDidStartLoad ");
+    LogTrace(@"webViewDidStartLoad ");
 }
 
 
@@ -1134,12 +1127,18 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 }
 
 
+
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    LogTrace(@"error %@ ",error);
+    [self makeCitrusPayHelper:nil error:error];
+}
+
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
-    NSLog(@"did finish loading");
+    LogTrace(@"did finish loading");
 
     NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
     NSString *webviewUrl = [[[webView request] URL] absoluteString];
-    NSLog(@"currentURL %@",webviewUrl);
+    LogTrace(@"currentURL %@",webviewUrl);
     responseDict = [CTSUtility errorResponseIfReturnUrlDidntRespond:cCashReturnUrl webViewUrl:webviewUrl currentResponse:responseDict];
     
     if(responseDict){
@@ -1151,11 +1150,11 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    NSLog(@"request url %@",[request URL]);
+    LogTrace(@"request url %@",[request URL]);
     
     NSArray* cookies =
     [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[request URL]];
-    NSLog(@"cookie array:%@", cookies);
+    LogTrace(@"cookie array:%@", cookies);
     if([CTSUtility isVerifyPage:[[request URL] absoluteString]]){
             [self makeCitrusPayHelper:nil
                             error:[CTSError getErrorForCode:UserNotSignedIn]];
@@ -1203,7 +1202,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 
 -(void)loadPaymentWebview:(NSString *)url reqId:(int)reqId returnUrl:(NSString *)returnUrl{
         //dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@" loadPaymentWebview ");
+            LogTrace(@" loadPaymentWebview ");
             LogThread
         if(paymentWebViewController != nil){
             [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
@@ -1214,7 +1213,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
         paymentWebViewController.redirectURL = url;
         paymentWebViewController.reqId = reqId;
         paymentWebViewController.returnUrl = returnUrl ;
-        NSLog(@"citrusCashBackViewController.navigationController %@",citrusCashBackViewController.navigationController);
+        LogTrace(@"citrusCashBackViewController.navigationController %@",citrusCashBackViewController.navigationController);
 //    if(citrusCashBackViewController.navigationController){
 //    [citrusCashBackViewController.navigationController pushViewController:paymentWebViewController animated:YES];
 //    }{
@@ -1227,7 +1226,7 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
 
 
 -(void)loadPaymentWebview:(PayLoadWebviewDto *)loadWebview{
-        NSLog(@" loadPaymentWebview ");
+        LogTrace(@" loadPaymentWebview ");
         LogThread
         if(paymentWebViewController != nil){
             [self removeObserver:self forKeyPath:@"paymentWebViewController.response"];
@@ -1238,15 +1237,15 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
         paymentWebViewController.redirectURL = loadWebview.url;
         paymentWebViewController.reqId = loadWebview.reqId;
         paymentWebViewController.returnUrl = loadWebview.returnUrl ;
-        NSLog(@"citrusCashBackViewController.navigationController %@",citrusCashBackViewController.navigationController);
+        LogTrace(@"citrusCashBackViewController.navigationController %@",citrusCashBackViewController.navigationController);
         [citrusCashBackViewController.navigationController pushViewController:paymentWebViewController animated:YES];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    NSLog(@" observeValueForKeyPath ");
+    LogTrace(@" observeValueForKeyPath ");
     LogThread
     for(NSString *keys in change){
-        NSLog(@"Checking key %@, Value %@",keys,[change valueForKey:keys]);
+        LogTrace(@"Checking key %@, Value %@",keys,[change valueForKey:keys]);
     }
     
     CTSCitrusCashRes *response = [[CTSCitrusCashRes alloc] init];

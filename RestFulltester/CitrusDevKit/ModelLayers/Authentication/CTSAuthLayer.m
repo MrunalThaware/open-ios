@@ -60,7 +60,7 @@
 - (void)requestInternalSignupMobile:(NSString*)mobile email:(NSString*)email {
   if (![CTSUtility validateEmail:email]) {
     [self signupHelperUsername:userNameSignup
-                         oauth:[CTSOauthManager readOauthToken]
+                         oauth:[CTSOauthManager readPasswordSigninOauthToken]
                          error:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
@@ -68,7 +68,7 @@
     
   if (!mobile) {
     [self signupHelperUsername:userNameSignup
-                         oauth:[CTSOauthManager readOauthToken]
+                         oauth:[CTSOauthManager readPasswordSigninOauthToken]
                          error:[CTSError getErrorForCode:MobileNotValid]];
     return;
   }
@@ -121,14 +121,14 @@
 
   if (![CTSUtility validateEmail:email]) {
     [self signupHelperUsername:userNameSignup
-                         oauth:[CTSOauthManager readOauthToken]
+                         oauth:[CTSOauthManager readPasswordSigninOauthToken]
                          error:[CTSError getErrorForCode:EmailNotValid]];
     return;
   }
     mobile = [CTSUtility mobileNumberToTenDigitIfValid:mobile];
   if (!mobile) {
     [self signupHelperUsername:userNameSignup
-                         oauth:[CTSOauthManager readOauthToken]
+                         oauth:[CTSOauthManager readPasswordSigninOauthToken]
                          error:[CTSError getErrorForCode:MobileNotValid]];
     return;
   }
@@ -311,7 +311,7 @@
     
     
     if (oauthStatus.error != nil) {
-        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
         oauthToken = oauthStatus.oauthToken;
     }
     
@@ -359,7 +359,7 @@
     
     
     if (oauthStatus.error != nil) {
-        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
         oauthToken = oauthStatus.oauthToken;
     }
     
@@ -611,10 +611,10 @@
      hashedUsername:(NSString*)hashedUsername {
   ENTRY_LOG
 
-  NSString* oauthToken = [CTSOauthManager readOauthTokenWithExpiryCheck];
+  NSString* oauthToken = [CTSOauthManager readPasswordSigninOauthTokenWithExpiryCheck];
   if (oauthToken == nil) {
     [self signupHelperUsername:userNameSignup
-                         oauth:[CTSOauthManager readOauthToken]
+                         oauth:[CTSOauthManager readPasswordSigninOauthToken]
                          error:[CTSError getErrorForCode:OauthTokenExpired]];
   }
 
@@ -639,7 +639,7 @@
   ENTRY_LOG
   [self addCallback:callback forRequestId:ChangePasswordReqId];
 
-  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
   if (oauthStatus.error != nil) {
     [self changePasswordHelper:oauthStatus.error];
   }
@@ -795,7 +795,7 @@
 
 
 - (BOOL)signOut {
-  [CTSOauthManager resetOauthData];
+  [CTSOauthManager resetPasswordSigninOauthData];
   [CTSOauthManager resetBindSiginOauthData];
   [CTSOauthManager resetSignupToken];
   [CTSUtility deleteSigninCookie];
@@ -803,13 +803,25 @@
 }
 
 
+-(BOOL)isUserBound{
 
+    NSString* bindToken = [CTSOauthManager readBindSigninOauthTokenWithExpiryCheck];
+    if(bindToken == nil){
+        return NO;
+    }
+    return YES;
+
+}
 
 - (BOOL)isAnyoneSignedIn {
-  NSString* signInOauthToken = [CTSOauthManager readOauthTokenWithExpiryCheck];
-  if (signInOauthToken == nil)
+  NSString* signInOauthToken = [CTSOauthManager readPasswordSigninOauthTokenWithExpiryCheck];
+    if (signInOauthToken == nil){
     return NO;
-  else
+    }
+    if([CTSUtility isUserCookieValid] == NO){
+        return NO;
+    }
+    
     return YES;
 }
 
@@ -893,22 +905,22 @@
     [profileLayer requestMemberInfoMobile:user.mobileNo email:user.email withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
         if(error){
             //reply with failure
-            NSLog(@"++++++++++++++++++++ Member Info Fetch Failed ");
+            LogTrace(@"++++++++++++++++++++ Member Info Fetch Failed ");
             [self linkHelper:nil error:error];
             
         }else{
-            NSLog(@"++++++++++++++++++++ Member Info Fetched ");
+            LogTrace(@"++++++++++++++++++++ Member Info Fetched ");
             
             if(profile.responseData.profileByMobile){
-                NSLog(@"++++++++++++++++++++ Mobile Found ");
+                LogTrace(@"++++++++++++++++++++ Mobile Found ");
                 
                 //if Mob present    : (SDK invokes RequesMOtp) > User can now signin with motp or pwd
                 
                 [self requestGenerateOTPFor:profile.responseData.profileByMobile.mobile completionHandler:^(CTSResponse *response, NSError *error) {
-                    NSLog(@"++++++++++++++++++++ Asked to send the M otp ");
+                    LogTrace(@"++++++++++++++++++++ Asked to send the M otp ");
                     
                     if(error){
-                        NSLog(@"++++++++++++++++++++ ERROR in  M otp ");
+                        LogTrace(@"++++++++++++++++++++ ERROR in  M otp ");
                         
                         [self linkHelper:nil error:error];
                     }else{
@@ -921,13 +933,13 @@
             }
             else if(profile.responseData.profileByEmail){
                 //if Mob absent, Only Email present    : (SDK invokes RequesEOtp) > User can now signin with eotp or pwd
-                NSLog(@"++++++++++++++++++++ Email Found ");
+                LogTrace(@"++++++++++++++++++++ Email Found ");
                 
                 [self requestGenerateOTPFor:profile.responseData.profileByEmail.email completionHandler:^(CTSResponse *response,NSError *error) {
-                    NSLog(@"++++++++++++++++++++ Asked to send the E otp ");
+                    LogTrace(@"++++++++++++++++++++ Asked to send the E otp ");
                     
                     if(error){
-                        NSLog(@"++++++++++++++++++++ ERROR in  E otp ");
+                        LogTrace(@"++++++++++++++++++++ ERROR in  E otp ");
                         [self linkHelper:nil error:error];
                         
                     }else{
@@ -941,10 +953,10 @@
             }
             else{
                 //if Email Mobile Absent  : (SDK SignsUp the user) > User receives the Verification code > now app should proceed to verification call from SDK
-                NSLog(@"++++++++++++++++++++ Mobile Email Both Absent ");
+                LogTrace(@"++++++++++++++++++++ Mobile Email Both Absent ");
                 
                 [self requestSignupUser:user password:nil mobileVerified:NO emailVerified:NO completionHandler:^(NSError *error) {
-                    NSLog(@"++++++++++++++++++++ Asked to Signup ");
+                    LogTrace(@"++++++++++++++++++++ Asked to Signup ");
                     if(error){
                         [self linkHelper:nil error:error];
                     }
@@ -1059,7 +1071,7 @@
 }
 
 -(NSString *)requestSignInOauthToken{
-    return [CTSOauthManager readOauthToken];
+    return [CTSOauthManager readPasswordSigninOauthToken];
 }
 
 
@@ -1160,7 +1172,7 @@ static NSData* digest(NSData* data,
                               from:(unsigned int)[array count] - 3
                                 to:(unsigned int)[array count]];
   NSData* arrayData = [NSKeyedArchiver archivedDataWithRootObject:val];
-  NSLog(@"%@", arrayData);
+  LogTrace(@"%@", arrayData);
   int x = 0;
   for (int i = 0; i < [val count]; i++) {
     int z = [[val objectAtIndex:(val.count - 1 - i)] intValue];
@@ -1169,7 +1181,7 @@ static NSData* digest(NSData* data,
     }
     z = z << (8 * i);
     x = x + z;
-    NSLog(@"%d", x);
+    LogTrace(@"%d", x);
   }
   return x;
 }
@@ -1183,7 +1195,7 @@ static NSData* digest(NSData* data,
     // Add something from the key?? Your format here.
     [large_CSV_String appendFormat:@"%c", [self nextLetter]];
   }
-  NSLog(@"random password:%@", large_CSV_String);
+  LogTrace(@"random password:%@", large_CSV_String);
   return large_CSV_String;
 }
 
@@ -1441,7 +1453,7 @@ enum {
     [self requestInternalSignupMobile:mobileSignUp email:userNameSignup];
   } else {
     [self signupHelperUsername:userNameSignup
-                         oauth:[CTSOauthManager readOauthToken]
+                         oauth:[CTSOauthManager readPasswordSigninOauthToken]
                          error:error];
     return;
   }
@@ -1508,7 +1520,7 @@ enum {
         [[CTSOauthTokenRes alloc] initWithString:response.responseString
                                            error:&jsonError];
         [resultObject logProperties];
-        [CTSOauthManager saveOauthData:resultObject];
+        [CTSOauthManager savePasswordSigninOauthData:resultObject];
         if (wasSignupCalled == YES) {
             // in case of sign up flow_ not being used for prepaid
             
@@ -1531,13 +1543,13 @@ enum {
         if (wasSignupCalled == YES) {
             // in case of sign up flow
             [self signupHelperUsername:userNameSignup
-                                 oauth:[CTSOauthManager readOauthToken]
+                                 oauth:[CTSOauthManager readPasswordSigninOauthToken]
                                  error:error];
         } else {
             // in case of sign in flow
             
             [self signinHelperUsername:userNameSignIn
-                                 oauth:[CTSOauthManager readOauthToken]
+                                 oauth:[CTSOauthManager readPasswordSigninOauthToken]
                                  error:error];
         }
     }
@@ -1554,7 +1566,7 @@ enum {
         [[CTSOauthTokenRes alloc] initWithString:response.responseString
                                            error:&jsonError];
         [resultObject logProperties];
-        [CTSOauthManager saveOauthData:resultObject];
+        [CTSOauthManager savePasswordSigninOauthData:resultObject];
     }
     if(errorSignIn == nil){
         CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
@@ -1585,7 +1597,7 @@ enum {
                 LogTrace(@" requestCitrusPaySignin ");
                 
                 [self signinHelperUsername:userNameSignIn
-                                     oauth:[CTSOauthManager readOauthToken]
+                                     oauth:[CTSOauthManager readPasswordSigninOauthToken]
                                      error:error];
             }];
         }
@@ -1595,7 +1607,7 @@ enum {
             
             
             [self signinHelperUsername:userNameSignIn
-                                 oauth:[CTSOauthManager readOauthToken]
+                                 oauth:[CTSOauthManager readPasswordSigninOauthToken]
                                  error:error];
             
         }
@@ -1630,7 +1642,7 @@ enum {
 
   } else {
     [self signupHelperUsername:userNameSignup
-                         oauth:[CTSOauthManager readOauthToken]
+                         oauth:[CTSOauthManager readPasswordSigninOauthToken]
                          error:error];
   }
 }
@@ -1639,7 +1651,7 @@ enum {
   LogTrace(@"password changed ");
 
   [self signupHelperUsername:userNameSignup
-                       oauth:[CTSOauthManager readOauthToken]
+                       oauth:[CTSOauthManager readPasswordSigninOauthToken]
                        error:response.error];
 }
 
@@ -1801,7 +1813,7 @@ enum {
   wasSignupCalled = NO;
 
   if (error != nil && isInLink == NO) {
-    [CTSOauthManager resetOauthData];
+    [CTSOauthManager resetPasswordSigninOauthData];
   }
 
   if (callBack != nil) {

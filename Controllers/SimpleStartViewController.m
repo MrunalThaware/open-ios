@@ -56,7 +56,7 @@
     
      //Configure your request here.
     [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
-        NSLog(@"error.code %ld ", (long)error.code);
+        LogTrace(@"error.code %ld ", (long)error.code);
         
         if(error == nil){
             // Your code to handle success.

@@ -269,10 +269,10 @@ NSRange statusCodeRangeForClass(CTSStatusCodeClass statusCodeClass) {
              redirectResponse: (NSURLResponse *) redirectResponse
 {
     
-    NSLog(@"connection %@",connection);
+    LogTrace(@"connection %@",connection);
     
-    NSLog(@"redirect request %@",request);
-    NSLog(@"redirect redirectResponse %@",redirectResponse);
+    LogTrace(@"redirect request %@",request);
+    LogTrace(@"redirect redirectResponse %@",redirectResponse);
 
    // CTSRestCoreResponse *restResponse = nil;
 
@@ -289,7 +289,7 @@ NSRange statusCodeRangeForClass(CTSStatusCodeClass statusCodeClass) {
 - (void)connection:(NSURLConnection *)connection
 didReceiveResponse:(NSURLResponse *)response{
     
-    NSLog(@"didReceiveResponse response %@",response);
+    LogTrace(@"didReceiveResponse response %@",response);
     CTSRestCoreResponse *restResponse = [[CTSRestCoreResponse alloc] init];
     restResponse.requestId = delegationRequestId;
 

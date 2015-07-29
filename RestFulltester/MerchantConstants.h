@@ -24,11 +24,12 @@
 
 // URLs
 #define VanityUrl @"nativeSDK"
-#define ReturnUrl @"http://192.168.2.93:8888/TestReturn.html"
-#define BillUrl @"http://192.168.2.93:8888/bill.php"
+#define ReturnUrl @"http://192.168.1.105:8888/TestReturn.html"
+#define BillUrl @"http://192.168.1.105:8888/bill.php"
 #define BaseUrl @"https://sandboxadmin.citruspay.com"
 
-#define BaseUrl @"https://sandboxadmin.citruspay.com"
+//set to 0 to disable logging, logs remain off in production
+#define ENABLE_LOGGING 1
 
 
 #endif

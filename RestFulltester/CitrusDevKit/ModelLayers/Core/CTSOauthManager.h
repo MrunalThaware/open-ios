@@ -15,17 +15,19 @@
 @end
 
 @interface CTSOauthManager : NSObject
-+ (NSString*)readOauthToken;
-+ (void)resetOauthData;
-+ (BOOL)hasOauthExpired;
-+ (void)saveOauthData:(CTSOauthTokenRes*)object;
-+ (CTSOauthTokenRes*)readOauthData;
++ (NSString*)readPasswordSigninOauthToken;
++ (void)resetPasswordSigninOauthData;
++ (BOOL)hasPasswordSignInOauthExpired;
++ (void)savePasswordSigninOauthData:(CTSOauthTokenRes*)object;
++ (CTSOauthTokenRes*)readPasswordSigninOuthData;
 /**
  *  read oauthToken with expiry check,nil in case of expiry
  *
  *  @return OauthToken or nil if expired
  */
-+ (NSString*)readOauthTokenWithExpiryCheck;
++ (NSString*)readPasswordSigninOauthTokenWithExpiryCheck;
+
++ (NSString*)readBindSigninOauthTokenWithExpiryCheck;
 
 /**
  *  whenever access token error is reported merchant should call this method to
@@ -38,7 +40,7 @@
  *
  *  @return OauthStatus with proper error and valid oauth token
  */
-+ (OauthStatus*)fetchSigninTokenStatus;
++ (OauthStatus*)fetchPasswordSigninTokenStatus;
 
 + (OauthStatus*)fetchSignupTokenStatus;
 

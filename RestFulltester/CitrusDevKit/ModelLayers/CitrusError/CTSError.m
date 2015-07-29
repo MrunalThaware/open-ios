@@ -83,7 +83,7 @@
           errorDescription = @"Transaction was Forced to End";
           break;
           case NoCookieFound:
-          errorDescription = @"Cookie not found, Please signin";
+          errorDescription = @"Cookie not available or Expired, Please signin";
           break;
           case TransactionAlreadyInProgress:
           errorDescription = @"Transaction Already In Progress";

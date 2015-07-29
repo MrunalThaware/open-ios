@@ -26,7 +26,7 @@
     self.title = @"Citrus iOS SDK";
 //    [authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
 //        LogTrace(@" requestCitrusPaySignin ");
-//        NSLog(@"%@", error);
+//        LogTrace(@"%@", error);
 //    }];
 
     //[PrepaidViewController getBillFromServer];
@@ -274,8 +274,8 @@
     CTSBill *bill = [PrepaidViewControllerOld getBillFromServer];
     
     [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill customParams:nil returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
-        NSLog(@"paymentInfo %@",paymentInfo);
-        NSLog(@"error %@",error);
+        LogTrace(@"paymentInfo %@",paymentInfo);
+        LogTrace(@"error %@",error);
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
@@ -332,8 +332,8 @@
     JSONModelError *jsonError;
     CTSBill* sampleBill = [[CTSBill alloc] initWithString:billJson
                                                     error:&jsonError];
-    NSLog(@"billJson %@",billJson);
-    NSLog(@"signature %@ ", sampleBill);
+    LogTrace(@"billJson %@",billJson);
+    LogTrace(@"signature %@ ", sampleBill);
     return sampleBill;
 
 }

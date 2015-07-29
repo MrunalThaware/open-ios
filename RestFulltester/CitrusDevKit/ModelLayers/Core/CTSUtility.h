@@ -68,5 +68,6 @@
 +(NSDictionary *)errorResponseDeviceOffline:(NSError *)error;
 +(CTSContactUpdate *)correctContactIfNeeded:(CTSContactUpdate *)contact;
 +(CTSUserAddress *)correctAdressIfNeeded:(CTSUserAddress *)address;
++(BOOL)isUserCookieValid;
 
 @end

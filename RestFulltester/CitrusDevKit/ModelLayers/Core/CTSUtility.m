@@ -364,7 +364,7 @@
 + (NSDictionary*)getResponseIfTransactionIsComplete:(UIWebView *)webview {
     // contains the HTTP body as in an HTTP POST request.
     NSString *iosResponse = [webview stringByEvaluatingJavaScriptFromString:@"postResponseiOS()"];
-    NSLog(@"iosResponse %@",iosResponse);
+    LogTrace(@"iosResponse %@",iosResponse);
     if(iosResponse == nil ){
         return nil;
     }
@@ -373,8 +373,8 @@
         NSDictionary *dictionary =  [NSJSONSerialization JSONObjectWithData: [iosResponse dataUsingEncoding:NSUTF8StringEncoding]
                                                                            options: NSJSONReadingMutableContainers
                                                                              error: &error];
-        NSLog(@" dictionary %@ ",dictionary);
-        NSLog(@" error %@ ",error);
+        LogTrace(@" dictionary %@ ",dictionary);
+        LogTrace(@" error %@ ",error);
         return dictionary;
     }
 }
@@ -580,8 +580,8 @@
 
 +(BOOL)isVerifyPage:(NSString *)urlString{
     BOOL isVerifyPage = NO;
-    if([urlString containsString:@"prepaid/pg/verify/"]){
-        NSLog(@"not logged in");
+    if( [self string:urlString containsString:@"prepaid/pg/verify/"] ){
+        LogTrace(@"not logged in");
         isVerifyPage = YES;
     }
     return isVerifyPage;
@@ -612,11 +612,15 @@
 }
 
 
++(BOOL)isUserCookieValid{
+    return ![self hasUserCookieExpired];
+}
+
 +(BOOL)hasUserCookieExpired{
    BOOL hasUserCookieExpired = NO;
     
     NSHTTPCookie *userCookie = [self getCitrusCookie];
-    if(userCookie!=nil){
+    if(userCookie==nil){
         return YES;
     }
 
@@ -635,9 +639,9 @@
     NSHTTPCookie *cookie;
     NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     for (cookie in [cookieJar cookies]) {
-        // NSLog(@"Cookie doamin %@", cookie.domain);
+        // LogTrace(@"Cookie doamin %@", cookie.domain);
         if ([cookie.domain rangeOfString:@"citrus" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-            // NSLog(@"string does not contain citrus");
+            // LogTrace(@"string does not contain citrus");
             isSet = YES;
             break;
         }
@@ -675,7 +679,7 @@
 
 +(NSDictionary *)errorResponseIfReturnUrlDidntRespond:(NSString *)returnUrl webViewUrl:(NSString *)webviewUrl currentResponse:(NSDictionary *)responseDict{
     if( [CTSUtility isURL:[NSURL URLWithString:returnUrl] toUrl:[NSURL URLWithString:webviewUrl]]){
-        NSLog(@"final Return URL completed loading found");
+        LogTrace(@"final Return URL completed loading found");
         if(responseDict == nil){
             NSError *error = [CTSError getErrorForCode:ReturnUrlCallbackNotValid];
             responseDict = [NSDictionary dictionaryWithObject:error forKey:CITRUS_ERROR_DOMAIN];

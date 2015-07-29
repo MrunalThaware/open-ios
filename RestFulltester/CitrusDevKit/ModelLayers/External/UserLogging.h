@@ -30,7 +30,7 @@
  *macros as
  * well as for outputting the code location as part of the log entry. For his
  *ideas, see:
- *   http://iphoneincubator.com/blog/debugging/the-evolution-of-a-replacement-for-nslog
+ *   http://iphoneincubator.com/blog/debugging/the-evolution-of-a-replacement-for-NSLog
  */
 
 /**
@@ -108,6 +108,10 @@
  * in your build configuration.
  */
 
+#import "MerchantConstants.h"
+
+
+
 /**
  * Set this switch to  enable or disable logging capabilities.
  * This can be set either here or via the compiler build setting
@@ -117,9 +121,28 @@
  * ensure that logging is not accidentally left enabled by accident in release
  * builds.
  */
+#ifdef ENABLE_LOGGING //1 if merchant defined this macro then use it
+
 #ifndef LOGGING_ENABLED
-#define LOGGING_ENABLED 1
+#define LOGGING_ENABLED ENABLE_LOGGING
 #endif
+
+#else//1 else if debug is True start the Logging
+
+#ifndef LOGGING_ENABLED //2 if start
+#ifdef DEBUG //3 if start
+#define LOGGING_ENABLED 1
+
+#else
+#define LOGGING_ENABLED 0 //if debug is not defined then dont log
+#endif // 3 if end
+#endif //2 if end
+
+#endif // end 1
+
+
+
+
 
 /**
  * Set any or all of these switches to enable or disable logging at specific
@@ -181,21 +204,21 @@
 
 // Trace logging - for detailed tracing
 #if defined(LOGGING_LEVEL_TRACE) && LOGGING_LEVEL_TRACE
-#define LogTrace(fmt, ...) LOG_FORMAT(fmt, @"trace", ##__VA_ARGS__)
+#define LogTrace(fmt, ...) LOG_FORMAT(fmt, @"CitrusPay trace", ##__VA_ARGS__)
 #else
 #define LogTrace(...)
 #endif
 
 // Info logging - for general, non-performance affecting information messages
 #if defined(LOGGING_LEVEL_INFO) && LOGGING_LEVEL_INFO
-#define LogInfo(fmt, ...) LOG_FORMAT(fmt, @"info", ##__VA_ARGS__)
+#define LogInfo(fmt, ...) LOG_FORMAT(fmt, @"CitrusPay info", ##__VA_ARGS__)
 #else
 #define LogInfo(...)
 #endif
 
 // Error logging - only when there is an error to be logged
 #if defined(LOGGING_LEVEL_ERROR) && LOGGING_LEVEL_ERROR
-#define LogError(fmt, ...) LOG_FORMAT(fmt, @"***ERROR***", ##__VA_ARGS__)
+#define LogError(fmt, ...) LOG_FORMAT(fmt, @"CitrusPay ***ERROR***", ##__VA_ARGS__)
 #else
 #define LogError(...)
 #endif
@@ -203,12 +226,12 @@
 // Debug logging - use only temporarily for highlighting and tracking down
 // problems
 #if defined(LOGGING_LEVEL_DEBUG) && LOGGING_LEVEL_DEBUG
-#define LogDebug(fmt, ...) LOG_FORMAT(fmt, @"DEBUG", ##__VA_ARGS__)
+#define LogDebug(fmt, ...) LOG_FORMAT(fmt, @"CitrusPay DEBUG", ##__VA_ARGS__)
 #else
 #define LogDebug(...)
 
 #endif
 
-#define ENTRY_LOG LogTrace(@"%s ENTRY ", __PRETTY_FUNCTION__);
-#define EXIT_LOG LogTrace(@"%s EXIT ", __PRETTY_FUNCTION__);
-#define ERROR_EXIT_LOG LogError(@"%s ERROR EXIT", __PRETTY_FUNCTION__);
+#define ENTRY_LOG LogTrace(@"%s ENTRY CitrusPay", __PRETTY_FUNCTION__);
+#define EXIT_LOG LogTrace(@"%s EXIT CitrusPay", __PRETTY_FUNCTION__);
+#define ERROR_EXIT_LOG LogError(@"%s ERROR EXIT CitrusPay", __PRETTY_FUNCTION__);

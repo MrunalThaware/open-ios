@@ -61,7 +61,7 @@ enum {
            withCompletionHandler:(ASUpdateContactInfoCallBack)callback {
   [self addCallback:callback forRequestId:ProfileUpdateContactReqId];
 
-  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
   if (oauthStatus.error != nil) {
@@ -84,7 +84,7 @@ enum {
             (ASGetContactInfoCallBack)callback {
   [self addCallback:callback forRequestId:ProfileGetContactReqId];
 
-  OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+  OauthStatus* oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
   NSString* oauthToken = oauthStatus.oauthToken;
 
   if (oauthStatus.error != nil) {
@@ -112,7 +112,7 @@ enum {
   NSString* oauthToken = oauthStatus.oauthToken;
 
     if (oauthStatus.error != nil) {
-        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
         oauthToken = oauthStatus.oauthToken;
     }
     
@@ -157,7 +157,7 @@ enum {
 
     
     if (oauthStatus.error != nil) {
-        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
         oauthToken = oauthStatus.oauthToken;
     }
     
@@ -188,7 +188,7 @@ enum {
     
     
     if (oauthStatus.error != nil) {
-        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
         oauthToken = oauthStatus.oauthToken;
     }
     
@@ -217,7 +217,7 @@ enum {
     
     
     if (oauthStatus.error != nil) {
-        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
         oauthToken = oauthStatus.oauthToken;
     }
     
@@ -247,7 +247,7 @@ enum {
     
     [self addCallback:callback forRequestId:ProfileUpdateCashoutBankAccountReqId];
     
-    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    OauthStatus* oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
     if (oauthStatus.error != nil) {
@@ -276,7 +276,7 @@ enum {
 -(void)requestCashoutBankAccountCompletionHandler:(ASGetCashoutBankAccountCallback)callback{
     [self addCallback:callback forRequestId:ProfileGetCashoutBankAccountReqId];
     
-    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    OauthStatus* oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
     if (oauthStatus.error != nil) {
@@ -355,11 +355,11 @@ enum {
         return;
     }
     
-    OauthStatus* oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+    OauthStatus* oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
     NSString* oauthToken = oauthStatus.oauthToken;
     
     if (oauthStatus.error != nil) {
-        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
         oauthToken = oauthStatus.oauthToken;
     }
     
@@ -388,7 +388,7 @@ enum {
     NSString* oauthToken = oauthStatus.oauthToken;
     
     if (oauthStatus.error != nil) {
-        oauthStatus = [CTSOauthManager fetchSigninTokenStatus];
+        oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
         oauthToken = oauthStatus.oauthToken;
     }
 

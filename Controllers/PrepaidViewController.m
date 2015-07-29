@@ -327,8 +327,8 @@
     CTSBill *bill = [PrepaidViewController getBillFromServer];
     
     [paymentLayer requestChargeCitrusCashWithContact:contactInfo withAddress:addressInfo  bill:bill customParams:customParams returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *paymentInfo, NSError *error) {
-        NSLog(@"paymentInfo %@",paymentInfo);
-        NSLog(@"error %@",error);
+        LogTrace(@"paymentInfo %@",paymentInfo);
+        LogTrace(@"error %@",error);
         if(error){
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }

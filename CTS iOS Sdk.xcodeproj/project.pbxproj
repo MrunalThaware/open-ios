@@ -2078,7 +2078,7 @@
 					Bind_SDK,
 				);
 				INFOPLIST_FILE = "RestFulltester/CTS iOS GUISdk-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -2110,7 +2110,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestFulltester/CTS iOS Sdk-Prefix.pch";
 				INFOPLIST_FILE = "RestFulltester/CTS iOS GUISdk-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",

@@ -29,11 +29,11 @@
 // if expired return authExpired
 // if server tells to sign in ask user to sign in else procced
 
-+ (void)saveOauthData:(CTSOauthTokenRes*)object {
++ (void)savePasswordSigninOauthData:(CTSOauthTokenRes*)object {
   object.tokenSaveDate = [NSDate date];
   NSData* encodedObject = [NSKeyedArchiver archivedDataWithRootObject:object];
   NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-  [defaults setObject:encodedObject forKey:MLC_OAUTH_OBJECT_KEY];
+  [defaults setObject:encodedObject forKey:MLC_OAUTH_PASSWORD_SIGNIN_KEY];
   [defaults synchronize];
 }
 
@@ -55,9 +55,9 @@
     return object;
 }
 
-+ (CTSOauthTokenRes*)readOauthData {
++ (CTSOauthTokenRes*)readPasswordSigninOuthData {
   NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-  NSData* encodedObject = [defaults objectForKey:MLC_OAUTH_OBJECT_KEY];
+  NSData* encodedObject = [defaults objectForKey:MLC_OAUTH_PASSWORD_SIGNIN_KEY];
   CTSOauthTokenRes* object =
       [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
 
@@ -69,36 +69,42 @@
  *  @return returns oauth token
  *
  */
-+ (NSString*)readOauthToken {
-  return [self readOauthData].accessToken;
++ (NSString*)readPasswordSigninOauthToken {
+  return [self readPasswordSigninOuthData].accessToken;
 }
 
-+ (NSString*)readOauthTokenWithExpiryCheck {
-  if (![self hasOauthExpired]) {
-    return [self readOauthData].accessToken;
++ (NSString*)readPasswordSigninOauthTokenWithExpiryCheck {
+  if (![self hasPasswordSignInOauthExpired]) {
+    return [self readPasswordSigninOuthData].accessToken;
   } else {
     return nil;
   }
 }
 
-
++ (NSString*)readBindSigninOauthTokenWithExpiryCheck {
+    if (![self hasBindSigninOauthTokenExpired]) {
+        return [self readBindSignInOauthData].accessToken;
+    } else {
+        return nil;
+    }
+}
 
 +(NSString *)readBindSignInRefreshToken{
     CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readBindSignInOauthData];
-    NSLog(@" readRefreshToken %@ %@", oauthTokenRes, oauthTokenRes.refreshToken);
+    LogTrace(@" readRefreshToken %@ %@", oauthTokenRes, oauthTokenRes.refreshToken);
     return oauthTokenRes.refreshToken;
 
 }
 
 
 + (NSString*)readRefreshToken {
-  CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readOauthData];
-  NSLog(@" readRefreshToken %@ %@", oauthTokenRes, oauthTokenRes.refreshToken);
+  CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readPasswordSigninOuthData];
+  LogTrace(@" readRefreshToken %@ %@", oauthTokenRes, oauthTokenRes.refreshToken);
   return oauthTokenRes.refreshToken;
 }
 
-+ (void)resetOauthData {
-    [CTSUtility removeFromDisk:MLC_OAUTH_OBJECT_KEY];
++ (void)resetPasswordSigninOauthData {
+    [CTSUtility removeFromDisk:MLC_OAUTH_PASSWORD_SIGNIN_KEY];
 }
 
 
@@ -106,19 +112,15 @@
     [CTSUtility removeFromDisk:MLC_OAUTH_BIND_SIGN_IN];
 }
 
-+ (BOOL)hasOauthExpired {
-  CTSOauthTokenRes* oauthTokenRes = [self readOauthData];
-  NSDate* tokenSaveDate = oauthTokenRes.tokenSaveDate;
-  NSDate* todaysDate = [NSDate date];
-  NSTimeInterval secondsBetween =
-      [todaysDate timeIntervalSinceDate:tokenSaveDate];
++ (BOOL)hasPasswordSignInOauthExpired {
+    return  [self hasOauthExpired:[self readPasswordSigninOuthData]];
 
-  if (secondsBetween > oauthTokenRes.tokenExpiryTime) {
-    return YES;
-  } else {
-    return NO;
-  }
 }
+
++(BOOL)hasBindSigninOauthTokenExpired{
+   return  [self hasOauthExpired:[self readBindSignInOauthData]];
+}
+
 
 + (BOOL)hasOauthExpired:(CTSOauthTokenRes*)oauthTokenRes {
   NSDate* tokenSaveDate = oauthTokenRes.tokenSaveDate;
@@ -137,9 +139,9 @@
   // request for oauth refresh
 }
 
-+ (OauthStatus*)fetchSigninTokenStatus {
++ (OauthStatus*)fetchPasswordSigninTokenStatus {
   OauthStatus* oauthStatus = [[OauthStatus alloc] init];
-  CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readOauthData];
+  CTSOauthTokenRes* oauthTokenRes = [CTSOauthManager readPasswordSigninOuthData];
   if (oauthTokenRes == nil) {
     oauthStatus.error = [CTSError getErrorForCode:UserNotSignedIn];
     return oauthStatus;
@@ -229,7 +231,7 @@
     resultObject =
         [[CTSOauthTokenRes alloc] initWithString:response.responseString
                                            error:&jsonError];
-    [CTSOauthManager saveOauthData:resultObject];
+    [CTSOauthManager savePasswordSigninOauthData:resultObject];
   }
   return resultObject;
 }

@@ -34,7 +34,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    NSLog(@" viewDidLoad ");
+    LogTrace(@" viewDidLoad ");
     LogThread
     self.title = @"3D Secure";
     self.webview = [[UIWebView alloc] init];
@@ -77,7 +77,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    NSLog(@" view will desappear ");
+    LogTrace(@" view will desappear ");
     LogThread
 
     [super viewWillDisappear:animated];
@@ -99,23 +99,23 @@
 }
 
 - (void)webViewDidStartLoad:(UIWebView*)webView {
-    NSLog(@" webViewDidStartLoad ");
+    LogTrace(@" webViewDidStartLoad ");
     LogThread
-    NSLog(@"webView  URL %@",[webView.request URL].absoluteString);
+    LogTrace(@"webView  URL %@",[webView.request URL].absoluteString);
     [indicator startAnimating];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
     
-    NSLog(@" webViewDidFinishLoad ");
+    LogTrace(@" webViewDidFinishLoad ");
     LogThread
     NSURL *currentURL = [[webView request] URL];
 
     [indicator stopAnimating];
     if(reqId != PaymentChargeInnerWebLoadMoneyReqId){
         NSDictionary *responseDict = [CTSUtility getResponseIfTransactionIsComplete:webView];
-        NSLog(@"currentURL %@ return url %@",[currentURL description], _returnUrl);
+        LogTrace(@"currentURL %@ return url %@",[currentURL description], _returnUrl);
         responseDict = [CTSUtility errorResponseIfReturnUrlDidntRespond:_returnUrl webViewUrl:[currentURL absoluteString] currentResponse:responseDict];
         if(responseDict){
             [self transactionComplete:(NSMutableDictionary *)responseDict];
@@ -135,15 +135,15 @@
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
    
-    NSLog(@" shouldStartLoadWithRequest ");
+    LogTrace(@" shouldStartLoadWithRequest ");
     
     LogThread
-    NSLog(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
+    LogTrace(@"request url %@ scheme %@",[request URL],[[request URL] scheme]);
     //  for load balance return url finish
-//    NSLog(@"reqId %d",reqId);
+//    LogTrace(@"reqId %d",reqId);
 //    if(reqId == PaymentChargeInnerWebLoadMoneyReqId){
 //        NSArray *loadMoneyResponse = [CTSUtility getLoadResponseIfSuccesfull:request];
- //       NSLog(@"loadMoneyResponse %@",loadMoneyResponse);
+ //       LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
 //        if(loadMoneyResponse){
 //            LogTrace(@"loadMoneyResponse %@",loadMoneyResponse);
 //            NSDictionary *loadMoneyResponseDict = [NSDictionary dictionaryWithObject:loadMoneyResponse forKey:LoadMoneyResponeKey];
@@ -152,7 +152,7 @@
 //    }
     
     
-    NSLog(@"response Should %@",[CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody]);
+    LogTrace(@"response Should %@",[CTSUtility getResponseIfTransactionIsFinished:request.HTTPBody]);
     
     return YES;
 }
@@ -161,7 +161,7 @@
 #pragma mark - Payment handler
 
 -(void)transactionComplete:(NSMutableDictionary *)responseDictionary{
-    NSLog(@" transactionComplete ");
+    LogTrace(@" transactionComplete ");
     LogThread
     [pleaseWait dismissWithClickedButtonIndex:10 animated:YES];
 
@@ -174,7 +174,7 @@
 
 
 -(void)finishWebView{
-    NSLog(@" finishWebView ");
+    LogTrace(@" finishWebView ");
     LogThread
     if( [self.webview isLoading]){
         [self.webview stopLoading];
@@ -202,7 +202,7 @@
 {
     [alertView dismissWithClickedButtonIndex:10 animated:YES];
 
-    NSLog(@"clicked button %d",buttonIndex);
+    LogTrace(@"clicked button %d",buttonIndex);
     if(buttonIndex == 0){
     }
     else if (buttonIndex == 1){
@@ -223,7 +223,7 @@
 -(void)cancelTransaction{
     LogThread
     if(transactionOver == NO){
-    NSLog(@" CancelTransaction ");
+    LogTrace(@" CancelTransaction ");
     if( [self.webview isLoading]){
         [self.webview stopLoading];
     }
