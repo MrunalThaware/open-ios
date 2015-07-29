@@ -52,7 +52,7 @@
 #define TEST_NETBAK_OWNER_NAME @"Yadnesh Wankhede"
 #define TEST_NETBAK_NAME @"Axis Bank"
 
-#define TEST_TOKENIZED_CARD_TOKEN @"f00bbc754c00db104cfb9c6adb3fd31c"
+#define TEST_TOKENIZED_CARD_TOKEN @"d832babbbef60bd21b4c12a6cdb726cb"
 #define TEST_TOKENIZED_CARD_CVV @"000"
 
 #endif
