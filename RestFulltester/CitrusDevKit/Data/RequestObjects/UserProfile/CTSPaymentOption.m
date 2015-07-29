@@ -60,6 +60,7 @@
   self = [super init];
   if (self) {
     type = eCard.type;
+    name = eCard.name;
     owner = eCard.ownerName;
     number = eCard.number;
     expiryDate = eCard.expiryDate;
