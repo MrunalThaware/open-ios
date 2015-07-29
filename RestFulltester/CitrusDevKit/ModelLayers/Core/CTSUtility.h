@@ -13,8 +13,7 @@
 #import "CTSBill.h"
 #import "CTSContactUpdate.h"
 #import "CTSUserAddress.h"
-@import UIKit;
-
+#import <UIKit/UIKit.h>
 
 #define CTS_SIGNIN_USER_EMAIL @"CTS_SIGNIN_USER_EMAIL"
 
