@@ -203,13 +203,15 @@ typedef void (^ASGetMetaDataForCardCallback)(CTSMetaDataCard *, NSError *);
  @param WithPAN                 cardNumber.
  @param withHolder              holder.
  @param withExpiry              expiry
- @param withUserID              userID.
+ @param withHintKey             uswithHintKeyerID.
+ @param withHintValue           hintValue.
  @param withCompletionHandler   ASGetVaultTokenCallback callBack.
  @details                       get vault token for credit card.
 */
--(void)getVaultTokenWithPAN:(NSString *)cardNumber
-                 withHolder:(NSString *)holder
-                 withExpiry:(NSString *)expiry
-                 withUserID:(NSString *)userID
-      withCompletionHandler:(ASGetVaultTokenCallback)callback;
+- (void)getVaultTokenWithPAN:(NSString *)cardNumber
+                  withHolder:(NSString *)holder
+                  withExpiry:(NSString *)expiry
+                 withHintKey:(NSString *)hintKey
+               withHintValue:(NSString *)hintValue
+       withCompletionHandler:(ASGetVaultTokenCallback)callback;
 @end

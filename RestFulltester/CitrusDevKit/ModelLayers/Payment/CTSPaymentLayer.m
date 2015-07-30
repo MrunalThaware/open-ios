@@ -430,11 +430,12 @@
 
 
 // get get vault token for Credit card only.
--(void)getVaultTokenWithPAN:(NSString *)cardNumber
+- (void)getVaultTokenWithPAN:(NSString *)cardNumber
                  withHolder:(NSString *)holder
                  withExpiry:(NSString *)expiry
-                 withUserID:(NSString *)userID
-             withCompletionHandler:(ASGetVaultTokenCallback)callback{
+                 withHintKey:(NSString *)hintKey
+                 withHintValue:(NSString *)hintValue
+      withCompletionHandler:(ASGetVaultTokenCallback)callback {
     
     [self addCallback:callback forRequestId:GetVaultTokenReqId];
     
@@ -449,23 +450,8 @@
                             error:[CTSError getErrorForCode:error]];
         return;
     }
-
-    if([CTSUtility isEmail:userID]){
-        if (![CTSUtility validateEmail:userID]) {
-            [self getVaultTokenHelper:nil
-                                error:[CTSError getErrorForCode:EmailNotValid]];
-            return;
-        }
-    }else {
-        if (![CTSUtility mobileNumberToTenDigitIfValid:userID]) {
-            [self getVaultTokenHelper:nil
-                                error:[CTSError getErrorForCode:MobileNotValid]];
-            return;
-        }
-    }
     
-    
-    if (!userID) {
+    if (hintKey == nil || hintValue == nil) {
         [self getVaultTokenHelper:nil
                             error:[CTSError getErrorForCode:InvalidParameter]];
         return;
@@ -478,8 +464,8 @@
                                  MLC_GET_VAULT_TOKEN_EXPIRY : expiry
                              },
                              MLC_GET_VAULT_TOKEN_HINT : @{
-                                 MLC_GET_VAULT_TOKEN_KEY : MLC_GET_VAULT_TOKEN_KEY_NAME,
-                                 MLC_GET_VAULT_TOKEN_VALUE : userID
+                                 MLC_GET_VAULT_TOKEN_KEY : hintKey,
+                                 MLC_GET_VAULT_TOKEN_VALUE : hintValue
                              }
                              };
 
@@ -553,7 +539,9 @@
              toNSString(PaymentAsCitruspayReqId) : toSelector(handlePayementUsingCitruspay
                                                               :),
              toNSString(PaymentAsCitruspayInternalReqId) : toSelector(handlePayementUsingCitruspayInternal
-                                                                      :)
+                                                                      :),
+             toNSString(GetVaultTokenReqId) : toSelector(handleGetVaultToken:),
+             toNSString(GetMetaDataCardReqId) : toSelector(handleGetMetaDataCard:)
              };
 }
 

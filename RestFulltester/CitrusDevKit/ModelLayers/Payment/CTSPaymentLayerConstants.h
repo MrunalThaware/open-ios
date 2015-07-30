@@ -154,7 +154,6 @@
 #define MLC_GET_VAULT_TOKEN_EXPIRY @"expiry"
 #define MLC_GET_VAULT_TOKEN_HINT @"hint"
 #define MLC_GET_VAULT_TOKEN_KEY @"key"
-#define MLC_GET_VAULT_TOKEN_KEY_NAME @"userID"
 #define MLC_GET_VAULT_TOKEN_VALUE @"value"
 
 #pragma - mark MLC_GET_META_DATA_CARD
