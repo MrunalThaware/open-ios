@@ -266,6 +266,9 @@ typedef void (^ASOtpSigninCallBack)(NSError* error);
 
 -(void)requestLinkUser:(NSString *)email mobile:(NSString *)mobile completionHandler:(ASLinkUserCallBack)callBack;
 
+-(void)requestLinkTrustedUser:(CTSUserDetails *)user completionHandler:(ASLinkUserCallBack )callback;
+
+
 -(NSString *)requestSignInOauthToken;
 
 - (void)requestSignUpOauthTokenCompletionHandler:(ASAsyncSignUpOauthTokenCallBack)callback;

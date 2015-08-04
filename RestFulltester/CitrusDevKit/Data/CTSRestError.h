@@ -12,8 +12,12 @@
 
 @property( strong)NSString<Optional>*errorDescription;
 @property( strong)NSString<Optional>*description;
-@property(  strong) NSString<Optional>* error;
-@property(  strong) NSString<Optional>* type;
-@property(  strong) NSString<Ignore>* serverResponse;
+@property( strong)NSString<Optional>* error;
+@property(  strong)NSString<Optional>* type;
+@property(  strong)NSString<Ignore>* serverResponse;
+@property(strong)NSString<Optional >*errorCode;
+@property(strong)NSString<Optional >*errorMessage;
 
+
+//{"errorCode":"ExcessTransactionLimit","errorMessage":"Transaction amount cannot be greater than INR 5000.00"}
 @end

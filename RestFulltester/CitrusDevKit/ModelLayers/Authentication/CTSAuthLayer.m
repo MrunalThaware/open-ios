@@ -1005,6 +1005,55 @@
 }
 
 
+-(void)requestLinkTrustedUser:(CTSUserDetails *)user completionHandler:(ASLinkUserCallBack )callback{
+//get user info
+    //if email, mobile exists > call link
+    //if email only exitist > mobile bind
+    //if mobile only exitist > mobile bind
+    //new user directly go for link
+    __block int caseCheck = 0;
+    
+    CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
+    [profileLayer requestMemberInfoMobile:user.mobileNo email:user.email withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
+        
+        if(error){
+            LogTrace(@"requestMemberInfoMobile error %@  ",error);
+            
+        }
+        else{
+            
+            if(profile.responseData.profileByEmail &&  profile.responseData.profileByMobile){
+                if(profile.responseData.profileByEmail ||  profile.responseData.profileByMobile){
+                    //let the link happen
+                    caseCheck = 1;
+                    LogTrace(@" mobile and email both found ");
+                    [self requestMobileBindUsername:user.email mobile:user.mobileNo completionHandler:^(NSString *userName, NSError *error) {
+                        LogTrace(@" doing mobile bind %@",userName);
+                        LogTrace(@"mobile bind  error %@",error);
+                        
+                        
+                        [self requestLinkUser:user.email mobile:user.mobileNo completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+                            
+                        }];
+                    }];
+                }
+            }
+        }
+        if(caseCheck != 1){
+            [self requestLinkUser:user.email mobile:user.mobileNo completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+                
+            }];
+
+        
+        }
+
+    }];
+    
+    
+
+
+
+}
 
 
 

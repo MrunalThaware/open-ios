@@ -9,7 +9,7 @@
 #import "CTSRestError.h"
 
 @implementation CTSRestError
-@synthesize errorDescription, type, error, serverResponse, description;
+@synthesize errorDescription, type, error, serverResponse, description,errorMessage,errorCode;
 + (JSONKeyMapper*)keyMapper {
   return [JSONKeyMapper mapperFromUnderscoreCaseToCamelCase];
 }

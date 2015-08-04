@@ -10,10 +10,12 @@
 #ifndef CTS_iOS_Sdk_MerchantConstants_h
 #define CTS_iOS_Sdk_MerchantConstants_h
 
-/* 
+/*
  Sandbox Environment
  OAUTH KEYS
 */
+//// Keys
+
 #warning Enter your Keys & URLs here
 
 //// Keys
