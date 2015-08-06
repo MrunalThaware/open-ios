@@ -544,7 +544,7 @@
     if(bill == nil){
         return NO;
     }
-    if(bill.amount == nil){
+    if([CTSUtility validateAmountString:bill.amount.value]== NO){
         return NO;
     }
     if(bill.requestSignature == nil){
@@ -758,7 +758,7 @@
             error = [CTSError getErrorForCode:MobileNotValid];
         }
     }
-    return nil;
+    return error;
 }
 
 
@@ -773,7 +773,7 @@
 
 + (BOOL)validateMobile:(NSString*)mobile {
         BOOL error = NO;
-        if ([mobile length] < 10 && [self stringContainsSpecialChars:mobile exceptChars:@"" exceptCharSet:[NSCharacterSet decimalDigitCharacterSet]]) {
+        if ([mobile length] < 10 || [self stringContainsSpecialChars:mobile exceptChars:@"" exceptCharSet:[NSCharacterSet decimalDigitCharacterSet]]) {
             error = YES;
         }
         return error;
@@ -833,6 +833,15 @@
     return isContain;
 }
 
++(BOOL)string:(NSString *)toCheck containsCharSet:(NSCharacterSet *)exceptionCharSet{
+    BOOL isContain = NO;
+    if ([toCheck rangeOfCharacterFromSet:exceptionCharSet].location != NSNotFound) {
+        isContain = YES;
+    }
+    return isContain;
+
+}
+
 +(BOOL)islengthInvalid:(NSString*)string{
     if( string == nil || string.length>255 || string.length == 0){
         return YES;
@@ -840,6 +849,28 @@
     return NO;
 }
 
++(BOOL)validateAmountString:(NSString *)amount{
+    if([self islengthInvalid:amount] == YES){
+        return NO;
+    }
+    
+    if([self stringContainsSpecialChars:amount exceptChars:@"." exceptCharSet:[NSCharacterSet decimalDigitCharacterSet]]){
+        return NO;
+    }
+    
+    if([self string:amount containsCharSet:[NSCharacterSet letterCharacterSet]] == YES){
+        return NO;
+    
+    }
+    
+    NSArray *stringDec = [amount componentsSeparatedByString:@"."];
+    if([stringDec count] > 2){
+        return NO;
+    }
+    
+    return YES;
+    
+}
 
 +(CTSContactUpdate *)correctContactIfNeeded:(CTSContactUpdate *)contact{
     if(contact == nil){

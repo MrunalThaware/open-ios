@@ -30,7 +30,7 @@
 #import "CTSPaymentWebViewController.h"
 #import "CTSPGHealthRes.h"
 #import "CTSDyPResponse.h"
-
+#import "CTSTransferMoneyResponse.h"
 enum {
     PaymentAsGuestReqId,
     PaymentUsingtokenizedCardBankReqId,
@@ -45,7 +45,8 @@ enum {
     PaymentChargeInnerWeblTokenReqId,
     PaymentChargeInnerWebLoadMoneyReqId,
     PGHealthReqId,
-    PaymentDynamicPricingReqId
+    PaymentDynamicPricingReqId,
+    PaymentRequestTransferMoney
 };
 
 
@@ -172,6 +173,8 @@ typedef void (^ASGetPGHealth)(CTSPGHealthRes* pgHealthRes,
 
 typedef void (^ASPerformDynamicPricingCallback)(CTSDyPResponse* dyPResponse,
                               NSError* error);
+
+typedef void (^ASMoneyTransferCallback)(CTSTransferMoneyResponse* transferMoneyRes ,NSError* error);
 
 /**
  * called when client request to make payment through credit card/debit card
@@ -300,4 +303,8 @@ typedef void (^ASPerformDynamicPricingCallback)(CTSDyPResponse* dyPResponse,
 
 
 -(void)requestPerformDynamicPricing:(ASPerformDynamicPricingCallback)callback;
+
+
+-(void)requestTransferMoneyTo:(NSString *)username amount:(NSString *)amount message:(NSString *)message completionHandler:(ASMoneyTransferCallback)callback;
+
 @end

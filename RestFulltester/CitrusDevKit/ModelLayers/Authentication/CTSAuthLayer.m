@@ -1041,12 +1041,9 @@
         }
         if(caseCheck != 1){
             [self requestLinkUser:user.email mobile:user.mobileNo completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
-                
-            }];
-
         
+            }];
         }
-
     }];
     
     

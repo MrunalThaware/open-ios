@@ -23,7 +23,7 @@
             @"email adress format not valid,expected e.g. rob@gmail.com";
             break;
         case MobileNotValid:
-            errorDescription = @"mobile number not valid, expected 10 digits";
+            errorDescription = @"mobile number not valid";
             break;
         case CvvNotValid:
             errorDescription = @"cvv format not valid, expected 3 digits for non amex and 4 for amex";
@@ -65,7 +65,7 @@
             errorDescription = @"Zero or More than one payment instruments";
             break;
         case AmountNotValid:
-            errorDescription = @"Amount not valid";
+            errorDescription = @"Amount not Valid";
             break;
         case BankAccountNotValid:
             errorDescription = @"Bank Account is not valid";
@@ -90,6 +90,9 @@
             break;
         case DeleteCardNumberNotValid:
             errorDescription = @"Card number not valid, last four digits are expected";
+        case MessageNotValid:
+            errorDescription = @"Message lenght can't be Greater than 255 Characters";
+
             break;
         default:
             break;
@@ -98,6 +101,12 @@
 
   return
       [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:code userInfo:userInfo];
+}
+
+
++(NSString *)lengthInvalidFor:(NSString *)forInvalid{
+    return [NSString stringWithFormat:@"%@ length Invalid, can't be Empty or Greater than 255 characters",forInvalid];
+
 }
 
 + (NSError*)getServerErrorWithCode:(int)errorCode

@@ -68,5 +68,7 @@
 +(CTSContactUpdate *)correctContactIfNeeded:(CTSContactUpdate *)contact;
 +(CTSUserAddress *)correctAdressIfNeeded:(CTSUserAddress *)address;
 +(BOOL)isUserCookieValid;
++(NSError *)verifiyEmailOrMobile:(NSString *)userName;
++(BOOL)validateAmountString:(NSString *)amount;
 
 @end
