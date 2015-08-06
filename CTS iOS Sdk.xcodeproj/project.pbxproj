@@ -23,6 +23,10 @@
 		373372B01B427AE200D239F5 /* CTSValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 373372AC1B427AE200D239F5 /* CTSValidator.m */; };
 		374DB9BC1B17228A00A16B8C /* PrepaidViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 374DB9BB1B17228A00A16B8C /* PrepaidViewController.xib */; };
 		374DB9BD1B17228A00A16B8C /* PrepaidViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 374DB9BB1B17228A00A16B8C /* PrepaidViewController.xib */; };
+		375592E61B734AF900BE9CB1 /* CTSTransferMoneyResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 375592E51B734AF900BE9CB1 /* CTSTransferMoneyResponse.m */; };
+		375592E71B734AF900BE9CB1 /* CTSTransferMoneyResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 375592E51B734AF900BE9CB1 /* CTSTransferMoneyResponse.m */; };
+		375592E81B734AF900BE9CB1 /* CTSTransferMoneyResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 375592E51B734AF900BE9CB1 /* CTSTransferMoneyResponse.m */; };
+		375592E91B734AF900BE9CB1 /* CTSTransferMoneyResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 375592E51B734AF900BE9CB1 /* CTSTransferMoneyResponse.m */; };
 		3757918B1AEA3B2000D61A2F /* CTSCashoutBankAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */; };
 		3757918D1AEA3B2000D61A2F /* CTSCashoutBankAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */; };
 		375791951AEA599900D61A2F /* CTSCashoutToBankRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 375791941AEA599900D61A2F /* CTSCashoutToBankRes.m */; };
@@ -451,6 +455,8 @@
 		373372AC1B427AE200D239F5 /* CTSValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSValidator.m; sourceTree = "<group>"; };
 		374DB9BA1B16F30000A16B8C /* Version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		374DB9BB1B17228A00A16B8C /* PrepaidViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrepaidViewController.xib; sourceTree = "<group>"; };
+		375592E41B734AF900BE9CB1 /* CTSTransferMoneyResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSTransferMoneyResponse.h; sourceTree = "<group>"; };
+		375592E51B734AF900BE9CB1 /* CTSTransferMoneyResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSTransferMoneyResponse.m; sourceTree = "<group>"; };
 		375791891AEA3B2000D61A2F /* CTSCashoutBankAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCashoutBankAccount.h; sourceTree = "<group>"; };
 		3757918A1AEA3B2000D61A2F /* CTSCashoutBankAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSCashoutBankAccount.m; sourceTree = "<group>"; };
 		375791931AEA599900D61A2F /* CTSCashoutToBankRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSCashoutToBankRes.h; sourceTree = "<group>"; };
@@ -1051,6 +1057,8 @@
 				76DB73751B297F49004D797F /* CTSPGHealthRes.m */,
 				37A04C261B660250002F4468 /* CTSDyPResponse.h */,
 				37A04C271B660250002F4468 /* CTSDyPResponse.m */,
+				375592E41B734AF900BE9CB1 /* CTSTransferMoneyResponse.h */,
+				375592E51B734AF900BE9CB1 /* CTSTransferMoneyResponse.m */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -1461,6 +1469,7 @@
 				37D33BE11B26C7D200AD4513 /* CTSPaymentDetailUpdate.m in Sources */,
 				37A04C241B65F704002F4468 /* CTSDyPValidateRuleReq.m in Sources */,
 				37D33BE21B26C7D200AD4513 /* PrepaidViewControllerOld.m in Sources */,
+				375592E81B734AF900BE9CB1 /* CTSTransferMoneyResponse.m in Sources */,
 				37D33BE31B26C7D200AD4513 /* CTSRestCoreResponse.m in Sources */,
 				37D33BE41B26C7D200AD4513 /* CTSPaymentRequest.m in Sources */,
 				37D33BE51B26C7D200AD4513 /* JSONModelClassProperty.m in Sources */,
@@ -1554,6 +1563,7 @@
 				37D33C551B28073800AD4513 /* CTSPaymentDetailUpdate.m in Sources */,
 				37A04C251B65F704002F4468 /* CTSDyPValidateRuleReq.m in Sources */,
 				37D33C561B28073800AD4513 /* PrepaidViewControllerOld.m in Sources */,
+				375592E91B734AF900BE9CB1 /* CTSTransferMoneyResponse.m in Sources */,
 				37D33C571B28073800AD4513 /* CTSRestCoreResponse.m in Sources */,
 				37D33C581B28073800AD4513 /* CTSPaymentRequest.m in Sources */,
 				37D33C591B28073800AD4513 /* JSONModelClassProperty.m in Sources */,
@@ -1647,6 +1657,7 @@
 				37D6E6991AB01E1A008C28C4 /* CTSPaymentDetailUpdate.m in Sources */,
 				37A04C231B65F704002F4468 /* CTSDyPValidateRuleReq.m in Sources */,
 				37D33B9F1B26C77800AD4513 /* PrepaidViewControllerOld.m in Sources */,
+				375592E71B734AF900BE9CB1 /* CTSTransferMoneyResponse.m in Sources */,
 				37D6E69A1AB01E1A008C28C4 /* CTSRestCoreResponse.m in Sources */,
 				37D6E69B1AB01E1A008C28C4 /* CTSPaymentRequest.m in Sources */,
 				37D6E69C1AB01E1A008C28C4 /* JSONModelClassProperty.m in Sources */,
@@ -1740,6 +1751,7 @@
 				7692AB2419FFA247004D56EC /* CTSPaymentDetailUpdate.m in Sources */,
 				37A04C221B65F704002F4468 /* CTSDyPValidateRuleReq.m in Sources */,
 				37D33B9E1B26C77800AD4513 /* PrepaidViewControllerOld.m in Sources */,
+				375592E61B734AF900BE9CB1 /* CTSTransferMoneyResponse.m in Sources */,
 				7692AB2519FFA247004D56EC /* CTSRestCoreResponse.m in Sources */,
 				7692AB2619FFA247004D56EC /* CTSPaymentRequest.m in Sources */,
 				7692AB2719FFA247004D56EC /* JSONModelClassProperty.m in Sources */,

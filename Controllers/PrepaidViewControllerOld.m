@@ -24,11 +24,11 @@
     [super viewDidLoad];
     [self initializeLayers];
     self.title = @"Citrus iOS SDK";
-//    [authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
-//        LogTrace(@" requestCitrusPaySignin ");
-//        LogTrace(@"%@", error);
-//    }];
-
+    //    [authLayer requestCitrusPaySignin:TEST_EMAIL password:TEST_PASSWORD completionHandler:^(NSError *error) {
+    //        LogTrace(@" requestCitrusPaySignin ");
+    //        LogTrace(@"%@", error);
+    //    }];
+    
     //[PrepaidViewController getBillFromServer];
     
     // [self linkUser];
@@ -70,25 +70,25 @@
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 
 #pragma mark - button handlers
 
 -(IBAction)isUserSignedIn:(id)sender{
     if([authLayer isAnyoneSignedIn]){
-                [UIUtility toastMessageOnScreen:@"user is signed in"];
-    
+        [UIUtility toastMessageOnScreen:@"user is signed in"];
+        
     }
     else{
-     [UIUtility toastMessageOnScreen:@"no one is logged in"];
+        [UIUtility toastMessageOnScreen:@"no one is logged in"];
     }
 }
 
@@ -114,7 +114,7 @@
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Password is now set"]];
         }
     }];
-
+    
 }
 
 -(IBAction)forgotPassword:(id)sender{
@@ -139,9 +139,28 @@
         }
         else{
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"%@ is now logged in",userName]];
+            
         }
-        
     }];
+}
+
+
+-(IBAction)sendMoney:(id)sender{
+    
+    [paymentLayer requestTransferMoneyTo:@"9702964502" amount:@"1.23" message:@"Here is Some Money for you" completionHandler:^(CTSTransferMoneyResponse*transferMoneyRes,  NSError *error) {
+        LogTrace(@" transferMoneyRes %@ ",transferMoneyRes);
+        
+        LogTrace(@" error %@ ",[error localizedDescription]);
+        
+        if (error) {
+            
+            [UIUtility toastMessageOnScreen:[error localizedDescription]];
+        }
+        else{
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Transfer Status %@",transferMoneyRes.status]];
+        }
+    }];
+    
 }
 
 
@@ -217,7 +236,7 @@
     
     [creditCardInfo addCard:creditCard];
     
-    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl customParams:nil  returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"10000" returnUrl:ReturnUrl customParams:nil  returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
         }
@@ -287,10 +306,10 @@
 
 
 -(void)requestPaymentModes{
-
+    
     [paymentLayer requestMerchantPgSettings:VanityUrl withCompletionHandler:^(CTSPgSettings *pgSettings, NSError *error) {
         if(error){
-        //handle error
+            //handle error
         }
         else {
             LogTrace(@" pgSettings %@ ", pgSettings);
@@ -306,12 +325,12 @@
                 LogTrace(@"bankName %@ ", [arr valueForKey:@"bankName"]);
                 LogTrace(@"issuerCode %@ ", [arr valueForKey:@"issuerCode"]);
             }
-
-        
+            
+            
         }
         
     }];
-
+    
 }
 #pragma mark - Payment Helpers
 /*
@@ -335,7 +354,7 @@
     LogTrace(@"billJson %@",billJson);
     LogTrace(@"signature %@ ", sampleBill);
     return sampleBill;
-
+    
 }
 
 

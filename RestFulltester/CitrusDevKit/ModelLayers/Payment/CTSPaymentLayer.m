@@ -398,13 +398,17 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     if(returnUrl == nil){
         [self getPrepaidBillHelper:nil error:[CTSError
                                               getErrorForCode:ReturnUrlNotValid]];
+        return;
     }
 
-    if(amount == nil){
+    if([CTSUtility validateAmountString:amount]== NO){
         [self getPrepaidBillHelper:nil error:[CTSError
                                               getErrorForCode:AmountNotValid]];
+        return;
     
     }
+    
+
 
     NSDictionary *params = @{MLC_PAYMENT_GET_PREPAID_BILL_QUERY_AMOUNT:amount,
                                 MLC_PAYMENT_GET_PREPAID_BILL_QUERY_CURRENCY:MLC_PAYMENT_GET_PREPAID_BILL_QUERY_CURRENCY_INR,
@@ -616,7 +620,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 
     }
     
-    if(amount == nil){
+    if([CTSUtility validateAmountString:amount]== NO){
         [self getPrepaidBillHelper:nil error:[CTSError
                                               getErrorForCode:AmountNotValid]];
         
@@ -662,6 +666,60 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 }
 
 
+-(void)requestTransferMoneyTo:(NSString *)username amount:(NSString *)amount message:(NSString *)message completionHandler:(ASMoneyTransferCallback)callback{
+    [self addCallback:callback forRequestId:PaymentRequestTransferMoney];
+    
+    
+    
+    NSError *userNameValidationError = [CTSUtility verifiyEmailOrMobile:username];
+    
+    if(userNameValidationError){
+        [self  transferMoneyHelper:nil error:userNameValidationError];
+        return;
+    }
+    
+    if(message.length > 255){
+        [self  transferMoneyHelper:nil error:[CTSError getErrorForCode:MessageNotValid]];
+        return;
+
+    }
+    
+    if([CTSUtility validateAmountString:amount]== NO){
+        [self  transferMoneyHelper:nil error:[CTSError getErrorForCode:AmountNotValid]];
+        return;
+
+    }
+
+    OauthStatus* oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        [self  transferMoneyHelper:nil error:oauthStatus.error];
+        return;
+    }
+    
+    
+    
+    if (message == nil) {
+        message = @"";
+    }
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_TRANSFER_MONEY_PATH
+                                   requestId:PaymentRequestTransferMoney
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:@{
+                                                    MLC_TRANSFER_MONEY_QUERY_TO:username,
+                                                    MLC_TRANSFER_MONEY_QUERY_AMOUNT:amount,
+                                                    MLC_TRANSFER_MONEY_QUERY_CURRENCY:CURRENCY_INR,
+                                                    MLC_TRANSFER_MONEY_QUERY_MESSAGE:message}
+                                   json:nil
+                                   httpMethod:POST];
+    [restCore requestAsyncServer:request];
+
+
+
+}
 
 #pragma mark - authentication protocol mehods
 - (void)signUp:(BOOL)isSuccessful
@@ -695,7 +753,8 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
              toNSString(PaymentChargeInnerWeblTokenReqId) : toSelector(handleChargeTokenInnerWebview:),
              toNSString(PaymentChargeInnerWebLoadMoneyReqId) : toSelector(handleChargeLoadMoneyInnerWebview:),
              toNSString(PGHealthReqId) : toSelector(handlePGHealthResponse:),
-             toNSString(PaymentDynamicPricingReqId) : toSelector(handlePGHealthResponse:)
+             toNSString(PaymentDynamicPricingReqId) : toSelector(handlePGHealthResponse:),
+             toNSString(PaymentRequestTransferMoney) : toSelector(handleTransferMoneyResponse:)
              };
 }
 
@@ -909,10 +968,20 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     }
     [self dyPricingHelper:dpResponse error:error];
 
-
 }
 
+-(void)handleTransferMoneyResponse:(CTSRestCoreResponse *)response{
+    NSError* error = response.error;
+    CTSTransferMoneyResponse *txMoney = nil;
+    JSONModelError* jsonError;
+    if (error == nil) {
+        txMoney = [[CTSTransferMoneyResponse alloc] initWithString:response.responseString error:&jsonError];
+        error = jsonError;
+    }
 
+    
+    [self transferMoneyHelper:txMoney error:error];
+}
 
 #pragma mark - helper methods
 - (void)makeUserPaymentHelper:(CTSPaymentTransactionRes*)payment
@@ -1084,6 +1153,16 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
     ASPerformDynamicPricingCallback callback = [self retrieveAndRemoveCallbackForReqId:PaymentDynamicPricingReqId];
     if (callback != nil) {
         callback(response, error);
+    }
+
+}
+
+
+-(void)transferMoneyHelper:(CTSTransferMoneyResponse *)response error:(NSError *)error{
+    ASMoneyTransferCallback callback = [self retrieveAndRemoveCallbackForReqId:PaymentRequestTransferMoney];
+    
+    if(callback != nil){
+        callback(response,error);
     }
 
 }

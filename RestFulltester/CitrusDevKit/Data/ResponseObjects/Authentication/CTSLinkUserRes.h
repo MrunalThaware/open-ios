@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface CTSLinkUserRes : NSObject
+
 @property(assign)BOOL isPasswordAlreadySet;
 @property(strong)NSString *message;
 

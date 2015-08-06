@@ -11,7 +11,7 @@
 #import "NSObject+logProperties.h"
 #import "CTSOauthManager.h"
 #import "CTSAuthLayerConstants.h"
-
+#import "CTSUtility.h"
 @implementation CTSRestPluginBase
 @synthesize requestBlockCallbackMap;
 - (instancetype)initWithRequestSelectorMapping:(NSDictionary*)mapping
@@ -65,24 +65,41 @@
   CTSRestError* error;
   error = [[CTSRestError alloc] initWithString:response.responseString
                                          error:&jsonError];
+    
+    if(error != nil && error.errorMessage == nil){
+        //error may be in the form of other unexpected json, try with other format
+        NSDictionary *dict = [CTSUtility toDict:response.responseString];
+        
+        error.errorMessage = [dict valueForKey:@"errorMessage"];
+        error.errorCode = [dict valueForKey:@"errorCode"];
+        if(error.errorMessage == nil){
+            error = nil;
+        }
+    }
+    
   [error logProperties];
-  if (error != nil) {
-    if (error.type != nil) {
-      error.error = error.type;
+    if (error != nil) {
+        if (error.type != nil) {
+            error.error = error.type;
+        } else {
+            error.type = error.error;
+        }
+        
+        if(error.errorDescription == nil){
+            error.errorDescription = error.description;
+        }
+        else{
+            error.description = error.errorDescription;
+        }
+        
+        
+        if(error.errorMessage != nil){
+            error.errorDescription = error.errorMessage;
+        }
     } else {
-      error.type = error.error;
+        error = [[CTSRestError alloc] init];
     }
-      
-      if(error.errorDescription == nil){
-          error.errorDescription = error.description;
-      }
-      else{
-    error.description = error.errorDescription;
-    }
-  } else {
-    error = [[CTSRestError alloc] init];
-  }
-
+    
   error.serverResponse = response.responseString;
 
     NSString *newDes;

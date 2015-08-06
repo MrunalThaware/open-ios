@@ -13,98 +13,100 @@
 + (NSError*)getErrorForCode:(CTSErrorCode)code {
   NSString* errorDescription = @"CitrusDefaultError";
 
-  switch (code) {
-    case UserNotSignedIn:
-      errorDescription = @"This proccess cannot be completed without signing "
-          @"in, Please signin";
-      break;
-    case EmailNotValid:
-      errorDescription =
-          @"email adress format not valid,expected e.g. rob@gmail.com";
-      break;
-    case MobileNotValid:
-      errorDescription = @"mobile number not valid, expected 10 digits";
-      break;
-    case CvvNotValid:
-      errorDescription = @"cvv format not valid, expected 3 digits for non amex and 4 for amex";
-      break;
-    case CardNumberNotValid:
-      errorDescription = @"card number not valid";
-      break;
-    case ExpiryDateNotValid:
-      errorDescription = @"expiry date invalid";
-      break;
-    case ServerErrorWithCode:
-      errorDescription = @"server sent error code";
-          break;
+    switch (code) {
+        case UserNotSignedIn:
+            errorDescription = @"This proccess cannot be completed without signing "
+            @"in, Please signin";
+            break;
+        case EmailNotValid:
+            errorDescription =
+            @"email adress format not valid,expected e.g. rob@gmail.com";
+            break;
+        case MobileNotValid:
+            errorDescription = @"mobile number not valid";
+            break;
+        case CvvNotValid:
+            errorDescription = @"cvv format not valid, expected 3 digits for non amex and 4 for amex";
+            break;
+        case CardNumberNotValid:
+            errorDescription = @"card number not valid";
+            break;
+        case ExpiryDateNotValid:
+            errorDescription = @"expiry date invalid";
+            break;
+        case ServerErrorWithCode:
+            errorDescription = @"server sent error code";
+            break;
+        case InvalidParameter:
+            errorDescription = @"invalid parameter passed to method";
+            break;
+        case OauthTokenExpired:
+            errorDescription = @"Oauth Token expired, Please refresh it from server";
+            break;
+        case CantFetchSignupToken:
+            errorDescription = @"Can not fetch Signup Oauth token from merchant";
+            break;
+        case TokenMissing:
+            errorDescription = @"Token for payment is missing";
+            break;
+        case WrongBill:
+            errorDescription = @"Bill not valid";
+            break;
+        case NoViewController:
+            errorDescription = @"ReturnViewController not valid";
+            break;
+        case ReturnUrlNotValid:
+            errorDescription = @"Return url not valid";
+            break;
+        case PrepaidBillFetchFailed:
+            errorDescription = @"Couldn't fetch prepaid bill";
+            break;
+        case NoOrMoreInstruments:
+            errorDescription = @"Zero or More than one payment instruments";
+            break;
+        case AmountNotValid:
+            errorDescription = @"Amount not Valid";
+            break;
+        case BankAccountNotValid:
+            errorDescription = @"Bank Account is not valid";
+            break;
+        case ReturnUrlCallbackNotValid:
+            errorDescription = @"CitrusPay Completed the Transaction, Merchant Server did Not Return Data from \"postResponseiOS()\"";
+            break;
+        case TransactionForcedClosed:
+            errorDescription = @"Transaction was Forced to End";
+            break;
+        case NoCookieFound:
+            errorDescription = @"Cookie not available or Expired, Please signin";
+            break;
+        case TransactionAlreadyInProgress:
+            errorDescription = @"Transaction Already In Progress";
+            break;
+        case InsufficientBalance:
+            errorDescription = @"Insufficient Balance Please add Money in Citrus Account";
+            break;
+        case CardHolderNameInvalid:
+            errorDescription = @"Card Owner Name Invalid, Cannot be Empty or Contain Special Charecters";
+            break;
+        case DeleteCardNumberNotValid:
+            errorDescription = @"Card number not valid, last four digits are expected";
+        case MessageNotValid:
+            errorDescription = @"Message lenght can't be Greater than 255 Characters";
 
-    case InvalidParameter:
-      errorDescription = @"invalid parameter passed to method";
-          break;
-
-    case OauthTokenExpired:
-      errorDescription = @"Oauth Token expired, Please refresh it from server";
-          break;
-
-    case CantFetchSignupToken:
-      errorDescription = @"Can not fetch Signup Oauth token from merchant";
-          break;
-
-      case TokenMissing:
-          errorDescription = @"Token for payment is missing";
-          break;
-
-          case WrongBill:
-          errorDescription = @"Bill not valid";
-          break;
-      case NoViewController:
-          errorDescription = @"ReturnViewController not valid";
-          break;
-      case ReturnUrlNotValid:
-          errorDescription = @"Return url not valid";
-          break;
-      case PrepaidBillFetchFailed:
-          errorDescription = @"Couldn't fetch prepaid bill";
-          break;
-      case NoOrMoreInstruments:
-          errorDescription = @"Zero or More than one payment instruments";
-          break;
-      case AmountNotValid:
-          errorDescription = @"Amount not valid";
-          break;
-      case BankAccountNotValid:
-          errorDescription = @"Bank Account is not valid";
-          break;
-          case ReturnUrlCallbackNotValid:
-          errorDescription = @"CitrusPay Completed the Transaction, Merchant Server did Not Return Data from \"postiOSResponse()\"";
-          
-          break;
-          case TransactionForcedClosed:
-          errorDescription = @"Transaction was Forced to End";
-          break;
-          case NoCookieFound:
-          errorDescription = @"Cookie not available or Expired, Please signin";
-          break;
-          case TransactionAlreadyInProgress:
-          errorDescription = @"Transaction Already In Progress";
-          
-          break;
-      case InsufficientBalance:
-          errorDescription = @"Insufficient Balance Please add Money in Citrus Account";
-          break;
-      case CardHolderNameInvalid:
-          errorDescription = @"Card Owner Name Invalid, Cannot be Empty or Contain Special Charecters";
-          break;
-      case DeleteCardNumberNotValid:
-          errorDescription = @"Card number not valid, last four digits are expected";
-          break;
-      default:
-      break;
-  }
+            break;
+        default:
+            break;
+    }
   NSDictionary* userInfo = @{NSLocalizedDescriptionKey : errorDescription};
 
   return
       [NSError errorWithDomain:CITRUS_ERROR_DOMAIN code:code userInfo:userInfo];
+}
+
+
++(NSString *)lengthInvalidFor:(NSString *)forInvalid{
+    return [NSString stringWithFormat:@"%@ length Invalid, can't be Empty or Greater than 255 characters",forInvalid];
+
 }
 
 + (NSError*)getServerErrorWithCode:(int)errorCode

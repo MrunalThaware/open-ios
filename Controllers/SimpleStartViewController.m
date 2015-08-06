@@ -55,20 +55,26 @@
     
     
      //Configure your request here.
-    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
-        LogTrace(@"error.code %ld ", (long)error.code);
-        
-        if(error == nil){
-            // Your code to handle success.
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
-        }
-        else {
-            // Your code to handle error.
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
-        }
-    }];
+//    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
+//        LogTrace(@"error.code %ld ", (long)error.code);
+//        
+//        if(error == nil){
+//            // Your code to handle success.
+//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
+//        }
+//        else {
+//            // Your code to handle error.
+//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
+//        }
+//    }];
 
+    CTSUserDetails *userDetail = [[CTSUserDetails alloc] init];
+    userDetail.email =  @"bigBoy45@mailinator.com" ;//TEST_EMAIL;
+    userDetail.mobileNo = @"9702960144";//TEST_MOBILE;
 
+[authLayer requestLinkTrustedUser:userDetail completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+    LogTrace(@"callback");
+}];
     
 }
 
@@ -98,7 +104,7 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Credit card info for card payment type.
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = @"4028530052708001";
+    creditCard.number = @"4377486954559439";
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
     creditCard.scheme = [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;

@@ -166,6 +166,14 @@
 #define MLC_DYNAMIC_PRICING_PATH @"/dynamicpricing/performDynamicPricing"
 
 
+#pragma - mark MLC_TRANSFER_MONEY
+#define MLC_TRANSFER_MONEY_PATH @"/service/v2/mycard/transfer/extended"
+#define MLC_TRANSFER_MONEY_QUERY_TO @"to"
+#define MLC_TRANSFER_MONEY_QUERY_AMOUNT @"amount"
+#define MLC_TRANSFER_MONEY_QUERY_CURRENCY @"currency"
+#define MLC_TRANSFER_MONEY_QUERY_MESSAGE @"message"
+
+
 
 
 #endif

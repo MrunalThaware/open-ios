@@ -37,7 +37,8 @@ typedef enum {
     TransactionAlreadyInProgress,
     InsufficientBalance,
     CardHolderNameInvalid,
-    DeleteCardNumberNotValid
+    DeleteCardNumberNotValid,
+    MessageNotValid
 
     
 
