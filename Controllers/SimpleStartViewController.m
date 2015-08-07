@@ -55,19 +55,38 @@
     
     
      //Configure your request here.
-    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
-        LogTrace(@"error.code %ld ", (long)error.code);
-        
-        if(error == nil){
-            // Your code to handle success.
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
-        }
-        else {
-            // Your code to handle error.
-            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
-        }
-    }];
+//    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
+//        LogTrace(@"error.code %ld ", (long)error.code);
+//        
+//        if(error == nil){
+//            // Your code to handle success.
+//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
+//            [self saveUserInfo];
+//
+//        }
+//        else {
+//            // Your code to handle error.
+//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
+//            
+//            
+//        }
+//    }];
 
+    [self trustedLink];
+    
+
+}
+
+-(void)trustedLink{
+    CTSUserDetails *details = [[CTSUserDetails alloc] init];
+    details.email = TEST_EMAIL;
+    details.mobileNo = TEST_MOBILE;
+    
+    [authLayer requestLinkTrustedUser:details completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+        LogTrace(@" linkUserRes %@ ",linkUserRes.message);
+        LogTrace(@" error %@ ",error);
+
+    }];
 
 }
 
@@ -193,6 +212,39 @@
     }];
 }
 
+-(void)saveUserInfo{
+    CTSContactUpdate*  contactInfoUpdate = [[CTSContactUpdate alloc] init];
+    contactInfoUpdate.firstName = @"Yadnesh";
+    contactInfoUpdate.lastName = @"Wankhede";
+
+    
+    [proifleLayer updateContactInformation:contactInfoUpdate withCompletionHandler:^(NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:error.localizedDescription];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:@"user info updated"];
+            [self requestUserInfo];
+        }
+    }];
+}
+
+
+
+-(void)requestUserInfo{
+
+    [proifleLayer requestContactInformationWithCompletionHandler:^(CTSProfileContactRes *contactInfoUser, NSError *error) {
+        if(error){
+            [UIUtility toastMessageOnScreen:error.localizedDescription];
+        }
+        else {
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"name: %@ %@\nemail: %@\nmobile: %@",contactInfoUser.firstName,contactInfoUser.lastName,contactInfoUser.email,contactInfoUser.mobile]];
+        }
+    }];
+     
+     
+     
+}
 
 // String parser
 -(NSString *)convertToString:(CTSPaymentOption *)option{
@@ -231,6 +283,9 @@
     }
     return msgString;
 }
+
+
+
 
 
 /*

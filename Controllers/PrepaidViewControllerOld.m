@@ -85,7 +85,6 @@
 -(IBAction)isUserSignedIn:(id)sender{
     if([authLayer isAnyoneSignedIn]){
         [UIUtility toastMessageOnScreen:@"user is signed in"];
-        
     }
     else{
         [UIUtility toastMessageOnScreen:@"no one is logged in"];

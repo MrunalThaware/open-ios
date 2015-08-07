@@ -1006,50 +1006,51 @@
 
 
 -(void)requestLinkTrustedUser:(CTSUserDetails *)user completionHandler:(ASLinkUserCallBack )callback{
-//get user info
+    //get user info
     //if email, mobile exists > call link
     //if email only exitist > mobile bind
     //if mobile only exitist > mobile bind
     //new user directly go for link
-    __block int caseCheck = 0;
+    
+    
+    [self addCallback:callback forRequestId:LinkTrustedReqId];
     
     CTSProfileLayer *profileLayer = [[CTSProfileLayer alloc] init];
     [profileLayer requestMemberInfoMobile:user.mobileNo email:user.email withCompletionHandler:^(CTSNewContactProfile *profile, NSError *error) {
         
         if(error){
             LogTrace(@"requestMemberInfoMobile error %@  ",error);
-            
+            [self linkTrustedUserHelper:nil error:error];
         }
         else{
-            
-            if(profile.responseData.profileByEmail &&  profile.responseData.profileByMobile){
-                if(profile.responseData.profileByEmail ||  profile.responseData.profileByMobile){
-                    //let the link happen
-                    caseCheck = 1;
-                    LogTrace(@" mobile and email both found ");
-                    [self requestMobileBindUsername:user.email mobile:user.mobileNo completionHandler:^(NSString *userName, NSError *error) {
-                        LogTrace(@" doing mobile bind %@",userName);
-                        LogTrace(@"mobile bind  error %@",error);
-                        
-                        
+            if(profile.responseData.profileByEmail &&  profile.responseData.profileByMobile == nil){
+                //let the link happen
+                LogTrace(@" mobile not found and email found ");
+                [self requestMobileBindUsername:user.email mobile:user.mobileNo completionHandler:^(NSString *userName, NSError *error) {
+                    LogTrace(@" doing mobile bind %@",userName);
+                    LogTrace(@"mobile bind  error %@",error);
+                    if(error){
+                        [self linkTrustedUserHelper:nil error:error];
+                    }
+                    else{
                         [self requestLinkUser:user.email mobile:user.mobileNo completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
-                            
+                            [self linkTrustedUserHelper:linkUserRes error:error];
                         }];
-                    }];
-                }
+                    }
+                }];
+            }
+            else {
+                [self requestLinkUser:user.email mobile:user.mobileNo completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
+                    [self linkTrustedUserHelper:linkUserRes error:error];
+                    if(error == nil && profile.responseData.profileByEmail == nil &&  profile.responseData.profileByMobile == nil){
+                        //adds mobile for new user
+                        [self requestMobileBindUsername:user.email mobile:user.mobileNo completionHandler:^(NSString *userName, NSError *error) {
+                        }];
+                    }
+                }];
             }
         }
-        if(caseCheck != 1){
-            [self requestLinkUser:user.email mobile:user.mobileNo completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
-        
-            }];
-        }
     }];
-    
-    
-
-
-
 }
 
 
@@ -1270,7 +1271,8 @@ enum {
     BindSigninAsyncReqId,
     OtpSignInReqId,
     LinkForceMobVerReqId,
-    BindMobileReqId
+    BindMobileReqId,
+    LinkTrustedReqId
 };
 - (instancetype)init {
     NSDictionary* dict = @{
@@ -1960,6 +1962,15 @@ enum {
     else{
         [delegate auth:self didLinkUser:linkUserRes error:error];
     
+    }
+}
+
+
+-(void)linkTrustedUserHelper:(CTSLinkUserRes *)linkUserRes error:(NSError *)error{
+    
+    ASLinkUserCallBack callback = [self retrieveAndRemoveCallbackForReqId:LinkTrustedReqId];
+    if(callback != nil){
+        callback(linkUserRes,error);
     }
 }
 

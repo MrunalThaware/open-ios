@@ -671,10 +671,18 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     
     
     
-    NSError *userNameValidationError = [CTSUtility verifiyEmailOrMobile:username];
+//    NSError *userNameValidationError = [CTSUtility verifiyEmailOrMobile:username];
+//    
+//    if(userNameValidationError){
+//        [self  transferMoneyHelper:nil error:userNameValidationError];
+//        return;
+//    }
     
-    if(userNameValidationError){
-        [self  transferMoneyHelper:nil error:userNameValidationError];
+    
+    
+        username = [CTSUtility mobileNumberToTenDigitIfValid:username];
+    if (!username) {
+        [self  transferMoneyHelper:nil error:[CTSError getErrorForCode:MobileNotValid]];
         return;
     }
     

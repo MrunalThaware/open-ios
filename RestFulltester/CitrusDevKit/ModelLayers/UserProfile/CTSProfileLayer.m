@@ -75,6 +75,9 @@ enum {
         return;
     }
     
+    contactInfo.email = nil;
+    contactInfo.mobile = nil;
+    
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_PROFILE_UPDATE_CONTACT_PATH
                                    requestId:ProfileUpdateContactReqId

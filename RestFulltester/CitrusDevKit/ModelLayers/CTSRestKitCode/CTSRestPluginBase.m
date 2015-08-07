@@ -66,7 +66,7 @@
   error = [[CTSRestError alloc] initWithString:response.responseString
                                          error:&jsonError];
     
-    if(error != nil && error.errorMessage == nil){
+    if(error != nil && error.errorMessage == nil && error.errorDescription == nil && error.error == nil){
         //error may be in the form of other unexpected json, try with other format
         NSDictionary *dict = [CTSUtility toDict:response.responseString];
         
