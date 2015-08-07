@@ -60,48 +60,59 @@ enum {
 - (void)updateContactInformation:(CTSContactUpdate*)contactInfo
            withCompletionHandler:(ASUpdateContactInfoCallBack)callback {
   [self addCallback:callback forRequestId:ProfileUpdateContactReqId];
-
-  OauthStatus* oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
-  NSString* oauthToken = oauthStatus.oauthToken;
-
-  if (oauthStatus.error != nil) {
-    [self updateContactInfoHelper:oauthStatus.error];
-    return;
-  }
-
-  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-      initWithPath:MLC_PROFILE_UPDATE_CONTACT_PATH
-         requestId:ProfileUpdateContactReqId
-           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
-        parameters:nil
-              json:[contactInfo toJSONString]
-        httpMethod:PUT];
-
-  [restCore requestAsyncServer:request];
+    
+    
+    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
+        oauthToken = oauthStatus.oauthToken;
+    }
+    
+    if (oauthStatus.error != nil) {
+        [self updateContactInfoHelper:oauthStatus.error];
+        return;
+    }
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_UPDATE_CONTACT_PATH
+                                   requestId:ProfileUpdateContactReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:[contactInfo toJSONString]
+                                   httpMethod:PUT];
+    
+    [restCore requestAsyncServer:request];
 }
 
 - (void)requestContactInformationWithCompletionHandler:
             (ASGetContactInfoCallBack)callback {
-  [self addCallback:callback forRequestId:ProfileGetContactReqId];
-
-  OauthStatus* oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
-  NSString* oauthToken = oauthStatus.oauthToken;
-
-  if (oauthStatus.error != nil) {
-    [self getContactInfoHelper:nil error:oauthStatus.error];
-
-    return;
-  }
-
-  CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
-      initWithPath:MLC_PROFILE_UPDATE_CONTACT_PATH
-         requestId:ProfileGetContactReqId
-           headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
-        parameters:nil
-              json:nil
-        httpMethod:GET];
-
-  [restCore requestAsyncServer:request];
+    [self addCallback:callback forRequestId:ProfileGetContactReqId];
+    OauthStatus* oauthStatus = [CTSOauthManager fetchBindSigninTokenStatus];
+    NSString* oauthToken = oauthStatus.oauthToken;
+    
+    if (oauthStatus.error != nil) {
+        oauthStatus = [CTSOauthManager fetchPasswordSigninTokenStatus];
+        oauthToken = oauthStatus.oauthToken;
+    }
+    
+    
+    if (oauthStatus.error != nil) {
+        [self getContactInfoHelper:nil error:oauthStatus.error];
+        
+        return;
+    }
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_PROFILE_UPDATE_CONTACT_PATH
+                                   requestId:ProfileGetContactReqId
+                                   headers:[CTSUtility readOauthTokenAsHeader:oauthToken]
+                                   parameters:nil
+                                   json:nil
+                                   httpMethod:GET];
+    
+    [restCore requestAsyncServer:request];
 }
 
 - (void)updatePaymentInformation:(CTSPaymentDetailUpdate*)paymentInfo
