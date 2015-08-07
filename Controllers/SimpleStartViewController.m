@@ -55,40 +55,28 @@
     
     
      //Configure your request here.
-//    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
-//        LogTrace(@"error.code %ld ", (long)error.code);
-//        
-//        if(error == nil){
-//            // Your code to handle success.
-//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
-//            [self saveUserInfo];
-//
-//        }
-//        else {
-//            // Your code to handle error.
-//            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
-//            
-//            
-//        }
-//    }];
+    [authLayer requestBindUsername:TEST_EMAIL mobile:TEST_MOBILE completionHandler:^(NSString *userName, NSError *error) {
+        LogTrace(@"error.code %ld ", (long)error.code);
+        
+        if(error == nil){
+            // Your code to handle success.
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
+            [self saveUserInfo];
 
-    [self trustedLink];
-    
-
-}
-
--(void)trustedLink{
-    CTSUserDetails *details = [[CTSUserDetails alloc] init];
-    details.email = TEST_EMAIL;
-    details.mobileNo = TEST_MOBILE;
-    
-    [authLayer requestLinkTrustedUser:details completionHandler:^(CTSLinkUserRes *linkUserRes, NSError *error) {
-        LogTrace(@" linkUserRes %@ ",linkUserRes.message);
-        LogTrace(@" error %@ ",error);
-
+        }
+        else {
+            // Your code to handle error.
+            [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" couldn't bind %@\nerror: %@",userName,[error localizedDescription]]];
+            
+            
+        }
     }];
 
+    
+
 }
+
+
 
 // Get the bind user cards.
 -(IBAction)getSavedCards:(id)sender{
