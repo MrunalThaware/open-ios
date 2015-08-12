@@ -31,6 +31,7 @@
 #import "CTSPGHealthRes.h"
 #import "CTSDyPResponse.h"
 #import "CTSTransferMoneyResponse.h"
+#import "CTSDyPValidateRuleReq.h"
 enum {
     PaymentAsGuestReqId,
     PaymentUsingtokenizedCardBankReqId,
@@ -301,9 +302,7 @@ typedef void (^ASMoneyTransferCallback)(CTSTransferMoneyResponse* transferMoneyR
  */
 -(void)requestGetPGHealthWithCompletionHandler:(ASGetPGHealth)callback;
 
-
--(void)requestPerformDynamicPricing:(ASPerformDynamicPricingCallback)callback;
-
+-(void)requestPerformDynamicPricing:(CTSDyPValidateRuleReq *)validateRule completionHandler:(ASPerformDynamicPricingCallback)callback;
 
 -(void)requestTransferMoneyTo:(NSString *)username amount:(NSString *)amount message:(NSString *)message completionHandler:(ASMoneyTransferCallback)callback;
 

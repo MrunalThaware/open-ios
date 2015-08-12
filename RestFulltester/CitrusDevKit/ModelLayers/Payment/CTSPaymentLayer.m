@@ -659,11 +659,26 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 }
 
 
--(void)requestPerformDynamicPricing:(ASPerformDynamicPricingCallback)callback{
-
-
+-(void)requestPerformDynamicPricing:(CTSDyPValidateRuleReq *)validateRule completionHandler:(ASPerformDynamicPricingCallback)callback{
+    [self addCallback:callback forRequestId:PaymentDynamicPricingReqId];
+    
+    //validation
+    
+    
+    
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_DYNAMIC_PRICING_PATH
+                                   requestId:PGHealthReqId
+                                   headers:nil
+                                   parameters:nil
+                                   json:[validateRule toJSONString]
+                                   httpMethod:POST];
+    [restCore requestAsyncServer:request];
+    
 
 }
+
 
 
 -(void)requestTransferMoneyTo:(NSString *)username amount:(NSString *)amount message:(NSString *)message completionHandler:(ASMoneyTransferCallback)callback{

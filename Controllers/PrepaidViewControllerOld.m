@@ -163,6 +163,8 @@
 }
 
 
+
+
 -(void)saveCashoutBankAccount{
     CTSCashoutBankAccount *bankAccount = [[CTSCashoutBankAccount alloc] init];
     bankAccount.owner = @"Yadnesh Wankhede";
@@ -331,6 +333,27 @@
     }];
     
 }
+
+
+-(void)dynamicPricing{
+
+//    CTSDyPValidateRuleReq *ruleRequest = [[CTSDyPValidateRuleReq alloc] init];
+//    ruleRequest.email = TEST_EMAIL;
+//    ruleRequest.mobile = TEST_MOBILE;
+//    ruleRequest.merchantAccessKey = @"5VHM1C4CEUSLOEPO8PH2";
+//    ruleRequest.signature = @"7fd23b70f6cd89a92c82b981ce1b4a96471777c8";
+//    
+//    ruleRequest.alteredAmount = [[CTSAmount alloc] initWithValue:@"10"];
+//    
+//    
+//    
+//    [paymentlayer requestPerformDynamicPricing:(CTSDyPValidateRuleReq *) completionHandler:^(CTSDyPResponse *dyPResponse, NSError *error) {
+//        <#code#>
+//    }];
+
+}
+
+
 #pragma mark - Payment Helpers
 /*
  You can modify this according to your needs.

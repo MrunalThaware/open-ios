@@ -164,10 +164,10 @@
     [paymentInfo addCard:creditCard];
 
     // Get your bill here.
-    CTSBill *bill = [SimpleStartViewController getBillFromServer];
+    //CTSBill *bill = [SimpleStartViewController getBillFromServer];
 
     
-    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:bill customParams:nil returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+    [paymentLayer requestChargePayment:paymentInfo withContact:contactInfo withAddress:addressInfo bill:nil customParams:nil returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
         }

@@ -165,8 +165,40 @@
     
     int month = [[subStrings objectAtIndex:0] intValue];
     int year = [[subStrings objectAtIndex:1] intValue];
+   // NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
+    NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+  NSDateComponents * components =  [gregorianCalendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
     
-    return [self validateExpiryDateMonth:month year:year];
+    //year passed
+    if(year < [components year]){
+        return NO;
+    }
+    
+    //same year, month passed
+    if(year == [components year] && month < [components month]){
+        return NO;
+    }
+    
+    //invalid month
+    if(month > 12 || month <1){
+    
+        return NO;
+    }
+    
+    //invalid year/upper limit year
+    if(year > 2099){
+        return NO;
+    }
+    
+    return YES;
+ 
+
+
+   
+        
+
+        
+    //return [self validateExpiryDateMonth:month year:year];
 }
 
 + (BOOL)validateExpiryDateMonth:(int)month year:(int)year {
