@@ -90,6 +90,8 @@ To use any of the above layers your need to declare them as a strong property li
  
 Following are the specific tasks related to each of the layer, also see 
 ####[Common Integration Issues](https://github.com/citruspay/open-ios/wiki/4.-Common-Errors)
+* [Could Not Connect to Internet](https://github.com/citruspay/open-ios/wiki/4.-Common-Errors#could-not-connect-to-internet)
+* [postResponseiOS() error](https://github.com/citruspay/open-ios/wiki/4.-Common-Errors#postresponseios-error)
 
 ######[CTSAuthLayer](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer)
  * [See if anyone is logged in](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer#see-if-anyone-is-logged-in)
