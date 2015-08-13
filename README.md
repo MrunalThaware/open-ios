@@ -113,6 +113,7 @@ Following are the specific tasks related to each of the layer
   * [Initiate Cashout Proccess into users Account from Citrus prepaid account](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#initiate-cashout-process-into-users-account-from-citrus-prepaid-account)
   * [Fetch Available Schemes and Banks for the Merchant](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#fetch-available-schemes-and-banks-for-the-merchant)
   * [Fetch the PG Health](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#fetch-the-pg-health)
+  * [Send Money to another Citrus User](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#send-money-to-another-citrus-user)
 
 =====
 ####[Common Integration Issues](https://github.com/citruspay/open-ios/wiki/4.-Common-Errors)
