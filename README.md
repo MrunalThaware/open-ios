@@ -115,7 +115,7 @@ Following are the specific tasks related to each of the layer
   * [Fetch the PG Health](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#fetch-the-pg-health)
 
 
- 
+ ####[Common Integration Issues](https://github.com/citruspay/open-ios/wiki/4.-Common-Errors)
 
 
 
