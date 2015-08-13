@@ -88,7 +88,7 @@ To use any of the above layers your need to declare them as a strong property li
 		// initialization in your .m file
 		paymentLayer = [[CTSPaymentLayer alloc] init];
  
-Following are the specific tasks related to each of the layer
+Following are the specific tasks related to each of the layer, also see  #####[Common Integration Issues](https://github.com/citruspay/open-ios/wiki/4.-Common-Errors)
 
 ######[CTSAuthLayer](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer)
  * [See if anyone is logged in](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer#see-if-anyone-is-logged-in)
@@ -115,7 +115,7 @@ Following are the specific tasks related to each of the layer
   * [Fetch the PG Health](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#fetch-the-pg-health)
 
 
- ####[Common Integration Issues](https://github.com/citruspay/open-ios/wiki/4.-Common-Errors)
+
 
 
 
