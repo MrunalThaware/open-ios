@@ -669,7 +669,7 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_DYNAMIC_PRICING_PATH
-                                   requestId:PGHealthReqId
+                                   requestId:PaymentDynamicPricingReqId
                                    headers:nil
                                    parameters:nil
                                    json:[validateRule toJSONString]
@@ -679,6 +679,40 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 
 }
 
+
+-(void)requestDPRuleCheck:(CTSDyPValidateRuleReq *)validateRule type:(DPRequestType)requestType  completionHandler:(ASPerformDynamicPricingCallback)callback{
+    [self addCallback:callback forRequestId:PaymentDPValidateRuleReqId];
+    
+    //validation
+    
+    //validation according to type
+    
+    NSString *path;
+    if(requestType == DPRequestTypeValidate){
+        path = MLC_DP_VALIDATE_RULE_PATH;
+    
+    }
+    else if (requestType == DPRequestTypeCalculate){
+        path = MLC_DP_CALCULATE_RULE_PATH;
+    }
+    else{
+    
+    //return invalid request type error
+    
+    }
+    
+    
+    
+    CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
+                                   initWithPath:MLC_DP_VALIDATE_RULE_PATH
+                                   requestId:PaymentDPValidateRuleReqId
+                                   headers:nil
+                                   parameters:nil
+                                   json:[validateRule toJSONString]
+                                   httpMethod:POST];
+    [restCore requestAsyncServer:request];
+
+}
 
 
 -(void)requestTransferMoneyTo:(NSString *)username amount:(NSString *)amount message:(NSString *)message completionHandler:(ASMoneyTransferCallback)callback{
@@ -993,6 +1027,21 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 
 }
 
+-(void)handleValidateResponse:(CTSRestCoreResponse *)response{
+
+    NSError* error = response.error;
+    CTSDyPResponse *dpResponse = nil;
+    JSONModelError* jsonError;
+    if (error == nil) {
+        dpResponse = [[CTSDyPResponse alloc] initWithString:response.responseString error:&jsonError];
+        error = jsonError;
+    }
+    [self dpValidateRuleHelper:dpResponse error:error];
+
+
+}
+
+
 -(void)handleTransferMoneyResponse:(CTSRestCoreResponse *)response{
     NSError* error = response.error;
     CTSTransferMoneyResponse *txMoney = nil;
@@ -1179,6 +1228,17 @@ ASCitruspayCallback  callback  = [self retrieveAndRemoveCallbackForReqId:Payment
     }
 
 }
+
+
+-(void)dpValidateRuleHelper:(CTSDyPResponse *)response error:(NSError *)error{
+    
+    ASDPValidateRuleCallback callback = [self retrieveAndRemoveCallbackForReqId:PaymentDPValidateRuleReqId];
+    if (callback != nil) {
+        callback(response, error);
+    }
+    
+}
+
 
 
 -(void)transferMoneyHelper:(CTSTransferMoneyResponse *)response error:(NSError *)error{

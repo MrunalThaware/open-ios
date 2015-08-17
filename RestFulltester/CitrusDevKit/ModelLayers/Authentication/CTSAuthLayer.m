@@ -816,9 +816,11 @@
 - (BOOL)isAnyoneSignedIn {
   NSString* signInOauthToken = [CTSOauthManager readPasswordSigninOauthTokenWithExpiryCheck];
     if (signInOauthToken == nil){
+        LogTrace(@"signInOauthToken Expired");
     return NO;
     }
     if([CTSUtility isUserCookieValid] == NO){
+        LogTrace(@"Cookie Invalid");
         return NO;
     }
     

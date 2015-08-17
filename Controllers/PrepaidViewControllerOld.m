@@ -237,11 +237,13 @@
     
     [creditCardInfo addCard:creditCard];
     
-    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"10000" returnUrl:ReturnUrl customParams:nil  returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
+    [paymentLayer requestLoadMoneyInCitrusPay:creditCardInfo withContact:contactInfo withAddress:addressInfo amount:@"100" returnUrl:ReturnUrl customParams:nil  returnViewController:self withCompletionHandler:^(CTSCitrusCashRes *citrusCashResponse, NSError *error) {
         if(error){
             [UIUtility toastMessageOnScreen:error.localizedDescription];
         }
         else {
+            LogTrace(@" isAnyoneSignedIn %d",[authLayer isAnyoneSignedIn]);
+
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@"Load Money Status %@",[citrusCashResponse.responseDict valueForKey:LoadMoneyResponeKey]]];
         }
     }];
@@ -300,6 +302,9 @@
             [UIUtility toastMessageOnScreen:[error localizedDescription]];
         }
         else{
+            
+            LogTrace(@" isAnyoneSignedIn %d",[authLayer isAnyoneSignedIn]);
+
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" transaction complete\n txStatus: %@",[paymentInfo.responseDict valueForKey:@"TxStatus"] ]];
         }
     }];

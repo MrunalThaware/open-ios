@@ -47,9 +47,16 @@ enum {
     PaymentChargeInnerWebLoadMoneyReqId,
     PGHealthReqId,
     PaymentDynamicPricingReqId,
-    PaymentRequestTransferMoney
+    PaymentRequestTransferMoney,
+    PaymentDPValidateRuleReqId,
+    PaymentDPCalculateReqId
+    
 };
 
+typedef enum{
+    DPRequestTypeValidate,
+    DPRequestTypeCalculate,
+}DPRequestType;
 
 #define LogThread LogTrace(@"THREAD  %@", [NSThread currentThread]);
 #define LoadMoneyResponeKey @"loadMoneyResponseKey"
@@ -174,6 +181,10 @@ typedef void (^ASGetPGHealth)(CTSPGHealthRes* pgHealthRes,
 
 typedef void (^ASPerformDynamicPricingCallback)(CTSDyPResponse* dyPResponse,
                               NSError* error);
+
+
+typedef void (^ASDPValidateRuleCallback)(CTSDyPResponse* dyPResponse,
+                                                NSError* error);
 
 typedef void (^ASMoneyTransferCallback)(CTSTransferMoneyResponse* transferMoneyRes ,NSError* error);
 
@@ -304,6 +315,10 @@ typedef void (^ASMoneyTransferCallback)(CTSTransferMoneyResponse* transferMoneyR
 
 -(void)requestPerformDynamicPricing:(CTSDyPValidateRuleReq *)validateRule completionHandler:(ASPerformDynamicPricingCallback)callback;
 
+-(void)requestDPRuleCheck:(CTSDyPValidateRuleReq *)validateRule type:(DPRequestType)requestType  completionHandler:(ASPerformDynamicPricingCallback)callback;
+
 -(void)requestTransferMoneyTo:(NSString *)username amount:(NSString *)amount message:(NSString *)message completionHandler:(ASMoneyTransferCallback)callback;
+
+
 
 @end

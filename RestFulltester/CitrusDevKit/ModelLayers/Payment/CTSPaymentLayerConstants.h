@@ -166,6 +166,14 @@
 #define MLC_DYNAMIC_PRICING_PATH @"/dynamicpricing/performDynamicPricing"
 
 
+#pragma - mark MLC_DP_VALIDATE_RULE
+#define MLC_DP_VALIDATE_RULE_PATH @"/dynamic-pricing/dynamicpricing/calculatePricingForPayment"
+
+#pragma - mark MLC_DP_CALCULATE_RULE
+#define MLC_DP_CALCULATE_RULE_PATH @"/dynamic-pricing/dynamicpricing/calculatePricingForPayment"
+
+
+
 #pragma - mark MLC_TRANSFER_MONEY
 #define MLC_TRANSFER_MONEY_PATH @"/service/v2/mycard/transfer/extended"
 #define MLC_TRANSFER_MONEY_QUERY_TO @"to"

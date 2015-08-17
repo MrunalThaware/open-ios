@@ -653,14 +653,18 @@
     
     NSHTTPCookie *userCookie = [self getCitrusCookie];
     if(userCookie==nil){
+        LogTrace(@"Citrus Cookie Not Found");
         return YES;
     }
 
     if ([userCookie.expiresDate compare:[NSDate date]] == NSOrderedDescending) {
+        LogTrace(@"Citrus Cookie Expiry Date Not Passed");
         hasUserCookieExpired = NO;
     } else if ([userCookie.expiresDate compare:[NSDate date]] == NSOrderedAscending) {
+        LogTrace(@"Citrus Cookie Expiry Date Passed");
         hasUserCookieExpired = YES;
     } else {
+        LogTrace(@"Citrus Cookie Expiry Same As Today");
         hasUserCookieExpired = YES;
     }
     return hasUserCookieExpired;

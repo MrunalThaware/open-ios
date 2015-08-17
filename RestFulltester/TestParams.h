@@ -14,9 +14,9 @@
 //works on prod
 //
 
-#define TEST_EMAIL @"yaddyboy24516@mailinator.com"
+#define TEST_EMAIL @"yaddyboy@mailinator.com"
 #define TEST_PASSWORD @"tester@123"
-#define TEST_MOBILE @"9745677654"
+#define TEST_MOBILE @"9702964502"
 
 #warning Enter your live mobile number to get OTP so you can SignIn
 
