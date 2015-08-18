@@ -146,7 +146,7 @@
 
 -(IBAction)sendMoney:(id)sender{
     
-    [paymentLayer requestTransferMoneyTo:@"9702964502" amount:@"1.23" message:@"Here is Some Money for you" completionHandler:^(CTSTransferMoneyResponse*transferMoneyRes,  NSError *error) {
+    [paymentLayer requestTransferMoneyTo:TEST_MOBILE amount:@"1.23" message:@"Here is Some Money for you" completionHandler:^(CTSTransferMoneyResponse*transferMoneyRes,  NSError *error) {
         LogTrace(@" transferMoneyRes %@ ",transferMoneyRes);
         
         LogTrace(@" error %@ ",[error localizedDescription]);

@@ -61,7 +61,6 @@
         if(error == nil){
             // Your code to handle success.
             [UIUtility toastMessageOnScreen:[NSString stringWithFormat:@" %@ is now bound",userName]];
-            [self saveUserInfo];
 
         }
         else {
@@ -104,9 +103,9 @@
     CTSPaymentDetailUpdate *paymentInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Credit card info for card payment type.
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = @"4377486954559439";
+    creditCard.number = TEST_DEBIT_CARD_NUMBER;
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-    creditCard.scheme = [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
+    creditCard.scheme = @"TEST";[CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     [paymentInfo addCard:creditCard];
