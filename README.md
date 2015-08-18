@@ -88,7 +88,7 @@ To use any of the above layers your need to declare them as a strong property li
 		// initialization in your .m file
 		paymentLayer = [[CTSPaymentLayer alloc] init];
  
-Following are the specific tasks related to each of the layer
+Following are the specific tasks related to each of the layer 
 
 ######[CTSAuthLayer](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer)
  * [See if anyone is logged in](https://github.com/citruspay/open-ios/wiki/1.--Integrating-CTSAuthLayer#see-if-anyone-is-logged-in)
@@ -113,9 +113,12 @@ Following are the specific tasks related to each of the layer
   * [Initiate Cashout Proccess into users Account from Citrus prepaid account](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#initiate-cashout-process-into-users-account-from-citrus-prepaid-account)
   * [Fetch Available Schemes and Banks for the Merchant](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#fetch-available-schemes-and-banks-for-the-merchant)
   * [Fetch the PG Health](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#fetch-the-pg-health)
+  * [Send Money to another Citrus User](https://github.com/citruspay/open-ios/wiki/3.--Integrating-CTSPaymentLayer#send-money-to-another-citrus-user)
 
-
- 
+=====
+####[Common Integration Issues](https://github.com/citruspay/open-ios/wiki/4.-Common-Errors)
+* [Could Not Connect to Internet](https://github.com/citruspay/open-ios/wiki/4.-Common-Errors#could-not-connect-to-internet)
+* [postResponseiOS() error](https://github.com/citruspay/open-ios/wiki/4.-Common-Errors#postresponseios-error)
 
 
 

@@ -229,7 +229,7 @@
     CTSPaymentDetailUpdate *creditCardInfo = [[CTSPaymentDetailUpdate alloc] init];
     // Update card for card payment.
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
-    creditCard.number = TEST_CREDIT_CARD_NUMBER;
+    creditCard.number = @"41111111111";
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
     creditCard.scheme = [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;

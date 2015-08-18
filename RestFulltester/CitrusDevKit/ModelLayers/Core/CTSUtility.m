@@ -296,10 +296,7 @@
 }
 
 + (NSString*)fetchCardSchemeForCardNumber:(NSString*)cardNumber {
-    if (![CTSUtility validateCardNumber:cardNumber]) {
-        return UNKNOWN_CARD_TYPE;
-        
-    } else {
+
          if ([CTSUtility hasPrefixArray:MAESTRO cardNumber:cardNumber]) {
             return @"MTRO";
         }
@@ -317,7 +314,7 @@
             return @"MCRD";
         }
         return UNKNOWN_CARD_TYPE;
-    }
+    
 }
 
 +(BOOL)isMaestero:(NSString *)number{
