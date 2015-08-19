@@ -14,7 +14,7 @@
 //works on prod
 //
 
-#define TEST_EMAIL @"email@gmail.com"
+#define TEST_EMAIL @"email3@gmail.com"
 #define TEST_PASSWORD @"tester@123"
 #define TEST_MOBILE @"9700000000"
 
@@ -31,7 +31,7 @@
 #define TEST_STREET2 @"Pink City"
 #define TEST_ZIP @"401209"
 
-#define TEST_DEBIT_CARD_NUMBER @"4028530052708001"
+#define TEST_DEBIT_CARD_NUMBER @"30569309025904"
 #define TEST_DEBIT_SCHEME @"visa"
 #define TEST_DEBIT_CVV @"018"
 #define TEST_OWNER_NAME @"Pappu Yadav"

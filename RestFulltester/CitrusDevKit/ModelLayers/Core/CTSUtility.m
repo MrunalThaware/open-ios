@@ -307,7 +307,7 @@
         } else if ([CTSUtility hasPrefixArray:JCB cardNumber:cardNumber]) {
             return @"JCB";
         } else if ([CTSUtility hasPrefixArray:DinerClub cardNumber:cardNumber]) {
-            return @"DINERCLUB";
+            return @"DINERS";
         } else if ([CTSUtility hasPrefixArray:VISA cardNumber:cardNumber]) {
             return @"VISA";
         } else if ([CTSUtility hasPrefixArray:MASTER cardNumber:cardNumber]) {

@@ -105,7 +105,7 @@
     CTSElectronicCardUpdate *creditCard = [[CTSElectronicCardUpdate alloc] initCreditCard];
     creditCard.number = TEST_DEBIT_CARD_NUMBER;
     creditCard.expiryDate = TEST_CREDIT_CARD_EXPIRY_DATE;
-    creditCard.scheme = @"TEST";[CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
+    creditCard.scheme = [CTSUtility fetchCardSchemeForCardNumber:creditCard.number];
     creditCard.ownerName = TEST_CREDIT_CARD_OWNER_NAME;
     creditCard.cvv = TEST_CREDIT_CARD_CVV;
     [paymentInfo addCard:creditCard];
