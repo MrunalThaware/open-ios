@@ -13,7 +13,7 @@
 @interface CTSDyPValidateRuleReq : JSONModel
 @property(nonatomic,strong)NSString* ruleCode,*signature,*merchantTransactionId,*merchantAccessKey,*mobile,*userType;
 @property(nonatomic,strong)NSString<Optional> *email;
-@property(nonatomic,strong)NSDictionary<Optional> *extraParams;
+@property(nonatomic,strong)NSMutableDictionary<Optional> *extraParams;
 @property(nonatomic,strong)CTSAmount *originalAmount,*alteredAmount;
 @property(nonatomic,strong)CTSDyPPaymentInfo* paymentInformation;
 

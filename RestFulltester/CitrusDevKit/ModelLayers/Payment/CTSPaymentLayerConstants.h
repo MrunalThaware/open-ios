@@ -164,6 +164,9 @@
 
 #pragma - mark MLC_DYNAMIC_PRICING
 #define MLC_DYNAMIC_PRICING_PATH @"/dynamicpricing/performDynamicPricing"
+#define MLC_DYNAMIC_PRICING_QUERY_VALIDATION_DICT @{@"operation":@"validateRule"}
+#define MLC_DYNAMIC_PRICING_QUERY_CALCULATE_DICT @{@"operation":@"calculatePricing"}
+#define MLC_DYNAMIC_PRICING_QUERY_SEARCHANDAPPLY_DICT @{@"operation":@"searchAndApply"}
 
 
 #pragma - mark MLC_DP_VALIDATE_RULE

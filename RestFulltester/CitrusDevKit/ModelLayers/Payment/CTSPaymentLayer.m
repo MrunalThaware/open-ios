@@ -659,13 +659,36 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
 }
 
 
--(void)requestPerformDynamicPricing:(CTSDyPValidateRuleReq *)validateRule completionHandler:(ASPerformDynamicPricingCallback)callback{
+-(void)requestPerformDynamicPricing:(CTSDyPValidateRuleReq *)validateRule type:(DPRequestType)requestType completionHandler:(ASPerformDynamicPricingCallback)callback{
     [self addCallback:callback forRequestId:PaymentDynamicPricingReqId];
     
     //validation
     
+
+    
+    switch (requestType) {
+        case DPRequestTypeValidate:
+            [validateRule.extraParams addEntriesFromDictionary:MLC_DYNAMIC_PRICING_QUERY_VALIDATION_DICT];
+            break;
+            
+        case DPRequestTypeCalculate:
+            [validateRule.extraParams addEntriesFromDictionary:MLC_DYNAMIC_PRICING_QUERY_CALCULATE_DICT];
+
+            break;
+            
+        case DPRequestTypeSearchAndApply:
+            [validateRule.extraParams addEntriesFromDictionary:MLC_DYNAMIC_PRICING_QUERY_SEARCHANDAPPLY_DICT];
+
+            break;
+        default:
+            
+            //validation error
+            
+            break;
+    }
     
     
+
     
     CTSRestCoreRequest* request = [[CTSRestCoreRequest alloc]
                                    initWithPath:MLC_DYNAMIC_PRICING_PATH

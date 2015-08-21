@@ -56,6 +56,7 @@ enum {
 typedef enum{
     DPRequestTypeValidate,
     DPRequestTypeCalculate,
+    DPRequestTypeSearchAndApply
 }DPRequestType;
 
 #define LogThread LogTrace(@"THREAD  %@", [NSThread currentThread]);
@@ -313,7 +314,7 @@ typedef void (^ASMoneyTransferCallback)(CTSTransferMoneyResponse* transferMoneyR
  */
 -(void)requestGetPGHealthWithCompletionHandler:(ASGetPGHealth)callback;
 
--(void)requestPerformDynamicPricing:(CTSDyPValidateRuleReq *)validateRule completionHandler:(ASPerformDynamicPricingCallback)callback;
+-(void)requestPerformDynamicPricing:(CTSDyPValidateRuleReq *)validateRule type:(DPRequestType)requestType completionHandler:(ASPerformDynamicPricingCallback)callback;
 
 -(void)requestDPRuleCheck:(CTSDyPValidateRuleReq *)validateRule type:(DPRequestType)requestType  completionHandler:(ASPerformDynamicPricingCallback)callback;
 
