@@ -665,6 +665,10 @@ withCompletionHandler:(ASLoadMoneyCallBack)callback{
     //validation
     
 
+    if(validateRule.extraParams == nil){
+        validateRule.extraParams = [[NSMutableDictionary alloc] init];
+    }
+    
     
     switch (requestType) {
         case DPRequestTypeValidate:

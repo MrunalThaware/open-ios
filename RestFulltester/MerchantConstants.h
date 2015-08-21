@@ -28,7 +28,7 @@
 #define VanityUrl @"nativeSDK"
 #define ReturnUrl @"http://localhost:8888/return.php"
 #define BillUrl @"http://localhost:8888/bill.php"
-#define BaseUrl @"https://sandboxadmin.citruspay.com"
+#define BaseUrl @"https://stgadmin.citruspay.com"
 
 
 

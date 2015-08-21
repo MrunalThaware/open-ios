@@ -11,10 +11,10 @@
 #import "CTSDyPPaymentInfo.h"
 
 @interface CTSDyPValidateRuleReq : JSONModel
-@property(nonatomic,strong)NSString* ruleCode,*signature,*merchantTransactionId,*merchantAccessKey,*mobile,*userType;
+@property(nonatomic,strong)NSString* ruleName,*signature,*merchantTransactionId,*merchantAccessKey,*phone,*userType;
 @property(nonatomic,strong)NSString<Optional> *email;
 @property(nonatomic,strong)NSMutableDictionary<Optional> *extraParams;
 @property(nonatomic,strong)CTSAmount *originalAmount,*alteredAmount;
-@property(nonatomic,strong)CTSDyPPaymentInfo* paymentInformation;
+@property(nonatomic,strong)CTSDyPPaymentInfo* paymentInfo;
 
 @end

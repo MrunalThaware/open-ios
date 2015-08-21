@@ -83,6 +83,7 @@
 #pragma mark - button handlers
 
 -(IBAction)isUserSignedIn:(id)sender{
+    [self dynamicPricing ];
     if([authLayer isAnyoneSignedIn]){
         [UIUtility toastMessageOnScreen:@"user is signed in"];
     }
@@ -342,19 +343,39 @@
 
 -(void)dynamicPricing{
 
-//    CTSDyPValidateRuleReq *ruleRequest = [[CTSDyPValidateRuleReq alloc] init];
-//    ruleRequest.email = TEST_EMAIL;
-//    ruleRequest.mobile = TEST_MOBILE;
-//    ruleRequest.merchantAccessKey = @"5VHM1C4CEUSLOEPO8PH2";
-//    ruleRequest.signature = @"7fd23b70f6cd89a92c82b981ce1b4a96471777c8";
-//    
-//    ruleRequest.alteredAmount = [[CTSAmount alloc] initWithValue:@"10"];
-//    
-//    
-//    
-//    [paymentlayer requestPerformDynamicPricing:(CTSDyPValidateRuleReq *) completionHandler:^(CTSDyPResponse *dyPResponse, NSError *error) {
-//        <#code#>
-//    }];
+    CTSDyPValidateRuleReq *ruleRequest = [[CTSDyPValidateRuleReq alloc] init];
+    ruleRequest.ruleName = @"MU";
+    ruleRequest.email = TEST_EMAIL;
+    ruleRequest.phone = TEST_MOBILE;
+    ruleRequest.merchantAccessKey = @"2WYA16YYJ9IWMO4RD6S3";
+    ruleRequest.signature = @"703bc51da66468f9ce9b8d915687863f84d6a186";
+    ruleRequest.merchantTransactionId = @"8311123123";
+    
+    ruleRequest.originalAmount = [[CTSAmount alloc] initWithValue:@"10"];
+    ruleRequest.alteredAmount = [[CTSAmount alloc] initWithValue:@"5"];
+    
+    
+   // @property(nonatomic,strong)NSString* cardNo,*cardType,*issuerId,*paymentMode,*paymentToken;
+    ruleRequest.paymentInfo = [[CTSDyPPaymentInfo alloc] init];
+    ruleRequest.paymentInfo.cardNo = @"";
+    ruleRequest.paymentInfo.cardType = @"";
+    ruleRequest.paymentInfo.issuerId = @"";
+    ruleRequest.paymentInfo.paymentMode = @"CITRUS_WALLET";
+    ruleRequest.paymentInfo.paymentToken = @"a5e07b4fead020db3ee440fa5f0acb9b";
+    
+    
+    
+  [paymentLayer requestPerformDynamicPricing:ruleRequest type:DPRequestTypeValidate completionHandler:^(CTSDyPResponse *dyPResponse, NSError *error) {
+      if(error){
+          [UIUtility toastMessageOnScreen:[error localizedDescription]];
+      
+      }
+      else {
+          LogTrace(@"dyPResponse %@",dyPResponse);
+      
+      }
+  }];
+    
 
 }
 
